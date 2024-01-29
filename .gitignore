@@ -1,0 +1,8 @@
+/bin/
+/target/
+/.idea/
+.vscode/
+/.idea/codeStyles/
+/lib/
+/src/main/resources/img/tools/
+AliceMagtroidMod.iml
