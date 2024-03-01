@@ -204,6 +204,7 @@ public class AliceMagtroidMod implements PostExhaustSubscriber,
 		AliceSpireKit.loadCustomStrings(PowerStrings.class, "powers");
 		AliceSpireKit.loadCustomStrings(PotionStrings.class, "potions");
 		AliceSpireKit.loadCustomStrings(EventStrings.class, "events");
+//		AliceSpireKit.loadCustomStrings(OrbStrings.class, "orbs");
 //		AliceSpireKit.loadCustomStrings(DollStrings.class, "dolls");
 
 		logger.info("done editing strings");

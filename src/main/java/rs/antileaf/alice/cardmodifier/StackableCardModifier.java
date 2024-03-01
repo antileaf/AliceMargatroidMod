@@ -21,17 +21,17 @@ public abstract class StackableCardModifier extends AbstractCardModifier {
 	}
 
 	public void stackAmount(AbstractCard card, int amt) {
-		amount += amt;
+		this.amount += amt;
 		this.afterStackAmount(card, amt);
 	}
 
 	public void reduceAmount(AbstractCard card, int amt) {
-		amount -= amt;
+		this.amount -= amt;
 
-		if (!canGoNegative) {
-			amount = Integer.max(amount, 0);
+		if (!this.canGoNegative) {
+			this.amount = Integer.max(this.amount, 0);
 
-			if (amount == 0)
+			if (this.amount == 0)
 				CardModifierManager.removeSpecificModifier(
 						card, this, true);
 		}
