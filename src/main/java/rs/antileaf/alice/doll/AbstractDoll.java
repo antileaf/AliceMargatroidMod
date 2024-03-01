@@ -163,6 +163,14 @@ public abstract class AbstractDoll extends CustomOrb {
 		assert false : "AbstractDoll.applyFocus() should not be called!";
 	}
 	
+	public void receiveBlock(int block) {
+		this.block += block;
+	}
+	
+	public void clearBlock(int preserve) {
+		this.block = Math.min(this.block, preserve);
+	}
+	
 	@Override
 	public void render(SpriteBatch sb) {
 		super.render(sb);

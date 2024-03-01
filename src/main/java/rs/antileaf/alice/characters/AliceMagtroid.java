@@ -24,6 +24,7 @@ import com.megacrit.cardcrawl.screens.CharSelectInfo;
 import com.megacrit.cardcrawl.unlock.UnlockTracker;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import rs.antileaf.alice.relics.AlicesGrimoire;
 
 import java.util.ArrayList;
 
@@ -100,16 +101,16 @@ public class AliceMagtroid extends CustomPlayer {
 	
 	public ArrayList<String> getStartingRelics() { // 初始遗物
 		ArrayList<String> ret = new ArrayList<>();
-//		ret.add(EyeOfYatagarasu.ID);
-//		UnlockTracker.markRelicAsSeen(EyeOfYatagarasu.ID);
+		ret.add(AlicesGrimoire.ID);
+		UnlockTracker.markRelicAsSeen(AlicesGrimoire.ID);
 		return ret;
 	}
 	
-	private static final int STARTING_HP = 60;
-	private static final int MAX_HP = 60;
+	private static final int STARTING_HP = 77;
+	private static final int MAX_HP = 77;
 	private static final int STARTING_GOLD = 99;
 	private static final int HAND_SIZE = 5;
-	private static final int ASCENSION_MAX_HP_LOSS = 4;
+	private static final int ASCENSION_MAX_HP_LOSS = 5;
 	
 	public CharSelectInfo getLoadout() { // the rest of the character loadout so includes your character select screen info plus hp and starting gold
 		String title;
@@ -126,7 +127,7 @@ public class AliceMagtroid extends CustomPlayer {
 				flavor,
 				STARTING_HP,
 				MAX_HP,
-				3,
+				1,
 				STARTING_GOLD,
 				HAND_SIZE,
 				this,

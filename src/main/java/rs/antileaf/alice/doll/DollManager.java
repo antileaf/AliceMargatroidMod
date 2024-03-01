@@ -57,6 +57,14 @@ public class DollManager {
 		this.dolls.clear();
 	}
 	
+	public void clearBlock() {
+		int preserve = 0;
+		// TODO: calculate preserve
+		
+		for (AbstractDoll doll : this.dolls)
+			doll.clearBlock(preserve);
+	}
+	
 	public void onStartOfTurn() {
 		for (AbstractDoll doll : this.dolls)
 			doll.onStartOfTurn();
