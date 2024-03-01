@@ -37,6 +37,10 @@ public abstract class AliceSpireKit {
 		}
 	}
 	
+	public static String getImgFilePath(String simpleName) {
+		return "img/cards/" + simpleName + ".png";
+	}
+	
 	public static String getLocalizationFilePath(String name) {
 		return "localization/" + AliceSpireKit.getLangShort() + "/" + name + ".json";
 	}

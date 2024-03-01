@@ -15,6 +15,7 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.MathHelper;
+import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public abstract class AbstractDoll extends CustomOrb {
@@ -117,7 +118,21 @@ public abstract class AbstractDoll extends CustomOrb {
 	}
 	
 	public void updateDamageAboutToTake() {
-		// TODO
+		int index = DollManager.getInstance(AbstractDungeon.player).getDolls().indexOf(this);
+		
+		AbstractMonster monster = null;
+		int cnt = 0;
+		for (AbstractMonster m : AbstractDungeon.getMonsters().monsters)
+			if (!m.isDeadOrEscaped())
+				if (cnt++ == index) {
+					monster = m;
+					break;
+				}
+		
+		if (monster == null)
+			this.damageAboutToTake = 0;
+		else
+			this.damageAboutToTake = monster.getIntentDmg();
 	}
 	
 	
@@ -254,6 +269,10 @@ public abstract class AbstractDoll extends CustomOrb {
 		this.highlightActValue = false;
 	}
 	
+	public void renderReticle(SpriteBatch sb) {
+		// TODO
+	}
+	
 	protected enum RenderTextMode {
 		NONE, PASSIVE, ACT, BOTH
 	}
@@ -270,5 +289,13 @@ public abstract class AbstractDoll extends CustomOrb {
 	
 	public void addToBot(AbstractGameAction action) {
 		AliceSpireKit.addToBot(action);
+	}
+	
+	public enum AmountType {
+		DAMAGE, BLOCK, MAGIC
+	}
+	
+	public enum AmountTime {
+		PASSIVE, ACT
 	}
 }

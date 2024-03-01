@@ -6,9 +6,9 @@
 
 ## 普通
 
-- [ ] 人偶之枪 (Lance)
+- [ ] 人偶枪 (Lance of Shanghai Doll)
     - **上海人偶** 造成的伤害提高 50%。
-- [ ] 人偶之盾 (Shield)
+- [ ] 人偶盾 (Shield of France Doll)
     - **法兰西人偶** 在 **生成** 时获得 4 点格挡。
 
 ## 稀有
