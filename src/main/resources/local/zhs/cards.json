@@ -1,0 +1,26 @@
+{
+  "Strike_AliceMagtroid": {
+    "NAME": "打击",
+    "DESCRIPTION": "造成 !D! 点伤害。"
+  },
+  
+  "Defend_AliceMagtroid": {
+    "NAME": "防御",
+    "DESCRIPTION": "获得 !B! 点 格挡 。"
+  },
+  
+  "Thread": {
+    "NAME": "丝线",
+    "DESCRIPTION": "造成 !D! 点伤害。 NL 如果造成了未被 格挡 的伤害，则抽一张牌，并随机 生成 一个 人偶 。"
+  },
+  
+  "LittleLegion": {
+    "NAME": "小小军势",
+    "DESCRIPTION": "对所有敌人造成 !D! 点伤害。 NL 指令 ：目标 人偶 先前往最右侧，再 行动 。"
+  },
+  
+  "ProtectiveMagic": {
+    "NAME": "防护魔法",
+    "DESCRIPTION": "如果你的 格挡 不足 !B! 点，将其补至相应值。"
+  }
+}
