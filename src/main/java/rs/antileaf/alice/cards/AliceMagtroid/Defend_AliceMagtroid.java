@@ -1,10 +1,7 @@
 package rs.antileaf.alice.cards.AliceMagtroid;
 
-import com.megacrit.cardcrawl.actions.AbstractGameAction;
-import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
-import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
@@ -15,18 +12,19 @@ import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class Defend_AliceMagtroid extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = Defend_AliceMagtroid.class.getSimpleName();
-	public static final String ID = AliceSpireKit.generateID(SIMPLE_NAME);
+//	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
+	public static final String ID = SIMPLE_NAME;
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
 	private static final int BLOCK = 5;
-	private static final int UPGRADE_PLUS_DMG = 3;
+	private static final int UPGRADE_PLUS_BLOCK = 3;
 	
 	public Defend_AliceMagtroid() {
 		super(
 				ID,
 				cardStrings.NAME,
-				AliceSpireKit.getImgFilePath(SIMPLE_NAME),
+				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.SKILL,
@@ -53,7 +51,7 @@ public class Defend_AliceMagtroid extends AbstractAliceCard {
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
-			this.upgradeBlock(UPGRADE_PLUS_DMG);
+			this.upgradeBlock(UPGRADE_PLUS_BLOCK);
 			this.initializeDescription();
 		}
 	}

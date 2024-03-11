@@ -1,7 +1,18 @@
 package rs.antileaf.alice;
 
+import com.evacipated.cardcrawl.mod.stslib.patches.CustomTargeting;
+import rs.antileaf.alice.cards.AliceMagtroid.*;
+import rs.antileaf.alice.cards.AliceMagtroid.Thread;
 import rs.antileaf.alice.characters.AliceMagtroid;
+import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
+import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
+import rs.antileaf.alice.doll.targeting.DollOrEmptySlotTargeting;
+import rs.antileaf.alice.doll.targeting.DollOrEnemyTargeting;
+import rs.antileaf.alice.doll.targeting.DollOrNoneTargeting;
+import rs.antileaf.alice.doll.targeting.DollTargeting;
+import rs.antileaf.alice.patches.enums.CardTargetEnum;
+import rs.antileaf.alice.relics.AlicesGrimoire;
 import rs.antileaf.alice.utils.AliceSpireKit;
 import rs.antileaf.alice.variable.TempHPVariable;
 import basemod.BaseMod;
@@ -26,6 +37,8 @@ import rs.antileaf.alice.patches.enums.AliceMagtroidModClassEnum;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+
+import static rs.antileaf.alice.patches.enums.AbstractCardEnum.ALICE_MAGTROID_COLOR;
 
 @SuppressWarnings("Duplicates")
 @SpireInitializer
@@ -75,10 +88,10 @@ public class AliceMagtroidMod implements PostExhaustSubscriber,
 	
 	public static final Color ALICE_PUPPETEER = CardHelper.getColor(0, 191, 255);
 	public static final Color ALICE_PUPPETEER_FLAVOR = CardHelper.getColor(204, 255, 255);
-	public static final String CARD_ENERGY_ORB = "img/UI/energyOrb.png";
+	public static final String CARD_ENERGY_ORB = "img/UI/AliceMagtroid/energyOrb.png";
 	
-	private static final String CHARACTER_BUTTON = "img/charSelect/AliceButton.png";
-	private static final String ALICE_PORTRAIT = "img/charSelect/AlicePortrait.jpg";
+	private static final String CHARACTER_BUTTON = "img/charSelect/AliceMagtroid/Button.png";
+	private static final String ALICE_PORTRAIT = "img/charSelect/AliceMagtroid/Portrait.jpg";
 	
 	private final ArrayList<AbstractCard> cardsToAdd = new ArrayList<>();
 	//private ArrayList<AbstractRelic> relicsToAdd = new ArrayList<>();
@@ -87,7 +100,7 @@ public class AliceMagtroidMod implements PostExhaustSubscriber,
 		BaseMod.subscribe(this);
 		logger.info("creating the color : ALICE_COLOR and ALICE_DERIVATION_COLOR");
 		BaseMod.addColor(
-				AbstractCardEnum.ALICE_MAGTROID_COLOR,
+				ALICE_MAGTROID_COLOR,
 				ALICE_PUPPETEER,
 				ALICE_PUPPETEER,
 				ALICE_PUPPETEER,
@@ -141,10 +154,10 @@ public class AliceMagtroidMod implements PostExhaustSubscriber,
 	
 	public void receiveEditRelics() {
 		logger.info("Begin editing relics.");
-//		BaseMod.addRelicToCustomPool(
-//				new EyeOfYatagarasu(),
-//				ALICE_MAGTROID_COLOR
-//		);
+		BaseMod.addRelicToCustomPool(
+				new AlicesGrimoire(),
+				ALICE_MAGTROID_COLOR
+		);
 		
 		logger.info("Relics editing finished.");
 	}
@@ -180,13 +193,13 @@ public class AliceMagtroidMod implements PostExhaustSubscriber,
 	@Override
 	public void receiveEditKeywords() {
 		logger.info("Setting up custom keywords");
-		
+//		System.out.println("Setting up custom keywords");
+
 		String keywordsPath = AliceSpireKit.getLocalizationFilePath("keywords");
-		
+
 		Gson gson = new Gson();
-		Keywords keywords;
-		keywords = gson.fromJson(loadJson(keywordsPath), Keywords.class);
-		for (Keyword key : keywords.keywords) {
+		Keyword[] keywords = gson.fromJson(loadJson(keywordsPath), Keyword[].class);
+		for (Keyword key : keywords) {
 			logger.info("Loading keyword : " + key.NAMES[0]);
 			BaseMod.addKeyword(key.NAMES, key.DESCRIPTION);
 		}
@@ -201,10 +214,10 @@ public class AliceMagtroidMod implements PostExhaustSubscriber,
 		
 		AliceSpireKit.loadCustomStrings(RelicStrings.class, "relics");
 		AliceSpireKit.loadCustomStrings(CardStrings.class, "cards");
-		AliceSpireKit.loadCustomStrings(PowerStrings.class, "powers");
-		AliceSpireKit.loadCustomStrings(PotionStrings.class, "potions");
-		AliceSpireKit.loadCustomStrings(EventStrings.class, "events");
-//		AliceSpireKit.loadCustomStrings(OrbStrings.class, "orbs");
+//		AliceSpireKit.loadCustomStrings(PowerStrings.class, "powers");
+//		AliceSpireKit.loadCustomStrings(PotionStrings.class, "potions");
+//		AliceSpireKit.loadCustomStrings(EventStrings.class, "events");
+		AliceSpireKit.loadCustomStrings(OrbStrings.class, "dolls");
 //		AliceSpireKit.loadCustomStrings(DollStrings.class, "dolls");
 
 		logger.info("done editing strings");
@@ -217,17 +230,17 @@ public class AliceMagtroidMod implements PostExhaustSubscriber,
 	
 	@Override
 	public void receivePostBattle(AbstractRoom room) {
-		DollManager.getInstance(AbstractDungeon.player).clearPostBattle();
+		DollManager.get().clearPostBattle();
 	}
 	
 	@Override
 	public void receiveOnBattleStart(AbstractRoom room) {
-		DollManager.getInstance(AbstractDungeon.player).initPreBattle();
+		DollManager.get().initPreBattle();
 	}
 	
 	@Override
 	public void receiveCardUsed(AbstractCard c) {
-		// TODO: May need to add some code here
+		DollManager.get().debug();
 	}
 	
 	@Override
@@ -252,15 +265,15 @@ public class AliceMagtroidMod implements PostExhaustSubscriber,
 	
 	@Override
 	public void receivePostInitialize() {
-		// Auto-generated method stub
+		logger.debug("AliceMagtroidMod.receivePostInitialize");
+		CustomTargeting.registerCustomTargeting(CardTargetEnum.DOLL, new DollTargeting());
+		CustomTargeting.registerCustomTargeting(CardTargetEnum.DOLL_OR_EMPTY_SLOT, new DollOrEmptySlotTargeting());
+		CustomTargeting.registerCustomTargeting(CardTargetEnum.DOLL_OR_ENEMY, new DollOrEnemyTargeting());
+		CustomTargeting.registerCustomTargeting(CardTargetEnum.DOLL_OR_NONE, new DollOrNoneTargeting());
 	}
 	
 	@Override
-	public void receiveOnPlayerTurnStart() {
-//		AbstractDungeon.actionManager.addToTop(
-//				new DollsClearBlockOnPlayerTurnStartAction());
-		// TODO: clear block
-	}
+	public void receiveOnPlayerTurnStart() {}
 	
 	@Override
 	public void receivePostPlayerUpdate() {
@@ -268,97 +281,48 @@ public class AliceMagtroidMod implements PostExhaustSubscriber,
 	}
 	
 	public int receiveOnPlayerDamaged(int amount, DamageInfo damageInfo) {
-//		if (damageInfo.type == DamageInfo.DamageType.HP_LOSS || dollManager == null)
-//			return amount;
-		
-		if (!(damageInfo.owner instanceof AbstractMonster))
+		if (!(damageInfo.owner instanceof AbstractMonster) || damageInfo.type != DamageInfo.DamageType.NORMAL)
 			return amount;
 		
-		// TODO
+		int index = AliceSpireKit.getMonsterIndex((AbstractMonster) damageInfo.owner);
+		if (index == -1) {
+			AliceSpireKit.log("AliceMagtroidMod.receiveOnPlayerDamaged", "index == -1");
+			return amount;
+		}
 		
-//		int index = getMonsterIndex((AbstractMonster) damageInfo.owner);
-//
-//		int new_amt = dollManager.calcDamageOnPlayer(amount, index);
-//		if (new_amt != amount) {
-//			AbstractDungeon.actionManager.addToTop(
-//					new DollsTakeDamageAction(dollManager.calcDamageOnDolls(amount, index)));
-//		}
-//
-//		return new_amt;
-		return amount;
+		AbstractDoll doll = DollManager.get().getDolls().get(index);
+		if (doll instanceof EmptyDollSlot)
+			return amount;
+		
+		int remaining = doll.onPlayerDamaged(amount);
+		DollManager.get().dollTakesDamage(doll, amount - remaining);
+		
+		return remaining;
 	}
 	
 	public int receiveOnPlayerLoseBlock(int amount) {
-		// TODO
-		return amount;
+		DollManager.get().updatePreservedBlock();
+		DollManager.get().clearBlock();
+		
+		int preserve = DollManager.get().getPreservedBlock();
+		return Integer.min(amount, AbstractDungeon.player.currentBlock - preserve);
 	}
 	
 	public void receiveRender(SpriteBatch sb) {
-		DollManager.getInstance(AbstractDungeon.player).render(sb);
+//		DollManager.get().render(sb);
 	}
 
 	private void loadCardsToAdd() {
-		cardsToAdd.clear();
+		this.cardsToAdd.clear();
 		
-		// TODO
+		this.cardsToAdd.add(new Strike_AliceMagtroid());
+		this.cardsToAdd.add(new Defend_AliceMagtroid());
+		this.cardsToAdd.add(new Thread());
+		this.cardsToAdd.add(new LittleLegion());
+		this.cardsToAdd.add(new ProtectiveMagic());
 	}
 	
 	private void loadVariables() {
 		BaseMod.addDynamicVariable(new TempHPVariable());
 	}
-
-	static class Keywords {
-		
-		Keyword[] keywords;
-	}
 }
-
-/*
-                                                                                                  .
-                                                                                       ..:;,:::i:.
-                                                                            ..:i:::,;:.    .ttt:..
-                                                                 ..,i:::i,.. ,:.,;t;;
-                                                    ...:;,:::i,:,i:::,fi,:i.  ;,t,ij:,
-                                          ..:i:::,;::,,:::jt;i::, ijKWWWWWWWWWKKKEGLj,.    ..:;,:::;
-                      .KKKKKKKKKKWWLG;;;:.::. ,ttt:.  :;ft, j::j::  ttEKKWWWWW#WWWKEDD:,;:..  .:ttt.
-        . KKKKKWKKWWWWWWWWWWW###WEWGDji ;:.i:.   ;,:   j::   f:.j::;j;,,,,jDGLLfWWWWWWWKEGD
-       .DKWWWWWWW##KK##W####WWWWWEGGEGG;ij:;,,. .:f,;   t:.,i:,:;jt:.:,:..:.tDDKWWWWWWWWWWK.
-,:::DEEKKWWWWWWWWW####EDWWW#WWEEWEDLGLLi,;,;ti::,;:,:i,...   itti..... .:,;;::fjDDDKWWWWWWWW
-.tt;,EKKKKKK.WWW##KWWWWWWWWWWKKKEEKEWffD;:f:.. GWWWWKKEDE. :::...... .... .. ,ifLEiDDGGE#WW ;EL
-:i.LGGD:,fKKWWG  .EWKWWWKWWKWKKKKEGDEGGjf:..GWKWKKWKEGDf;;Ljfj... .....:,:,..,.,tLE,KKDEEEEK#Wi
-t .,;:,tDDEL..,;:::iWWWWKKWWWWW#EEDGGDKGf: DWKEEKKK,fKDGjtj:if;:.   i::,:.:.;:tLitDGDGGEEWW#WWW .
-..:fi;:fL:,t    tttWW#WWWWKWWKWWWEDDDGEijjGEKKEGjE;j:KE.,.,:iL;... .:,;,  ..;,;jtLfGGDEGGDDWWKWKK
-    :ttt..       .WWWWK#WWW#WWWWWWWKEWtffffWKKK;;:::.::t.GL.jf : :;  ,iiif...fLGLDDDGGDDDLLGEKKEEt
-                .WWWKGKE##WWWKWWWDWW#fDLGWGLWWWWWED:.ffj;tE,,Lfjtj,;iGjL. ::GLDDDfKDGDDDDEEKK;DD,
-                #WWKKEKWWWWKKKWWWWWWWLGGGDGGLfG#EEDWfj,LKj:,,::;,ifDLL: .:WEEKKKKDEEEEEEEEKKKK
-                W#WWEEGDLKEKKKKKWWWWWW#W#L#t:KKKKGWGi,..::::i;i,::::.:::,KKWWWEWKKKKKDEEKKKKKK.
-         ..      ..t,WWKKGKKWWWWWWGDDEfWL,jttjDtiiit,ji;;tDj,,GijDKf,,KWKWKDWWEWWWWKKKKKEfKtEL
-       . tjt   ;:   E#WWWEGKWKfLWjjfKKEKKKWtitDDi;it:;; WWWKDKEEWKKDGGWEKKDEEKEGEEKKKKKfitt,
-      jjt  f  ;  :  WKWWWWWKKKK#DW#WGLLG#G;f;KKj;ijtii :DWLDDDKGGGEWWKKKKELGiEELKKWWWWWG;i ;;
-     .tj.  ...EtKKKWKKKEK#WKKWWWWWWKKKGfGGDGWDt;,.tt;, EKDEKKWKEKGGWEDEEKEEDKKEKKDKKKWEWK,t.
-    . i: ...DKEEEKWEWKWWWWKWWWWWWWDWKWWWEKEEEKKKEKKDLGL;DG;EKKKWEKWfKEEEKKKEEKKEDGLGEEDLj,E
-      :j ...:jDDKEE .KEK#KKWWWWW#EGDKWEWDEEKKEKKEEEDGLG;,.;EKEKKKWKKKWKKKKKKKKKDKKEKKj:W#W
-        i   ;..tj..,KKKWW##K#WWDLfjfGDE#EEKEKKKDDGGGGLf.,G:.tEKKKKWWWWWL;:jWWWWWKLtDWWWWE
-            t,.      . EWWKKWWfjjjjjjjLWWKEKKEDDDDGGLG;..Gt,.jKWKEKKWKEW:jKWWGjWWWWWK.
-         .   ttt;     EWEKEt,:;jjjjjWWWWWDEEDDDDDDGGG:...:G::::ii:;i;jfDLjEE.
-            :j;i:.  jffjt;,:::::jKKKWWWWKDGGDDGGE##KKD;W:,Gt:,;:...LKKKKK,
-            i:i;fjEKWWjjttt. ;KKDEKEEWWEWDjDKDDGWDLEL;iW#;G;;:.......:.
-            LLiLjKKKKEE        tWW#WWWWWWWjjjjjjjfWW#W##KGfj,,::.....,Eft;:,
-          LGKf,GKEG.it,           WWWDKKKjjtttttEEEEKWKWtji;;:::GL;iWKjiEGG                       ..
-         EKEEEEDt..     ..               ,,,..,   iEEGKKKftiLKfti;.. .                ...:;t:::::t;:
-          EEG    .i:      .,:,          ......                            ....,i;::::,i,::,;,,::.:,,
-                    .j     .:,     .  .KEDL:.:  .,.             ..:,i:::::i;:..,:;:::::,Lttt .t:t.;,
-                    i         ..:;,i. KEEEEEt .     ...:;t:::::t;::..,:;   ,ttt,,;    .,,jtt. ti:;;f
-                                  .  EjGKKKf,i;::::,i,:..:;:::::ff;,j:::,      j,::    j,::    t,:,t
-                              ..,;tjtitiGi:...;i::::,ifjtti:;.  .tj,:.j,::      j,::    j::.    j,;.
-                  ...:;t:::::t;,.WKKKEL .,ittt,:;    .it  t,::::;i,f:;.j::. ..,it,:,.   ;t.:,i,::,:i
-       ...,;i::::,i,:..  DKKWWWtLEDWE.: ...  .j,,:         j,:.  ittf:i,f::i;,:.:jf:::::tjj...
-t:::::t;:.. .:;.;:,tf,i;   :EEKKWWWf....       f,:: ...:;i::j:;.  ..tji:,,:,ffjtt..     :tttti
-i;:,::itttit:i:t.t:tiL:t.     EEEL             ;f:::i;,:.:;i,,:::t;:.i       ;tttt,
-j:::t:it::i. ti:;ti:;t;:;.                 ...,it,:::ifjtt;       itttt.
-tf::t;,j  ,,::f,::t,::tfi.      ..:,i:::::i;:...    ...ttiti
- if:tj,:.ttt .,,:,.j;;.jtt:::::t;:...      ;tttt;
-t:,,:,t;:..:,ft:,::,i,::t       itttt.
-:,i;,::,i;:...      .tttti
-tt       ,tttt;
-*/

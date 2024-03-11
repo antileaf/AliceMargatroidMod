@@ -1,6 +1,8 @@
 package rs.antileaf.alice.doll.dolls;
 
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.localization.OrbStrings;
 import com.megacrit.cardcrawl.orbs.AbstractOrb;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
@@ -8,14 +10,21 @@ import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class HouraiDoll extends AbstractDoll {
 	public static final String SIMPLE_NAME = HouraiDoll.class.getSimpleName();
-	public static final String ID = AliceSpireKit.generateID(HouraiDoll.SIMPLE_NAME);
-	public static final String NAME = ""; // TODO
+	public static final String ID = SIMPLE_NAME;
+	public static final OrbStrings dollStrings = CardCrawlGame.languagePack.getOrbString(ID);
 	
 	public static final int MAX_HP = 2;
 	
 	public HouraiDoll() {
-		super(HouraiDoll.ID, HouraiDoll.NAME, HouraiDoll.MAX_HP, -1, -1,
-				"", "", "");
+		super(
+				ID,
+				dollStrings.NAME,
+				MAX_HP,
+				-1,
+				-1,
+				AliceSpireKit.getOrbImgFilePath("dark"),
+				RenderTextMode.PASSIVE
+		);
 	}
 	
 	@Override
@@ -35,10 +44,16 @@ public class HouraiDoll extends AbstractDoll {
 	
 	@Override
 	public void applyPower() {
-		this.actAmount = this.baseActAmount =
+		this.passiveAmount = this.basePassiveAmount =
 				DollManager.getInstance(AbstractDungeon.player).getHouraiDollCount();
 		
 		this.updateDescription();
+	}
+	
+	@Override
+	public void updateDescriptionImpl() {
+		this.passiveDescription = dollStrings.DESCRIPTION[0];
+		this.actDescription = dollStrings.DESCRIPTION[1];
 	}
 	
 	@Override

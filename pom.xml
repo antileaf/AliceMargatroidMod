@@ -72,7 +72,7 @@
   </dependencies>
 
   <build>
-    <finalName>Alice Magtroid</finalName>
+    <finalName>Alice Magtroid Mod</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -83,24 +83,18 @@
           <target>1.8</target>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <version>1.8</version>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <configuration>
-              <target>
-                <copy file="target/${project.build.finalName}.jar" tofile = "${Spire.path}/mods/${project.build.finalName}.jar"/>
-              </target>
-            </configuration>
-            <goals>
-              <goal>run</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
+<!--      <plugin>-->
+<!--        <groupId>org.apache.maven.plugins</groupId>-->
+<!--        <artifactId>maven-jar-plugin</artifactId>-->
+<!--        <configuration>-->
+<!--          <archive>-->
+<!--            <manifest>-->
+<!--              <addClasspath>false</addClasspath>-->
+<!--              <mainClass>AliceMagtroidMod</mainClass>&lt;!&ndash;指定主类的类名&ndash;&gt;-->
+<!--            </manifest>-->
+<!--          </archive>-->
+<!--        </configuration>-->
+<!--      </plugin>-->
     </plugins>
   </build>
 

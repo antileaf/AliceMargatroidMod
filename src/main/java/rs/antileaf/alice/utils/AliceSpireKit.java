@@ -6,6 +6,7 @@ import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.localization.UIStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
@@ -24,25 +25,35 @@ public abstract class AliceSpireKit {
 		return AliceSpireKit.getModID() + ":";
 	}
 	
-	public static String generateID(String name) {
+	public static String makeID(String name) {
 		return AliceSpireKit.getModPrefix() + name;
 	}
 	
 	public static String getLangShort() {
-		if (Settings.language == Settings.GameLanguage.ZHS ||
-				Settings.language == Settings.GameLanguage.ZHT) {
-			return "zhs";
-		} else {
-			return "eng";
-		}
+		return "zhs";
+		
+//		if (Settings.language == Settings.GameLanguage.ZHS ||
+//				Settings.language == Settings.GameLanguage.ZHT) {
+//			return "zhs";
+//		} else {
+//			return "eng";
+//		}
 	}
 	
-	public static String getImgFilePath(String simpleName) {
-		return "img/cards/" + simpleName + ".png";
+	public static String getImgFilePath(String type, String name) {
+		return "img/" + type + "/" + name + ".png";
+	}
+	
+	public static String getCardImgFilePath(String name) {
+		return AliceSpireKit.getImgFilePath("cards/AliceMagtroid", name);
+	}
+	
+	public static String getOrbImgFilePath(String name) {
+		return AliceSpireKit.getImgFilePath("orbs", name);
 	}
 	
 	public static String getLocalizationFilePath(String name) {
-		return "localization/" + AliceSpireKit.getLangShort() + "/" + name + ".json";
+		return "local/" + AliceSpireKit.getLangShort() + "/" + name + ".json";
 	}
 	
 	public static void loadCustomStrings(Class<?> clz, String name) {
@@ -74,7 +85,7 @@ public abstract class AliceSpireKit {
 		AbstractDungeon.effectList.add(effect);
 	}
 	
-	public static int getMonsterIndex(AbstractMonster m) {
+	public static int getMonsterIndex(AbstractMonster m) { // 0-based index
 		int index = 0;
 		for (AbstractMonster mon : AbstractDungeon.getMonsters().monsters) {
 			if (mon == m)
@@ -84,6 +95,18 @@ public abstract class AliceSpireKit {
 				index++;
 		}
 		return index;
+	}
+	
+	public static AbstractMonster getMonsterByIndex(int index) { // 0-based index
+		int cnt = 0;
+		for (AbstractMonster m : AbstractDungeon.getMonsters().monsters) {
+			if (m.isDeadOrEscaped())
+				continue;
+			
+			if (cnt++ == index)
+				return m;
+		}
+		return null;
 	}
 	
 	public static AbstractMonster getMonsterWithLeastHP() {
@@ -101,11 +124,19 @@ public abstract class AliceSpireKit {
 		return res;
 	}
 	
+	public static String coloredNumber(int amount, int baseAmount) {
+		if (amount != baseAmount)
+			return FontHelper.colorString("" + amount,
+				amount > baseAmount ? "g" : "r");
+		else
+			return "" + amount;
+	}
+	
 	public static void log(String what) {
-		LMDebug.Log(what);
+		AliceMagtroidMod.logger.info(what);
 	}
 	
 	public static void log(Object who, Object what) {
-		LMDebug.deLog(who, "THE ASTRAY-[LOG]> " + what);
+		AliceMagtroidMod.logger.info(who.getClass().getSimpleName() + " : " + what);
 	}
 }

@@ -1,51 +1,64 @@
 package rs.antileaf.alice.doll.dolls;
 
-import com.megacrit.cardcrawl.actions.common.DamageAction;
-import com.megacrit.cardcrawl.cards.DamageInfo;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.localization.OrbStrings;
+import rs.antileaf.alice.action.doll.DollGainBlockAction;
 import rs.antileaf.alice.doll.AbstractDoll;
-import rs.antileaf.alice.doll.DollDamageInfo;
-import rs.antileaf.alice.doll.enums.DollAmountTime;
+import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.enums.DollAmountType;
+import rs.antileaf.alice.utils.AliceMiscKit;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
-public class ShanghaiDoll extends AbstractDoll {
-	public static final String SIMPLE_NAME = ShanghaiDoll.class.getSimpleName();
-	public static final String ID = ShanghaiDoll.SIMPLE_NAME;
-	public static final String NAME = ""; // TODO
+import java.util.ArrayList;
+
+public class KyotoDoll extends AbstractDoll {
+	public static final String SIMPLE_NAME = KyotoDoll.class.getSimpleName();
+	public static final String ID = SIMPLE_NAME;
 	
-	public static final int MAX_HP = 2;
+	public static final OrbStrings dollStrings = CardCrawlGame.languagePack.getOrbString(ID);
+	
+	public static final int MAX_HP = 5;
 	public static final int PASSIVE_AMOUNT = 5;
-	public static final int ACT_AMOUNT = 4;
+	public static final int ACT_AMOUNT = 1;
 	
-	public ShanghaiDoll() {
+	public KyotoDoll() {
 		super(
-				ShanghaiDoll.ID,
-				ShanghaiDoll.NAME,
-				ShanghaiDoll.MAX_HP,
-				ShanghaiDoll.PASSIVE_AMOUNT,
-				ShanghaiDoll.ACT_AMOUNT,
-				"", "", "");
+				ID,
+				dollStrings.NAME,
+				MAX_HP,
+				PASSIVE_AMOUNT,
+				ACT_AMOUNT,
+				AliceSpireKit.getOrbImgFilePath("dark"),
+				RenderTextMode.BOTH
+		);
+		
+		this.passiveAmountType = DollAmountType.BLOCK;
+		this.actAmountType = DollAmountType.BLOCK;
 	}
 	
 	@Override
 	public void onAct() {
-		AbstractMonster m = AliceSpireKit.getMonsterWithLeastHP();
+		ArrayList<DollGainBlockAction> actions = new ArrayList<>();
+		for (AbstractDoll doll : DollManager.get().getDolls())
+			if (!(doll instanceof EmptyDollSlot))
+				actions.add(new DollGainBlockAction(doll, this.actAmount));
 		
-		if (m != null)
-			this.addToTop(new DamageAction(m,
-					new DollDamageInfo(this.actAmount, ShanghaiDoll.class,
-							DollAmountType.DAMAGE, DollAmountTime.ACT)));
+		AliceSpireKit.addActionsToTop(actions.toArray(new DollGainBlockAction[0]));
 	}
 	
-	public void postSpawn() {
-		AbstractMonster m = AbstractDungeon.getRandomMonster();
+	@Override
+	public void updateDescriptionImpl() {
+		this.passiveDescription = AliceMiscKit.join(
+				dollStrings.DESCRIPTION[0],
+				this.coloredPassiveAmount(),
+				dollStrings.DESCRIPTION[1]
+		);
 		
-		if (m != null)
-			this.addToTop(new DamageAction(m,
-					new DollDamageInfo(this.passiveAmount, ShanghaiDoll.class,
-							DollAmountType.DAMAGE, DollAmountTime.PASSIVE)));
+		this.actDescription = AliceMiscKit.join(
+				dollStrings.DESCRIPTION[2],
+				this.coloredActAmount(),
+				dollStrings.DESCRIPTION[3]
+		);
 	}
 	
 	@Override
@@ -55,7 +68,7 @@ public class ShanghaiDoll extends AbstractDoll {
 	
 	@Override
 	public AbstractDoll makeCopy() {
-		return new ShanghaiDoll();
+		return new KyotoDoll();
 	}
 	
 	@Override

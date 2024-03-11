@@ -37,7 +37,7 @@ public abstract class AbstractAliceCard extends CustomCard
 		super(
 				id,
 				name,
-				img,
+				AliceSpireKit.getCardImgFilePath("Th123Cirno"),
 				cost,
 				rawDescription,
 				type,

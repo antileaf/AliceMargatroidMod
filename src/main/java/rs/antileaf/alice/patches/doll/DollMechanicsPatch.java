@@ -19,34 +19,34 @@ public class DollMechanicsPatch {
 //		}
 //	}
 	
-//	@SpirePatch(clz = AbstractPlayer.class, method = "update")
-//	public static class UpdateDollManagerPatch {
-//		@SpirePostfixPatch
-//		public static void Postfix(AbstractPlayer _inst) {
-//			DollManager.getInstance(_inst).update();
-//		}
-//	}
+	@SpirePatch(clz = AbstractPlayer.class, method = "update")
+	public static class UpdateDollManagerPatch {
+		@SpirePostfixPatch
+		public static void Postfix(AbstractPlayer _inst) {
+			DollManager.getInstance(_inst).update();
+		}
+	}
 	
-//	@SpirePatches({
-//			@SpirePatch(clz = Ironclad.class, method = "renderOrb"),
-//			@SpirePatch(clz = TheSilent.class, method = "renderOrb"),
-//			@SpirePatch(clz = Defect.class, method = "renderOrb"),
-//			@SpirePatch(clz = Watcher.class, method = "renderOrb")
-//	})
-//	public static class RenderOldPlayerDollPatch {
-//		@SpirePostfixPatch
-//		public static void Postfix(AbstractCreature _inst, SpriteBatch sb,
-//		                           boolean enabled, float current_x, float current_y) {
-//			DollManager.getInstance((AbstractPlayer) _inst).render(sb);
-//		}
-//	}
-//
-//	@SpirePatch(clz = CustomPlayer.class, method = "renderOrb")
-//	public static class RenderModPlayerDollPatch {
-//		@SpirePostfixPatch
-//		public static void Postfix(AbstractCreature _inst, SpriteBatch sb,
-//		                           boolean enabled, float current_x, float current_y) {
-//			DollManager.getInstance((AbstractPlayer) _inst).render(sb);
-//		}
-//	}
+	@SpirePatches({
+			@SpirePatch(clz = Ironclad.class, method = "renderOrb"),
+			@SpirePatch(clz = TheSilent.class, method = "renderOrb"),
+			@SpirePatch(clz = Defect.class, method = "renderOrb"),
+			@SpirePatch(clz = Watcher.class, method = "renderOrb")
+	})
+	public static class RenderOldPlayerDollPatch {
+		@SpirePostfixPatch
+		public static void Postfix(AbstractCreature _inst, SpriteBatch sb,
+		                           boolean enabled, float current_x, float current_y) {
+			DollManager.getInstance((AbstractPlayer) _inst).render(sb);
+		}
+	}
+
+	@SpirePatch(clz = CustomPlayer.class, method = "renderOrb")
+	public static class RenderModPlayerDollPatch {
+		@SpirePostfixPatch
+		public static void Postfix(AbstractCreature _inst, SpriteBatch sb,
+		                           boolean enabled, float current_x, float current_y) {
+			DollManager.getInstance((AbstractPlayer) _inst).render(sb);
+		}
+	}
 }

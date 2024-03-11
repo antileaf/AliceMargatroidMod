@@ -15,16 +15,16 @@ import rs.antileaf.alice.doll.dolls.ShanghaiDoll;
 public class AlicesGrimoire extends CustomRelic {
 	public static final String SIMPLE_NAME = AlicesGrimoire.class.getSimpleName();
 
-	public static final String ID = AliceMagtroidMod.SIMPLE_NAME + ":" + SIMPLE_NAME;
-	private static final String IMG = "img/relics/" + SIMPLE_NAME + ".png";
-	private static final String IMG_OTL = "img/relics/outline/" + SIMPLE_NAME + ".png";
+	public static final String ID = SIMPLE_NAME;
+	private static final String IMG = "img/relics/AliceMagtroid/" + SIMPLE_NAME + ".png";
+	private static final String IMG_OTL = "img/relics/AliceMagtroid/outline/" + SIMPLE_NAME + ".png";
 
 	public AlicesGrimoire() {
 		super(
 				ID,
 				ImageMaster.loadImage(IMG),
 				ImageMaster.loadImage(IMG_OTL),
-				RelicTier.RARE,
+				RelicTier.STARTER,
 				LandingSound.MAGICAL
 		);
 	}

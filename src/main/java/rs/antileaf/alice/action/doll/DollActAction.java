@@ -18,9 +18,8 @@ public class DollActAction extends AbstractGameAction {
 	@Override
 	public void update() {
 		if (!this.isDone) {
-			DollManager dm = DollManager.getInstance(AbstractDungeon.player);
-			if (dm.contains(this.doll))
-				dm.dollAct(this.doll);
+			if (DollManager.get().contains(this.doll))
+				DollManager.get().dollAct(this.doll);
 			else
 				AliceSpireKit.log(this.getClass(),
 						"DollActAction.update(): DollManager does not contain " +

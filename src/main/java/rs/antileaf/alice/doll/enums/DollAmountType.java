@@ -1,2 +1,5 @@
-package rs.antileaf.alice.doll.enums;public class DollAmountType {
+package rs.antileaf.alice.doll.enums;
+
+public enum DollAmountType {
+	DAMAGE, BLOCK, MAGIC
 }

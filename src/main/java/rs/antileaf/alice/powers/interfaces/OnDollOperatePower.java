@@ -1,8 +1,8 @@
-package rs.antileaf.alice.interfaces;
+package rs.antileaf.alice.powers.interfaces;
 
 import rs.antileaf.alice.doll.AbstractDoll;
 
-public interface OnDollOperateHook {
+public interface OnDollOperatePower {
 	// Called before the doll is placed into the doll queue.
 	default void onSpawnDoll(AbstractDoll doll) {}
 	

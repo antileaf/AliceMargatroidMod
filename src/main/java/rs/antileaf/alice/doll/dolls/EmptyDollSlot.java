@@ -1,27 +1,62 @@
 package rs.antileaf.alice.doll.dolls;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.localization.OrbStrings;
 import com.megacrit.cardcrawl.orbs.AbstractOrb;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class EmptyDollSlot extends AbstractDoll {
 	public static final String SIMPLE_NAME = EmptyDollSlot.class.getSimpleName();
-	public static final String ID = AliceSpireKit.generateID(EmptyDollSlot.SIMPLE_NAME);
-	public static final String NAME = ""; // TODO
+//	public static final String ID = AliceSpireKit.makeID(EmptyDollSlot.SIMPLE_NAME);
+	public static final String ID = SIMPLE_NAME;
+	public static final OrbStrings dollStrings = CardCrawlGame.languagePack.getOrbString(ID);
 	
 	public EmptyDollSlot() {
-		super(EmptyDollSlot.ID, EmptyDollSlot.NAME, -1, -1, -1,
-				"", "", "");
+		super(
+				ID,
+				dollStrings.NAME,
+				-1,
+				-1,
+				-1,
+				AliceSpireKit.getOrbImgFilePath(SIMPLE_NAME),
+				RenderTextMode.NONE
+		);
+	}
+	
+	@Override
+	public int onPlayerDamaged(int amount) {
+		return amount;
+	}
+	
+	@Override
+	public boolean takeDamage(int amount) {
+		if (amount > 0)
+			AliceSpireKit.log(EmptyDollSlot.class, "EmptyDollSlot.takeDamage() called!");
+		
+		return false;
 	}
 	
 	@Override
 	public void onAct() {
-		assert false: "EmptyDollSlot.onAct() called!";
+		AliceSpireKit.log(EmptyDollSlot.class, "EmptyDollSlot.onAct() called!");
 	}
 	
 	@Override
+	public void applyPower() {}
+	
+	@Override
+	public void updateDescription() {
+		this.description = dollStrings.DESCRIPTION[0];
+	}
+	
+	@Override
+	public void updateDescriptionImpl() {}
+	
+	@Override
 	public void triggerActAnimation() {
-		assert false: "EmptyDollSlot.triggerActAnimation() called!";
+		AliceSpireKit.log(EmptyDollSlot.class, "EmptyDollSlot.triggerActAnimation() called!");
 	}
 	
 	@Override

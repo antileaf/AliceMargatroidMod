@@ -16,4 +16,13 @@ public abstract class AliceMiscKit {
 		}
 		return res;
 	}
+	
+	public static String join(String... strings) {
+		StringBuilder sb = new StringBuilder();
+		for (String s : strings) {
+			sb.append(s);
+			sb.append(" ");
+		}
+		return sb.toString().trim();
+	}
 }

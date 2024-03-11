@@ -14,7 +14,8 @@ import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class Strike_AliceMagtroid extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = Strike_AliceMagtroid.class.getSimpleName();
-	public static final String ID = AliceSpireKit.generateID(SIMPLE_NAME);
+//	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
+	public static final String ID = SIMPLE_NAME;
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
@@ -25,7 +26,7 @@ public class Strike_AliceMagtroid extends AbstractAliceCard {
 		super(
 				ID,
 				cardStrings.NAME,
-				AliceSpireKit.getImgFilePath(SIMPLE_NAME),
+				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.ATTACK,

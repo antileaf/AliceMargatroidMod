@@ -2,6 +2,9 @@ package rs.antileaf.alice.characters;
 
 import com.megacrit.cardcrawl.cards.blue.Strike_Blue;
 import rs.antileaf.alice.AliceMagtroidMod;
+import rs.antileaf.alice.cards.AliceMagtroid.Defend_AliceMagtroid;
+import rs.antileaf.alice.cards.AliceMagtroid.Strike_AliceMagtroid;
+import rs.antileaf.alice.cards.AliceMagtroid.Thread;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.AliceMagtroidModClassEnum;
 import basemod.abstracts.CustomPlayer;
@@ -31,28 +34,28 @@ import java.util.ArrayList;
 public class AliceMagtroid extends CustomPlayer {
 	
 	private static final int ENERGY_PER_TURN = 3; // how much energy you get every turn
-	private static final String ALICE_SHOULDER_2 = "img/char/alice/shoulder2.png"; // shoulder2 / shoulder_1
-	private static final String ALICE_SHOULDER_1 = "img/char/alice/shoulder1.png"; // shoulder1 / shoulder_2
-	private static final String ALICE_CORPSE = "img/char/alice/fallen.png"; // dead corpse
+	private static final String ALICE_SHOULDER_2 = "img/char/AliceMagtroid/shoulder2.png"; // shoulder2 / shoulder_1
+	private static final String ALICE_SHOULDER_1 = "img/char/AliceMagtroid/shoulder1.png"; // shoulder1 / shoulder_2
+	private static final String ALICE_CORPSE = "img/char/AliceMagtroid/fallen.png"; // dead corpse
 	public static final Logger logger = LogManager.getLogger(AliceMagtroidMod.class.getName());
 	//private static final float[] layerSpeeds = { 20.0F, 0.0F, -40.0F, 0.0F, 0.0F, 5.0F, 0.0F, -8.0F, 0.0F, 8.0F };
 //	private static final String ALICE_SKELETON_ATLAS = "img/char/Reiuji/MarisaModelv3.atlas";// Marisa_v0 / MarisaModel_v02 /MarisaModelv3
 //	private static final String ALICE_SKELETON_JSON = "img/char/Reiuji/MarisaModelv3.json";
 	private static final String ALICE_ANIMATION = "Idle";// Sprite / Idle
 	private static final String[] ORB_TEXTURES = {
-			"img/UI/EPanel/layer5.png",
-			"img/UI/EPanel/layer4.png",
-			"img/UI/EPanel/layer3.png",
-			"img/UI/EPanel/layer2.png",
-			"img/UI/EPanel/layer1.png",
-			"img/UI/EPanel/layer0.png",
-			"img/UI/EPanel/layer5d.png",
-			"img/UI/EPanel/layer4d.png",
-			"img/UI/EPanel/layer3d.png",
-			"img/UI/EPanel/layer2d.png",
-			"img/UI/EPanel/layer1d.png"
+			"img/UI/AliceMagtroid/EPanel/layer5.png",
+			"img/UI/AliceMagtroid/EPanel/layer4.png",
+			"img/UI/AliceMagtroid/EPanel/layer3.png",
+			"img/UI/AliceMagtroid/EPanel/layer2.png",
+			"img/UI/AliceMagtroid/EPanel/layer1.png",
+			"img/UI/AliceMagtroid/EPanel/layer0.png",
+			"img/UI/AliceMagtroid/EPanel/layer5d.png",
+			"img/UI/AliceMagtroid/EPanel/layer4d.png",
+			"img/UI/AliceMagtroid/EPanel/layer3d.png",
+			"img/UI/AliceMagtroid/EPanel/layer2d.png",
+			"img/UI/AliceMagtroid/EPanel/layer1d.png"
 	};
-	private static final String ORB_VFX = "img/UI/energyBlueVFX.png";
+	private static final String ORB_VFX = "img/UI/AliceMagtroid/energyBlueVFX.png";
 	private static final float[] LAYER_SPEED =
 			{-40.0F, -32.0F, 20.0F, -20.0F, 0.0F, -10.0F, -8.0F, 5.0F, -5.0F, 0.0F};
 	//public static final String SPRITER_ANIM_FILEPATH = "img/char/MyCharacter/marisa_test.scml"; // spriter animation scml
@@ -67,12 +70,12 @@ public class AliceMagtroid extends CustomPlayer {
 		
 		logger.info("init Alice Magtroid");
 		
-		initializeClass(
-				"img/char/Alice/alice.png",
+		this.initializeClass(
+				"img/char/AliceMagtroid/alice.png",
 				ALICE_SHOULDER_2, // required call to load textures and setup energy/loadout
 				ALICE_SHOULDER_1,
 				ALICE_CORPSE,
-				getLoadout(),
+				this.getLoadout(),
 				20.0F, -10.0F, 220.0F, 290.0F,
 				new EnergyManager(ENERGY_PER_TURN)
 		);
@@ -91,10 +94,13 @@ public class AliceMagtroid extends CustomPlayer {
 	public ArrayList<String> getStartingDeck() { // 初始卡组
 		ArrayList<String> ret = new ArrayList<>();
 		
+		ret.add(Thread.ID);
 		
+		for (int i = 0; i < 4; i++)
+			ret.add(Strike_AliceMagtroid.ID);
 		
-//		ret.add("IcicleShot");
-//		ret.add("ShowOff");
+		for (int i = 0; i < 4; i++)
+			ret.add(Defend_AliceMagtroid.ID);
 		
 		return ret;
 	}
@@ -131,8 +137,8 @@ public class AliceMagtroid extends CustomPlayer {
 				STARTING_GOLD,
 				HAND_SIZE,
 				this,
-				getStartingRelics(),
-				getStartingDeck(),
+				this.getStartingRelics(),
+				this.getStartingDeck(),
 				false
 		);
 	}
@@ -142,8 +148,7 @@ public class AliceMagtroid extends CustomPlayer {
 	}
 	
 	public AbstractCard getStartCardForEvent() {
-//		return new Strike_AliceMagtroid();
-		return new Strike_Blue(); // TODO
+		return new Thread();
 	}
 	
 	public String getTitle(PlayerClass playerClass) {

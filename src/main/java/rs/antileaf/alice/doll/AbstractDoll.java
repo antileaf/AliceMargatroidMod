@@ -15,20 +15,29 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.MathHelper;
+import com.megacrit.cardcrawl.helpers.TipHelper;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.powers.AbstractPower;
+import rs.antileaf.alice.doll.dolls.ShanghaiDoll;
+import rs.antileaf.alice.doll.enums.DollAmountTime;
+import rs.antileaf.alice.doll.enums.DollAmountType;
+import rs.antileaf.alice.powers.interfaces.PlayerDollAmountModPower;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public abstract class AbstractDoll extends CustomOrb {
 	public int actAmount = 0;
 	protected int baseActAmount = 0;
 	
-	String actDescription;
+	protected String actDescription;
 	
 	private int maxHP;
 	private int HP;
 	private int block; // TODO: Implement block.
 	
-	private int damageAboutToTake;
+	protected DollAmountType passiveAmountType = DollAmountType.MAGIC;
+	protected DollAmountType actAmountType = DollAmountType.MAGIC;
+	
+	private int damageAboutToTake = 0;
 	private float vfxTimer = 1.0F;
 	private float animX, animY;
 	private float animSpeed;
@@ -41,15 +50,17 @@ public abstract class AbstractDoll extends CustomOrb {
 	
 	protected RenderTextMode renderTextMode;
 	
-	public AbstractDoll(String ID, String name, int maxHP, int basePassiveAmount, int baseActAmount,
-	                    String passiveDescription, String actDescription, String imgPath) {
-		super(ID, name, basePassiveAmount, -1, passiveDescription, "", imgPath);
+	public AbstractDoll(String ID, String name, int maxHP, int basePassiveAmount, int baseActAmount, String imgPath, RenderTextMode renderTextMode) {
+		super(ID, name, basePassiveAmount, -1, "", "", imgPath);
 		
 		this.baseActAmount = this.actAmount = baseActAmount;
-		this.actDescription = actDescription;
+		this.renderTextMode = renderTextMode;
 		
 		this.maxHP = this.HP = maxHP;
 		this.block = 0;
+		
+		this.updateDescription();
+		this.initPosition(AbstractDungeon.player.animX, AbstractDungeon.player.animY);
 	}
 	
 	protected void initPosition(float cx, float cy) {
@@ -72,10 +83,21 @@ public abstract class AbstractDoll extends CustomOrb {
 	
 	@Override
 	public void update() {
+		if (DollManager.get().contains(this)) {
+			Vector2 pos = DollManager.get().calcDollPosition(DollManager.get().getDolls().indexOf(this));
+			if (pos != null)
+				this.transAnim(pos);
+		}
+		
 		this.hb.move(this.tX, this.tY);
 		this.hb.update();
 		if (this.hb.hovered) {
-			// TODO
+			TipHelper.renderGenericTip(
+					this.tX + 96.0F * Settings.scale,
+					this.tY + 64.0F * Settings.scale,
+					this.name,
+					this.description
+			);
 		}
 		this.bobEffect.update();
 		
@@ -94,10 +116,11 @@ public abstract class AbstractDoll extends CustomOrb {
 		this.angle += Gdx.graphics.getDeltaTime() * 45.0F;
 		this.vfxTimer -= Gdx.graphics.getDeltaTime();
 		if (this.vfxTimer < 0.0F) {
-			// TODO: Add vfx.
+			this.vfxTimer = 0.0F; // TODO
 		}
 		
-		
+		this.c.a = Interpolation.pow2In.apply(1.0F, 0.01F, this.channelAnimTimer / 0.5F);
+		this.scale = Interpolation.swingIn.apply(Settings.scale, 0.01F, this.channelAnimTimer / 0.5F);
 	}
 	
 	private void updateSelfAnimation() { // TODO: What is this?
@@ -118,16 +141,8 @@ public abstract class AbstractDoll extends CustomOrb {
 	}
 	
 	public void updateDamageAboutToTake() {
-		int index = DollManager.getInstance(AbstractDungeon.player).getDolls().indexOf(this);
-		
-		AbstractMonster monster = null;
-		int cnt = 0;
-		for (AbstractMonster m : AbstractDungeon.getMonsters().monsters)
-			if (!m.isDeadOrEscaped())
-				if (cnt++ == index) {
-					monster = m;
-					break;
-				}
+		int index = DollManager.get().getDolls().indexOf(this);
+		AbstractMonster monster = AliceSpireKit.getMonsterByIndex(index);
 		
 		if (monster == null)
 			this.damageAboutToTake = 0;
@@ -135,6 +150,24 @@ public abstract class AbstractDoll extends CustomOrb {
 			this.damageAboutToTake = monster.getIntentDmg();
 	}
 	
+	// Returns remaining damage.
+	public int onPlayerDamaged(int amount) {
+		return Integer.max(0, amount - (this.HP + this.block));
+	}
+	
+	public boolean takeDamage(int amount) {
+		int blockLoss = Math.min(this.block, amount);
+		this.block -= blockLoss;
+		amount -= blockLoss;
+		
+		this.HP -= amount;
+		if (this.HP <= 0) {
+			this.HP = 0;
+			return true;
+		}
+		
+		return false;
+	}
 	
 	@Override
 	public final void onEvoke() {
@@ -157,21 +190,55 @@ public abstract class AbstractDoll extends CustomOrb {
 	
 	public void applyPower() {
 		AbstractPlayer player = AbstractDungeon.player;
-		DollManager dm = DollManager.getInstance(player);
 		
 		this.passiveAmount = this.basePassiveAmount;
 		this.actAmount = this.baseActAmount;
 		
-		int hourai = dm.getHouraiDollCount();
+		int hourai = DollManager.get().getHouraiDollCount();
 		if (hourai > 0) {
-			this.passiveAmount += hourai;
-			this.actAmount += hourai;
+			if (this.passiveAmountType != DollAmountType.MAGIC)
+				this.passiveAmount += hourai;
+			if (this.actAmountType != DollAmountType.MAGIC)
+				this.actAmount += hourai;
 		}
+		
+		if (this instanceof ShanghaiDoll) {
+			if (player.hasPower("Strength")) {
+				int bonus = Integer.max(player.getPower("Strength").amount, 0);
+				
+				if (this.passiveAmountType != DollAmountType.MAGIC)
+					this.passiveAmount += bonus;
+				if (this.actAmountType != DollAmountType.MAGIC)
+					this.actAmount += bonus;
+			}
+		}
+		
+		float tempPassiveAmount = this.passiveAmount, tempActAmount = this.actAmount;
+		
+		for (AbstractPower p : player.powers)
+			if (p instanceof PlayerDollAmountModPower) {
+				tempPassiveAmount = ((PlayerDollAmountModPower) p).modifyDollAmount(
+						tempPassiveAmount, this.getClass(), this.passiveAmountType, DollAmountTime.PASSIVE);
+				
+				tempActAmount = ((PlayerDollAmountModPower) p).modifyDollAmount(
+						tempActAmount, this.getClass(), this.actAmountType, DollAmountTime.ACT);
+			}
 		
 		// TODO: Powers / Relics
 		
+		this.passiveAmount = (int) tempPassiveAmount;
+		this.actAmount = (int) tempActAmount;
+		
 		this.updateDescription();
 	}
+	
+	@Override
+	public void updateDescription() {
+		this.updateDescriptionImpl();
+		this.description = "#y被动 ：" + this.passiveDescription + " NL #y行动 ：" + this.actDescription;
+	}
+	
+	public abstract void updateDescriptionImpl();
 	
 	@Override
 	public final void applyFocus() { // Dolls should not be affected by focus.
@@ -188,9 +255,13 @@ public abstract class AbstractDoll extends CustomOrb {
 	
 	@Override
 	public void render(SpriteBatch sb) {
+		this.updateSelfAnimation();
+		
 		super.render(sb);
 		// TODO: render hp and block
 		// TODO: render damageAboutToTake
+		
+		this.renderText(sb);
 	}
 	
 	private Color getFontColor(boolean highlight) {
@@ -281,6 +352,14 @@ public abstract class AbstractDoll extends CustomOrb {
 		// TODO
 	}
 	
+	protected String coloredPassiveAmount() {
+		return AliceSpireKit.coloredNumber(this.passiveAmount, this.basePassiveAmount);
+	}
+	
+	protected String coloredActAmount() {
+		return AliceSpireKit.coloredNumber(this.actAmount, this.baseActAmount);
+	}
+	
 	protected enum RenderTextMode {
 		NONE, PASSIVE, ACT, BOTH
 	}
@@ -299,11 +378,8 @@ public abstract class AbstractDoll extends CustomOrb {
 		AliceSpireKit.addToBot(action);
 	}
 	
-	public enum AmountType {
-		DAMAGE, BLOCK, MAGIC
-	}
-	
-	public enum AmountTime {
-		PASSIVE, ACT
+	public static AbstractDoll getRandomDoll() {
+		// TODO
+		return new ShanghaiDoll();
 	}
 }

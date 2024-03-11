@@ -1,14 +1,14 @@
 {
-  "modid": "ReiujiMod",
-  "name": "灵乌路 空",
+  "modid": "AliceMagtroidMod",
+  "name": "Alice Magtroid",
   "author_list": [
-    "AntiLeaf"
+    "antileaf"
   ],
-  "description": "Adds Reiuji Utsuho from Touhou Project as a new playable character.",
+  "description": "Adds Alice Magtroid from Touhou Project as a new playable character.",
   "dependencies": [
     "basemod", "stslib"
   ],
   "version": "0.0.1",
   "sts_version": "12-06-2019v2",
-  "update_json": "https://api.github.com/repos/antileaf/ReiujiMod/releases/latest"
+  "update_json": "https://api.github.com/repos/antileaf/AliceMagtroidMod/releases/latest"
 }
