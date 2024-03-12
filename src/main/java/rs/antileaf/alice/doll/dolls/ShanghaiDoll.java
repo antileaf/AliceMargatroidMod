@@ -41,10 +41,13 @@ public class ShanghaiDoll extends AbstractDoll {
 	public void onAct() {
 		AbstractMonster m = AliceSpireKit.getMonsterWithLeastHP();
 		
-		if (m != null)
+		if (m != null) {
 			this.addToTop(new DamageAction(m,
 					new DollDamageInfo(this.actAmount, ShanghaiDoll.class,
 							DollAmountType.DAMAGE, DollAmountTime.ACT)));
+		}
+		
+		this.highlightPassiveValue();
 	}
 	
 	public void postSpawn() {
@@ -54,6 +57,8 @@ public class ShanghaiDoll extends AbstractDoll {
 			this.addToTop(new DamageAction(m,
 					new DollDamageInfo(this.passiveAmount, ShanghaiDoll.class,
 							DollAmountType.DAMAGE, DollAmountTime.PASSIVE)));
+		
+		this.highlightActValue();
 	}
 	
 	// The logic of Strength is implemented in AbstractDoll.applyPowers().

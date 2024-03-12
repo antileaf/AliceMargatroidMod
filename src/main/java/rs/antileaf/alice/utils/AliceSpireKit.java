@@ -12,7 +12,6 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
 import org.jetbrains.annotations.NotNull;
 import rs.antileaf.alice.AliceMagtroidMod;
-import rs.lazymankits.LMDebug;
 
 import java.nio.charset.StandardCharsets;
 

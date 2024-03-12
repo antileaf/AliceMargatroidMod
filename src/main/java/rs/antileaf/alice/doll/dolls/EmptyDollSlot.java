@@ -55,6 +55,11 @@ public class EmptyDollSlot extends AbstractDoll {
 	public void updateDescriptionImpl() {}
 	
 	@Override
+	public void renderHealth(SpriteBatch sb) {
+		// Do nothing.
+	}
+	
+	@Override
 	public void triggerActAnimation() {
 		AliceSpireKit.log(EmptyDollSlot.class, "EmptyDollSlot.triggerActAnimation() called!");
 	}

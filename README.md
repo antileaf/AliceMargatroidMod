@@ -9,7 +9,6 @@
 * [ModTheSpire](https://github.com/kiooeht/ModTheSpire) ：杀戮尖塔 Mod 加载器
 * [BaseMod](https://github.com/daviscook477/BaseMod) ：一个 API Mod，同时也提供了游戏内调试用命令行
 * [StSLib](https://github.com/kiooeht/StSLib) ：一个供其他 Mod 使用的关键词和机制的集合
-* [LazyManKit](https://github.com/Somdy/LazyManKits)：一个工具包
 
 ## 新机制
 

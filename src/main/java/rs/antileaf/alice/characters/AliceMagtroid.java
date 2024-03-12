@@ -2,8 +2,7 @@ package rs.antileaf.alice.characters;
 
 import com.megacrit.cardcrawl.cards.blue.Strike_Blue;
 import rs.antileaf.alice.AliceMagtroidMod;
-import rs.antileaf.alice.cards.AliceMagtroid.Defend_AliceMagtroid;
-import rs.antileaf.alice.cards.AliceMagtroid.Strike_AliceMagtroid;
+import rs.antileaf.alice.cards.AliceMagtroid.*;
 import rs.antileaf.alice.cards.AliceMagtroid.Thread;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.AliceMagtroidModClassEnum;
@@ -95,11 +94,13 @@ public class AliceMagtroid extends CustomPlayer {
 		ArrayList<String> ret = new ArrayList<>();
 		
 		ret.add(Thread.ID);
+		ret.add(LittleLegion.ID);
+		ret.add(ProtectiveMagic.ID);
 		
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 1; i++)
 			ret.add(Strike_AliceMagtroid.ID);
 		
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 1; i++)
 			ret.add(Defend_AliceMagtroid.ID);
 		
 		return ret;

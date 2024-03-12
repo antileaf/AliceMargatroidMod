@@ -10,6 +10,7 @@ import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
+import rs.antileaf.alice.doll.dolls.KyotoDoll;
 import rs.antileaf.alice.doll.dolls.ShanghaiDoll;
 
 public class AlicesGrimoire extends CustomRelic {
@@ -36,8 +37,8 @@ public class AlicesGrimoire extends CustomRelic {
 	
 	@Override
 	public void atBattleStart() {
-		for (int i = 0; i < 2; i++)
-			this.addToBot(new SpawnDollAction(new ShanghaiDoll(), -1));
+		this.addToBot(new SpawnDollAction(new ShanghaiDoll(), -1));
+		this.addToBot(new SpawnDollAction(new KyotoDoll(), -1));
 	}
 	
 	@Override

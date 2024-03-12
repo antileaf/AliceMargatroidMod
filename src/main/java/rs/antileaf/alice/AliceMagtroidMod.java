@@ -250,7 +250,7 @@ public class AliceMagtroidMod implements PostExhaustSubscriber,
 	
 	@Override
 	public void receivePowersModified() {
-		// Auto-generated method stub
+		DollManager.get().applyPowers();
 	}
 	
 	@Override
@@ -277,7 +277,7 @@ public class AliceMagtroidMod implements PostExhaustSubscriber,
 	
 	@Override
 	public void receivePostPlayerUpdate() {
-		DollManager.getInstance(AbstractDungeon.player).update();
+		DollManager.get().update();
 	}
 	
 	public int receiveOnPlayerDamaged(int amount, DamageInfo damageInfo) {

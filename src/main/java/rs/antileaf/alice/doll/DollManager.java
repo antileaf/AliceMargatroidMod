@@ -89,8 +89,7 @@ public class DollManager {
 	}
 	
 	public void addBlock(AbstractDoll doll, int block) {
-		doll.receiveBlock(block);
-		//
+		doll.addBlock(block);
 	}
 	
 	public void updatePreservedBlock() {
@@ -121,6 +120,11 @@ public class DollManager {
 			doll.onEndOfTurn();
 	}
 	
+	public void applyPowers() {
+		for (AbstractDoll doll : this.dolls)
+			doll.applyPower();
+	}
+	
 	public void update() {
 		for (AbstractDoll doll : this.dolls)
 			doll.update();
@@ -133,6 +137,11 @@ public class DollManager {
 //		AliceSpireKit.log(this.getClass(), "DollManager.render");
 		for (AbstractDoll doll : this.dolls)
 			doll.render(sb);
+	}
+	
+	public void updateHealthBar() {
+		for (AbstractDoll doll : this.dolls)
+			doll.updateHealthBar();
 	}
 	
 	public void spawnDoll(AbstractDoll doll, int index) {
@@ -164,6 +173,8 @@ public class DollManager {
 	
 	private void spawnDollInternal(AbstractDoll doll, int index) {
 		assert index >= 0 && index < MAX_DOLL_SLOTS && this.dolls.get(index) instanceof EmptyDollSlot;
+		
+		doll.showHealthBar();
 		
 		this.dolls.set(index, doll);
 		doll.postSpawn();
@@ -272,7 +283,7 @@ public class DollManager {
 	public Vector2 calcDollPosition(int index) {
 		// TODO: Calculate differently for different formations
 		float dist = 210.0F * Settings.scale;
-		float degree = 90 + 35 * (index - MAX_DOLL_SLOTS / 2.0F); // 0 on the right
+		float degree = 90 + 35 * (index - 3); // 0 on the right
 		
 		float x = this.owner.drawX + dist * MathUtils.cosDeg(degree);
 		float y = this.owner.drawY + this.owner.hb.height / 2.0F + dist * MathUtils.sinDeg(degree);

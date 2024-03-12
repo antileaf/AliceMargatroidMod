@@ -6,6 +6,7 @@ import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.patches.enums.ActionTypeEnum;
 
 public class MoveDollAction extends AbstractGameAction {
+	private static final float DURATION = 0.2F;
 	private final AbstractDoll doll;
 	private final int index;
 	
@@ -13,19 +14,20 @@ public class MoveDollAction extends AbstractGameAction {
 		this.doll = doll;
 		this.index = index;
 		this.actionType = ActionTypeEnum.DOLL_OPERATE;
+		this.duration = DURATION;
 	}
 	
 	@Override
 	public void update() {
-		if (!this.isDone) {
+		this.tickDuration();
+		
+		if (this.isDone) {
 			if (DollManager.get().contains(this.doll))
 				DollManager.get().moveDoll(this.doll, this.index);
 			else
 				rs.antileaf.alice.utils.AliceSpireKit.log(this.getClass(),
 						"MoveDollAction.update(): DollManager does not contain " +
 								this.doll.getClass().getSimpleName() + "!");
-			
-			this.isDone = true;
 		}
 	}
 }

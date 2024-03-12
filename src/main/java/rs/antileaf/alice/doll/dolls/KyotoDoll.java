@@ -1,6 +1,9 @@
 package rs.antileaf.alice.doll.dolls;
 
+import com.megacrit.cardcrawl.actions.AbstractGameAction;
+import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.OrbStrings;
 import rs.antileaf.alice.action.doll.DollGainBlockAction;
 import rs.antileaf.alice.doll.AbstractDoll;
@@ -38,12 +41,15 @@ public class KyotoDoll extends AbstractDoll {
 	
 	@Override
 	public void onAct() {
-		ArrayList<DollGainBlockAction> actions = new ArrayList<>();
+		ArrayList<AbstractGameAction> actions = new ArrayList<>();
 		for (AbstractDoll doll : DollManager.get().getDolls())
 			if (!(doll instanceof EmptyDollSlot))
 				actions.add(new DollGainBlockAction(doll, this.actAmount));
+		actions.add(new GainBlockAction(AbstractDungeon.player, this.actAmount));
 		
-		AliceSpireKit.addActionsToTop(actions.toArray(new DollGainBlockAction[0]));
+		AliceSpireKit.addActionsToTop(actions.toArray(new AbstractGameAction[0]));
+		
+		this.highlightActValue();
 	}
 	
 	@Override
@@ -59,6 +65,12 @@ public class KyotoDoll extends AbstractDoll {
 				this.coloredActAmount(),
 				dollStrings.DESCRIPTION[3]
 		);
+	}
+	
+	@Override
+	public void clearBlock(int preserve) {
+		super.clearBlock(preserve);
+		this.highlightPassiveValue();
 	}
 	
 	@Override
