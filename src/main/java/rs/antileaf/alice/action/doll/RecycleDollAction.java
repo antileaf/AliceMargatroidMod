@@ -5,29 +5,30 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.patches.enums.ActionTypeEnum;
+import rs.antileaf.alice.powers.unique.DollAmbushPower;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class RecycleDollAction extends AbstractGameAction {
-	private static final float DURATION = 0.1F;
 	private final AbstractDoll doll;
 	
 	public RecycleDollAction(AbstractDoll doll) {
 		this.doll = doll;
 		this.actionType = ActionTypeEnum.DOLL_OPERATE;
-		this.duration = DURATION;
 	}
 	
 	@Override
 	public void update() {
-		this.tickDuration();
+		if (!this.isDone) {
+			if (AbstractDungeon.player.hasPower(DollAmbushPower.POWER_ID)) {
+				int count = AbstractDungeon.player.getPower(DollAmbushPower.POWER_ID).amount;
+				for (int i = 0; i < count; i++)
+					AliceSpireKit.addActionToBuffer(new DollActAction(doll));
+			}
 			
-		if (this.isDone) {
-			if (DollManager.get().contains(this.doll))
-				DollManager.get().recycleDoll(this.doll);
-			else
-				AliceSpireKit.log(this.getClass(),
-						"RecycleDollAction.update(): DollManager does not contain " +
-								this.doll.getClass().getSimpleName() + "!");
+			AliceSpireKit.addActionToBuffer(new RecycleDollInternalAction(doll));
+			AliceSpireKit.commitBuffer();
+			
+			this.isDone = true;
 		}
 	}
 }

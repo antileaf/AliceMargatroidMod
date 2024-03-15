@@ -20,11 +20,15 @@ import com.megacrit.cardcrawl.powers.AbstractPower;
 import com.megacrit.cardcrawl.vfx.combat.BlockedNumberEffect;
 import com.megacrit.cardcrawl.vfx.combat.BlockedWordEffect;
 import com.megacrit.cardcrawl.vfx.combat.HbBlockBrokenEffect;
-import rs.antileaf.alice.doll.dolls.ShanghaiDoll;
+import org.jetbrains.annotations.Nullable;
+import rs.antileaf.alice.doll.dolls.*;
 import rs.antileaf.alice.doll.enums.DollAmountTime;
 import rs.antileaf.alice.doll.enums.DollAmountType;
 import rs.antileaf.alice.powers.interfaces.PlayerDollAmountModPower;
 import rs.antileaf.alice.utils.AliceSpireKit;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public abstract class AbstractDoll extends CustomOrb {
 	public static String[] CREATURE_TEXT = CardCrawlGame.languagePack.getUIString("AbstractCreature").TEXT;
@@ -223,8 +227,13 @@ public abstract class AbstractDoll extends CustomOrb {
 		
 		if (monster == null)
 			this.damageAboutToTake = 0;
-		else
+		else if (monster.intent == AbstractMonster.Intent.ATTACK ||
+				monster.intent == AbstractMonster.Intent.ATTACK_BUFF ||
+				monster.intent == AbstractMonster.Intent.ATTACK_DEBUFF ||
+				monster.intent == AbstractMonster.Intent.ATTACK_DEFEND)
 			this.damageAboutToTake = monster.getIntentDmg();
+		else
+			this.damageAboutToTake = 0;
 	}
 	
 	// Returns remaining damage.
@@ -337,11 +346,23 @@ public abstract class AbstractDoll extends CustomOrb {
 	
 	public void onDestroyed() {}
 	
+	public void onRemoved() {}
+	
 	@Override
 	public void onStartOfTurn() {}
 	
 	@Override
 	public void onEndOfTurn() {}
+	
+	public void postOtherDollAct(AbstractDoll doll) {}
+	
+	public void postOtherDollSpawn(AbstractDoll doll) {}
+	
+	public void postOtherDollRecycle(AbstractDoll doll) {}
+	
+	public void postOtherDollDestroyed(AbstractDoll doll) {}
+	
+	public void postOtherDollRemoved(AbstractDoll doll) {}
 	
 	public void applyPower() {
 		AbstractPlayer player = AbstractDungeon.player;
@@ -742,8 +763,73 @@ public abstract class AbstractDoll extends CustomOrb {
 		AliceSpireKit.addToBot(action);
 	}
 	
+	public static AbstractDoll newInst(Class clazz) {
+		assert AbstractDoll.class.isAssignableFrom(clazz) : "clazz is not a subclass of Abstract";
+		
+		if (clazz == EmptyDollSlot.class) {
+			AliceSpireKit.log(AbstractDoll.class, "Why newInst(EmptyDollSlot)?");
+			return new EmptyDollSlot();
+		}
+		else if (clazz == ShanghaiDoll.class) {
+			return new ShanghaiDoll();
+		}
+		else if (clazz == NetherlandsDoll.class) {
+			return new NetherlandsDoll();
+		}
+		else if (clazz == HouraiDoll.class) {
+			return new HouraiDoll();
+		}
+		else if (clazz == KyotoDoll.class) {
+			return new KyotoDoll();
+		}
+		else if (clazz == LondonDoll.class) {
+			return new LondonDoll();
+		}
+		else if (clazz == FranceDoll.class) {
+			return new FranceDoll();
+		}
+		else if (clazz == OrleansDoll.class) {
+			return new OrleansDoll();
+		}
+		else {
+			AliceSpireKit.log(AbstractDoll.class, "Unknown class: " + clazz);
+			return null;
+		}
+	}
+	
+	@Nullable
+	public static AbstractDoll getRandomDollExcept(Class... exceptClasses) {
+		for (Class c : exceptClasses)
+			assert AbstractDoll.class.isAssignableFrom(c) : "exceptClasses contains a class that is not doll";
+		
+		Class<? extends AbstractDoll>[] fullClasses = new Class[] {
+				ShanghaiDoll.class,
+				NetherlandsDoll.class,
+				HouraiDoll.class,
+				KyotoDoll.class,
+				LondonDoll.class,
+				FranceDoll.class,
+				OrleansDoll.class
+		};
+		
+		Class[] remainingClasses = Arrays.stream(fullClasses)
+				.filter(c -> Arrays.stream(exceptClasses).noneMatch(ec -> ec.equals(c)))
+				.toArray(Class[]::new);
+		
+		if (remainingClasses.length == 0) {
+			AliceSpireKit.log(AbstractDoll.class, "No remaining classes to choose from.");
+			return null;
+		}
+		
+		int index = AbstractDungeon.cardRandomRng.random(remainingClasses.length - 1);
+		return newInst(remainingClasses[index]);
+	}
+	
+//	public static AbstractDoll getRandomDollExcept(Class<? extends AbstractDoll> exceptClass) {
+//		return getRandomDollExcept(exceptClass);
+//	}
+	
 	public static AbstractDoll getRandomDoll() {
-		// TODO
-		return new ShanghaiDoll();
+		return getRandomDollExcept();
 	}
 }

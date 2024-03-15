@@ -31,7 +31,7 @@ public class KyotoDoll extends AbstractDoll {
 				MAX_HP,
 				PASSIVE_AMOUNT,
 				ACT_AMOUNT,
-				AliceSpireKit.getOrbImgFilePath("dark"),
+				AliceSpireKit.getOrbImgFilePath("green"),
 				RenderTextMode.BOTH
 		);
 		

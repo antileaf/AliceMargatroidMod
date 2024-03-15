@@ -21,15 +21,15 @@ public class Thread extends AbstractAliceCard {
 	public static final String ID = SIMPLE_NAME;
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
-	private static final int COST = 0;
+	private static final int COST = 1;
+	private static final int UPGRADED_COST = 0;
 	private static final int DAMAGE = 3;
-	private static final int UPGRADE_PLUS_DMG = 2;
 	
 	public Thread() {
 		super(
 				ID,
 				cardStrings.NAME,
-				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				null, // AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.ATTACK,
@@ -63,7 +63,7 @@ public class Thread extends AbstractAliceCard {
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
-			this.upgradeDamage(UPGRADE_PLUS_DMG);
+			this.upgradeBaseCost(UPGRADED_COST);
 			this.initializeDescription();
 		}
 	}

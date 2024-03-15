@@ -3,6 +3,7 @@ package rs.antileaf.alice;
 import com.evacipated.cardcrawl.mod.stslib.patches.CustomTargeting;
 import rs.antileaf.alice.cards.AliceMagtroid.*;
 import rs.antileaf.alice.cards.AliceMagtroid.Thread;
+import rs.antileaf.alice.cards.AliceMagtroidDerivation.MarisasPotion;
 import rs.antileaf.alice.characters.AliceMagtroid;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
@@ -214,11 +215,10 @@ public class AliceMagtroidMod implements PostExhaustSubscriber,
 		
 		AliceSpireKit.loadCustomStrings(RelicStrings.class, "relics");
 		AliceSpireKit.loadCustomStrings(CardStrings.class, "cards");
-//		AliceSpireKit.loadCustomStrings(PowerStrings.class, "powers");
+		AliceSpireKit.loadCustomStrings(PowerStrings.class, "powers");
 //		AliceSpireKit.loadCustomStrings(PotionStrings.class, "potions");
 //		AliceSpireKit.loadCustomStrings(EventStrings.class, "events");
 		AliceSpireKit.loadCustomStrings(OrbStrings.class, "dolls");
-//		AliceSpireKit.loadCustomStrings(DollStrings.class, "dolls");
 
 		logger.info("done editing strings");
 	}
@@ -260,7 +260,6 @@ public class AliceMagtroidMod implements PostExhaustSubscriber,
 	
 	@Override
 	public void receivePostDraw(AbstractCard card) {
-		DollManager.getInstance(AbstractDungeon.player).onStartOfTurn();
 	}
 	
 	@Override
@@ -273,7 +272,9 @@ public class AliceMagtroidMod implements PostExhaustSubscriber,
 	}
 	
 	@Override
-	public void receiveOnPlayerTurnStart() {}
+	public void receiveOnPlayerTurnStart() {
+		DollManager.getInstance(AbstractDungeon.player).onStartOfTurn();
+	}
 	
 	@Override
 	public void receivePostPlayerUpdate() {
@@ -318,8 +319,17 @@ public class AliceMagtroidMod implements PostExhaustSubscriber,
 		this.cardsToAdd.add(new Strike_AliceMagtroid());
 		this.cardsToAdd.add(new Defend_AliceMagtroid());
 		this.cardsToAdd.add(new Thread());
+		
 		this.cardsToAdd.add(new LittleLegion());
 		this.cardsToAdd.add(new ProtectiveMagic());
+		this.cardsToAdd.add(new RainbowRay());
+		this.cardsToAdd.add(new EmeraldRay());
+		this.cardsToAdd.add(new MoonlightRay());
+		this.cardsToAdd.add(new KirisameMahouten());
+		this.cardsToAdd.add(new WarFlag());
+		this.cardsToAdd.add(new DollAmbush());
+		
+		this.cardsToAdd.add(new MarisasPotion());
 	}
 	
 	private void loadVariables() {

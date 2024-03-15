@@ -1,11 +1,15 @@
 package rs.antileaf.alice.doll.dolls;
 
+import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
-import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.OrbStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.powers.ArtifactPower;
+import com.megacrit.cardcrawl.powers.GainStrengthPower;
+import com.megacrit.cardcrawl.powers.StrengthPower;
+import rs.antileaf.alice.action.doll.DollGainBlockAction;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollDamageInfo;
 import rs.antileaf.alice.doll.enums.DollAmountTime;
@@ -13,55 +17,58 @@ import rs.antileaf.alice.doll.enums.DollAmountType;
 import rs.antileaf.alice.utils.AliceMiscKit;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
-public class ShanghaiDoll extends AbstractDoll {
-	public static final String SIMPLE_NAME = ShanghaiDoll.class.getSimpleName();
+public class FranceDoll extends AbstractDoll {
+	public static final String SIMPLE_NAME = FranceDoll.class.getSimpleName();
 	public static final String ID = SIMPLE_NAME;
 	public static final OrbStrings dollStrings = CardCrawlGame.languagePack.getOrbString(ID);
 	
-	public static final int MAX_HP = 3;
-	public static final int PASSIVE_AMOUNT = 5;
-	public static final int ACT_AMOUNT = 4;
+	public static final int MAX_HP = 5;
+	public static final int PASSIVE_AMOUNT = 1;
+	public static final int ACT_AMOUNT = 3;
 	
-	public ShanghaiDoll() {
+	public FranceDoll() {
 		super(
 				ID,
 				dollStrings.NAME,
 				MAX_HP,
 				PASSIVE_AMOUNT,
 				ACT_AMOUNT,
-				AliceSpireKit.getOrbImgFilePath("red"),
+				AliceSpireKit.getOrbImgFilePath("blue"),
 				RenderTextMode.BOTH
 		);
 		
-		this.passiveAmountType = DollAmountType.DAMAGE;
-		this.actAmountType = DollAmountType.DAMAGE;
+		this.passiveAmountType = DollAmountType.OTHERS;
+		this.actAmountType = DollAmountType.BLOCK;
+	}
+	
+	@Override
+	public int onPlayerDamaged(int amount) {
+		return 0;
 	}
 	
 	@Override
 	public void onAct() {
-		AbstractMonster m = AliceSpireKit.getMonsterWithLeastHP();
+		this.addToBot(new DollGainBlockAction(this, this.actAmount));
 		
-		if (m != null) {
-			this.addToTop(new DamageAction(m,
-					new DollDamageInfo(this.actAmount, ShanghaiDoll.class,
-							DollAmountType.DAMAGE, DollAmountTime.ACT)));
+		for (AbstractMonster m : AbstractDungeon.getMonsters().monsters) {
+			if (!m.isDeadOrEscaped()) {
+				this.addToBot(new ApplyPowerAction(
+						m,
+						AbstractDungeon.player,
+						new StrengthPower(m, -this.passiveAmount),
+						-this.passiveAmount
+				));
+				
+				if (!m.hasPower(ArtifactPower.POWER_ID))
+					this.addToBot(new ApplyPowerAction(
+							m,
+							AbstractDungeon.player,
+							new GainStrengthPower(m, this.passiveAmount),
+							this.passiveAmount
+					));
+			}
 		}
-		
-		this.highlightPassiveValue();
 	}
-	
-	public void postSpawn() {
-		AbstractMonster m = AbstractDungeon.getRandomMonster();
-		
-		if (m != null)
-			this.addToTop(new DamageAction(m,
-					new DollDamageInfo(this.passiveAmount, ShanghaiDoll.class,
-							DollAmountType.DAMAGE, DollAmountTime.PASSIVE)));
-		
-		this.highlightActValue();
-	}
-	
-	// The logic of Strength is implemented in AbstractDoll.applyPowers().
 	
 	@Override
 	public void updateDescriptionImpl() {
@@ -85,7 +92,7 @@ public class ShanghaiDoll extends AbstractDoll {
 	
 	@Override
 	public AbstractDoll makeCopy() {
-		return new ShanghaiDoll();
+		return new FranceDoll();
 	}
 	
 	@Override

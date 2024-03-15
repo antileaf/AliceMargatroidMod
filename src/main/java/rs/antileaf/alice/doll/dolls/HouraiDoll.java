@@ -6,6 +6,7 @@ import com.megacrit.cardcrawl.localization.OrbStrings;
 import com.megacrit.cardcrawl.orbs.AbstractOrb;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
+import rs.antileaf.alice.utils.AliceMiscKit;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class HouraiDoll extends AbstractDoll {
@@ -22,7 +23,7 @@ public class HouraiDoll extends AbstractDoll {
 				MAX_HP,
 				-1,
 				-1,
-				AliceSpireKit.getOrbImgFilePath("dark"),
+				AliceSpireKit.getOrbImgFilePath("white"),
 				RenderTextMode.PASSIVE
 		);
 	}
@@ -52,8 +53,12 @@ public class HouraiDoll extends AbstractDoll {
 	
 	@Override
 	public void updateDescriptionImpl() {
-		this.passiveDescription = dollStrings.DESCRIPTION[0];
-		this.actDescription = dollStrings.DESCRIPTION[1];
+		this.passiveDescription = AliceMiscKit.join(
+				dollStrings.DESCRIPTION[0],
+				this.coloredPassiveAmount(),
+				dollStrings.DESCRIPTION[1]
+		);
+		this.actDescription = dollStrings.DESCRIPTION[2];
 	}
 	
 	@Override

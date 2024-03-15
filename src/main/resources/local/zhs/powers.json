@@ -1,0 +1,8 @@
+{
+  "DollAmbushPower": {
+    "NAME": "人偶伏兵",
+    "DESCRIPTIONS": [
+      "回收 一个 人偶时，使其 行动", "次。"
+    ]
+  }
+}

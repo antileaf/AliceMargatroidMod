@@ -87,6 +87,9 @@ public class AliceMagtroid extends CustomPlayer {
 		this.stateData.setMix("Hit", "Idle", 0.1F);
 		e.setTimeScale(1.0F);
 		 */
+		
+//		this.maxOrbs = 0;
+		
 		logger.info("init finish");
 	}
 	
@@ -134,7 +137,7 @@ public class AliceMagtroid extends CustomPlayer {
 				flavor,
 				STARTING_HP,
 				MAX_HP,
-				1,
+				0,
 				STARTING_GOLD,
 				HAND_SIZE,
 				this,

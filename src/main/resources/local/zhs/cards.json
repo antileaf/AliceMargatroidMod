@@ -1,4 +1,10 @@
 {
+  "AbstractAliceCard": {
+    "NAME": "(抽象类)",
+    "DESCRIPTION": "你为什么会看到这个？",
+    "EXTENDED_DESCRIPTION": ["我没有 #r人偶 。"]
+  },
+  
   "Strike_AliceMagtroid": {
     "NAME": "打击",
     "DESCRIPTION": "造成 !D! 点伤害。"
@@ -22,5 +28,43 @@
   "ProtectiveMagic": {
     "NAME": "防护魔法",
     "DESCRIPTION": "如果你的 格挡 不足 !B! 点，将其补至相应值。"
+  },
+  
+  "RainbowRay": {
+    "NAME": "七彩射线",
+    "DESCRIPTION": "造成 !D! 点伤害。 NL 从抽牌堆中 发现 并抽取一张攻击牌，使其在本回合内耗能减少 [E] 。",
+    "EXTENDED_DESCRIPTION": ["选择并抽取一张牌"]
+  },
+  
+  "EmeraldRay": {
+    "NAME": "翠绿射线",
+    "DESCRIPTION": "造成 !D! 点伤害，获得 [E] 。 NL 如果你在本回合内打出过 射线 牌，以随机敌人为目标再重复一次。"
+  },
+  
+  "MoonlightRay": {
+    "NAME": "月光射线",
+    "DESCRIPTION": "对所有敌人造成 !D! 点伤害，获得 !B! 点格挡。 NL 如果你在本回合内打出过 射线 牌，改为获得 暂时性生命 。"
+  },
+  
+  "KirisameMahouten": {
+    "NAME": "雾雨魔法店",
+    "DESCRIPTION": "发现 一瓶药水，将其加入战斗奖励中。 NL 消耗 。"
+  },
+  
+  "WarFlag": {
+    "NAME": "战旗",
+    "DESCRIPTION": "指令 ：使其他 人偶 获得等同于目标 人偶 一半的 格挡 。",
+    "UPGRADE_DESCRIPTION": "指令 ：目标 人偶 行动 一次，然后使其他 人偶 获得等同于目标 人偶 的 格挡 。"
+  },
+  
+  "DollAmbush": {
+    "NAME": "人偶伏兵",
+    "DESCRIPTION": "回收 一个 人偶 时，使其 行动 一次。",
+    "UPGRADE_DESCRIPTION": "固有 。 NL 回收 一个 人偶 时，使其 行动 一次。"
+  },
+  
+  "MarisasPotion": {
+    "NAME": "魔理沙的药水",
+    "DESCRIPTION": "战斗结束后，获得一瓶对应的药水。"
   }
 }

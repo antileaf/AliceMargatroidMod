@@ -11,6 +11,7 @@ import com.megacrit.cardcrawl.cards.CardGroup;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 
 public class AliceExhaustSpecificCardAction extends AbstractGameAction {
+    private static final float DURATION = 0.1F;
     private final AbstractCard targetCard;
     private CardGroup group;
 
@@ -18,10 +19,13 @@ public class AliceExhaustSpecificCardAction extends AbstractGameAction {
         this.targetCard = targetCard;
         this.actionType = ActionType.EXHAUST;
         this.group = group;
+        this.duration = DURATION;
     }
 
     public void update() {
-        if (!this.isDone) {
+        this.tickDuration();
+        
+        if (this.isDone) {
             if (this.group == null || !this.group.group.contains(this.targetCard)) {
                 this.group = new CardGroup(CardGroup.CardGroupType.UNSPECIFIED);
                 this.group.group.add(this.targetCard);
@@ -31,8 +35,6 @@ public class AliceExhaustSpecificCardAction extends AbstractGameAction {
             CardCrawlGame.dungeon.checkForPactAchievement();
             this.targetCard.exhaustOnUseOnce = false;
             this.targetCard.freeToPlayOnce = false;
-
-            this.isDone = true;
         }
     }
 }

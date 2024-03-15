@@ -3,11 +3,17 @@ package rs.antileaf.alice.doll;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.megacrit.cardcrawl.actions.utility.WaitAction;
+import com.megacrit.cardcrawl.cards.blue.Recycle;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.UIStrings;
 import com.megacrit.cardcrawl.powers.AbstractPower;
+import rs.antileaf.alice.action.doll.MoveDollAction;
+import rs.antileaf.alice.action.doll.RecycleDollAction;
+import rs.antileaf.alice.action.doll.SpawnDollInternalAction;
+import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.characters.AliceMagtroid;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.doll.dolls.HouraiDoll;
@@ -47,7 +53,7 @@ public class DollManager {
 	private final AbstractPlayer owner;
 	private final ArrayList<AbstractDoll> dolls;
 	
-	private Formation formation;
+//	private Formation formation;
 	
 	private int preservedBlock = 0;
 	
@@ -67,7 +73,7 @@ public class DollManager {
 		for (int i = 0; i < MAX_DOLL_SLOTS; i++)
 			this.dolls.add(new EmptyDollSlot());
 		
-		this.formation = Formation.NORMAL;
+//		this.formation = Formation.NORMAL;
 		
 		AliceSpireKit.log(this.getClass(), "DollManager.initPreBattle done");
 		this.debug();
@@ -153,35 +159,49 @@ public class DollManager {
 					index = i;
 					break;
 				}
-			
-			AliceSpireKit.log(this.getClass(), "index = " + index);
-			
-			if (index == -1) {
-				this.recycleDoll(this.dolls.get(0));
-				for (int i = 0; i < MAX_DOLL_SLOTS - 1; i++)
-					this.dolls.set(i, this.dolls.get(i + 1));
-				index = MAX_DOLL_SLOTS - 1;
-			}
+		}
+		
+		AliceSpireKit.log(this.getClass(), "index = " + index);
+		
+		if (index == -1) {
+			AliceSpireKit.addActionToBuffer(new RecycleDollAction(this.dolls.get(MAX_DOLL_SLOTS - 1)));
+			AliceSpireKit.addActionToBuffer(new AnonymousAction(() -> {
+				AbstractDoll left = this.dolls.get(MAX_DOLL_SLOTS - 1);
+				if (!(left instanceof EmptyDollSlot))
+					AliceSpireKit.addActionsToTop(new RecycleDollAction(left));
+			}));
+			AliceSpireKit.addActionToBuffer(new MoveDollAction(this.dolls.get(0), 0));
+			for (int i = MAX_DOLL_SLOTS - 1; i > 0; i--)
+				this.dolls.set(i, this.dolls.get(i - 1));
+			index = 0;
 		}
 		
 		assert index >= 0 && index < MAX_DOLL_SLOTS;
-		if (!(this.dolls.get(index) instanceof EmptyDollSlot))
-			this.recycleDoll(this.dolls.get(index));
 		
-		this.spawnDollInternal(doll, index);
+		AliceSpireKit.addActionToBuffer(new SpawnDollInternalAction(doll, index));
+		AliceSpireKit.commitBuffer();
 	}
 	
-	private void spawnDollInternal(AbstractDoll doll, int index) {
+	public void spawnDollInternal(AbstractDoll doll, int index) {
 		assert index >= 0 && index < MAX_DOLL_SLOTS && this.dolls.get(index) instanceof EmptyDollSlot;
 		
 		doll.showHealthBar();
 		
 		this.dolls.set(index, doll);
+		doll.applyPower();
 		doll.postSpawn();
+		
+		this.applyPowers();
 		
 		for (AbstractPower power : this.owner.powers)
 			if (power instanceof OnDollOperatePower)
 				((OnDollOperatePower) power).onSpawnDoll(doll);
+		
+		for (AbstractDoll other : this.dolls)
+			if (other != doll)
+				other.postOtherDollSpawn(doll);
+		
+		this.update();
 	}
 	
 	public void dollAct(AbstractDoll doll) {
@@ -195,41 +215,79 @@ public class DollManager {
 				}
 		}
 		
+		doll.applyPower();
+		
 		if (!(doll instanceof HouraiDoll))
 			doll.onAct();
 		else
 			AliceSpireKit.log(this.getClass(), "There is no doll to act.");
 		
+		this.applyPowers();
+		
 		for (AbstractPower power : this.owner.powers)
 			if (power instanceof OnDollOperatePower)
 				((OnDollOperatePower) power).onDollAct(doll);
+		
+		for (AbstractDoll other : this.dolls)
+			if (other != doll)
+				other.postOtherDollAct(doll);
+		
+		this.update();
 	}
 	
 	public void recycleDoll(AbstractDoll doll) {
 		assert this.dolls.contains(doll);
 		
+		doll.applyPower();
+		
 		doll.onRecycle();
+		doll.onRemoved();
 		this.dolls.set(this.dolls.indexOf(doll), new EmptyDollSlot());
+		
+		this.applyPowers();
 		
 		for (AbstractPower power : this.owner.powers)
 			if (power instanceof OnDollOperatePower)
 				((OnDollOperatePower) power).onRecycleDoll(doll);
+		
+		for (AbstractDoll other : this.dolls)
+			if (other != doll) {
+				other.postOtherDollRecycle(doll);
+				other.postOtherDollRemoved(doll);
+			}
+		
+		this.update();
 	}
 	
 	public void destroyDoll(AbstractDoll doll) {
 		assert this.dolls.contains(doll);
 		
+		doll.applyPower();
+		
 		doll.onDestroyed();
+		doll.onRemoved();
 		this.dolls.set(this.dolls.indexOf(doll), new EmptyDollSlot());
+		
+		this.applyPowers();
 		
 		for (AbstractPower power : this.owner.powers)
 			if (power instanceof OnDollOperatePower)
 				((OnDollOperatePower) power).onDestroyDoll(doll);
+		
+		for (AbstractDoll other : this.dolls)
+			if (other != doll) {
+				other.postOtherDollDestroyed(doll);
+				other.postOtherDollRemoved(doll);
+			}
+		
+		this.update();
 	}
 	
 	public void moveDoll(AbstractDoll doll, int index) {
 		assert this.dolls.contains(doll);
 		assert index >= 0 && index < MAX_DOLL_SLOTS;
+		
+		doll.applyPower();
 		
 		int cur = this.dolls.indexOf(doll);
 		if (cur < index) {
@@ -241,6 +299,10 @@ public class DollManager {
 				this.dolls.set(i, this.dolls.get(i - 1));
 			this.dolls.set(index, doll);
 		}
+		
+		this.applyPowers();
+		
+		this.update();
 	}
 	
 	public void dollTakesDamage(AbstractDoll doll, int amount) {
@@ -258,6 +320,14 @@ public class DollManager {
 		return this.dolls.contains(doll);
 	}
 	
+	public boolean hasDoll() {
+		return this.dolls.stream().anyMatch(doll -> !(doll instanceof EmptyDollSlot));
+	}
+	
+	public boolean hasEmptySlot() {
+		return this.dolls.stream().anyMatch(doll -> doll instanceof EmptyDollSlot);
+	}
+	
 	public AbstractDoll getHoveredDoll() {
 		for (AbstractDoll doll : this.dolls) {
 			doll.hb.update();
@@ -272,16 +342,15 @@ public class DollManager {
 		return (int) this.dolls.stream().filter(doll -> doll instanceof HouraiDoll).count();
 	}
 	
-	public Formation getFormation() {
-		return this.formation;
-	}
-	
-	public enum Formation {
-		NORMAL, ATTACK, DEFENSIVE
-	}
+//	public Formation getFormation() {
+//		return this.formation;
+//	}
+//
+//	public enum Formation {
+//		NORMAL, ATTACK, DEFENSIVE
+//	}
 	
 	public Vector2 calcDollPosition(int index) {
-		// TODO: Calculate differently for different formations
 		float dist = 210.0F * Settings.scale;
 		float degree = 90 + 35 * (index - 3); // 0 on the right
 		

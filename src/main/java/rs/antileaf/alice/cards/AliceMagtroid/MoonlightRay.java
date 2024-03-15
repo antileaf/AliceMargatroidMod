@@ -1,32 +1,40 @@
 package rs.antileaf.alice.cards.AliceMagtroid;
 
+import basemod.BaseMod;
+import com.evacipated.cardcrawl.mod.stslib.actions.tempHp.AddTemporaryHPAction;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
+import com.megacrit.cardcrawl.actions.GameActionManager;
+import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.actions.common.DamageAllEnemiesAction;
+import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import rs.antileaf.alice.action.doll.DollActAction;
-import rs.antileaf.alice.action.doll.MoveDollAction;
+import rs.antileaf.alice.action.common.AliceDiscoverAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
-import rs.antileaf.alice.doll.AbstractDoll;
-import rs.antileaf.alice.doll.targeting.DollOrNoneTargeting;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
-import rs.antileaf.alice.patches.enums.CardTargetEnum;
+import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
-public class LittleLegion extends AbstractAliceCard {
-	public static final String SIMPLE_NAME = LittleLegion.class.getSimpleName();
+import java.util.ArrayList;
+
+public class MoonlightRay extends AbstractAliceCard {
+	public static final String SIMPLE_NAME = MoonlightRay.class.getSimpleName();
 //	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
 	public static final String ID = SIMPLE_NAME;
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
-	private static final int DAMAGE = 6;
-	private static final int UPGRADE_PLUS_DMG = 3;
+	private static final int DAMAGE = 5;
+	private static final int BLOCK = 5;
+	private static final int UPGRADE_PLUS_DMG = 2;
+	private static final int UPGRADE_PLUS_BLOCK = 2;
 	
-	public LittleLegion() {
+	public MoonlightRay() {
 		super(
 				ID,
 				cardStrings.NAME,
@@ -36,30 +44,37 @@ public class LittleLegion extends AbstractAliceCard {
 				CardType.ATTACK,
 				AbstractCardEnum.ALICE_MAGTROID_COLOR,
 				CardRarity.COMMON,
-				CardTargetEnum.DOLL_OR_NONE
+				CardTarget.ALL_ENEMY
 		);
 		
 		this.damage = this.baseDamage = DAMAGE;
 		this.isMultiDamage = true;
+		this.block = this.baseBlock = BLOCK;
+		this.tags.add(CardTagEnum.RAY);
+	}
+	
+	public void triggerOnGlowCheck() {
+		if (AliceSpireKit.hasPlayedCardThisTurnWithTag(CardTagEnum.RAY, this))
+			this.glowColor = AbstractCard.GOLD_BORDER_GLOW_COLOR.cpy();
+		else
+			this.glowColor = AbstractCard.BLUE_BORDER_GLOW_COLOR.cpy();
 	}
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
-		AbstractDoll doll = DollOrNoneTargeting.getTarget(this);
-		
 		this.calculateCardDamage(null);
 		this.addToBot(new DamageAllEnemiesAction(p, this.multiDamage, this.damageTypeForTurn,
-				AbstractGameAction.AttackEffect.SLASH_HORIZONTAL));
+				AbstractGameAction.AttackEffect.BLUNT_LIGHT));
 		
-		if (doll != null) {
-			this.addToBot(new MoveDollAction(doll, 0));
-			this.addToBot(new DollActAction(doll));
-		}
+		if (AliceSpireKit.hasPlayedCardThisTurnWithTag(CardTagEnum.RAY, this))
+			this.addToBot(new AddTemporaryHPAction(p, p, this.block));
+		else
+			this.addToBot(new GainBlockAction(p, p, this.block));
 	}
 	
 	@Override
 	public AbstractCard makeCopy() {
-		return new LittleLegion();
+		return new MoonlightRay();
 	}
 	
 	@Override
@@ -67,6 +82,7 @@ public class LittleLegion extends AbstractAliceCard {
 		if (!this.upgraded) {
 			this.upgradeName();
 			this.upgradeDamage(UPGRADE_PLUS_DMG);
+			this.upgradeBlock(UPGRADE_PLUS_BLOCK);
 			this.initializeDescription();
 		}
 	}

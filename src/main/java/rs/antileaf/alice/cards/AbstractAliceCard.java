@@ -1,5 +1,7 @@
 package rs.antileaf.alice.cards;
 
+import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.localization.CardStrings;
 import rs.antileaf.alice.AliceMagtroidMod;
 import basemod.abstracts.CustomCard;
 import com.badlogic.gdx.graphics.Color;
@@ -10,12 +12,17 @@ import com.megacrit.cardcrawl.actions.common.DrawCardAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import rs.antileaf.alice.doll.DollManager;
+import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
+import rs.antileaf.alice.patches.enums.CardTargetEnum;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 import static rs.antileaf.alice.AliceMagtroidMod.ALICE_PUPPETEER_FLAVOR;
 
 public abstract class AbstractAliceCard extends CustomCard
 		implements SpawnModificationCard {
+	protected static final CardStrings cardStrings =
+			CardCrawlGame.languagePack.getCardStrings("AbstractAliceCard");
 	protected static final Color CYAN_COLOR = new Color(0f, 204f / 255f, 0f, 1f);
 
 	public boolean cantBePlayed = false;
@@ -37,7 +44,10 @@ public abstract class AbstractAliceCard extends CustomCard
 		super(
 				id,
 				name,
-				AliceSpireKit.getCardImgFilePath("Th123Cirno"),
+				img != null ? img :
+						(type == CardType.ATTACK ? AliceSpireKit.getCardImgFilePath("Attack") :
+								type == CardType.SKILL ? AliceSpireKit.getCardImgFilePath("Skill") :
+										AliceSpireKit.getCardImgFilePath("Power")),
 				cost,
 				rawDescription,
 				type,
@@ -64,7 +74,17 @@ public abstract class AbstractAliceCard extends CustomCard
 
 	@Override
 	 public boolean canUse(AbstractPlayer p, AbstractMonster m) {
-		return !this.cantBePlayed && super.canUse(p, m);
+		if (this.cantBePlayed || !super.canUse(p, m))
+			return false;
+		
+		if (this.target == CardTargetEnum.DOLL) {
+			if (!DollManager.get().hasDoll()) {
+				this.cantUseMessage = cardStrings.EXTENDED_DESCRIPTION[0];
+				return false;
+			}
+		}
+		
+		return true;
 	}
 
 	@Override
@@ -78,6 +98,8 @@ public abstract class AbstractAliceCard extends CustomCard
 
 		card.cantBePlayed = this.cantBePlayed;
 		card.isSupplement = this.isSupplement;
+		card.tempHP = this.tempHP;
+		card.baseTempHP = this.baseTempHP;
 
 		return card;
 	}

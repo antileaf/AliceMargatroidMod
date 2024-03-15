@@ -3,6 +3,7 @@ package rs.antileaf.alice.utils;
 import basemod.BaseMod;
 import com.badlogic.gdx.Gdx;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
+import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
@@ -13,7 +14,9 @@ import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
 import org.jetbrains.annotations.NotNull;
 import rs.antileaf.alice.AliceMagtroidMod;
 
+import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
 public abstract class AliceSpireKit {
 	public static String getModID() {
@@ -44,11 +47,23 @@ public abstract class AliceSpireKit {
 	}
 	
 	public static String getCardImgFilePath(String name) {
-		return AliceSpireKit.getImgFilePath("cards/AliceMagtroid", name);
+		return AliceSpireKit.getImgFilePath("cards", name);
+	}
+	
+	public static String getRelicImgFilePath(String name) {
+		return AliceSpireKit.getImgFilePath("relics", name);
+	}
+	
+	public static String getRelicOutlineImgFilePath(String name) {
+		return AliceSpireKit.getImgFilePath("relics/outline", name);
 	}
 	
 	public static String getOrbImgFilePath(String name) {
 		return AliceSpireKit.getImgFilePath("orbs", name);
+	}
+	
+	public static String getPowerImgFilePath(String name) {
+		return AliceSpireKit.getImgFilePath("powers", name);
 	}
 	
 	public static String getLocalizationFilePath(String name) {
@@ -78,6 +93,17 @@ public abstract class AliceSpireKit {
 	public static void addActionsToTop(AbstractGameAction... actions) {
 		for (AbstractGameAction action : AliceMiscKit.reversedArray(actions))
 			AliceSpireKit.addToTop(action);
+	}
+	
+	static ArrayList<AbstractGameAction> buffer = new ArrayList<>();
+	
+	public static void addActionToBuffer(AbstractGameAction action) {
+		buffer.add(action);
+	}
+	
+	public static void commitBuffer() {
+		addActionsToTop(buffer.toArray(new AbstractGameAction[0]));
+		buffer.clear();
 	}
 	
 	public static void addEffect(AbstractGameEffect effect) {
@@ -121,6 +147,23 @@ public abstract class AliceSpireKit {
 			}
 		}
 		return res;
+	}
+	
+	public static ArrayList<AbstractCard> cardsPlayedThisTurnWithTag(AbstractCard.CardTags tag) {
+		ArrayList<AbstractCard> res = new ArrayList<>();
+		for (AbstractCard c : AbstractDungeon.actionManager.cardsPlayedThisTurn) {
+			if (c.hasTag(tag))
+				res.add(c);
+		}
+		return res;
+	}
+	
+	public static boolean hasPlayedCardThisTurnWithTag(AbstractCard.CardTags tag, AbstractCard except) {
+		for (AbstractCard c : AbstractDungeon.actionManager.cardsPlayedThisTurn) {
+			if (c != except && c.hasTag(tag))
+				return true;
+		}
+		return false;
 	}
 	
 	public static String coloredNumber(int amount, int baseAmount) {
