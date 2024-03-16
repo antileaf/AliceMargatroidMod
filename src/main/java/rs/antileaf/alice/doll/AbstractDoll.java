@@ -3,15 +3,12 @@ package rs.antileaf.alice.doll;
 import basemod.abstracts.CustomOrb;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
-import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
-import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
@@ -19,19 +16,18 @@ import com.megacrit.cardcrawl.helpers.*;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 import com.megacrit.cardcrawl.vfx.combat.BlockedNumberEffect;
-import com.megacrit.cardcrawl.vfx.combat.BlockedWordEffect;
 import com.megacrit.cardcrawl.vfx.combat.HbBlockBrokenEffect;
 import org.jetbrains.annotations.Nullable;
 import rs.antileaf.alice.doll.dolls.*;
 import rs.antileaf.alice.doll.enums.DollAmountTime;
 import rs.antileaf.alice.doll.enums.DollAmountType;
-import rs.antileaf.alice.patches.enums.AbstractCardEnum;
-import rs.antileaf.alice.patches.enums.CardTargetEnum;
 import rs.antileaf.alice.powers.interfaces.PlayerDollAmountModPower;
+import rs.antileaf.alice.utils.AliceReflectKit;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 public abstract class AbstractDoll extends CustomOrb {
 	public static String[] CREATURE_TEXT = CardCrawlGame.languagePack.getUIString("AbstractCreature").TEXT;
@@ -61,6 +57,7 @@ public abstract class AbstractDoll extends CustomOrb {
 	protected DollAmountType actAmountType = DollAmountType.MAGIC;
 	
 	private int damageAboutToTake = 0;
+	private int damageCount = 0;
 	private float vfxTimer = 1.0F;
 	private float animX, animY;
 	private float animSpeed;
@@ -105,6 +102,8 @@ public abstract class AbstractDoll extends CustomOrb {
 	
 	public AbstractDoll(String ID, String name, int maxHP, int basePassiveAmount, int baseActAmount, String imgPath, RenderTextMode renderTextMode) {
 		super(ID, name, basePassiveAmount, -1, "", "", imgPath);
+		
+		this.hb = new Hitbox(120.0F * Settings.scale, 120.0F * Settings.scale);
 		
 		this.healthHb = new Hitbox(this.hb.width, 72.0F * Settings.scale);
 		this.targetHealthBarWidth = this.hb.width;
@@ -197,9 +196,9 @@ public abstract class AbstractDoll extends CustomOrb {
 		this.healthHb.move(this.hb.cX, this.hb.cY - this.hb.height / 2.0F - this.healthHb.height / 2.0F);
 		this.healthHb.update();
 		this.updateReticle();
-		if (this.hb.hovered) {
-			this.renderGenericTip();
-		}
+		
+		this.passiveFontScale = MathHelper.scaleLerpSnap(this.passiveFontScale, FONT_SCALE);
+		this.actFontScale = MathHelper.scaleLerpSnap(this.actFontScale, FONT_SCALE);
 		
 		AbstractPlayer player = AbstractDungeon.player;
 		this.cX = MathHelper.orbLerpSnap(this.cX, player.animX + this.tX);
@@ -266,15 +265,28 @@ public abstract class AbstractDoll extends CustomOrb {
 		int index = DollManager.get().getDolls().indexOf(this);
 		AbstractMonster monster = AliceSpireKit.getMonsterByIndex(index);
 		
-		if (monster == null)
+		if (monster == null) {
 			this.damageAboutToTake = 0;
+			this.damageCount = 0;
+		}
 		else if (monster.intent == AbstractMonster.Intent.ATTACK ||
 				monster.intent == AbstractMonster.Intent.ATTACK_BUFF ||
 				monster.intent == AbstractMonster.Intent.ATTACK_DEBUFF ||
-				monster.intent == AbstractMonster.Intent.ATTACK_DEFEND)
+				monster.intent == AbstractMonster.Intent.ATTACK_DEFEND) {
 			this.damageAboutToTake = monster.getIntentDmg();
-		else
+			try {
+				this.damageCount = (int) Objects.requireNonNull(AliceReflectKit
+								.getField(monster.getClass(), "intentMultiAmt")).get(monster);
+			}
+			catch (IllegalAccessException | NullPointerException e) {
+				AliceSpireKit.log(AbstractDoll.class, " updateDamageAboutToTake() Failed to get intentMultiAmt.");
+				this.damageCount = 1;
+			}
+		}
+		else {
 			this.damageAboutToTake = 0;
+			this.damageCount = 0;
+		}
 	}
 	
 	// Returns remaining damage.
@@ -481,6 +493,10 @@ public abstract class AbstractDoll extends CustomOrb {
 		this.renderHealth(sb);
 		
 		this.renderText(sb);
+		
+		if (this.hb.hovered) {
+			this.renderGenericTip();
+		}
 	}
 	
 	private Color getFontColor(boolean highlight) {
@@ -511,8 +527,8 @@ public abstract class AbstractDoll extends CustomOrb {
 	public void renderText(SpriteBatch sb) {
 		assert this.renderTextMode != null: "AbstractDoll.renderTextMode should not be null!";
 		
-		this.passiveFontScale = MathHelper.scaleLerpSnap(this.passiveFontScale, FONT_SCALE);
-		this.actFontScale = MathHelper.scaleLerpSnap(this.actFontScale, FONT_SCALE);
+//		this.passiveFontScale = MathHelper.scaleLerpSnap(this.passiveFontScale, FONT_SCALE);
+//		this.actFontScale = MathHelper.scaleLerpSnap(this.actFontScale, FONT_SCALE);
 		
 		if (this.renderTextMode == RenderTextMode.PASSIVE) {
 			this.renderPassiveValue(sb,
@@ -537,7 +553,7 @@ public abstract class AbstractDoll extends CustomOrb {
 		if (this.damageAboutToTake > 0) {
 			FontHelper.renderFontCentered(sb,
 					FontHelper.cardEnergyFont_L,
-					"" + this.damageAboutToTake,
+					this.damageAboutToTake + (this.damageCount > 1 ? "x" + this.damageCount : ""),
 					this.cX,
 					this.cY + this.bobEffect.y / 2.0F + NUM_Y_OFFSET + 40.0F * Settings.scale,
 					Color.RED,
@@ -842,32 +858,33 @@ public abstract class AbstractDoll extends CustomOrb {
 		AliceSpireKit.addToBot(action);
 	}
 	
-	public static AbstractDoll newInst(Class clazz) {
-		assert AbstractDoll.class.isAssignableFrom(clazz) : "clazz is not a subclass of Abstract";
+	public static AbstractDoll newInst(String clazz) {
+//		assert AbstractDoll.class.isAssignableFrom(clazz) : "clazz is not a subclass of Abstract";
+		assert clazz != null : "clazz is null";
 		
-		if (clazz == EmptyDollSlot.class) {
+		if (clazz.equals(EmptyDollSlot.ID)) {
 			AliceSpireKit.log(AbstractDoll.class, "Why newInst(EmptyDollSlot)?");
 			return new EmptyDollSlot();
 		}
-		else if (clazz == ShanghaiDoll.class) {
+		else if (clazz.equals(ShanghaiDoll.ID)) {
 			return new ShanghaiDoll();
 		}
-		else if (clazz == NetherlandsDoll.class) {
+		else if (clazz.equals(NetherlandsDoll.ID)) {
 			return new NetherlandsDoll();
 		}
-		else if (clazz == HouraiDoll.class) {
+		else if (clazz.equals(HouraiDoll.ID)) {
 			return new HouraiDoll();
 		}
-		else if (clazz == KyotoDoll.class) {
+		else if (clazz.equals(KyotoDoll.ID)) {
 			return new KyotoDoll();
 		}
-		else if (clazz == LondonDoll.class) {
+		else if (clazz.equals(LondonDoll.ID)) {
 			return new LondonDoll();
 		}
-		else if (clazz == FranceDoll.class) {
+		else if (clazz.equals(FranceDoll.ID)) {
 			return new FranceDoll();
 		}
-		else if (clazz == OrleansDoll.class) {
+		else if (clazz.equals(OrleansDoll.ID)) {
 			return new OrleansDoll();
 		}
 		else {
@@ -877,23 +894,23 @@ public abstract class AbstractDoll extends CustomOrb {
 	}
 	
 	@Nullable
-	public static AbstractDoll getRandomDollExcept(Class... exceptClasses) {
-		for (Class c : exceptClasses)
-			assert AbstractDoll.class.isAssignableFrom(c) : "exceptClasses contains a class that is not doll";
-		
-		Class<? extends AbstractDoll>[] fullClasses = new Class[] {
-				ShanghaiDoll.class,
-				NetherlandsDoll.class,
-				HouraiDoll.class,
-				KyotoDoll.class,
-				LondonDoll.class,
-				FranceDoll.class,
-				OrleansDoll.class
+	public static AbstractDoll getRandomDollExcept(String... exceptClasses) {
+		String[] fullClasses = new String[] {
+				ShanghaiDoll.ID,
+				NetherlandsDoll.ID,
+				HouraiDoll.ID,
+				KyotoDoll.ID,
+				LondonDoll.ID,
+				FranceDoll.ID,
+				OrleansDoll.ID
 		};
 		
-		Class[] remainingClasses = Arrays.stream(fullClasses)
+//		for (Class c : exceptClasses)
+//			assert AbstractDoll.class.isAssignableFrom(c) : "exceptClasses contains a class that is not doll";
+		
+		String[] remainingClasses = Arrays.stream(fullClasses)
 				.filter(c -> Arrays.stream(exceptClasses).noneMatch(ec -> ec.equals(c)))
-				.toArray(Class[]::new);
+				.toArray(String[]::new);
 		
 		if (remainingClasses.length == 0) {
 			AliceSpireKit.log(AbstractDoll.class, "No remaining classes to choose from.");

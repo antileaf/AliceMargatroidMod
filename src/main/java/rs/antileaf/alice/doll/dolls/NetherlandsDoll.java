@@ -43,48 +43,53 @@ public class NetherlandsDoll extends AbstractDoll {
 	
 	@Override
 	public void onAct() {
-		this.addToBot(new ApplyPowerAction(
+		AliceSpireKit.addActionToBuffer(new ApplyPowerAction(
 				AbstractDungeon.player,
 				AbstractDungeon.player,
 				new StrengthPower(AbstractDungeon.player, this.actAmount),
 				this.actAmount
 		));
-		this.addToBot(new ApplyPowerAction(
+		AliceSpireKit.addActionToBuffer(new ApplyPowerAction(
 				AbstractDungeon.player,
 				AbstractDungeon.player,
 				new DexterityPower(AbstractDungeon.player, this.actAmount),
 				this.actAmount
 		));
 		
-		this.addToBot(new ApplyPowerAction(
+		AliceSpireKit.addActionToBuffer(new ApplyPowerAction(
 				AbstractDungeon.player,
 				AbstractDungeon.player,
 				new LoseStrengthPower(AbstractDungeon.player, this.actAmount),
 				this.actAmount
 		));
-		this.addToBot(new ApplyPowerAction(
+		AliceSpireKit.addActionToBuffer(new ApplyPowerAction(
 				AbstractDungeon.player,
 				AbstractDungeon.player,
 				new LoseDexterityPower(AbstractDungeon.player, this.actAmount),
 				this.actAmount
 		));
+		
+		AliceSpireKit.commitBuffer();
+		this.highlightActValue();
 	}
 	
 	@Override
 	public void postSpawn() {
-		this.addToBot(new ApplyPowerAction(
-				AbstractDungeon.player,
-				AbstractDungeon.player,
-				new StrengthPower(AbstractDungeon.player, this.passiveAmount),
-				this.passiveAmount
-		));
+		this.addActionsToTop(new ApplyPowerAction(
+					AbstractDungeon.player,
+					AbstractDungeon.player,
+					new StrengthPower(AbstractDungeon.player, this.passiveAmount),
+					this.passiveAmount
+			),
+				new ApplyPowerAction(
+					AbstractDungeon.player,
+					AbstractDungeon.player,
+					new DexterityPower(AbstractDungeon.player, this.passiveAmount),
+					this.passiveAmount
+			)
+		);
 		
-		this.addToBot(new ApplyPowerAction(
-				AbstractDungeon.player,
-				AbstractDungeon.player,
-				new DexterityPower(AbstractDungeon.player, this.passiveAmount),
-				this.passiveAmount
-		));
+		this.highlightPassiveValue();
 	}
 	
 	@Override

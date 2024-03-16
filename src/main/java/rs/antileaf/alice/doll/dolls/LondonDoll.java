@@ -55,18 +55,16 @@ public class LondonDoll extends AbstractDoll {
 	
 	@Override
 	public void onAct() {
-		this.addToBot(new DollGainBlockAction(this, this.actAmount));
-		this.addToBot(new GainBlockAction(AbstractDungeon.player, this.actAmount));
+		this.addActionsToTop(new DollGainBlockAction(this, this.actAmount),
+				new GainBlockAction(AbstractDungeon.player, this.actAmount));
+		
+		this.highlightActValue();
 	}
 	
-	@Override
-	public void postSpawn() {
-		this.onStartOfTurn();
-	}
-	
-	@Override
-	public void onStartOfTurn() {
-		this.addToBot(new AnonymousAction(() -> {
+	private AnonymousAction getPassiveAction() {
+		return new AnonymousAction(() -> {
+			this.highlightPassiveValue();
+			
 			int[] damages = DamageInfo.createDamageMatrix(this.passiveAmount, true);
 			AliceSpireKit.log(this.getClass(), "LondonDoll passive damage: " +
 					Arrays.stream(damages).mapToObj(Integer::toString).reduce("", (a, b) -> a + ", " + b));
@@ -86,25 +84,38 @@ public class LondonDoll extends AbstractDoll {
 			));
 			
 			AliceSpireKit.addActionsToTop(actions.toArray(new AbstractGameAction[0]));
-		}));
+		});
+	}
+	
+	@Override
+	public void postSpawn() {
+		this.addToTop(this.getPassiveAction());
+	}
+	
+	@Override
+	public void onStartOfTurn() {
+		this.addToBot(this.getPassiveAction());
 	}
 	
 	@Override
 	public void onRemoved() {
-		int index = -1;
-		for (int i = DollManager.MAX_DOLL_SLOTS - 1; i >= 0; i--) {
-			AbstractDoll doll = DollManager.get().getDolls().get(i);
-			
-			if ((doll instanceof EmptyDollSlot) || doll == this) {
-				index = i;
-				break;
+		this.addToBot(new AnonymousAction(() -> {
+			int index = -1;
+			for (int i = DollManager.MAX_DOLL_SLOTS - 1; i >= 0; i--) {
+				AbstractDoll doll = DollManager.get().getDolls().get(i);
+				
+				if ((doll instanceof EmptyDollSlot) || doll == this) {
+					index = i;
+					break;
+				}
 			}
-		}
+			
+			if (index == -1)
+				AliceSpireKit.log(this.getClass(), "No empty doll slot found");
+			
+			this.addToTop(new SpawnDollAction(AbstractDoll.getRandomDollExcept(LondonDoll.ID), index));
+		}));
 		
-		if (index == -1)
-			AliceSpireKit.log(this.getClass(), "No empty doll slot found");
-		else
-			this.addToBot(new SpawnDollAction(AbstractDoll.getRandomDollExcept(LondonDoll.class), index));
 	}
 	
 	@Override

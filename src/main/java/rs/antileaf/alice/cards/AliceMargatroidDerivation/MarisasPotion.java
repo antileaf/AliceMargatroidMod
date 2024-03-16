@@ -27,7 +27,7 @@ public class MarisasPotion extends AbstractAliceCard {
 				potion == null ? cardStrings.NAME : potion.name,
 				null,
 				COST,
-				cardStrings.DESCRIPTION,
+				potion == null ? cardStrings.DESCRIPTION : potion.description,
 				CardType.SKILL,
 				AbstractCardEnum.ALICE_MARGATROID_DERIVATION_COLOR,
 				CardRarity.SPECIAL,
@@ -36,6 +36,7 @@ public class MarisasPotion extends AbstractAliceCard {
 		
 		this.potion = potion;
 		this.exhaust = true; // This card should not be gettable in any way.
+//		this.initializeDescription();
 	}
 	
 	public MarisasPotion() {

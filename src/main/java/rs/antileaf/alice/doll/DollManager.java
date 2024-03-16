@@ -168,11 +168,13 @@ public class DollManager {
 			AliceSpireKit.addActionToBuffer(new AnonymousAction(() -> {
 				AbstractDoll left = this.dolls.get(MAX_DOLL_SLOTS - 1);
 				if (!(left instanceof EmptyDollSlot))
-					AliceSpireKit.addActionsToTop(new RecycleDollAction(left));
+					AliceSpireKit.addActionToBuffer(new RecycleDollAction(left));
+				
+				AliceSpireKit.addActionToBuffer(new MoveDollAction(this.dolls.get(MAX_DOLL_SLOTS - 1), 0));
+				AliceSpireKit.commitBuffer();
 			}));
-			AliceSpireKit.addActionToBuffer(new MoveDollAction(this.dolls.get(0), 0));
-			for (int i = MAX_DOLL_SLOTS - 1; i > 0; i--)
-				this.dolls.set(i, this.dolls.get(i - 1));
+//			for (int i = MAX_DOLL_SLOTS - 1; i > 0; i--)
+//				this.dolls.set(i, this.dolls.get(i - 1));
 			index = 0;
 		}
 		
@@ -290,26 +292,49 @@ public class DollManager {
 		doll.applyPower();
 		
 		int cur = this.dolls.indexOf(doll);
+		int p = index;
 		if (cur < index) {
-			for (int i = cur; i < index; i++)
+			p--;
+			while (p > cur) {
+				if (this.dolls.get(p) instanceof EmptyDollSlot)
+					break;
+				p--;
+			}
+				
+			for (int i = p; i < index; i++)
 				this.dolls.set(i, this.dolls.get(i + 1));
 			this.dolls.set(index, doll);
-		} else if (cur > index) {
-			for (int i = cur; i > index; i--)
+		}
+		else if (cur > index) {
+			p++;
+			while (p < cur) {
+				if (this.dolls.get(p) instanceof EmptyDollSlot)
+					break;
+				p++;
+			}
+			
+			for (int i = p; i > index; i--)
 				this.dolls.set(i, this.dolls.get(i - 1));
 			this.dolls.set(index, doll);
 		}
+		
+		if (p != cur)
+			this.dolls.set(cur, new EmptyDollSlot());
 		
 		this.applyPowers();
 		
 		this.update();
 	}
 	
-	public void dollTakesDamage(AbstractDoll doll, int amount) {
+	public boolean dollTakesDamage(AbstractDoll doll, int amount) {
 		assert this.dolls.contains(doll);
 		
-		if (doll.takeDamage(amount))
+		if (doll.takeDamage(amount)) {
 			this.destroyDoll(doll);
+			return true;
+		}
+		
+		return false;
 	}
 	
 	public ArrayList<AbstractDoll> getDolls() {
@@ -330,7 +355,7 @@ public class DollManager {
 	
 	public AbstractDoll getHoveredDoll() {
 		for (AbstractDoll doll : this.dolls) {
-			doll.hb.update();
+//			doll.hb.update();
 			if (doll.hb.hovered)
 				return doll;
 		}
@@ -351,8 +376,8 @@ public class DollManager {
 //	}
 	
 	public Vector2 calcDollPosition(int index) {
-		float dist = 210.0F * Settings.scale;
-		float degree = 90 + 35 * (index - 3); // 0 on the right
+		float dist = 225.0F * Settings.scale;
+		float degree = 90 + 40 * (index - 3); // 0 on the right
 		
 		float x = this.owner.drawX + dist * MathUtils.cosDeg(degree);
 		float y = this.owner.drawY + this.owner.hb.height / 2.0F + dist * MathUtils.sinDeg(degree);

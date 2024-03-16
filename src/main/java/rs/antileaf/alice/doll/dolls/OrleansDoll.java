@@ -2,6 +2,7 @@ package rs.antileaf.alice.doll.dolls;
 
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.actions.common.DrawCardAction;
+import com.megacrit.cardcrawl.actions.common.GainEnergyAction;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.OrbStrings;
@@ -38,6 +39,11 @@ public class OrleansDoll extends AbstractDoll {
 	@Override
 	public void onAct() {
 		this.addToBot(new DrawCardAction(1));
+	}
+	
+	@Override
+	public void onRecycle() {
+		this.addToTop(new GainEnergyAction(2));
 	}
 	
 	@Override

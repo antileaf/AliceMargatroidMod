@@ -4,5 +4,12 @@
     "DESCRIPTIONS": [
       "回收 一个 人偶时，使其 行动", "次。"
     ]
+  },
+  
+  "KirisameMahoutenPower": {
+    "NAME": "雾雨魔法店",
+    "DESCRIPTIONS": [
+      "战斗结束后，获得：", "、", "。"
+    ]
   }
 }

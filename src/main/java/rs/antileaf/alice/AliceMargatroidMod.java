@@ -8,6 +8,7 @@ import rs.antileaf.alice.characters.AliceMargatroid;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
+import rs.antileaf.alice.doll.dolls.FranceDoll;
 import rs.antileaf.alice.doll.targeting.DollOrEmptySlotTargeting;
 import rs.antileaf.alice.doll.targeting.DollOrEnemyTargeting;
 import rs.antileaf.alice.doll.targeting.DollOrNoneTargeting;
@@ -38,6 +39,7 @@ import rs.antileaf.alice.patches.enums.AliceMargatroidModClassEnum;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 @SuppressWarnings("Duplicates")
 @SpireInitializer
@@ -271,6 +273,7 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 	
 	@Override
 	public void receiveOnPlayerTurnStart() {
+		monstersDestroyedFranceDoll.clear();
 		DollManager.getInstance(AbstractDungeon.player).onStartOfTurn();
 	}
 	
@@ -279,9 +282,15 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		DollManager.get().update();
 	}
 	
+	HashSet<AbstractMonster> monstersDestroyedFranceDoll = new HashSet<>();
+	
 	public int receiveOnPlayerDamaged(int amount, DamageInfo damageInfo) {
-		if (!(damageInfo.owner instanceof AbstractMonster) || damageInfo.type != DamageInfo.DamageType.NORMAL)
+		if (!(damageInfo.owner instanceof AbstractMonster))
 			return amount;
+		
+		if (damageInfo.type != DamageInfo.DamageType.HP_LOSS &&
+				monstersDestroyedFranceDoll.contains((AbstractMonster) damageInfo.owner))
+			return 0;
 		
 		int index = AliceSpireKit.getMonsterIndex((AbstractMonster) damageInfo.owner);
 		if (index == -1) {
@@ -293,8 +302,17 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		if (doll instanceof EmptyDollSlot)
 			return amount;
 		
+		if (damageInfo.type != DamageInfo.DamageType.NORMAL) {
+			if (damageInfo.type == DamageInfo.DamageType.HP_LOSS ||
+					!(doll instanceof FranceDoll))
+				return amount;
+		}
+		
 		int remaining = doll.onPlayerDamaged(amount);
-		DollManager.get().dollTakesDamage(doll, amount - remaining);
+		boolean destroyed = DollManager.get().dollTakesDamage(doll, amount - remaining);
+		
+		if (destroyed && (doll instanceof FranceDoll))
+			monstersDestroyedFranceDoll.add((AbstractMonster) damageInfo.owner);
 		
 		return remaining;
 	}

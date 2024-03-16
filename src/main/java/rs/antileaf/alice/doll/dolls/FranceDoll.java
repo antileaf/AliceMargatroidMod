@@ -48,11 +48,11 @@ public class FranceDoll extends AbstractDoll {
 	
 	@Override
 	public void onAct() {
-		this.addToBot(new DollGainBlockAction(this, this.actAmount));
+		AliceSpireKit.addActionToBuffer(new DollGainBlockAction(this, this.actAmount));
 		
 		for (AbstractMonster m : AbstractDungeon.getMonsters().monsters) {
 			if (!m.isDeadOrEscaped()) {
-				this.addToBot(new ApplyPowerAction(
+				AliceSpireKit.addActionToBuffer(new ApplyPowerAction(
 						m,
 						AbstractDungeon.player,
 						new StrengthPower(m, -this.passiveAmount),
@@ -60,7 +60,7 @@ public class FranceDoll extends AbstractDoll {
 				));
 				
 				if (!m.hasPower(ArtifactPower.POWER_ID))
-					this.addToBot(new ApplyPowerAction(
+					AliceSpireKit.addActionToBuffer(new ApplyPowerAction(
 							m,
 							AbstractDungeon.player,
 							new GainStrengthPower(m, this.passiveAmount),
@@ -68,6 +68,11 @@ public class FranceDoll extends AbstractDoll {
 					));
 			}
 		}
+		
+		AliceSpireKit.commitBuffer();
+		
+		this.highlightPassiveValue();
+		this.highlightActValue();
 	}
 	
 	@Override
