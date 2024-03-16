@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
+import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -24,6 +25,8 @@ import org.jetbrains.annotations.Nullable;
 import rs.antileaf.alice.doll.dolls.*;
 import rs.antileaf.alice.doll.enums.DollAmountTime;
 import rs.antileaf.alice.doll.enums.DollAmountType;
+import rs.antileaf.alice.patches.enums.AbstractCardEnum;
+import rs.antileaf.alice.patches.enums.CardTargetEnum;
 import rs.antileaf.alice.powers.interfaces.PlayerDollAmountModPower;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
@@ -42,6 +45,8 @@ public abstract class AbstractDoll extends CustomOrb {
 	private static final float HEALTH_TEXT_OFFSET_Y = 6.0F * Settings.scale;
 	private static final float HEALTH_BG_OFFSET_X = 31.0F * Settings.scale;
 	private static final float FONT_SCALE = 0.7F;
+	
+	private static final float RETICLE_OFFSET_DIST = 15.0F * Settings.scale;
 	
 	public int actAmount = 0;
 	protected int baseActAmount = 0;
@@ -91,6 +96,13 @@ public abstract class AbstractDoll extends CustomOrb {
 	private float blockAnimTimer = 0.0F;
 	private float hbShowTimer = 0.0F;
 	
+	public float reticleAlpha;
+	private Color reticleColor;
+	private Color reticleShadowColor;
+	public boolean reticleRendered;
+	private float reticleOffset;
+	private float reticleAnimTimer;
+	
 	public AbstractDoll(String ID, String name, int maxHP, int basePassiveAmount, int baseActAmount, String imgPath, RenderTextMode renderTextMode) {
 		super(ID, name, basePassiveAmount, -1, "", "", imgPath);
 		
@@ -112,6 +124,13 @@ public abstract class AbstractDoll extends CustomOrb {
 		this.redHbBarColor = new Color(0.8F, 0.05F, 0.05F, 0.0F);
 		this.blueHbBarColor = Color.valueOf("31568c00");
 		this.hbTextColor = new Color(1.0F, 1.0F, 1.0F, 0.0F);
+		
+		this.reticleAlpha = 0.0F;
+		this.reticleColor = new Color(1.0F, 1.0F, 1.0F, 0.0F);
+		this.reticleShadowColor = new Color(0.0F, 0.0F, 0.0F, 0.0F);
+		this.reticleRendered = false;
+		this.reticleOffset = 0.0F;
+		this.reticleAnimTimer = 0.0F;
 		
 		this.updateDescription();
 		this.initPosition(AbstractDungeon.player.animX, AbstractDungeon.player.animY);
@@ -137,6 +156,32 @@ public abstract class AbstractDoll extends CustomOrb {
 		this.transAnim(new Vector2(x, y));
 	}
 	
+//	public boolean checkIsHoveredWhenHoverCard() {
+//		AbstractCard hoveredCard = AbstractDungeon.player.hoveredCard;
+//		if (hoveredCard == null)
+//			return false;
+//
+//		if (CardTargetEnum.isDollTarget(hoveredCard.target)) {
+//			if ((this instanceof EmptyDollSlot) && hoveredCard.target != CardTargetEnum.DOLL_OR_EMPTY_SLOT)
+//				return false;
+//
+//			return this == DollManager.get().getHoveredDoll();
+//		}
+//
+//		return false;
+//	}
+	
+	public void renderGenericTip() {
+		if (this.hb.hovered) {
+			TipHelper.renderGenericTip(
+					this.tX + 96.0F * Settings.scale,
+					this.tY + 64.0F * Settings.scale,
+					this.name,
+					this.description
+			);
+		}
+	}
+	
 	@Override
 	public void update() {
 		if (DollManager.get().contains(this)) {
@@ -151,13 +196,9 @@ public abstract class AbstractDoll extends CustomOrb {
 		this.hb.update();
 		this.healthHb.move(this.hb.cX, this.hb.cY - this.hb.height / 2.0F - this.healthHb.height / 2.0F);
 		this.healthHb.update();
+		this.updateReticle();
 		if (this.hb.hovered) {
-			TipHelper.renderGenericTip(
-					this.tX + 96.0F * Settings.scale,
-					this.tY + 64.0F * Settings.scale,
-					this.name,
-					this.description
-			);
+			this.renderGenericTip();
 		}
 		
 		AbstractPlayer player = AbstractDungeon.player;
@@ -707,7 +748,45 @@ public abstract class AbstractDoll extends CustomOrb {
 					this.hb.cX,
 					y + HEALTH_BAR_OFFSET_Y + HEALTH_TEXT_OFFSET_Y - 1.0F * Settings.scale, this.hbTextColor);
 		}
+	}
+	
+	public void renderReticle(SpriteBatch sb) {
+		this.reticleRendered = true;
+		this.renderReticleCorner(sb, -this.hb.width / 2.0F + this.reticleOffset, this.hb.height / 2.0F - this.reticleOffset, false, false);
+		this.renderReticleCorner(sb, this.hb.width / 2.0F - this.reticleOffset, this.hb.height / 2.0F - this.reticleOffset, true, false);
+		this.renderReticleCorner(sb, -this.hb.width / 2.0F + this.reticleOffset, -this.hb.height / 2.0F + this.reticleOffset, false, true);
+		this.renderReticleCorner(sb, this.hb.width / 2.0F - this.reticleOffset, -this.hb.height / 2.0F + this.reticleOffset, true, true);
+	}
+	
+	protected void updateReticle() {
+		if (this.reticleRendered) {
+			this.reticleRendered = false;
+			this.reticleAlpha += Gdx.graphics.getDeltaTime() * 3.0F;
+			if (this.reticleAlpha > 1.0F) {
+				this.reticleAlpha = 1.0F;
+			}
+			
+			this.reticleAnimTimer += Gdx.graphics.getDeltaTime();
+			if (this.reticleAnimTimer > 1.0F) {
+				this.reticleAnimTimer = 1.0F;
+			}
+			
+			this.reticleOffset = Interpolation.elasticOut.apply(RETICLE_OFFSET_DIST, 0.0F, this.reticleAnimTimer);
+		} else {
+			this.reticleAlpha = 0.0F;
+			this.reticleAnimTimer = 0.0F;
+			this.reticleOffset = RETICLE_OFFSET_DIST;
+		}
 		
+	}
+	
+	private void renderReticleCorner(SpriteBatch sb, float x, float y, boolean flipX, boolean flipY) {
+		this.reticleShadowColor.a = this.reticleAlpha / 4.0F;
+		sb.setColor(this.reticleShadowColor);
+		sb.draw(ImageMaster.RETICLE_CORNER, this.hb.cX + x - 18.0F + 4.0F * Settings.scale, this.hb.cY + y - 18.0F - 4.0F * Settings.scale, 18.0F, 18.0F, 36.0F, 36.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 36, 36, flipX, flipY);
+		this.reticleColor.a = this.reticleAlpha;
+		sb.setColor(this.reticleColor);
+		sb.draw(ImageMaster.RETICLE_CORNER, this.hb.cX + x - 18.0F, this.hb.cY + y - 18.0F, 18.0F, 18.0F, 36.0F, 36.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 36, 36, flipX, flipY);
 	}
 	
 	@Override

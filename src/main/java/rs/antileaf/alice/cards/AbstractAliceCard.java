@@ -2,7 +2,6 @@ package rs.antileaf.alice.cards;
 
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
-import rs.antileaf.alice.AliceMagtroidMod;
 import basemod.abstracts.CustomCard;
 import com.badlogic.gdx.graphics.Color;
 import com.evacipated.cardcrawl.mod.stslib.cards.interfaces.SpawnModificationCard;
@@ -13,11 +12,10 @@ import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.doll.DollManager;
-import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
-import static rs.antileaf.alice.AliceMagtroidMod.ALICE_PUPPETEER_FLAVOR;
+import static rs.antileaf.alice.AliceMargatroidMod.ALICE_PUPPETEER_FLAVOR;
 
 public abstract class AbstractAliceCard extends CustomCard
 		implements SpawnModificationCard {

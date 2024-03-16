@@ -14,7 +14,7 @@ import rs.antileaf.alice.action.doll.MoveDollAction;
 import rs.antileaf.alice.action.doll.RecycleDollAction;
 import rs.antileaf.alice.action.doll.SpawnDollInternalAction;
 import rs.antileaf.alice.action.utils.AnonymousAction;
-import rs.antileaf.alice.characters.AliceMagtroid;
+import rs.antileaf.alice.characters.AliceMargatroid;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.doll.dolls.HouraiDoll;
 import rs.antileaf.alice.doll.dolls.KyotoDoll;
@@ -67,7 +67,7 @@ public class DollManager {
 	}
 	
 	public void initPreBattle() {
-		this.shown = (this.owner instanceof AliceMagtroid);
+		this.shown = (this.owner instanceof AliceMargatroid);
 		
 		this.dolls.clear();
 		for (int i = 0; i < MAX_DOLL_SLOTS; i++)

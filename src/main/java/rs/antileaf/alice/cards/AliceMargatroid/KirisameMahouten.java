@@ -1,6 +1,5 @@
-package rs.antileaf.alice.cards.AliceMagtroid;
+package rs.antileaf.alice.cards.AliceMargatroid;
 
-import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.actions.watcher.ChooseOneAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
@@ -9,12 +8,10 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.potions.AbstractPotion;
-import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
-import rs.antileaf.alice.cards.AliceMagtroidDerivation.MarisasPotion;
+import rs.antileaf.alice.cards.AliceMargatroidDerivation.MarisasPotion;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class KirisameMahouten extends AbstractAliceCard {
@@ -35,7 +32,7 @@ public class KirisameMahouten extends AbstractAliceCard {
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.SKILL,
-				AbstractCardEnum.ALICE_MAGTROID_COLOR,
+				AbstractCardEnum.ALICE_MARGATROID_COLOR,
 				CardRarity.RARE,
 				CardTarget.NONE
 		);

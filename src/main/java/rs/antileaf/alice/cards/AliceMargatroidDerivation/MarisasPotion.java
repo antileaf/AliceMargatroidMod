@@ -1,4 +1,4 @@
-package rs.antileaf.alice.cards.AliceMagtroidDerivation;
+package rs.antileaf.alice.cards.AliceMargatroidDerivation;
 
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
@@ -29,7 +29,7 @@ public class MarisasPotion extends AbstractAliceCard {
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.SKILL,
-				AbstractCardEnum.ALICE_MAGTROID_DERIVATION_COLOR,
+				AbstractCardEnum.ALICE_MARGATROID_DERIVATION_COLOR,
 				CardRarity.SPECIAL,
 				CardTarget.NONE
 		);

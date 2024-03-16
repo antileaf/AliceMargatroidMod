@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>rs.antileaf</groupId>
-  <artifactId>AliceMagtroidMod</artifactId>
+  <artifactId>AliceMargatroidMod</artifactId>
   <version>1.0-SNAPSHOT</version>
 
   <properties>
@@ -17,7 +17,7 @@
     <basemod.version>5.22.0</basemod.version>
     <stslib.version>2.10.1</stslib.version>
     <LMK.version>1.3.1</LMK.version>
-    <AliceMagtroidMod.version>0.0.1</AliceMagtroidMod.version>
+    <AliceMargatroidMod.version>0.0.1</AliceMargatroidMod.version>
     <Steam.path>D:/steam/steamapps</Steam.path>
     <Spire.path>${Steam.path}/common/SlayTheSpire</Spire.path>
   </properties>
@@ -79,7 +79,7 @@
   </dependencies>
 
   <build>
-    <finalName>Alice Magtroid Mod</finalName>
+    <finalName>Alice Margatroid Mod</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -97,7 +97,7 @@
 <!--          <archive>-->
 <!--            <manifest>-->
 <!--              <addClasspath>false</addClasspath>-->
-<!--              <mainClass>AliceMagtroidMod</mainClass>&lt;!&ndash;指定主类的类名&ndash;&gt;-->
+<!--              <mainClass>AliceMargatroidMod</mainClass>&lt;!&ndash;指定主类的类名&ndash;&gt;-->
 <!--            </manifest>-->
 <!--          </archive>-->
 <!--        </configuration>-->

@@ -5,12 +5,12 @@
     "EXTENDED_DESCRIPTION": ["我没有 #r人偶 。"]
   },
   
-  "Strike_AliceMagtroid": {
+  "Strike_AliceMargatroid": {
     "NAME": "打击",
     "DESCRIPTION": "造成 !D! 点伤害。"
   },
   
-  "Defend_AliceMagtroid": {
+  "Defend_AliceMargatroid": {
     "NAME": "防御",
     "DESCRIPTION": "获得 !B! 点 格挡 。"
   },

@@ -1,4 +1,4 @@
-package rs.antileaf.alice.cards.AliceMagtroid;
+package rs.antileaf.alice.cards.AliceMargatroid;
 
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.DamageAllEnemiesAction;
@@ -14,7 +14,6 @@ import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.targeting.DollOrNoneTargeting;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
-import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class LittleLegion extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = LittleLegion.class.getSimpleName();
@@ -34,7 +33,7 @@ public class LittleLegion extends AbstractAliceCard {
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.ATTACK,
-				AbstractCardEnum.ALICE_MAGTROID_COLOR,
+				AbstractCardEnum.ALICE_MARGATROID_COLOR,
 				CardRarity.COMMON,
 				CardTargetEnum.DOLL_OR_NONE
 		);

@@ -6,9 +6,9 @@ import com.megacrit.cardcrawl.helpers.CardLibrary;
 public class LibraryTypeEnum {
 	
 	@SpireEnum
-	public static CardLibrary.LibraryType ALICE_MAGTROID_COLOR;
+	public static CardLibrary.LibraryType ALICE_MARGATROID_COLOR;
 	
 	@SpireEnum
-	public static CardLibrary.LibraryType ALICE_MAGTROID_DERIVATION_COLOR;
+	public static CardLibrary.LibraryType ALICE_MARGATROID_DERIVATION_COLOR;
 	
 }

@@ -1,11 +1,10 @@
 package rs.antileaf.alice.characters;
 
-import com.megacrit.cardcrawl.cards.blue.Strike_Blue;
-import rs.antileaf.alice.AliceMagtroidMod;
-import rs.antileaf.alice.cards.AliceMagtroid.*;
-import rs.antileaf.alice.cards.AliceMagtroid.Thread;
+import rs.antileaf.alice.AliceMargatroidMod;
+import rs.antileaf.alice.cards.AliceMargatroid.*;
+import rs.antileaf.alice.cards.AliceMargatroid.Thread;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
-import rs.antileaf.alice.patches.enums.AliceMagtroidModClassEnum;
+import rs.antileaf.alice.patches.enums.AliceMargatroidModClassEnum;
 import basemod.abstracts.CustomPlayer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -30,47 +29,47 @@ import rs.antileaf.alice.relics.AlicesGrimoire;
 
 import java.util.ArrayList;
 
-public class AliceMagtroid extends CustomPlayer {
+public class AliceMargatroid extends CustomPlayer {
 	
 	private static final int ENERGY_PER_TURN = 3; // how much energy you get every turn
-	private static final String ALICE_SHOULDER_2 = "img/char/AliceMagtroid/shoulder2.png"; // shoulder2 / shoulder_1
-	private static final String ALICE_SHOULDER_1 = "img/char/AliceMagtroid/shoulder1.png"; // shoulder1 / shoulder_2
-	private static final String ALICE_CORPSE = "img/char/AliceMagtroid/fallen.png"; // dead corpse
-	public static final Logger logger = LogManager.getLogger(AliceMagtroidMod.class.getName());
+	private static final String ALICE_SHOULDER_2 = "img/char/AliceMargatroid/shoulder2.png"; // shoulder2 / shoulder_1
+	private static final String ALICE_SHOULDER_1 = "img/char/AliceMargatroid/shoulder1.png"; // shoulder1 / shoulder_2
+	private static final String ALICE_CORPSE = "img/char/AliceMargatroid/fallen.png"; // dead corpse
+	public static final Logger logger = LogManager.getLogger(AliceMargatroidMod.class.getName());
 	//private static final float[] layerSpeeds = { 20.0F, 0.0F, -40.0F, 0.0F, 0.0F, 5.0F, 0.0F, -8.0F, 0.0F, 8.0F };
 //	private static final String ALICE_SKELETON_ATLAS = "img/char/Reiuji/MarisaModelv3.atlas";// Marisa_v0 / MarisaModel_v02 /MarisaModelv3
 //	private static final String ALICE_SKELETON_JSON = "img/char/Reiuji/MarisaModelv3.json";
 	private static final String ALICE_ANIMATION = "Idle";// Sprite / Idle
 	private static final String[] ORB_TEXTURES = {
-			"img/UI/AliceMagtroid/EPanel/layer5.png",
-			"img/UI/AliceMagtroid/EPanel/layer4.png",
-			"img/UI/AliceMagtroid/EPanel/layer3.png",
-			"img/UI/AliceMagtroid/EPanel/layer2.png",
-			"img/UI/AliceMagtroid/EPanel/layer1.png",
-			"img/UI/AliceMagtroid/EPanel/layer0.png",
-			"img/UI/AliceMagtroid/EPanel/layer5d.png",
-			"img/UI/AliceMagtroid/EPanel/layer4d.png",
-			"img/UI/AliceMagtroid/EPanel/layer3d.png",
-			"img/UI/AliceMagtroid/EPanel/layer2d.png",
-			"img/UI/AliceMagtroid/EPanel/layer1d.png"
+			"img/UI/AliceMargatroid/EPanel/layer5.png",
+			"img/UI/AliceMargatroid/EPanel/layer4.png",
+			"img/UI/AliceMargatroid/EPanel/layer3.png",
+			"img/UI/AliceMargatroid/EPanel/layer2.png",
+			"img/UI/AliceMargatroid/EPanel/layer1.png",
+			"img/UI/AliceMargatroid/EPanel/layer0.png",
+			"img/UI/AliceMargatroid/EPanel/layer5d.png",
+			"img/UI/AliceMargatroid/EPanel/layer4d.png",
+			"img/UI/AliceMargatroid/EPanel/layer3d.png",
+			"img/UI/AliceMargatroid/EPanel/layer2d.png",
+			"img/UI/AliceMargatroid/EPanel/layer1d.png"
 	};
-	private static final String ORB_VFX = "img/UI/AliceMagtroid/energyBlueVFX.png";
+	private static final String ORB_VFX = "img/UI/AliceMargatroid/energyBlueVFX.png";
 	private static final float[] LAYER_SPEED =
 			{-40.0F, -32.0F, 20.0F, -20.0F, 0.0F, -10.0F, -8.0F, 5.0F, -5.0F, 0.0F};
 	//public static final String SPRITER_ANIM_FILEPATH = "img/char/MyCharacter/marisa_test.scml"; // spriter animation scml
 	
-	public AliceMagtroid(String name) {
+	public AliceMargatroid(String name) {
 		//super(name, setClass, null, null , null ,new SpriterAnimation(SPRITER_ANIM_FILEPATH));
-		super(name, AliceMagtroidModClassEnum.ALICE_MAGTROID, ORB_TEXTURES, ORB_VFX, LAYER_SPEED, null, null);
+		super(name, AliceMargatroidModClassEnum.ALICE_MARGATROID, ORB_TEXTURES, ORB_VFX, LAYER_SPEED, null, null);
 		//super(name, setClass, null, null, (String) null, null);
 		
 		this.dialogX = (this.drawX + 0.0F * Settings.scale); // set location for text bubbles
 		this.dialogY = (this.drawY + 220.0F * Settings.scale); // you can just copy these values
 		
-		logger.info("init Alice Magtroid");
+		logger.info("init Alice Margatroid");
 		
 		this.initializeClass(
-				"img/char/AliceMagtroid/alice.png",
+				"img/char/AliceMargatroid/alice.png",
 				ALICE_SHOULDER_2, // required call to load textures and setup energy/loadout
 				ALICE_SHOULDER_1,
 				ALICE_CORPSE,
@@ -101,10 +100,10 @@ public class AliceMagtroid extends CustomPlayer {
 		ret.add(ProtectiveMagic.ID);
 		
 		for (int i = 0; i < 1; i++)
-			ret.add(Strike_AliceMagtroid.ID);
+			ret.add(Strike_AliceMargatroid.ID);
 		
 		for (int i = 0; i < 1; i++)
-			ret.add(Defend_AliceMagtroid.ID);
+			ret.add(Defend_AliceMargatroid.ID);
 		
 		return ret;
 	}
@@ -129,7 +128,7 @@ public class AliceMagtroid extends CustomPlayer {
 			title = "爱丽丝·玛格特罗伊德";
 			flavor = "居住在魔法之森的人偶使。拥有精细操控人偶的能力。";
 		} else {
-			title = "Alice Magtroid";
+			title = "Alice Margatroid";
 			flavor = "";
 		}
 		return new CharSelectInfo(
@@ -148,7 +147,7 @@ public class AliceMagtroid extends CustomPlayer {
 	}
 	
 	public AbstractCard.CardColor getCardColor() {
-		return AbstractCardEnum.ALICE_MAGTROID_COLOR;
+		return AbstractCardEnum.ALICE_MARGATROID_COLOR;
 	}
 	
 	public AbstractCard getStartCardForEvent() {
@@ -169,7 +168,7 @@ public class AliceMagtroid extends CustomPlayer {
 	}
 	
 	public Color getCardTrailColor() {
-		return AliceMagtroidMod.ALICE_PUPPETEER;
+		return AliceMargatroidMod.ALICE_PUPPETEER;
 	}
 	
 	public int getAscensionMaxHPLoss() {
@@ -181,7 +180,7 @@ public class AliceMagtroid extends CustomPlayer {
 	}
 	
 	public void doCharSelectScreenSelectEffect() {
-		CardCrawlGame.sound.playA("SELECT_ALICE_MAGTROID", MathUtils.random(-0.1F, 0.1F));
+		CardCrawlGame.sound.playA("SELECT_ALICE_Margatroid", MathUtils.random(-0.1F, 0.1F));
 		CardCrawlGame.screenShake.shake(
 				ScreenShake.ShakeIntensity.MED,
 				ScreenShake.ShakeDur.SHORT,
@@ -190,7 +189,7 @@ public class AliceMagtroid extends CustomPlayer {
 	}
 	
 	public String getCustomModeCharacterButtonSoundKey() {
-		return "SELECT_ALICE_MAGTROID";
+		return "SELECT_ALICE_Margatroid";
 	}
 	
 	public String getLocalizedCharacterName() {
@@ -201,13 +200,13 @@ public class AliceMagtroid extends CustomPlayer {
 		} else if (Settings.language == Settings.GameLanguage.JPN) {
 			char_name = "アリス・マーガトロイド";
 		} else {
-			char_name = "Alice Magtroid";
+			char_name = "Alice Margatroid";
 		}
 		return char_name;
 	}
 	
 	public AbstractPlayer newInstance() {
-		return new AliceMagtroid(this.name);
+		return new AliceMargatroid(this.name);
 	}
 	
 	public String getVampireText() { // TODO: Change here to change the vampire text
@@ -215,7 +214,7 @@ public class AliceMagtroid extends CustomPlayer {
 	}
 	
 	public Color getCardRenderColor() {
-		return AliceMagtroidMod.ALICE_PUPPETEER;
+		return AliceMargatroidMod.ALICE_PUPPETEER;
 	}
 	
 	@Override
@@ -224,11 +223,11 @@ public class AliceMagtroid extends CustomPlayer {
 	}
 	
 	public TextureAtlas.AtlasRegion getOrb() {
-		return new TextureAtlas.AtlasRegion(ImageMaster.loadImage(AliceMagtroidMod.CARD_ENERGY_ORB), 0, 0, 24, 24);
+		return new TextureAtlas.AtlasRegion(ImageMaster.loadImage(AliceMargatroidMod.CARD_ENERGY_ORB), 0, 0, 24, 24);
 	}
 	
 	public Color getSlashAttackColor() {
-		return AliceMagtroidMod.ALICE_PUPPETEER;
+		return AliceMargatroidMod.ALICE_PUPPETEER;
 	}
 	
 	public AttackEffect[] getSpireHeartSlashEffect() {

@@ -1,4 +1,4 @@
-package rs.antileaf.alice.cards.AliceMagtroid;
+package rs.antileaf.alice.cards.AliceMargatroid;
 
 import basemod.BaseMod;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
@@ -35,13 +35,13 @@ public class RainbowRay extends AbstractAliceCard {
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.ATTACK,
-				AbstractCardEnum.ALICE_MAGTROID_COLOR,
+				AbstractCardEnum.ALICE_MARGATROID_COLOR,
 				CardRarity.UNCOMMON,
 				CardTarget.ENEMY
 		);
 		
 		this.damage = this.baseDamage = DAMAGE;
-		this.tags.add(CardTagEnum.RAY);
+		this.tags.add(CardTagEnum.ALICE_RAY);
 	}
 	
 	@Override

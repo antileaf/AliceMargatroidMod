@@ -1,31 +1,27 @@
-package rs.antileaf.alice.cards.AliceMagtroid;
+package rs.antileaf.alice.cards.AliceMargatroid;
 
-import com.evacipated.cardcrawl.mod.stslib.actions.common.DamageCallbackAction;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
-import com.megacrit.cardcrawl.actions.common.DrawCardAction;
+import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import rs.antileaf.alice.action.doll.SpawnDollAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
-import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
-import rs.antileaf.alice.utils.AliceSpireKit;
 
-public class Thread extends AbstractAliceCard {
-	public static final String SIMPLE_NAME = Thread.class.getSimpleName();
+public class Strike_AliceMargatroid extends AbstractAliceCard {
+	public static final String SIMPLE_NAME = Strike_AliceMargatroid.class.getSimpleName();
 //	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
 	public static final String ID = SIMPLE_NAME;
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
-	private static final int UPGRADED_COST = 0;
-	private static final int DAMAGE = 3;
+	private static final int DAMAGE = 6;
+	private static final int UPGRADE_PLUS_DMG = 3;
 	
-	public Thread() {
+	public Strike_AliceMargatroid() {
 		super(
 				ID,
 				cardStrings.NAME,
@@ -33,37 +29,32 @@ public class Thread extends AbstractAliceCard {
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.ATTACK,
-				AbstractCardEnum.ALICE_MAGTROID_COLOR,
+				AbstractCardEnum.ALICE_MARGATROID_COLOR,
 				CardRarity.BASIC,
 				CardTarget.ENEMY
 		);
 		
 		this.damage = this.baseDamage = DAMAGE;
+		this.tags.add(CardTags.STARTER_STRIKE);
 	}
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
-		this.addToBot(new DamageCallbackAction(m, new DamageInfo(p, this.damage, this.damageTypeForTurn),
-				AbstractGameAction.AttackEffect.SLASH_HORIZONTAL, (amount) -> {
-			AliceSpireKit.log(this.getClass(), "Thread damage callback " + amount);
-			
-			if (amount > 0) {
-				this.addActionsToTop(new DrawCardAction(1),
-						new SpawnDollAction(AbstractDoll.getRandomDoll(), -1));
-			}
-		}));
+		this.addToBot(new DamageAction(m,
+				new DamageInfo(p, this.damage, this.damageTypeForTurn),
+				AbstractGameAction.AttackEffect.BLUNT_LIGHT));
 	}
 	
 	@Override
 	public AbstractCard makeCopy() {
-		return new Thread();
+		return new Strike_AliceMargatroid();
 	}
 	
 	@Override
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
-			this.upgradeBaseCost(UPGRADED_COST);
+			this.upgradeDamage(UPGRADE_PLUS_DMG);
 			this.initializeDescription();
 		}
 	}

@@ -6,5 +6,5 @@ import com.megacrit.cardcrawl.powers.AbstractPower;
 public class AbstractPowerEnum {
 
   @SpireEnum
-  public static AbstractPower.PowerType ALICE_MAGTROID_SPECIAL;
+  public static AbstractPower.PowerType ALICE_MARGATROID_SPECIAL;
 }

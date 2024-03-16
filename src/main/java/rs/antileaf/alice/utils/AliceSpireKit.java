@@ -5,22 +5,20 @@ import com.badlogic.gdx.Gdx;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
-import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.localization.UIStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
 import org.jetbrains.annotations.NotNull;
-import rs.antileaf.alice.AliceMagtroidMod;
+import rs.antileaf.alice.AliceMargatroidMod;
 
-import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public abstract class AliceSpireKit {
 	public static String getModID() {
-		return AliceMagtroidMod.SIMPLE_NAME;
+		return AliceMargatroidMod.SIMPLE_NAME;
 	}
 	
 	public static String getModPrefix() {
@@ -175,10 +173,10 @@ public abstract class AliceSpireKit {
 	}
 	
 	public static void log(String what) {
-		AliceMagtroidMod.logger.info(what);
+		AliceMargatroidMod.logger.info(what);
 	}
 	
 	public static void log(Object who, Object what) {
-		AliceMagtroidMod.logger.info(who.getClass().getSimpleName() + " : " + what);
+		AliceMargatroidMod.logger.info(who.getClass().getSimpleName() + " : " + what);
 	}
 }

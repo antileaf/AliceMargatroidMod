@@ -6,10 +6,13 @@ import com.evacipated.cardcrawl.modthespire.lib.SpireEnum;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatches;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePostfixPatch;
+import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.*;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
+import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
+import rs.antileaf.alice.patches.enums.CardTargetEnum;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class DollMechanicsPatch {
@@ -95,6 +98,25 @@ public class DollMechanicsPatch {
 				AliceSpireKit.log("Hide health bar!");
 				for (AbstractDoll doll : DollManager.getInstance((AbstractPlayer) _inst).getDolls()) {
 					doll.hideHealthBar();
+				}
+			}
+		}
+	}
+	
+	@SpirePatch(clz = AbstractPlayer.class, method = "renderHoverReticle")
+	public static class RenderHoverReticleOfDollsPatch {
+		@SpirePostfixPatch
+		public static void Postfix(AbstractPlayer _inst, SpriteBatch sb) {
+			AbstractCard hoveredCard = _inst.hoveredCard;
+			
+			if (CardTargetEnum.isDollTarget(hoveredCard.target)) {
+				AbstractDoll doll = DollManager.get().getHoveredDoll();
+				if (doll != null) {
+					if (!(hoveredCard.target != CardTargetEnum.DOLL_OR_EMPTY_SLOT && (doll instanceof EmptyDollSlot))) {
+						doll.renderReticle(sb);
+//						if (!doll.hb.hovered)
+//							doll.renderGenericTip();
+					}
 				}
 			}
 		}

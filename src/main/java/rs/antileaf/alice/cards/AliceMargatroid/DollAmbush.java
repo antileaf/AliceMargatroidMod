@@ -1,6 +1,6 @@
-package rs.antileaf.alice.cards.AliceMagtroid;
+package rs.antileaf.alice.cards.AliceMargatroid;
 
-import com.megacrit.cardcrawl.actions.common.GainBlockAction;
+import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -8,50 +8,46 @@ import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.powers.unique.DollAmbushPower;
 
-public class Defend_AliceMagtroid extends AbstractAliceCard {
-	public static final String SIMPLE_NAME = Defend_AliceMagtroid.class.getSimpleName();
+public class DollAmbush extends AbstractAliceCard {
+	public static final String SIMPLE_NAME = DollAmbush.class.getSimpleName();
 //	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
 	public static final String ID = SIMPLE_NAME;
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
-	private static final int BLOCK = 5;
-	private static final int UPGRADE_PLUS_BLOCK = 3;
 	
-	public Defend_AliceMagtroid() {
+	public DollAmbush() {
 		super(
 				ID,
 				cardStrings.NAME,
-				null, //AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				null, // AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
-				CardType.SKILL,
-				AbstractCardEnum.ALICE_MAGTROID_COLOR,
-				CardRarity.BASIC,
+				CardType.POWER,
+				AbstractCardEnum.ALICE_MARGATROID_COLOR,
+				CardRarity.COMMON,
 				CardTarget.SELF
 		);
-		
-		this.block = this.baseBlock = BLOCK;
-		this.tags.add(CardTags.STARTER_DEFEND);
 	}
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
-		this.addToBot(new GainBlockAction(p, this.block));
+		this.addToBot(new ApplyPowerAction(p, p, new DollAmbushPower(1), 1));
 	}
 	
 	@Override
 	public AbstractCard makeCopy() {
-		return new Defend_AliceMagtroid();
+		return new DollAmbush();
 	}
 	
 	@Override
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
-			this.upgradeBlock(UPGRADE_PLUS_BLOCK);
+			this.isInnate = true;
+			this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
 			this.initializeDescription();
 		}
 	}

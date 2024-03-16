@@ -1,10 +1,10 @@
 package rs.antileaf.alice;
 
 import com.evacipated.cardcrawl.mod.stslib.patches.CustomTargeting;
-import rs.antileaf.alice.cards.AliceMagtroid.*;
-import rs.antileaf.alice.cards.AliceMagtroid.Thread;
-import rs.antileaf.alice.cards.AliceMagtroidDerivation.MarisasPotion;
-import rs.antileaf.alice.characters.AliceMagtroid;
+import rs.antileaf.alice.cards.AliceMargatroid.*;
+import rs.antileaf.alice.cards.AliceMargatroid.Thread;
+import rs.antileaf.alice.cards.AliceMargatroidDerivation.MarisasPotion;
+import rs.antileaf.alice.characters.AliceMargatroid;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
@@ -34,16 +34,14 @@ import com.megacrit.cardcrawl.unlock.UnlockTracker;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
-import rs.antileaf.alice.patches.enums.AliceMagtroidModClassEnum;
+import rs.antileaf.alice.patches.enums.AliceMargatroidModClassEnum;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-import static rs.antileaf.alice.patches.enums.AbstractCardEnum.ALICE_MAGTROID_COLOR;
-
 @SuppressWarnings("Duplicates")
 @SpireInitializer
-public class AliceMagtroidMod implements PostExhaustSubscriber,
+public class AliceMargatroidMod implements PostExhaustSubscriber,
 		PostBattleSubscriber,
 		PostDungeonInitializeSubscriber,
 		EditCharactersSubscriber,
@@ -62,9 +60,9 @@ public class AliceMagtroidMod implements PostExhaustSubscriber,
 		OnPlayerTurnStartSubscriber,
 		PostPlayerUpdateSubscriber,
 		RenderSubscriber {
-	public static final String SIMPLE_NAME = AliceMagtroidMod.class.getSimpleName();
+	public static final String SIMPLE_NAME = AliceMargatroidMod.class.getSimpleName();
 	
-	public static final Logger logger = LogManager.getLogger(AliceMagtroidMod.class.getName());
+	public static final Logger logger = LogManager.getLogger(AliceMargatroidMod.class.getName());
 	
 //	private static final String MOD_BADGE = "img/UI/badge.png";
 	
@@ -89,19 +87,19 @@ public class AliceMagtroidMod implements PostExhaustSubscriber,
 	
 	public static final Color ALICE_PUPPETEER = CardHelper.getColor(0, 191, 255);
 	public static final Color ALICE_PUPPETEER_FLAVOR = CardHelper.getColor(204, 255, 255);
-	public static final String CARD_ENERGY_ORB = "img/UI/AliceMagtroid/energyOrb.png";
+	public static final String CARD_ENERGY_ORB = "img/UI/AliceMargatroid/energyOrb.png";
 	
-	private static final String CHARACTER_BUTTON = "img/charSelect/AliceMagtroid/Button.png";
-	private static final String ALICE_PORTRAIT = "img/charSelect/AliceMagtroid/Portrait.jpg";
+	private static final String CHARACTER_BUTTON = "img/charSelect/AliceMargatroid/Button.png";
+	private static final String ALICE_PORTRAIT = "img/charSelect/AliceMargatroid/Portrait.jpg";
 	
 	private final ArrayList<AbstractCard> cardsToAdd = new ArrayList<>();
 	//private ArrayList<AbstractRelic> relicsToAdd = new ArrayList<>();
 	
-	public AliceMagtroidMod() {
+	public AliceMargatroidMod() {
 		BaseMod.subscribe(this);
 		logger.info("creating the color : ALICE_COLOR and ALICE_DERIVATION_COLOR");
 		BaseMod.addColor(
-				ALICE_MAGTROID_COLOR,
+				AbstractCardEnum.ALICE_MARGATROID_COLOR,
 				ALICE_PUPPETEER,
 				ALICE_PUPPETEER,
 				ALICE_PUPPETEER,
@@ -120,7 +118,7 @@ public class AliceMagtroidMod implements PostExhaustSubscriber,
 				CARD_ENERGY_ORB
 		);
 		BaseMod.addColor(
-				AbstractCardEnum.ALICE_MAGTROID_DERIVATION_COLOR,
+				AbstractCardEnum.ALICE_MARGATROID_DERIVATION_COLOR,
 				ALICE_PUPPETEER,
 				ALICE_PUPPETEER,
 				ALICE_PUPPETEER,
@@ -143,12 +141,12 @@ public class AliceMagtroidMod implements PostExhaustSubscriber,
 	public void receiveEditCharacters() {
 		logger.info("begin editing characters");
 		
-		logger.info("add " + AliceMagtroidModClassEnum.ALICE_MAGTROID.toString());
+		logger.info("add " + AliceMargatroidModClassEnum.ALICE_MARGATROID.toString());
 		BaseMod.addCharacter(
-				new AliceMagtroid("Alice Magtroid"),
+				new AliceMargatroid("Alice Margatroid"),
 				CHARACTER_BUTTON,
 				ALICE_PORTRAIT,
-				AliceMagtroidModClassEnum.ALICE_MAGTROID
+				AliceMargatroidModClassEnum.ALICE_MARGATROID
 		);
 		logger.info("done editing characters");
 	}
@@ -157,7 +155,7 @@ public class AliceMagtroidMod implements PostExhaustSubscriber,
 		logger.info("Begin editing relics.");
 		BaseMod.addRelicToCustomPool(
 				new AlicesGrimoire(),
-				ALICE_MAGTROID_COLOR
+				AbstractCardEnum.ALICE_MARGATROID_COLOR
 		);
 		
 		logger.info("Relics editing finished.");
@@ -170,7 +168,7 @@ public class AliceMagtroidMod implements PostExhaustSubscriber,
 		
 		loadCardsToAdd();
 		
-		logger.info("adding cards for ALICE_MAGTROID");
+		logger.info("adding cards for ALICE_MARGATROID");
 		
 		for (AbstractCard card : cardsToAdd) {
 			logger.info("Adding card : " + card.name);
@@ -184,7 +182,7 @@ public class AliceMagtroidMod implements PostExhaustSubscriber,
 	
 	// 必须有这个函数才能初始化
 	public static void initialize() {
-		new AliceMagtroidMod();
+		new AliceMargatroidMod();
 	}
 	
 	private static String loadJson(String jsonPath) {
@@ -264,7 +262,7 @@ public class AliceMagtroidMod implements PostExhaustSubscriber,
 	
 	@Override
 	public void receivePostInitialize() {
-		logger.debug("AliceMagtroidMod.receivePostInitialize");
+		logger.debug("AliceMargatroidMod.receivePostInitialize");
 		CustomTargeting.registerCustomTargeting(CardTargetEnum.DOLL, new DollTargeting());
 		CustomTargeting.registerCustomTargeting(CardTargetEnum.DOLL_OR_EMPTY_SLOT, new DollOrEmptySlotTargeting());
 		CustomTargeting.registerCustomTargeting(CardTargetEnum.DOLL_OR_ENEMY, new DollOrEnemyTargeting());
@@ -287,7 +285,7 @@ public class AliceMagtroidMod implements PostExhaustSubscriber,
 		
 		int index = AliceSpireKit.getMonsterIndex((AbstractMonster) damageInfo.owner);
 		if (index == -1) {
-			AliceSpireKit.log("AliceMagtroidMod.receiveOnPlayerDamaged", "index == -1");
+			AliceSpireKit.log("AliceMargatroidMod.receiveOnPlayerDamaged", "index == -1");
 			return amount;
 		}
 		
@@ -316,8 +314,8 @@ public class AliceMagtroidMod implements PostExhaustSubscriber,
 	private void loadCardsToAdd() {
 		this.cardsToAdd.clear();
 		
-		this.cardsToAdd.add(new Strike_AliceMagtroid());
-		this.cardsToAdd.add(new Defend_AliceMagtroid());
+		this.cardsToAdd.add(new Strike_AliceMargatroid());
+		this.cardsToAdd.add(new Defend_AliceMargatroid());
 		this.cardsToAdd.add(new Thread());
 		
 		this.cardsToAdd.add(new LittleLegion());
