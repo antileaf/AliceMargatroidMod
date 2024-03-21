@@ -4,6 +4,7 @@ import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
+import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.patches.enums.ActionTypeEnum;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
@@ -21,6 +22,20 @@ public class SpawnDollAction extends AbstractGameAction {
 	
 	@Override
 	public void update() {
+		if (this.duration == DURATION) {
+			if (this.index != -1) {
+				AbstractDoll doll = DollManager.get().getDolls().get(index);
+				if (!(doll instanceof EmptyDollSlot)) {
+					AliceSpireKit.addActionsToTop(
+							new RecycleDollAction(doll),
+							new SpawnDollAction(this.doll, this.index)
+					);
+					this.isDone = true;
+					return;
+				}
+			}
+		}
+		
 		this.tickDuration();
 		
 		if (this.isDone) {

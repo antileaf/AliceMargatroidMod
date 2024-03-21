@@ -75,7 +75,7 @@ public class RainbowRay extends AbstractAliceCard {
 						card.setCostForTurn(card.costForTurn - 1);
 					}
 				},
-				cardStrings.EXTENDED_DESCRIPTION[0] + " " + this.bracketedName(),
+				cardStrings.EXTENDED_DESCRIPTION[0],
 				false
 		));
 	}

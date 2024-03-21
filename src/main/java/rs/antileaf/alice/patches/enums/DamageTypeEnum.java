@@ -6,6 +6,6 @@ import com.megacrit.cardcrawl.cards.DamageInfo;
 
 public class DamageTypeEnum {
 
-  @SpireEnum
-  public static DamageInfo.DamageType DOLL;
+//  @SpireEnum
+//  public static DamageInfo.DamageType DOLL;
 }

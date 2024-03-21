@@ -8,9 +8,12 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.potions.AbstractPotion;
+import rs.antileaf.alice.action.common.AliceDiscoverAction;
+import rs.antileaf.alice.action.unique.KirisameMahoutenAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.cards.AliceMargatroidDerivation.MarisasPotion;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
+import rs.antileaf.alice.utils.AliceSpireKit;
 
 import java.util.ArrayList;
 
@@ -39,6 +42,7 @@ public class KirisameMahouten extends AbstractAliceCard {
 		
 		this.magicNumber = this.baseMagicNumber = MAGIC;
 		this.exhaust = true;
+		this.tags.add(CardTags.HEALING);
 	}
 	
 	@Override
@@ -46,17 +50,40 @@ public class KirisameMahouten extends AbstractAliceCard {
 		ArrayList<AbstractPotion> potions = new ArrayList<>();
 		for (int i = 0; i < this.magicNumber; i++) {
 			AbstractPotion potion = AbstractDungeon.returnRandomPotion();
-			while (potions.contains(potion))
-				potion = AbstractDungeon.returnRandomPotion();
+			if (potions.stream().anyMatch(po -> potion.ID.equals(po.ID))) {
+				i--;
+				continue;
+			}
 			
 			potions.add(potion);
 		}
+		
+		AliceSpireKit.log("qwq");
 		
 		ArrayList<AbstractCard> choices = new ArrayList<>();
 		for (AbstractPotion potion : potions)
 			choices.add(new MarisasPotion(potion));
 		
-		this.addToBot(new ChooseOneAction(choices));
+//		this.addToBot(new ChooseOneAction(choices));
+		this.addToBot(new AliceDiscoverAction(
+				choices,
+				(c) -> {
+					if (c instanceof MarisasPotion) {
+						MarisasPotion marisasPotion = (MarisasPotion) c;
+						
+						if (marisasPotion.potion != null) {
+							AbstractDungeon.getCurrRoom().addPotionToRewards(marisasPotion.potion.makeCopy());
+							this.addToTop(new KirisameMahoutenAction(marisasPotion.potion.name));
+						}
+						else
+							AliceSpireKit.log("KirisameMahouten: Potion is null.");
+					}
+					else
+						AliceSpireKit.log("KirisameMahouten: Potion is not MarisasPotion.");
+				},
+				cardStrings.EXTENDED_DESCRIPTION[0],
+				false
+		));
 	}
 	
 	@Override

@@ -15,56 +15,193 @@
     "DESCRIPTION": "获得 !B! 点 格挡 。"
   },
   
-  "Thread": {
-    "NAME": "丝线",
-    "DESCRIPTION": "造成 !D! 点伤害。 NL 如果造成了未被 格挡 的伤害，则抽一张牌，并随机 生成 一个 人偶 。"
-  },
-  
   "LittleLegion": {
     "NAME": "小小军势",
-    "DESCRIPTION": "对所有敌人造成 !D! 点伤害。 NL 指令 ：目标 人偶 先前往最右侧，再 行动 。"
+    "DESCRIPTION": "对所有敌人造成 !D! 点伤害。 NL alicemargatroidmod:指令 ：目标 alicemargatroidmod:人偶 先前往最右侧，再 alicemargatroidmod:行动 。"
+  },
+  
+  "DollCrusader": {
+    "NAME": "人偶十字军",
+    "DESCRIPTION": "获得 !B! 点 格挡 。 NL alicemargatroidmod:可指向生成 一个随机 alicemargatroidmod:人偶 ，使其获得 !M! 点 格挡 。",
+    "UPGRADE_DESCRIPTION": "获得 !B! 点 格挡 。 NL alicemargatroidmod:可指向生成 一个你 alicemargatroidmod:发现 的 alicemargatroidmod:人偶 ，使其获得 !M! 点 格挡 。",
+    "EXTENDED_DESCRIPTION": ["选择一个人偶"]
+  },
+  
+  "Thread": {
+    "NAME": "丝线",
+    "DESCRIPTION": "造成 !D! 点伤害。 NL 如果造成了未被 格挡 的伤害，则抽一张牌，并 alicemargatroidmod:生成 一个随机 alicemargatroidmod:人偶 。"
   },
   
   "ProtectiveMagic": {
     "NAME": "防护魔法",
-    "DESCRIPTION": "如果你的 格挡 不足 !B! 点，将其补至相应值。"
+    "DESCRIPTION": "如果你的 格挡 不足 !B! 点，将其补至相应值。 NL alicemargatroidmod:指令 ：改为对目标 alicemargatroidmod:人偶 使用。"
+  },
+  
+  "Transfer": {
+    "NAME": "传递",
+    "DESCRIPTION": "alicemargatroidmod:指令 ：将所有其他 alicemargatroidmod:人偶 的 格挡 转移给目标 alicemargatroidmod:人偶 。 NL 抽一张牌。"
   },
   
   "RainbowRay": {
     "NAME": "七彩射线",
-    "DESCRIPTION": "造成 !D! 点伤害。 NL 从抽牌堆中 发现 并抽取一张攻击牌，使其在本回合内耗能减少 [E] 。",
+    "DESCRIPTION": "造成 !D! 点伤害。 NL 从抽牌堆中 alicemargatroidmod:发现 并抽取一张攻击牌，使其在本回合内耗能减少 [E] 。",
     "EXTENDED_DESCRIPTION": ["选择并抽取一张牌"]
   },
   
   "EmeraldRay": {
     "NAME": "翠绿射线",
-    "DESCRIPTION": "造成 !D! 点伤害，获得 [E] 。 NL 如果你在本回合内打出过 射线 牌，以随机敌人为目标再重复一次。"
+    "DESCRIPTION": "造成 !D! 点伤害，获得 [E] 。 NL 如果你在本回合内打出过 alicemargatroidmod:射线 牌，以随机敌人为目标再重复一次。"
   },
   
   "MoonlightRay": {
     "NAME": "月光射线",
-    "DESCRIPTION": "对所有敌人造成 !D! 点伤害，获得 !B! 点格挡。 NL 如果你在本回合内打出过 射线 牌，改为获得 暂时性生命 。"
+    "DESCRIPTION": "对所有敌人造成 !D! 点伤害，获得 !B! 点格挡。 NL 如果你在本回合内打出过 alicemargatroidmod:射线 牌，改为获得 临时生命 。"
   },
   
   "KirisameMahouten": {
     "NAME": "雾雨魔法店",
-    "DESCRIPTION": "发现 一瓶药水，将其加入战斗奖励中。 NL 消耗 。"
+    "DESCRIPTION": "alicemargatroidmod:发现 一瓶药水，将其加入战斗奖励中。 NL 消耗 。",
+    "EXTENDED_DESCRIPTION": ["选择一瓶药水"]
+  },
+  
+  "SurpriseSpring": {
+    "NAME": "惊喜之春",
+    "DESCRIPTION": "恢复 !M! 点生命。 NL 抽一张牌，将其 升级 。 NL 消耗 。"
   },
   
   "WarFlag": {
     "NAME": "战旗",
-    "DESCRIPTION": "指令 ：使其他 人偶 获得等同于目标 人偶 一半的 格挡 。",
-    "UPGRADE_DESCRIPTION": "指令 ：目标 人偶 行动 一次，然后使其他 人偶 获得等同于目标 人偶 的 格挡 。"
+    "DESCRIPTION": "alicemargatroidmod:指令 ：使其他 alicemargatroidmod:人偶 获得等同于目标 alicemargatroidmod:人偶 一半的 格挡 。",
+    "UPGRADE_DESCRIPTION": "alicemargatroidmod:指令 ：目标 alicemargatroidmod:人偶 alicemargatroidmod:行动 一次，然后使其他 alicemargatroidmod:人偶 获得等同于目标 alicemargatroidmod:人偶 的 格挡 。"
   },
   
   "DollAmbush": {
     "NAME": "人偶伏兵",
-    "DESCRIPTION": "回收 一个 人偶 时，使其 行动 一次。",
-    "UPGRADE_DESCRIPTION": "固有 。 NL 回收 一个 人偶 时，使其 行动 一次。"
+    "DESCRIPTION": "alicemargatroidmod:回收 一个 alicemargatroidmod:人偶 时，使其 alicemargatroidmod:行动 一次。",
+    "UPGRADE_DESCRIPTION": "固有 。 NL alicemargatroidmod:回收 一个 alicemargatroidmod:人偶 时，使其 alicemargatroidmod:行动 一次。"
   },
+  
+  "DollWar": {
+    "NAME": "人偶战争",
+    "DESCRIPTION": "每 alicemargatroidmod:生成 一个 alicemargatroidmod:人偶 ，使其获得 !M! 点 格挡 。"
+  },
+  
+  "SpiritualPower": {
+    "NAME": "精神力",
+    "DESCRIPTION": "每打出一张 alicemargatroidmod:指令 牌，对随机敌人造成 !M! 点伤害。"
+  },
+  
+  "FrostRay": {
+    "NAME": "冰冻射线",
+    "DESCRIPTION": "造成 !D! 点伤害。 NL 你的下一张具有 消耗 的攻击牌或技能牌在打出时不会被 消耗 ，而是进入弃牌堆。"
+  },
+  
+  "SunlightRay": {
+    "NAME": "日光射线",
+    "DESCRIPTION": "随机对敌人造成 !D! 点固定伤害 !M! 次。每造成一次未被格挡的伤害，获得 1 点 活力 。"
+  },
+  
+  "ArtfulSacrifice": {
+    "NAME": "狡猾的献祭",
+    "DESCRIPTION": "alicemargatroidmod:指令 ： alicemargatroidmod:回收 目标 alicemargatroidmod:人偶 ，对所有敌人造成 !D! 点伤害。 NL 虚无 。"
+  },
+  
+  "SevenColoredPuppeteer": {
+    "NAME": "七色的人偶使",
+    "DESCRIPTION": "对所有敌人造成 !D! 点伤害 !M! 次。 NL 如果你拥有七种不同的基础 alicemargatroidmod:人偶 各一个，这张牌的耗能变为 0 。",
+    "UPGRADE_DESCRIPTION": "保留 。 对所有敌人造成 !D! 点伤害 !M! 次。 NL 如果你拥有七种不同的基础 alicemargatroidmod:人偶 各一个，这张牌的耗能变为 0 。"
+  },
+  
+  "Collector": {
+    "NAME": "收集家",
+    "DESCRIPTION": "获得等同于你遗物数量的 格挡 。",
+    "UPGRADE_DESCRIPTION": "获得等同于你遗物数量 +3 的 格挡 。",
+    "EXTENDED_DESCRIPTION": [" NL (获得 !B! 点 格挡。)"]
+  },
+  
+  
+  "VivaciousShanghaiDoll": {
+    "NAME": "活泼的上海人偶",
+    "DESCRIPTION": "alicemargatroidmod:可指向生成 一个 alicemargatroidmod:上海人偶 。 NL 使其 alicemargatroidmod:行动 !M! 次。"
+  },
+  
+  "QuietHouraiDoll": {
+    "NAME": "文静的蓬莱人偶",
+    "DESCRIPTION": "alicemargatroidmod:可指向生成 一个 alicemargatroidmod:蓬莱人偶 。 NL 所有 alicemargatroidmod:人偶 alicemargatroidmod:行动 一次。 NL 消耗 。",
+    "UPGRADE_DESCRIPTION": "alicemargatroidmod:可指向生成 一个 alicemargatroidmod:蓬莱人偶 。 NL 所有 alicemargatroidmod:人偶 alicemargatroidmod:行动 一次。"
+  },
+  
+  "MistyLondonDoll": {
+    "NAME": "雾之伦敦人偶",
+    "DESCRIPTION": "alicemargatroidmod:可指向生成 一个 alicemargatroidmod:伦敦人偶 。 NL 所有 alicemargatroidmod:人偶 获得 !B! 点 格挡 。"
+  },
+  
+  "SpringKyotoDoll": {
+    "NAME": "春之京都人偶",
+    "DESCRIPTION": "alicemargatroidmod:可指向生成 一个 alicemargatroidmod:京都人偶 。 NL 获得 !B! 点 格挡 。"
+  },
+  
+  "RedHairedNetherlandsDoll": {
+    "NAME": "红发的荷兰人偶",
+    "DESCRIPTION": "alicemargatroidmod:生成 !M! 个 alicemargatroidmod:荷兰人偶 。 NL 所有 alicemargatroidmod:荷兰人偶 alicemargatroidmod:行动 一次。"
+  },
+  
+  "CharismaticOrleansDoll": {
+    "NAME": "魅力的奥尔良人偶",
+    "DESCRIPTION": "alicemargatroidmod:可指向生成 一个 alicemargatroidmod:奥尔良人偶 ，使其 alicemargatroidmod:行动 !M! 次。 NL 消耗 。",
+    "UPGRADE_DESCRIPTION": "alicemargatroidmod:可指向生成 一个 alicemargatroidmod:奥尔良人偶 ，使其 alicemargatroidmod:行动 !M! 次。"
+  },
+  
+  "CharitableFranceDoll": {
+    "NAME": "博爱的法兰西人偶",
+    "DESCRIPTION": "alicemargatroidmod:可指向生成 一个 alicemargatroidmod:法兰西人偶 ，使其 获得 !B! 点 格挡 。 NL 消耗 。",
+    "UPGRADE_DESCRIPTION": "alicemargatroidmod:可指向生成 一个 alicemargatroidmod:法兰西人偶 。 NL 所有 alicemargatroidmod:法兰西人偶 获得 !B! 点 格挡 。 NL 消耗 。"
+  },
+  
   
   "MarisasPotion": {
     "NAME": "魔理沙的药水",
     "DESCRIPTION": "战斗结束后，获得一瓶对应的药水。"
+  },
+  
+  "CreateShanghaiDoll": {
+    "NAME": "上海人偶",
+    "DESCRIPTION": "alicemargatroidmod:生成 一个 alicemargatroidmod:上海人偶 。"
+  },
+  
+  "CreateNetherlandsDoll": {
+    "NAME": "荷兰人偶",
+    "DESCRIPTION": "alicemargatroidmod:生成 一个 alicemargatroidmod:荷兰人偶 。"
+  },
+  
+  "CreateHouraiDoll": {
+      "NAME": "蓬莱人偶",
+      "DESCRIPTION": "alicemargatroidmod:生成 一个 alicemargatroidmod:蓬莱人偶 。"
+  },
+  
+  "CreateKyotoDoll": {
+      "NAME": "京都人偶",
+      "DESCRIPTION": "alicemargatroidmod:生成 一个 alicemargatroidmod:京都人偶 。"
+  },
+  
+  "CreateLondonDoll": {
+      "NAME": "伦敦人偶",
+      "DESCRIPTION": "alicemargatroidmod:生成 一个 alicemargatroidmod:伦敦人偶 。"
+  },
+  
+  "CreateFranceDoll": {
+      "NAME": "法兰西人偶",
+      "DESCRIPTION": "alicemargatroidmod:生成 一个 alicemargatroidmod:法兰西人偶 。"
+  },
+  
+  "CreateOrleansDoll": {
+      "NAME": "奥尔良人偶",
+      "DESCRIPTION": "alicemargatroidmod:生成 一个 alicemargatroidmod:奥尔良人偶 。"
+  },
+  
+  "DEPRECATEDSpringHasCome": {
+    "NAME": "春天来了",
+    "DESCRIPTION": "alicemargatroidmod:可指向生成 一个 alicemargatroidmod:莉莉人偶 。 NL 消耗 。",
+    "UPGRADE_DESCRIPTION": "恢复 !M! 点生命。 NL alicemargatroidmod:可指向生成 一个 alicemargatroidmod:莉莉人偶 。 NL 消耗 。"
   }
 }

@@ -10,9 +10,17 @@ import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class RecycleDollAction extends AbstractGameAction {
 	private final AbstractDoll doll;
+	private final AbstractDoll newDoll;
 	
 	public RecycleDollAction(AbstractDoll doll) {
 		this.doll = doll;
+		this.newDoll = null;
+		this.actionType = ActionTypeEnum.DOLL_OPERATE;
+	}
+	
+	public RecycleDollAction(AbstractDoll doll, AbstractDoll newDoll) {
+		this.doll = doll;
+		this.newDoll = newDoll;
 		this.actionType = ActionTypeEnum.DOLL_OPERATE;
 	}
 	
@@ -25,7 +33,7 @@ public class RecycleDollAction extends AbstractGameAction {
 					AliceSpireKit.addActionToBuffer(new DollActAction(doll));
 			}
 			
-			AliceSpireKit.addActionToBuffer(new RecycleDollInternalAction(doll));
+			AliceSpireKit.addActionToBuffer(new RecycleDollInternalAction(doll, newDoll));
 			AliceSpireKit.commitBuffer();
 			
 			this.isDone = true;

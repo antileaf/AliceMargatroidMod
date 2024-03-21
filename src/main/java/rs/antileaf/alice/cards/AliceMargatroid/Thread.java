@@ -22,8 +22,9 @@ public class Thread extends AbstractAliceCard {
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
-	private static final int UPGRADED_COST = 0;
-	private static final int DAMAGE = 3;
+//	private static final int UPGRADED_COST = 0;
+	private static final int DAMAGE = 5;
+	private static final int UPGRADE_PLUS_DAMAGE = 3;
 	
 	public Thread() {
 		super(
@@ -34,7 +35,7 @@ public class Thread extends AbstractAliceCard {
 				cardStrings.DESCRIPTION,
 				CardType.ATTACK,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
-				CardRarity.BASIC,
+				CardRarity.UNCOMMON,
 				CardTarget.ENEMY
 		);
 		
@@ -63,7 +64,8 @@ public class Thread extends AbstractAliceCard {
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
-			this.upgradeBaseCost(UPGRADED_COST);
+//			this.upgradeBaseCost(UPGRADED_COST);
+			this.upgradeDamage(UPGRADE_PLUS_DAMAGE);
 			this.initializeDescription();
 		}
 	}

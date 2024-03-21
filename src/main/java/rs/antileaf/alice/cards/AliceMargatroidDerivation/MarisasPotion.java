@@ -12,6 +12,8 @@ import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
+import static java.lang.Character.isUpperCase;
+
 public class MarisasPotion extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = MarisasPotion.class.getSimpleName();
 	public static final String ID = SIMPLE_NAME;
@@ -37,6 +39,23 @@ public class MarisasPotion extends AbstractAliceCard {
 		this.potion = potion;
 		this.exhaust = true; // This card should not be gettable in any way.
 //		this.initializeDescription();
+		
+		if (this.potion != null) {
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; i < this.potion.description.length(); i++) {
+				if (this.potion.description.charAt(i) == '#') {
+					i++;
+					continue;
+				} else if (Character.isUpperCase(this.potion.description.charAt(i))) {
+					sb.append(Character.toLowerCase(this.potion.description.charAt(i)));
+				}
+				else
+					sb.append(this.potion.description.charAt(i));
+			}
+			
+			this.rawDescription = sb.toString();
+			this.initializeDescription();
+		}
 	}
 	
 	public MarisasPotion() {
@@ -44,19 +63,7 @@ public class MarisasPotion extends AbstractAliceCard {
 	}
 	
 	@Override
-	public void onChoseThisOption() {
-		if (this.potion != null) {
-			AbstractDungeon.getCurrRoom().addPotionToRewards(this.potion.makeCopy());
-			this.addToTop(new KirisameMahoutenAction(this.potion.name));
-		}
-		else
-			AliceSpireKit.log("Marisa's Potion: Potion is null.");
-	}
-	
-	@Override
-	public void use(AbstractPlayer p, AbstractMonster m) {
-		this.onChoseThisOption();
-	}
+	public void use(AbstractPlayer p, AbstractMonster m) {}
 	
 	@Override
 	public AbstractCard makeCopy() {

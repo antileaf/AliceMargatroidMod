@@ -13,6 +13,7 @@ import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.targeting.DollOrNoneTargeting;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
+import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
 
 public class LittleLegion extends AbstractAliceCard {
@@ -22,7 +23,7 @@ public class LittleLegion extends AbstractAliceCard {
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
-	private static final int DAMAGE = 6;
+	private static final int DAMAGE = 5;
 	private static final int UPGRADE_PLUS_DMG = 3;
 	
 	public LittleLegion() {
@@ -34,12 +35,15 @@ public class LittleLegion extends AbstractAliceCard {
 				cardStrings.DESCRIPTION,
 				CardType.ATTACK,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
-				CardRarity.COMMON,
+				CardRarity.BASIC,
 				CardTargetEnum.DOLL_OR_NONE
 		);
 		
 		this.damage = this.baseDamage = DAMAGE;
 		this.isMultiDamage = true;
+		
+		this.tags.add(CardTagEnum.ALICE_COMMAND);
+		this.tags.add(CardTagEnum.ALICE_DOLL_ACT);
 	}
 	
 	@Override

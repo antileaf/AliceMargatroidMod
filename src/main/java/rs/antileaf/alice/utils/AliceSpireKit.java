@@ -9,6 +9,7 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.localization.UIStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
 import org.jetbrains.annotations.NotNull;
 import rs.antileaf.alice.AliceMargatroidMod;
@@ -106,6 +107,13 @@ public abstract class AliceSpireKit {
 	
 	public static void addEffect(AbstractGameEffect effect) {
 		AbstractDungeon.effectList.add(effect);
+	}
+	
+	public static boolean isInBattle() {
+		return CardCrawlGame.dungeon != null &&
+				AbstractDungeon.isPlayerInDungeon() &&
+				AbstractDungeon.currMapNode != null &&
+				AbstractDungeon.getCurrRoom().phase == AbstractRoom.RoomPhase.COMBAT;
 	}
 	
 	public static int getMonsterIndex(AbstractMonster m) { // 0-based index

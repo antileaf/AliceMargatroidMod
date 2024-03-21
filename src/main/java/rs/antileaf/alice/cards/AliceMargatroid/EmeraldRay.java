@@ -43,6 +43,7 @@ public class EmeraldRay extends AbstractAliceCard {
 		this.tags.add(CardTagEnum.ALICE_RAY);
 	}
 	
+	@Override
 	public void triggerOnGlowCheck() {
 		if (AliceSpireKit.hasPlayedCardThisTurnWithTag(CardTagEnum.ALICE_RAY, this))
 			this.glowColor = AbstractCard.GOLD_BORDER_GLOW_COLOR.cpy();

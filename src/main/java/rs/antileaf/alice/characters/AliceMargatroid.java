@@ -95,14 +95,13 @@ public class AliceMargatroid extends CustomPlayer {
 	public ArrayList<String> getStartingDeck() { // 初始卡组
 		ArrayList<String> ret = new ArrayList<>();
 		
-		ret.add(Thread.ID);
 		ret.add(LittleLegion.ID);
-		ret.add(ProtectiveMagic.ID);
+		ret.add(DollCrusader.ID);
 		
-		for (int i = 0; i < 1; i++)
+		for (int i = 0; i < 4; i++)
 			ret.add(Strike_AliceMargatroid.ID);
 		
-		for (int i = 0; i < 1; i++)
+		for (int i = 0; i < 4; i++)
 			ret.add(Defend_AliceMargatroid.ID);
 		
 		return ret;
@@ -119,24 +118,24 @@ public class AliceMargatroid extends CustomPlayer {
 	private static final int MAX_HP = 77;
 	private static final int STARTING_GOLD = 99;
 	private static final int HAND_SIZE = 5;
-	private static final int ASCENSION_MAX_HP_LOSS = 5;
+	private static final int ASCENSION_MAX_HP_LOSS = 7;
 	
 	public CharSelectInfo getLoadout() { // the rest of the character loadout so includes your character select screen info plus hp and starting gold
 		String title;
 		String flavor;
 		if (Settings.language == Settings.GameLanguage.ZHS || Settings.language == Settings.GameLanguage.ZHT) {
 			title = "爱丽丝·玛格特罗伊德";
-			flavor = "居住在魔法之森的人偶使。拥有精细操控人偶的能力。";
+			flavor = "居住在魔法之森的人偶使。 NL 拥有精细操控人偶的能力。";
 		} else {
 			title = "Alice Margatroid";
-			flavor = "";
+			flavor = "A puppeteer living in the Forest of Magic. NL Has the ability to operate dolls with precision.";
 		}
 		return new CharSelectInfo(
 				title,
 				flavor,
 				STARTING_HP,
 				MAX_HP,
-				0,
+				1,
 				STARTING_GOLD,
 				HAND_SIZE,
 				this,

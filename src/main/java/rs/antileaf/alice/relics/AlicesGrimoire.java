@@ -36,8 +36,8 @@ public class AlicesGrimoire extends CustomRelic {
 		this.flash();
 		this.addToBot(new RelicAboveCreatureAction(AbstractDungeon.player, this));
 		
-		for (int i = 0; i < 2; i++)
-			this.addToBot(new SpawnDollAction(AbstractDoll.getRandomDoll(), -1));
+//		for (int i = 0; i < 2; i++)
+		this.addToBot(new SpawnDollAction(AbstractDoll.getRandomDoll(), -1));
 	}
 	
 	@Override

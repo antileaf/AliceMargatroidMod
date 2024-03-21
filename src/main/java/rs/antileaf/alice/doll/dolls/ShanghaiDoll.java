@@ -1,11 +1,11 @@
 package rs.antileaf.alice.doll.dolls;
 
-import com.megacrit.cardcrawl.actions.common.DamageAction;
-import com.megacrit.cardcrawl.cards.DamageInfo;
+import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.OrbStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import rs.antileaf.alice.action.doll.DollDamageAction;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollDamageInfo;
 import rs.antileaf.alice.doll.enums.DollAmountTime;
@@ -42,23 +42,25 @@ public class ShanghaiDoll extends AbstractDoll {
 		AbstractMonster m = AliceSpireKit.getMonsterWithLeastHP();
 		
 		if (m != null) {
-			this.addToTop(new DamageAction(m,
-					new DollDamageInfo(this.actAmount, ShanghaiDoll.class,
-							DollAmountType.DAMAGE, DollAmountTime.ACT)));
+			this.addToTop(new DollDamageAction(m,
+					new DollDamageInfo(this.actAmount, this,
+							DollAmountType.DAMAGE, DollAmountTime.ACT),
+					AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
 		}
 		
-		this.highlightPassiveValue();
+		this.highlightActValue();
 	}
 	
 	public void postSpawn() {
 		AbstractMonster m = AbstractDungeon.getRandomMonster();
 		
 		if (m != null)
-			this.addToTop(new DamageAction(m,
-					new DollDamageInfo(this.passiveAmount, ShanghaiDoll.class,
-							DollAmountType.DAMAGE, DollAmountTime.PASSIVE)));
+			this.addToTop(new DollDamageAction(m,
+					new DollDamageInfo(this.passiveAmount, this,
+							DollAmountType.DAMAGE, DollAmountTime.PASSIVE),
+							AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
 		
-		this.highlightActValue();
+		this.highlightPassiveValue();
 	}
 	
 	// The logic of Strength is implemented in AbstractDoll.applyPowers().

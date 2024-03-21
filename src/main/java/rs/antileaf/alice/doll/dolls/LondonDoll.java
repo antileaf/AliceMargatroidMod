@@ -20,7 +20,9 @@ import rs.antileaf.alice.action.doll.DollGainBlockAction;
 import rs.antileaf.alice.action.doll.SpawnDollAction;
 import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.doll.AbstractDoll;
+import rs.antileaf.alice.doll.DollDamageInfo;
 import rs.antileaf.alice.doll.DollManager;
+import rs.antileaf.alice.doll.enums.DollAmountTime;
 import rs.antileaf.alice.doll.enums.DollAmountType;
 import rs.antileaf.alice.patches.enums.DamageTypeEnum;
 import rs.antileaf.alice.utils.AliceMiscKit;
@@ -65,10 +67,6 @@ public class LondonDoll extends AbstractDoll {
 		return new AnonymousAction(() -> {
 			this.highlightPassiveValue();
 			
-			int[] damages = DamageInfo.createDamageMatrix(this.passiveAmount, true);
-			AliceSpireKit.log(this.getClass(), "LondonDoll passive damage: " +
-					Arrays.stream(damages).mapToObj(Integer::toString).reduce("", (a, b) -> a + ", " + b));
-			
 			ArrayList<AbstractGameAction> actions = new ArrayList<>();
 			
 			for (AbstractMonster m : AbstractDungeon.getMonsters().monsters)
@@ -76,9 +74,13 @@ public class LondonDoll extends AbstractDoll {
 					actions.add(new VFXAction(new LightningEffect(m.drawX, m.drawY), 0.0F));
 			
 			actions.add(new DamageAllEnemiesAction(
-					null,
-					DamageInfo.createDamageMatrix(this.passiveAmount, true),
-					DamageTypeEnum.DOLL,
+					AbstractDungeon.player,
+					DollDamageInfo.createDamageMatrix(
+							this.passiveAmount,
+							this,
+							this.passiveAmountType,
+							DollAmountTime.PASSIVE),
+					DamageInfo.DamageType.THORNS,
 					AbstractGameAction.AttackEffect.NONE,
 					true
 			));

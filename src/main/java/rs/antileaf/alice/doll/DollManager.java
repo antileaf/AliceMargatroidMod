@@ -98,6 +98,10 @@ public class DollManager {
 		doll.addBlock(block);
 	}
 	
+	public void loseBlock(AbstractDoll doll, int block) {
+		doll.loseBlock(block);
+	}
+	
 	public void updatePreservedBlock() {
 		this.preservedBlock = 0;
 		for (AbstractDoll doll : this.dolls)
@@ -119,6 +123,11 @@ public class DollManager {
 	public void onStartOfTurn() {
 		for (AbstractDoll doll : this.dolls)
 			doll.onStartOfTurn();
+	}
+	
+	public void postEnergyRecharge() {
+		for (AbstractDoll doll : this.dolls)
+			doll.postEnergyRecharge();
 	}
 	
 	public void onEndOfTurn() {
@@ -177,6 +186,8 @@ public class DollManager {
 //				this.dolls.set(i, this.dolls.get(i - 1));
 			index = 0;
 		}
+		else if (!(this.dolls.get(index) instanceof EmptyDollSlot))
+			AliceSpireKit.addActionToBuffer(new RecycleDollAction(this.dolls.get(index), doll));
 		
 		assert index >= 0 && index < MAX_DOLL_SLOTS;
 		
@@ -185,7 +196,8 @@ public class DollManager {
 	}
 	
 	public void spawnDollInternal(AbstractDoll doll, int index) {
-		assert index >= 0 && index < MAX_DOLL_SLOTS && this.dolls.get(index) instanceof EmptyDollSlot;
+		assert index >= 0 && index < MAX_DOLL_SLOTS;
+		assert this.dolls.get(index) == doll || this.dolls.get(index) instanceof EmptyDollSlot;
 		
 		doll.showHealthBar();
 		
@@ -237,14 +249,23 @@ public class DollManager {
 		this.update();
 	}
 	
-	public void recycleDoll(AbstractDoll doll) {
+//	public void recycleDoll(AbstractDoll doll) {
+//		this.recycleDollInternal(doll, null);
+//	}
+	
+	public void recycleDoll(AbstractDoll doll, AbstractDoll newDoll) {
+		this.recycleDollInternal(doll, newDoll);
+	}
+	
+	private void recycleDollInternal(AbstractDoll doll, AbstractDoll newDoll) {
 		assert this.dolls.contains(doll);
 		
 		doll.applyPower();
 		
 		doll.onRecycle();
 		doll.onRemoved();
-		this.dolls.set(this.dolls.indexOf(doll), new EmptyDollSlot());
+		this.dolls.set(this.dolls.indexOf(doll),
+				newDoll != null ? newDoll : new EmptyDollSlot());
 		
 		this.applyPowers();
 		
@@ -294,7 +315,7 @@ public class DollManager {
 		int cur = this.dolls.indexOf(doll);
 		int p = index;
 		if (cur < index) {
-			p--;
+//			p--;
 			while (p > cur) {
 				if (this.dolls.get(p) instanceof EmptyDollSlot)
 					break;
@@ -306,7 +327,7 @@ public class DollManager {
 			this.dolls.set(index, doll);
 		}
 		else if (cur > index) {
-			p++;
+//			p++;
 			while (p < cur) {
 				if (this.dolls.get(p) instanceof EmptyDollSlot)
 					break;

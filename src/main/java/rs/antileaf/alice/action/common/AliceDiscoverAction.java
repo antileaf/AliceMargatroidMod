@@ -7,6 +7,7 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.powers.watcher.MasterRealityPower;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -20,7 +21,7 @@ public class AliceDiscoverAction extends AbstractGameAction {
 	private final boolean masterReality;
 	private boolean selected = false;
 	
-	public AliceDiscoverAction(Supplier<ArrayList<AbstractCard>> supplier,Consumer<AbstractCard> consumer,
+	public AliceDiscoverAction(Supplier<ArrayList<AbstractCard>> supplier, Consumer<AbstractCard> consumer,
 	                           String text, boolean masterReality) {
 		this.actionType = ActionType.CARD_MANIPULATION;
 		this.duration = DURATION;
@@ -38,7 +39,8 @@ public class AliceDiscoverAction extends AbstractGameAction {
 	
 	public void update() {
 		if (this.duration == DURATION) {
-			ArrayList<AbstractCard> cards = supplier.get();
+			ArrayList<AbstractCard> cards = new ArrayList<>(supplier.get());
+			
 			if (this.masterReality && AbstractDungeon.player.hasPower(MasterRealityPower.POWER_ID))
 				for (AbstractCard c : cards)
 					c.upgrade();

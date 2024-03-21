@@ -2,17 +2,18 @@ package rs.antileaf.alice.patches.doll;
 
 import basemod.abstracts.CustomPlayer;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpireEnum;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePatches;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePostfixPatch;
+import com.evacipated.cardcrawl.modthespire.lib.*;
+import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.*;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import rs.antileaf.alice.doll.AbstractDoll;
+import rs.antileaf.alice.doll.DollDamageInfo;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
+import rs.antileaf.alice.utils.AliceReflectKit;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class DollMechanicsPatch {
@@ -121,4 +122,36 @@ public class DollMechanicsPatch {
 			}
 		}
 	}
+	
+//	@SpirePatch(clz = DamageAction.class, method = "update")
+//	public static class DollDamageApplyPowersPatch {
+//		@SpirePrefixPatch
+//		public static void Prefix(DamageAction _inst) {
+//			DamageInfo info = null;
+//			try {
+//				info = (DamageInfo) AliceReflectKit.getField(_inst.getClass(), "info").get(_inst);
+//			}
+//			catch (IllegalAccessException e) {
+//				AliceSpireKit.log(DollDamageApplyPowersPatch.class, "Failed to access damage info.");
+//			}
+//
+//			if (info == null) {
+//				AliceSpireKit.log(DollDamageApplyPowersPatch.class, "Damage info is null.");
+//				return;
+//			}
+//
+//			boolean shouldCancelAction = (_inst.target == null ||
+//					_inst.source != null && _inst.source.isDying ||
+//					_inst.target.isDeadOrEscaped());
+//			if (shouldCancelAction || info.type != DamageInfo.DamageType.THORNS)
+//				return;
+//
+//			AliceSpireKit.log(DollDamageApplyPowersPatch.class, "Patching...");
+//
+//			if (info instanceof DollDamageInfo)
+//				info.applyPowers(_inst.source, _inst.target);
+//
+//			AliceSpireKit.log(DollDamageApplyPowersPatch.class, "Patched damage = " + info.output);
+//		}
+//	}
 }

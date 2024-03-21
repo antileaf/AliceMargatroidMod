@@ -1,9 +1,11 @@
 package rs.antileaf.alice.action.doll;
 
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.patches.enums.ActionTypeEnum;
+import rs.antileaf.alice.powers.unique.DollWarPower;
 
 public class SpawnDollInternalAction extends AbstractGameAction {
 	private static final float DURATION = 0.1F;

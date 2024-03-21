@@ -21,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
 import rs.antileaf.alice.doll.dolls.*;
 import rs.antileaf.alice.doll.enums.DollAmountTime;
 import rs.antileaf.alice.doll.enums.DollAmountType;
-import rs.antileaf.alice.powers.interfaces.PlayerDollAmountModPower;
+import rs.antileaf.alice.powers.interfaces.PlayerOrEnemyDollAmountModPower;
 import rs.antileaf.alice.utils.AliceReflectKit;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
@@ -103,7 +103,12 @@ public abstract class AbstractDoll extends CustomOrb {
 	public AbstractDoll(String ID, String name, int maxHP, int basePassiveAmount, int baseActAmount, String imgPath, RenderTextMode renderTextMode) {
 		super(ID, name, basePassiveAmount, -1, "", "", imgPath);
 		
-		this.hb = new Hitbox(120.0F * Settings.scale, 120.0F * Settings.scale);
+		this.hb = new Hitbox(
+				AbstractDungeon.player.hb.cX,
+				AbstractDungeon.player.hb.cY,
+				120.0F * Settings.scale,
+				120.0F * Settings.scale
+		);
 		
 		this.healthHb = new Hitbox(this.hb.width, 72.0F * Settings.scale);
 		this.targetHealthBarWidth = this.hb.width;
@@ -132,7 +137,7 @@ public abstract class AbstractDoll extends CustomOrb {
 		this.reticleAnimTimer = 0.0F;
 		
 		this.updateDescription();
-		this.initPosition(AbstractDungeon.player.animX, AbstractDungeon.player.animY);
+//		this.initPosition(AbstractDungeon.player.animX, AbstractDungeon.player.animY);
 	}
 	
 	protected void initPosition(float cx, float cy) {
@@ -404,6 +409,8 @@ public abstract class AbstractDoll extends CustomOrb {
 	@Override
 	public void onStartOfTurn() {}
 	
+	public void postEnergyRecharge() {}
+	
 	@Override
 	public void onEndOfTurn() {}
 	
@@ -445,12 +452,12 @@ public abstract class AbstractDoll extends CustomOrb {
 		float tempPassiveAmount = this.passiveAmount, tempActAmount = this.actAmount;
 		
 		for (AbstractPower p : player.powers)
-			if (p instanceof PlayerDollAmountModPower) {
-				tempPassiveAmount = ((PlayerDollAmountModPower) p).modifyDollAmount(
-						tempPassiveAmount, this.getClass(), this.passiveAmountType, DollAmountTime.PASSIVE);
+			if (p instanceof PlayerOrEnemyDollAmountModPower) {
+				tempPassiveAmount = ((PlayerOrEnemyDollAmountModPower) p).modifyDollAmount(
+						tempPassiveAmount, this, this.passiveAmountType, DollAmountTime.PASSIVE);
 				
-				tempActAmount = ((PlayerDollAmountModPower) p).modifyDollAmount(
-						tempActAmount, this.getClass(), this.actAmountType, DollAmountTime.ACT);
+				tempActAmount = ((PlayerOrEnemyDollAmountModPower) p).modifyDollAmount(
+						tempActAmount, this, this.actAmountType, DollAmountTime.ACT);
 			}
 		
 		// TODO: Powers / Relics
@@ -533,12 +540,12 @@ public abstract class AbstractDoll extends CustomOrb {
 		if (this.renderTextMode == RenderTextMode.PASSIVE) {
 			this.renderPassiveValue(sb,
 					this.cX + NUM_X_OFFSET,
-					this.cY + this.bobEffect.y / 2.0F + NUM_Y_OFFSET);
+					this.cY + this.bobEffect.y / 2.0F + NUM_Y_OFFSET - 4.0F * Settings.scale);
 		}
 		else if (this.renderTextMode == RenderTextMode.ACT) {
 			this.renderActValue(sb,
 					this.cX + NUM_X_OFFSET,
-					this.cY + this.bobEffect.y / 2.0F + NUM_Y_OFFSET);
+					this.cY + this.bobEffect.y / 2.0F + NUM_Y_OFFSET - 4.0F * Settings.scale);
 		}
 		else if (this.renderTextMode == RenderTextMode.BOTH) {
 			this.renderPassiveValue(sb,
@@ -555,7 +562,7 @@ public abstract class AbstractDoll extends CustomOrb {
 					FontHelper.cardEnergyFont_L,
 					this.damageAboutToTake + (this.damageCount > 1 ? "x" + this.damageCount : ""),
 					this.cX,
-					this.cY + this.bobEffect.y / 2.0F + NUM_Y_OFFSET + 40.0F * Settings.scale,
+					this.cY + this.bobEffect.y / 2.0F + NUM_Y_OFFSET + 50.0F * Settings.scale,
 					Color.RED,
 					this.fontScale);
 		}
@@ -860,7 +867,11 @@ public abstract class AbstractDoll extends CustomOrb {
 	
 	public static AbstractDoll newInst(String clazz) {
 //		assert AbstractDoll.class.isAssignableFrom(clazz) : "clazz is not a subclass of Abstract";
-		assert clazz != null : "clazz is null";
+//		assert clazz != null : "clazz is null";
+		if (clazz == null) {
+			AliceSpireKit.log("AbstractDoll.newInst", "clazz is null");
+			return null;
+		}
 		
 		if (clazz.equals(EmptyDollSlot.ID)) {
 			AliceSpireKit.log(AbstractDoll.class, "Why newInst(EmptyDollSlot)?");
@@ -893,8 +904,7 @@ public abstract class AbstractDoll extends CustomOrb {
 		}
 	}
 	
-	@Nullable
-	public static AbstractDoll getRandomDollExcept(String... exceptClasses) {
+	public static String getRandomDollIdExcept(String... exceptClasses) {
 		String[] fullClasses = new String[] {
 				ShanghaiDoll.ID,
 				NetherlandsDoll.ID,
@@ -904,7 +914,7 @@ public abstract class AbstractDoll extends CustomOrb {
 				FranceDoll.ID,
 				OrleansDoll.ID
 		};
-		
+
 //		for (Class c : exceptClasses)
 //			assert AbstractDoll.class.isAssignableFrom(c) : "exceptClasses contains a class that is not doll";
 		
@@ -918,14 +928,37 @@ public abstract class AbstractDoll extends CustomOrb {
 		}
 		
 		int index = AbstractDungeon.cardRandomRng.random(remainingClasses.length - 1);
-		return newInst(remainingClasses[index]);
+		return remainingClasses[index];
+	}
+	
+	@Nullable
+	public static AbstractDoll getRandomDollExcept(String... exceptClasses) {
+		return newInst(getRandomDollIdExcept(exceptClasses));
 	}
 	
 //	public static AbstractDoll getRandomDollExcept(Class<? extends AbstractDoll> exceptClass) {
 //		return getRandomDollExcept(exceptClass);
 //	}
 	
+	public static String getRandomDollId() {
+		return getRandomDollIdExcept();
+	}
+	
 	public static AbstractDoll getRandomDoll() {
 		return getRandomDollExcept();
+	}
+	
+	public static boolean isBaseDoll(AbstractDoll doll) {
+		String[] fullClasses = new String[] {
+				ShanghaiDoll.ID,
+				NetherlandsDoll.ID,
+				HouraiDoll.ID,
+				KyotoDoll.ID,
+				LondonDoll.ID,
+				FranceDoll.ID,
+				OrleansDoll.ID
+		};
+		
+		return Arrays.stream(fullClasses).anyMatch(c -> c.equals(doll.ID));
 	}
 }

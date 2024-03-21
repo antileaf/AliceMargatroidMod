@@ -4,6 +4,7 @@ import com.evacipated.cardcrawl.mod.stslib.patches.CustomTargeting;
 import rs.antileaf.alice.cards.AliceMargatroid.*;
 import rs.antileaf.alice.cards.AliceMargatroid.Thread;
 import rs.antileaf.alice.cards.AliceMargatroidDerivation.MarisasPotion;
+import rs.antileaf.alice.cards.AliceMargatroidDerivation.dolls.*;
 import rs.antileaf.alice.characters.AliceMargatroid;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
@@ -87,8 +88,8 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 	private static final String POWER_CC_PORTRAIT = getCCPortraitPath("bg_power");
 	private static final String ENERGY_ORB_CC_PORTRAIT = getCCPortraitPath("cardOrb");
 	
-	public static final Color ALICE_PUPPETEER = CardHelper.getColor(0, 191, 255);
-	public static final Color ALICE_PUPPETEER_FLAVOR = CardHelper.getColor(204, 255, 255);
+	public static final Color ALICE_PUPPETEER = CardHelper.getColor(255,215,0);
+	public static final Color ALICE_PUPPETEER_FLAVOR = CardHelper.getColor(250,250,210);
 	public static final String CARD_ENERGY_ORB = "img/UI/AliceMargatroid/energyOrb.png";
 	
 	private static final String CHARACTER_BUTTON = "img/charSelect/AliceMargatroid/Button.png";
@@ -202,7 +203,7 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		Keyword[] keywords = gson.fromJson(loadJson(keywordsPath), Keyword[].class);
 		for (Keyword key : keywords) {
 			logger.info("Loading keyword : " + key.NAMES[0]);
-			BaseMod.addKeyword(key.NAMES, key.DESCRIPTION);
+			BaseMod.addKeyword(AliceMargatroidMod.SIMPLE_NAME.toLowerCase(), key.NAMES[0], key.NAMES, key.DESCRIPTION);
 		}
 		logger.info("Keywords setting finished.");
 	}
@@ -245,7 +246,7 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 	
 	@Override
 	public void receivePostEnergyRecharge() {
-		// Auto-generated method stub
+		DollManager.get().postEnergyRecharge();
 	}
 	
 	@Override
@@ -311,8 +312,9 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		int remaining = doll.onPlayerDamaged(amount);
 		boolean destroyed = DollManager.get().dollTakesDamage(doll, amount - remaining);
 		
-		if (destroyed && (doll instanceof FranceDoll))
-			monstersDestroyedFranceDoll.add((AbstractMonster) damageInfo.owner);
+//		if (destroyed && (doll instanceof FranceDoll))
+//			monstersDestroyedFranceDoll.add((AbstractMonster) damageInfo.owner);
+		// 抵挡多段还是太强了，不如只挡一段，并且只挡一段就已经够强了
 		
 		return remaining;
 	}
@@ -335,6 +337,7 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		this.cardsToAdd.add(new Strike_AliceMargatroid());
 		this.cardsToAdd.add(new Defend_AliceMargatroid());
 		this.cardsToAdd.add(new Thread());
+		this.cardsToAdd.add(new DollCrusader());
 		
 		this.cardsToAdd.add(new LittleLegion());
 		this.cardsToAdd.add(new ProtectiveMagic());
@@ -342,10 +345,34 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		this.cardsToAdd.add(new EmeraldRay());
 		this.cardsToAdd.add(new MoonlightRay());
 		this.cardsToAdd.add(new KirisameMahouten());
+		this.cardsToAdd.add(new SurpriseSpring());
 		this.cardsToAdd.add(new WarFlag());
+		this.cardsToAdd.add(new Transfer());
 		this.cardsToAdd.add(new DollAmbush());
+		this.cardsToAdd.add(new DollWar());
+		this.cardsToAdd.add(new SpiritualPower());
+		this.cardsToAdd.add(new FrostRay());
+		this.cardsToAdd.add(new SunlightRay());
+		this.cardsToAdd.add(new ArtfulSacrifice());
+		this.cardsToAdd.add(new SevenColoredPuppeteer());
+		this.cardsToAdd.add(new Collector());
+		
+		this.cardsToAdd.add(new VivaciousShanghaiDoll());
+		this.cardsToAdd.add(new QuietHouraiDoll());
+		this.cardsToAdd.add(new MistyLondonDoll());
+		this.cardsToAdd.add(new SpringKyotoDoll());
+		this.cardsToAdd.add(new RedHairedNetherlandsDoll());
+		this.cardsToAdd.add(new CharismaticOrleansDoll());
+		this.cardsToAdd.add(new CharitableFranceDoll());
 		
 		this.cardsToAdd.add(new MarisasPotion());
+		this.cardsToAdd.add(new CreateShanghaiDoll());
+		this.cardsToAdd.add(new CreateNetherlandsDoll());
+		this.cardsToAdd.add(new CreateHouraiDoll());
+		this.cardsToAdd.add(new CreateKyotoDoll());
+		this.cardsToAdd.add(new CreateLondonDoll());
+		this.cardsToAdd.add(new CreateFranceDoll());
+		this.cardsToAdd.add(new CreateOrleansDoll());
 	}
 	
 	private void loadVariables() {
