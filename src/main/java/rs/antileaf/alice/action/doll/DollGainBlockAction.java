@@ -20,9 +20,7 @@ public class DollGainBlockAction extends AbstractGameAction {
 	
 	@Override
 	public void update() {
-		this.tickDuration();
-		
-		if (this.isDone) {
+		if (this.duration == this.startDuration) {
 			if (DollManager.get().contains(this.doll))
 				DollManager.get().addBlock(this.doll, this.block);
 			else
@@ -30,5 +28,7 @@ public class DollGainBlockAction extends AbstractGameAction {
 						"DollGainBlockAction.update(): DollManager does not contain " +
 								this.doll.getClass().getSimpleName() + "!");
 		}
+		
+		this.tickDuration();
 	}
 }

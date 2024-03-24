@@ -1,0 +1,25 @@
+{
+  "AlicesGrimoire": {
+    "NAME": "爱丽丝的魔法书",
+    "FLAVOR": "知识就是力量。",
+    "DESCRIPTIONS": [
+      "每场战斗开始时，生成 一个随机 人偶 。"
+    ]
+  },
+  
+  "SuspiciousCard": {
+    "NAME": "可疑的卡牌",
+    "FLAVOR": "画着上海人偶的卡牌。不知道魔理沙是从哪弄来的。",
+    "DESCRIPTIONS": [
+      "每场战斗开始时，生成 一个 上海人偶 。"
+    ]
+  },
+  
+  "AlicesDarkGrimoire": {
+    "NAME": "爱丽丝的黑暗魔法书",
+    "FLAVOR": "椥識蹴Sんⓘㄉ糧°",
+    "DESCRIPTIONS": [
+      "每场战斗开始时，生成 三个随机 人偶 。"
+    ]
+  }
+}

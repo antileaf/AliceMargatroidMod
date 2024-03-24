@@ -42,7 +42,7 @@ public class DollWarPower extends AbstractPower implements OnDollOperatePower {
 	}
 	
 	@Override
-	public void onSpawnDoll(AbstractDoll doll) {
+	public void postSpawnDoll(AbstractDoll doll) {
 		this.flash();
 		this.addToBot(new DollGainBlockAction(doll, this.amount));
 	}

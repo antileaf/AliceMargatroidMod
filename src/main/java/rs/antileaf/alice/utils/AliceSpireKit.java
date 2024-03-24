@@ -2,15 +2,19 @@ package rs.antileaf.alice.utils;
 
 import basemod.BaseMod;
 import com.badlogic.gdx.Gdx;
+import com.evacipated.cardcrawl.modthespire.Loader;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.localization.UIStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
+import com.megacrit.cardcrawl.vfx.cardManip.ShowCardAndAddToDiscardEffect;
+import com.megacrit.cardcrawl.vfx.cardManip.ShowCardAndAddToHandEffect;
 import org.jetbrains.annotations.NotNull;
 import rs.antileaf.alice.AliceMargatroidMod;
 
@@ -42,7 +46,7 @@ public abstract class AliceSpireKit {
 	}
 	
 	public static String getImgFilePath(String type, String name) {
-		return "img/" + type + "/" + name + ".png";
+		return "AliceMargatroidMod/img/" + type + "/" + name + ".png";
 	}
 	
 	public static String getCardImgFilePath(String name) {
@@ -66,7 +70,7 @@ public abstract class AliceSpireKit {
 	}
 	
 	public static String getLocalizationFilePath(String name) {
-		return "local/" + AliceSpireKit.getLangShort() + "/" + name + ".json";
+		return "AliceMargatroidMod/localization/" + AliceSpireKit.getLangShort() + "/" + name + ".json";
 	}
 	
 	public static void loadCustomStrings(Class<?> clz, String name) {
@@ -79,6 +83,19 @@ public abstract class AliceSpireKit {
 	
 	public static UIStrings getUIString(@NotNull String id) {
 		return CardCrawlGame.languagePack.getUIString(id);
+	}
+	
+	public static void addCardToHand(AbstractCard card) {
+		if (AbstractDungeon.player.hand.size() < BaseMod.MAX_HAND_SIZE)
+			AliceSpireKit.addEffect(new ShowCardAndAddToHandEffect(
+					card,
+					Settings.WIDTH / 2.0F - (25.0F * Settings.scale + AbstractCard.IMG_WIDTH),
+					Settings.HEIGHT / 2.0F));
+		else
+			AliceSpireKit.addEffect(new ShowCardAndAddToDiscardEffect(
+					card,
+					Settings.WIDTH / 2.0F + 25.0F * Settings.scale + AbstractCard.IMG_WIDTH,
+					Settings.HEIGHT / 2.0F));
 	}
 	
 	public static void addToBot(AbstractGameAction action) {
@@ -178,6 +195,16 @@ public abstract class AliceSpireKit {
 				amount > baseAmount ? "g" : "r");
 		else
 			return "" + amount;
+	}
+	
+	static boolean marisaModAvailable = false;
+	static boolean marisaModChecked = false;
+	
+	public static boolean isMarisaModAvailable() {
+		if (!marisaModChecked)
+			marisaModAvailable = Loader.isModLoaded("TS05_Marisa");
+		
+		return marisaModAvailable;
 	}
 	
 	public static void log(String what) {

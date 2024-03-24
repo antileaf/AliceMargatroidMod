@@ -16,6 +16,7 @@ import com.megacrit.cardcrawl.helpers.*;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 import com.megacrit.cardcrawl.vfx.combat.BlockedNumberEffect;
+import com.megacrit.cardcrawl.vfx.combat.FlashAtkImgEffect;
 import com.megacrit.cardcrawl.vfx.combat.HbBlockBrokenEffect;
 import org.jetbrains.annotations.Nullable;
 import rs.antileaf.alice.doll.dolls.*;
@@ -303,9 +304,15 @@ public abstract class AbstractDoll extends CustomOrb {
 		boolean showEffect = (this.block == 0);
 		
 		this.block = Math.min(this.block + blockAmount, 999);
+		AbstractDungeon.effectList.add(new FlashAtkImgEffect(
+				this.hb.cX,
+				this.hb.cY,
+				AbstractGameAction.AttackEffect.SHIELD
+		));
 		
-		if (showEffect && this.block > 0)
+		if (showEffect && this.block > 0) {
 			this.gainBlockAnimation();
+		}
 		else if (blockAmount > 0) {
 			Color col = Settings.GOLD_COLOR.cpy();
 			col.a = this.blockTextColor.a;
@@ -330,6 +337,12 @@ public abstract class AbstractDoll extends CustomOrb {
 			col.a = this.blockTextColor.a;
 			this.blockTextColor = col;
 			this.blockScale = 5.0F;
+		}
+		else if (this.block == 0) {
+			AbstractDungeon.effectList.add(new HbBlockBrokenEffect(
+					this.hb.cX - this.hb.width / 2.0F + BLOCK_ICON_X,
+					this.hb.cY - this.hb.height / 2.0F + BLOCK_ICON_Y));
+			CardCrawlGame.sound.play("BLOCK_BREAK");
 		}
 		
 		this.updateDescription();

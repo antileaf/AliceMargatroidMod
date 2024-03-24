@@ -10,6 +10,7 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.utils.AliceMiscKit;
+import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class Collector extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = Collector.class.getSimpleName();
@@ -50,7 +51,7 @@ public class Collector extends AbstractAliceCard {
 	@Override
 	public void initializeDescription() {
 		this.rawDescription = (!this.upgraded ? cardStrings.DESCRIPTION : cardStrings.UPGRADE_DESCRIPTION);
-		if (AbstractDungeon.isPlayerInDungeon())
+		if (AliceSpireKit.isInBattle())
 			this.rawDescription += cardStrings.EXTENDED_DESCRIPTION[0];
 		
 		super.initializeDescription();

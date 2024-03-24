@@ -32,28 +32,28 @@ import java.util.ArrayList;
 public class AliceMargatroid extends CustomPlayer {
 	
 	private static final int ENERGY_PER_TURN = 3; // how much energy you get every turn
-	private static final String ALICE_SHOULDER_2 = "img/char/AliceMargatroid/shoulder2.png"; // shoulder2 / shoulder_1
-	private static final String ALICE_SHOULDER_1 = "img/char/AliceMargatroid/shoulder1.png"; // shoulder1 / shoulder_2
-	private static final String ALICE_CORPSE = "img/char/AliceMargatroid/fallen.png"; // dead corpse
+	private static final String ALICE_SHOULDER_2 = "AliceMargatroidMod/img/char/AliceMargatroid/shoulder2.png"; // shoulder2 / shoulder_1
+	private static final String ALICE_SHOULDER_1 = "AliceMargatroidMod/img/char/AliceMargatroid/shoulder1.png"; // shoulder1 / shoulder_2
+	private static final String ALICE_CORPSE = "AliceMargatroidMod/img/char/AliceMargatroid/fallen.png"; // dead corpse
 	public static final Logger logger = LogManager.getLogger(AliceMargatroidMod.class.getName());
 	//private static final float[] layerSpeeds = { 20.0F, 0.0F, -40.0F, 0.0F, 0.0F, 5.0F, 0.0F, -8.0F, 0.0F, 8.0F };
 //	private static final String ALICE_SKELETON_ATLAS = "img/char/Reiuji/MarisaModelv3.atlas";// Marisa_v0 / MarisaModel_v02 /MarisaModelv3
 //	private static final String ALICE_SKELETON_JSON = "img/char/Reiuji/MarisaModelv3.json";
 	private static final String ALICE_ANIMATION = "Idle";// Sprite / Idle
 	private static final String[] ORB_TEXTURES = {
-			"img/UI/AliceMargatroid/EPanel/layer5.png",
-			"img/UI/AliceMargatroid/EPanel/layer4.png",
-			"img/UI/AliceMargatroid/EPanel/layer3.png",
-			"img/UI/AliceMargatroid/EPanel/layer2.png",
-			"img/UI/AliceMargatroid/EPanel/layer1.png",
-			"img/UI/AliceMargatroid/EPanel/layer0.png",
-			"img/UI/AliceMargatroid/EPanel/layer5d.png",
-			"img/UI/AliceMargatroid/EPanel/layer4d.png",
-			"img/UI/AliceMargatroid/EPanel/layer3d.png",
-			"img/UI/AliceMargatroid/EPanel/layer2d.png",
-			"img/UI/AliceMargatroid/EPanel/layer1d.png"
+			"AliceMargatroidMod/img/UI/AliceMargatroid/EPanel/layer5.png",
+			"AliceMargatroidMod/img/UI/AliceMargatroid/EPanel/layer4.png",
+			"AliceMargatroidMod/img/UI/AliceMargatroid/EPanel/layer3.png",
+			"AliceMargatroidMod/img/UI/AliceMargatroid/EPanel/layer2.png",
+			"AliceMargatroidMod/img/UI/AliceMargatroid/EPanel/layer1.png",
+			"AliceMargatroidMod/img/UI/AliceMargatroid/EPanel/layer0.png",
+			"AliceMargatroidMod/img/UI/AliceMargatroid/EPanel/layer5d.png",
+			"AliceMargatroidMod/img/UI/AliceMargatroid/EPanel/layer4d.png",
+			"AliceMargatroidMod/img/UI/AliceMargatroid/EPanel/layer3d.png",
+			"AliceMargatroidMod/img/UI/AliceMargatroid/EPanel/layer2d.png",
+			"AliceMargatroidMod/img/UI/AliceMargatroid/EPanel/layer1d.png"
 	};
-	private static final String ORB_VFX = "img/UI/AliceMargatroid/energyBlueVFX.png";
+	private static final String ORB_VFX = "AliceMargatroidMod/img/UI/AliceMargatroid/energyBlueVFX.png";
 	private static final float[] LAYER_SPEED =
 			{-40.0F, -32.0F, 20.0F, -20.0F, 0.0F, -10.0F, -8.0F, 5.0F, -5.0F, 0.0F};
 	//public static final String SPRITER_ANIM_FILEPATH = "img/char/MyCharacter/marisa_test.scml"; // spriter animation scml
@@ -69,7 +69,7 @@ public class AliceMargatroid extends CustomPlayer {
 		logger.info("init Alice Margatroid");
 		
 		this.initializeClass(
-				"img/char/AliceMargatroid/alice.png",
+				"AliceMargatroidMod/img/char/AliceMargatroid/alice.png",
 				ALICE_SHOULDER_2, // required call to load textures and setup energy/loadout
 				ALICE_SHOULDER_1,
 				ALICE_CORPSE,
@@ -153,7 +153,7 @@ public class AliceMargatroid extends CustomPlayer {
 		return new Thread();
 	}
 	
-	public String getTitle(PlayerClass playerClass) {
+	public String getTitle(PlayerClass playerClass) { // 称号
 		String title;
 		if (Settings.language == GameLanguage.ZHS ||
 				Settings.language == GameLanguage.ZHT)

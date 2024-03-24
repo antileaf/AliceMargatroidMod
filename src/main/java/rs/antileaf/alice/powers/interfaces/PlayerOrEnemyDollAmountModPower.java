@@ -6,7 +6,11 @@ import rs.antileaf.alice.doll.enums.DollAmountType;
 
 // Applied before original powers.
 public interface PlayerOrEnemyDollAmountModPower {
-	boolean isFinalReceive();
+	boolean isFinal();
 	
-	float modifyDollAmount(float amount, AbstractDoll doll, DollAmountType amountType, DollAmountTime amountTime);
+	float modifyDollAmount(
+			float amount,
+			AbstractDoll doll,
+			DollAmountType amountType,
+			DollAmountTime amountTime);
 }

@@ -33,10 +33,11 @@ public class DollDamageInfo extends DamageInfo {
 //		for (AbstractPower power : owner.powers)
 //			if (power instanceof PlayerDollAmountModPower)
 //				tmp = ((PlayerDollAmountModPower) power).modifyDollAmount(tmp, this.dollClass);
+		// This logic should not be implemented here, but in AbstractDoll.
 	
 		for (AbstractPower power : target.powers) {
 			if (power instanceof PlayerOrEnemyDollAmountModPower &&
-					!((PlayerOrEnemyDollAmountModPower) power).isFinalReceive())
+					!((PlayerOrEnemyDollAmountModPower) power).isFinal())
 				res = ((PlayerOrEnemyDollAmountModPower) power)
 						.modifyDollAmount(res, this.doll, this.amountType, this.amountTime);
 		}
@@ -48,9 +49,9 @@ public class DollDamageInfo extends DamageInfo {
 			res = Math.max(tmpNormal, tmpThorns);
 		}
 		
-		for (AbstractPower power : owner.powers) {
+		for (AbstractPower power : target.powers) {
 			if (power instanceof PlayerOrEnemyDollAmountModPower &&
-					((PlayerOrEnemyDollAmountModPower) power).isFinalReceive())
+					((PlayerOrEnemyDollAmountModPower) power).isFinal())
 				res = ((PlayerOrEnemyDollAmountModPower) power)
 						.modifyDollAmount(res, this.doll, this.amountType, this.amountTime);
 		}

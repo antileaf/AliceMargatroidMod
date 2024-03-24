@@ -1,18 +1,13 @@
 package rs.antileaf.alice.cards.AliceMargatroid;
 
-import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import rs.antileaf.alice.action.common.AliceDiscoverAction;
 import rs.antileaf.alice.action.doll.DollActAction;
-import rs.antileaf.alice.action.doll.DollGainBlockAction;
 import rs.antileaf.alice.action.doll.SpawnDollAction;
-import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
-import rs.antileaf.alice.cards.AliceMargatroidDerivation.dolls.AbstractCreateDoll;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.ShanghaiDoll;
@@ -20,9 +15,6 @@ import rs.antileaf.alice.doll.targeting.DollOrEmptySlotTargeting;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
-import rs.antileaf.alice.utils.AliceSpireKit;
-
-import java.util.ArrayList;
 
 public class VivaciousShanghaiDoll extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = VivaciousShanghaiDoll.class.getSimpleName();

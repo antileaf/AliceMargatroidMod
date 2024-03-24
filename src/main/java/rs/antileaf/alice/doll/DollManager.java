@@ -3,12 +3,9 @@ package rs.antileaf.alice.doll;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.megacrit.cardcrawl.actions.utility.WaitAction;
-import com.megacrit.cardcrawl.cards.blue.Recycle;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.localization.UIStrings;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 import rs.antileaf.alice.action.doll.MoveDollAction;
 import rs.antileaf.alice.action.doll.RecycleDollAction;
@@ -209,7 +206,7 @@ public class DollManager {
 		
 		for (AbstractPower power : this.owner.powers)
 			if (power instanceof OnDollOperatePower)
-				((OnDollOperatePower) power).onSpawnDoll(doll);
+				((OnDollOperatePower) power).postSpawnDoll(doll);
 		
 		for (AbstractDoll other : this.dolls)
 			if (other != doll)
@@ -240,7 +237,7 @@ public class DollManager {
 		
 		for (AbstractPower power : this.owner.powers)
 			if (power instanceof OnDollOperatePower)
-				((OnDollOperatePower) power).onDollAct(doll);
+				((OnDollOperatePower) power).postDollAct(doll);
 		
 		for (AbstractDoll other : this.dolls)
 			if (other != doll)
@@ -271,7 +268,7 @@ public class DollManager {
 		
 		for (AbstractPower power : this.owner.powers)
 			if (power instanceof OnDollOperatePower)
-				((OnDollOperatePower) power).onRecycleDoll(doll);
+				((OnDollOperatePower) power).postRecycleDoll(doll);
 		
 		for (AbstractDoll other : this.dolls)
 			if (other != doll) {
@@ -295,7 +292,7 @@ public class DollManager {
 		
 		for (AbstractPower power : this.owner.powers)
 			if (power instanceof OnDollOperatePower)
-				((OnDollOperatePower) power).onDestroyDoll(doll);
+				((OnDollOperatePower) power).postDestroyDoll(doll);
 		
 		for (AbstractDoll other : this.dolls)
 			if (other != doll) {

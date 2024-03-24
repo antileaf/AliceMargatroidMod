@@ -1,0 +1,57 @@
+{
+  "DollAmbushPower": {
+    "NAME": "人偶伏兵",
+    "DESCRIPTIONS": [
+      "回收 一个 人偶时，使其 行动", "次。"
+    ]
+  },
+  
+  "KirisameMahoutenPower": {
+    "NAME": "雾雨魔法店",
+    "DESCRIPTIONS": [
+      "战斗结束后，获得：", "、", "。"
+    ]
+  },
+  
+  "FrostRayPower": {
+    "NAME": "冰冻射线",
+    "DESCRIPTIONS": [
+      "下", "次打出具有 消耗 的攻击牌或技能牌时，改为将其置入弃牌堆。"
+    ]
+  },
+  
+  "DollWarPower": {
+    "NAME": "人偶战争",
+    "DESCRIPTIONS": [
+      "每 生成 一个 人偶 ，使其获得", "点 格挡 。"
+    ]
+  },
+  
+  "DollJudgePower": {
+    "NAME": "人偶裁判",
+    "DESCRIPTIONS": [
+      "每当有 人偶 获得 格挡 时，爱丽丝也会获得", "的格挡。"
+    ]
+  },
+  
+  "SpiritualPowerPower": {
+    "NAME": "精神力",
+    "DESCRIPTIONS": [
+      "每打出一张 #y指令 牌，对随机敌人造成", "点伤害。"
+    ]
+  },
+  
+  "PunishmentPower": {
+    "NAME": "惩戒",
+    "DESCRIPTIONS": [
+      "下次攻击时，受到", "点伤害。"
+    ]
+  },
+  
+  "CallForDollsPower": {
+    "NAME": "战斗号角",
+    "DESCRIPTIONS": [
+      "一回合内，受到的 人偶 伤害增加", "点。"
+    ]
+  }
+}

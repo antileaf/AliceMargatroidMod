@@ -10,4 +10,7 @@ public class AbstractCardEnum {
   
   @SpireEnum
   public static AbstractCard.CardColor ALICE_MARGATROID_DERIVATION_COLOR;
+  
+  @SpireEnum
+  public static AbstractCard.CardColor ALICE_MARISA_COLOR;
 }

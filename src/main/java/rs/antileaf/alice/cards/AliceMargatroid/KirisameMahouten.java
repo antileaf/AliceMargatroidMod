@@ -1,6 +1,5 @@
 package rs.antileaf.alice.cards.AliceMargatroid;
 
-import com.megacrit.cardcrawl.actions.watcher.ChooseOneAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -11,7 +10,7 @@ import com.megacrit.cardcrawl.potions.AbstractPotion;
 import rs.antileaf.alice.action.common.AliceDiscoverAction;
 import rs.antileaf.alice.action.unique.KirisameMahoutenAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
-import rs.antileaf.alice.cards.AliceMargatroidDerivation.MarisasPotion;
+import rs.antileaf.alice.cards.Derivations.MarisasPotion;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.utils.AliceSpireKit;
 

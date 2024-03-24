@@ -1,9 +1,0 @@
-{
-  "AlicesGrimoire": {
-    "NAME": "爱丽丝的魔法书",
-    "FLAVOR": "知识就是力量。",
-    "DESCRIPTIONS": [
-      "每场战斗开始时，生成 一个随机 人偶 。"
-    ]
-  }
-}

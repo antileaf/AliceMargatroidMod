@@ -11,4 +11,6 @@ public class LibraryTypeEnum {
 	@SpireEnum
 	public static CardLibrary.LibraryType ALICE_MARGATROID_DERIVATION_COLOR;
 	
+	@SpireEnum
+	public static CardLibrary.LibraryType ALICE_MARISA_COLOR;
 }

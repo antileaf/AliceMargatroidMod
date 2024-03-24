@@ -4,11 +4,15 @@ import rs.antileaf.alice.doll.AbstractDoll;
 
 public interface OnDollOperatePower {
 	// Called after the doll is spawned.
-	default void onSpawnDoll(AbstractDoll doll) {}
+	default void postSpawnDoll(AbstractDoll doll) {}
 	
-	default void onDollAct(AbstractDoll doll) {}
+	default void postDollAct(AbstractDoll doll) {}
 	
-	default void onRecycleDoll(AbstractDoll doll) {}
+	default void postDollGainedBlock(AbstractDoll doll, int block) {}
 	
-	default void onDestroyDoll(AbstractDoll doll) {}
+	default void postRecycleDoll(AbstractDoll doll) {}
+	
+	default void postDestroyDoll(AbstractDoll doll) {}
+	
+	default void postRecycleOrDestroyDoll(AbstractDoll doll) {}
 }

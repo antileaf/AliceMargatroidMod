@@ -3,8 +3,11 @@ package rs.antileaf.alice;
 import com.evacipated.cardcrawl.mod.stslib.patches.CustomTargeting;
 import rs.antileaf.alice.cards.AliceMargatroid.*;
 import rs.antileaf.alice.cards.AliceMargatroid.Thread;
-import rs.antileaf.alice.cards.AliceMargatroidDerivation.MarisasPotion;
-import rs.antileaf.alice.cards.AliceMargatroidDerivation.dolls.*;
+import rs.antileaf.alice.cards.Derivations.MarisasPotion;
+import rs.antileaf.alice.cards.Derivations.dolls.*;
+import rs.antileaf.alice.cards.Marisa.Alice6A;
+import rs.antileaf.alice.cards.Marisa.AliceAsteroidBelt;
+import rs.antileaf.alice.cards.Marisa.AliceDoubleSpark;
 import rs.antileaf.alice.characters.AliceMargatroid;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
@@ -15,7 +18,9 @@ import rs.antileaf.alice.doll.targeting.DollOrEnemyTargeting;
 import rs.antileaf.alice.doll.targeting.DollOrNoneTargeting;
 import rs.antileaf.alice.doll.targeting.DollTargeting;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
+import rs.antileaf.alice.relics.AlicesDarkGrimoire;
 import rs.antileaf.alice.relics.AlicesGrimoire;
+import rs.antileaf.alice.relics.SuspiciousCard;
 import rs.antileaf.alice.utils.AliceSpireKit;
 import rs.antileaf.alice.variable.TempHPVariable;
 import basemod.BaseMod;
@@ -70,11 +75,11 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 //	private static final String MOD_BADGE = "img/UI/badge.png";
 	
 	private static String getCCPath(String s) {
-		return "img/512/" + s + ".png";
+		return "AliceMargatroidMod/img/512/" + s + ".png";
 	}
 	
 	private static String getCCPortraitPath(String s) {
-		return "img/1024/" + s + ".png";
+		return "AliceMargatroidMod/img/1024/" + s + ".png";
 	}
 	
 	//card backgrounds
@@ -90,10 +95,10 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 	
 	public static final Color ALICE_PUPPETEER = CardHelper.getColor(255,215,0);
 	public static final Color ALICE_PUPPETEER_FLAVOR = CardHelper.getColor(250,250,210);
-	public static final String CARD_ENERGY_ORB = "img/UI/AliceMargatroid/energyOrb.png";
+	public static final String CARD_ENERGY_ORB = "AliceMargatroidMod/img/UI/AliceMargatroid/energyOrb.png";
 	
-	private static final String CHARACTER_BUTTON = "img/charSelect/AliceMargatroid/Button.png";
-	private static final String ALICE_PORTRAIT = "img/charSelect/AliceMargatroid/Portrait.jpg";
+	private static final String CHARACTER_BUTTON = "AliceMargatroidMod/img/charSelect/AliceMargatroid/Button.png";
+	private static final String ALICE_PORTRAIT = "AliceMargatroidMod/img/charSelect/AliceMargatroid/Portrait.jpg";
 	
 	private final ArrayList<AbstractCard> cardsToAdd = new ArrayList<>();
 	//private ArrayList<AbstractRelic> relicsToAdd = new ArrayList<>();
@@ -139,6 +144,31 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 				ENERGY_ORB_CC_PORTRAIT,
 				CARD_ENERGY_ORB
 		);
+		
+		if (!AliceSpireKit.isMarisaModAvailable()) {
+			logger.info("creating the color : ALICE_MARISA_COLOR");
+			Color starlight = CardHelper.getColor(0, 10, 125);
+			
+			BaseMod.addColor(
+					AbstractCardEnum.ALICE_MARISA_COLOR,
+					starlight,
+					starlight,
+					starlight,
+					starlight,
+					starlight,
+					starlight,
+					starlight,
+					"AliceMargatroidMod/img/Marisa/512/bg_attack_MRS_s.png",
+					"AliceMargatroidMod/img/Marisa/512/bg_skill_MRS_s.png",
+					"AliceMargatroidMod/img/Marisa/512/bg_power_MRS_s.png",
+					"AliceMargatroidMod/img/Marisa/512/cardOrb.png",
+					"AliceMargatroidMod/img/Marisa/1024/bg_attack_MRS.png",
+					"AliceMargatroidMod/img/Marisa/1024/bg_skill_MRS.png",
+					"AliceMargatroidMod/img/Marisa/1024/bg_power_MRS.png",
+					"AliceMargatroidMod/img/Marisa/1024/cardOrb.png",
+					"AliceMargatroidMod/img/Marisa/UI/energyOrb.png"
+			);
+		}
 	}
 	
 	public void receiveEditCharacters() {
@@ -156,8 +186,17 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 	
 	public void receiveEditRelics() {
 		logger.info("Begin editing relics.");
+		
 		BaseMod.addRelicToCustomPool(
 				new AlicesGrimoire(),
+				AbstractCardEnum.ALICE_MARGATROID_COLOR
+		);
+		BaseMod.addRelicToCustomPool(
+				new SuspiciousCard(),
+				AbstractCardEnum.ALICE_MARGATROID_COLOR
+		);
+		BaseMod.addRelicToCustomPool(
+				new AlicesDarkGrimoire(),
 				AbstractCardEnum.ALICE_MARGATROID_COLOR
 		);
 		
@@ -350,12 +389,18 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		this.cardsToAdd.add(new Transfer());
 		this.cardsToAdd.add(new DollAmbush());
 		this.cardsToAdd.add(new DollWar());
+		this.cardsToAdd.add(new DollJudge());
 		this.cardsToAdd.add(new SpiritualPower());
 		this.cardsToAdd.add(new FrostRay());
 		this.cardsToAdd.add(new SunlightRay());
 		this.cardsToAdd.add(new ArtfulSacrifice());
 		this.cardsToAdd.add(new SevenColoredPuppeteer());
 		this.cardsToAdd.add(new Collector());
+		this.cardsToAdd.add(new Punishment());
+		this.cardsToAdd.add(new MaliceSpark());
+		this.cardsToAdd.add(new CallForDolls());
+		this.cardsToAdd.add(new SnowSweeping());
+		this.cardsToAdd.add(new FriendsHelp());
 		
 		this.cardsToAdd.add(new VivaciousShanghaiDoll());
 		this.cardsToAdd.add(new QuietHouraiDoll());
@@ -373,6 +418,12 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		this.cardsToAdd.add(new CreateLondonDoll());
 		this.cardsToAdd.add(new CreateFranceDoll());
 		this.cardsToAdd.add(new CreateOrleansDoll());
+		
+		if (!AliceSpireKit.isMarisaModAvailable()) {
+			this.cardsToAdd.add(new AliceDoubleSpark());
+			this.cardsToAdd.add(new AliceAsteroidBelt());
+			this.cardsToAdd.add(new Alice6A());
+		}
 	}
 	
 	private void loadVariables() {
