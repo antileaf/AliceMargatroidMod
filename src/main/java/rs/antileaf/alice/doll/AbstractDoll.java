@@ -1,5 +1,6 @@
 package rs.antileaf.alice.doll;
 
+import basemod.ReflectionHacks;
 import basemod.abstracts.CustomOrb;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -23,12 +24,9 @@ import rs.antileaf.alice.doll.dolls.*;
 import rs.antileaf.alice.doll.enums.DollAmountTime;
 import rs.antileaf.alice.doll.enums.DollAmountType;
 import rs.antileaf.alice.powers.interfaces.PlayerOrEnemyDollAmountModPower;
-import rs.antileaf.alice.utils.AliceReflectKit;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
 
 public abstract class AbstractDoll extends CustomOrb {
 	public static String[] CREATURE_TEXT = CardCrawlGame.languagePack.getUIString("AbstractCreature").TEXT;
@@ -281,10 +279,12 @@ public abstract class AbstractDoll extends CustomOrb {
 				monster.intent == AbstractMonster.Intent.ATTACK_DEFEND) {
 			this.damageAboutToTake = monster.getIntentDmg();
 			try {
-				this.damageCount = (int) Objects.requireNonNull(AliceReflectKit
-								.getField(monster.getClass(), "intentMultiAmt")).get(monster);
+//				this.damageCount = (int) Objects.requireNonNull(DEPRECATEDAliceReflectKit
+//								.getField(monster.getClass(), "intentMultiAmt")).get(monster);
+				this.damageCount = ReflectionHacks.getPrivate(monster,
+						AbstractMonster.class, "intentMultiAmt");
 			}
-			catch (IllegalAccessException | NullPointerException e) {
+			catch (NullPointerException e) {
 				AliceSpireKit.log(AbstractDoll.class, " updateDamageAboutToTake() Failed to get intentMultiAmt.");
 				this.damageCount = 1;
 			}

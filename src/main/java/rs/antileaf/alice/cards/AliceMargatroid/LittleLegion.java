@@ -15,6 +15,7 @@ import rs.antileaf.alice.doll.targeting.DollOrNoneTargeting;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
+import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class LittleLegion extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = LittleLegion.class.getSimpleName();
@@ -30,7 +31,7 @@ public class LittleLegion extends AbstractAliceCard {
 		super(
 				ID,
 				cardStrings.NAME,
-				null, // AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.ATTACK,

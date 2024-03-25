@@ -2,18 +2,16 @@ package rs.antileaf.alice.patches.doll;
 
 import basemod.abstracts.CustomPlayer;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.evacipated.cardcrawl.modthespire.lib.*;
-import com.megacrit.cardcrawl.actions.common.DamageAction;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatches;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePostfixPatch;
 import com.megacrit.cardcrawl.cards.AbstractCard;
-import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.*;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import rs.antileaf.alice.doll.AbstractDoll;
-import rs.antileaf.alice.doll.DollDamageInfo;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
-import rs.antileaf.alice.utils.AliceReflectKit;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class DollMechanicsPatch {

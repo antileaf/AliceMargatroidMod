@@ -15,11 +15,12 @@ import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
 import com.megacrit.cardcrawl.vfx.cardManip.ShowCardAndAddToDiscardEffect;
 import com.megacrit.cardcrawl.vfx.cardManip.ShowCardAndAddToHandEffect;
-import org.jetbrains.annotations.NotNull;
 import rs.antileaf.alice.AliceMargatroidMod;
+import rs.antileaf.alice.cardmodifier.PhantomCardModifier;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public abstract class AliceSpireKit {
 	public static String getModID() {
@@ -81,9 +82,9 @@ public abstract class AliceSpireKit {
 		BaseMod.loadCustomStrings(clz, buf);
 	}
 	
-	public static UIStrings getUIString(@NotNull String id) {
-		return CardCrawlGame.languagePack.getUIString(id);
-	}
+//	public static UIStrings getUIString(@NotNull String id) {
+//		return CardCrawlGame.languagePack.getUIString(id);
+//	}
 	
 	public static void addCardToHand(AbstractCard card) {
 		if (AbstractDungeon.player.hand.size() < BaseMod.MAX_HAND_SIZE)
@@ -184,6 +185,52 @@ public abstract class AliceSpireKit {
 	public static boolean hasPlayedCardThisTurnWithTag(AbstractCard.CardTags tag, AbstractCard except) {
 		for (AbstractCard c : AbstractDungeon.actionManager.cardsPlayedThisTurn) {
 			if (c != except && c.hasTag(tag))
+				return true;
+		}
+		return false;
+	}
+	
+//	public static HashMap<String, ArrayList<AbstractCard>> handClassifiedByCardID() {
+//		HashMap<String, ArrayList<AbstractCard>> res = new HashMap<>();
+//		for (AbstractCard c : AbstractDungeon.player.hand.group)
+//			res.computeIfAbsent(c.cardID, k -> new ArrayList<>()).add(c);
+//		return res;
+//	}
+//
+	public static ArrayList<AbstractCard> duplicateCards(ArrayList<AbstractCard> cards, AbstractCard except) {
+		HashSet<AbstractCard> res = new HashSet<>();
+		HashSet<String> set = new HashSet<>();
+		for (AbstractCard c : cards) {
+			if (c == except || PhantomCardModifier.check(c))
+				continue;
+			
+			if (!set.add(c.cardID))
+				res.add(c);
+		}
+		return new ArrayList<>(res);
+	}
+	
+	public static String getDuplicateCardsMessage(ArrayList<AbstractCard> group, AbstractCard except) {
+		UIStrings uiStrings = CardCrawlGame.languagePack.getUIString("AliceDuplicateCards");
+		
+		ArrayList<AbstractCard> duplicates = AliceSpireKit.duplicateCards(group, except);
+		StringBuilder sb = new StringBuilder(uiStrings.TEXT[0]);
+		for (AbstractCard c : duplicates) {
+			if (c != duplicates.get(0))
+				sb.append(uiStrings.TEXT[1]);
+			sb.append(c.name);
+		}
+		sb.append(uiStrings.TEXT[2]);
+		return sb.toString();
+	}
+	
+	public static boolean hasDuplicateCards(ArrayList<AbstractCard> cards, AbstractCard except) {
+		HashSet<String> set = new HashSet<>();
+		for (AbstractCard c : cards) {
+			if (c == except || PhantomCardModifier.check(c))
+				continue;
+			
+			if (!set.add(c.cardID))
 				return true;
 		}
 		return false;

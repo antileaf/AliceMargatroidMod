@@ -1,26 +1,30 @@
 package rs.antileaf.alice.cards.AliceMargatroid;
 
-import com.megacrit.cardcrawl.actions.common.GainBlockAction;
+import com.megacrit.cardcrawl.actions.common.DrawCardAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import rs.antileaf.alice.action.doll.RecycleDollAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
+import rs.antileaf.alice.doll.AbstractDoll;
+import rs.antileaf.alice.doll.targeting.DollTargeting;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
+import rs.antileaf.alice.patches.enums.CardTargetEnum;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
-public class Defend_AliceMargatroid extends AbstractAliceCard {
-	public static final String SIMPLE_NAME = Defend_AliceMargatroid.class.getSimpleName();
+public class ReturningDolls extends AbstractAliceCard {
+	public static final String SIMPLE_NAME = ReturningDolls.class.getSimpleName();
 //	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
 	public static final String ID = SIMPLE_NAME;
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
-	private static final int BLOCK = 5;
-	private static final int UPGRADE_PLUS_BLOCK = 3;
+	private static final int DRAW = 3;
+	private static final int UPGRADE_PLUS_DRAW = 1;
 	
-	public Defend_AliceMargatroid() {
+	public ReturningDolls() {
 		super(
 				ID,
 				cardStrings.NAME,
@@ -29,29 +33,31 @@ public class Defend_AliceMargatroid extends AbstractAliceCard {
 				cardStrings.DESCRIPTION,
 				CardType.SKILL,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
-				CardRarity.BASIC,
-				CardTarget.SELF
+				CardRarity.COMMON,
+				CardTargetEnum.DOLL
 		);
 		
-		this.block = this.baseBlock = BLOCK;
-		this.tags.add(CardTags.STARTER_DEFEND);
+		this.magicNumber = this.baseMagicNumber = DRAW;
 	}
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
-		this.addToBot(new GainBlockAction(p, this.block));
+		AbstractDoll doll = DollTargeting.getTarget(this);
+		
+		this.addToBot(new RecycleDollAction(doll));
+		this.addToBot(new DrawCardAction(this.magicNumber));
 	}
 	
 	@Override
 	public AbstractCard makeCopy() {
-		return new Defend_AliceMargatroid();
+		return new ReturningDolls();
 	}
 	
 	@Override
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
-			this.upgradeBlock(UPGRADE_PLUS_BLOCK);
+			this.upgradeMagicNumber(UPGRADE_PLUS_DRAW);
 			this.initializeDescription();
 		}
 	}

@@ -3,7 +3,8 @@ package rs.antileaf.alice.utils;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 
-public abstract class AliceReflectKit {
+@Deprecated
+public abstract class DEPRECATEDAliceReflectKit {
 	static HashMap<Class<?>, HashMap<String, Field>> fieldCache = new HashMap<>();
 	
 	private static void updateCache(Class<?> clazz) {
@@ -23,7 +24,7 @@ public abstract class AliceReflectKit {
 	// To get the field of a specific instance:
 	// AliceReflectKit.getField(Clazz, fieldName).get(obj)
 	public static Field getField(Class<?> clazz, String fieldName) {
-		AliceReflectKit.updateCache(clazz);
+		DEPRECATEDAliceReflectKit.updateCache(clazz);
 		
 		for (Class<?> clz = clazz; clz != null; clz = clz.getSuperclass()) {
 			if (fieldCache.get(clz).containsKey(fieldName))
@@ -34,6 +35,6 @@ public abstract class AliceReflectKit {
 	}
 	
 	public static boolean hasField(Class<?> clazz, String fieldName) {
-		return AliceReflectKit.getField(clazz, fieldName) != null;
+		return DEPRECATEDAliceReflectKit.getField(clazz, fieldName) != null;
 	}
 }

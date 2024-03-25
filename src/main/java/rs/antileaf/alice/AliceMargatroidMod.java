@@ -1,8 +1,25 @@
 package rs.antileaf.alice;
 
+import basemod.BaseMod;
+import basemod.interfaces.*;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.mod.stslib.patches.CustomTargeting;
-import rs.antileaf.alice.cards.AliceMargatroid.*;
+import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
+import com.google.gson.Gson;
+import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.cards.DamageInfo;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.helpers.CardHelper;
+import com.megacrit.cardcrawl.localization.*;
+import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.rooms.AbstractRoom;
+import com.megacrit.cardcrawl.unlock.UnlockTracker;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import rs.antileaf.alice.cards.AliceMargatroid.Thread;
+import rs.antileaf.alice.cards.AliceMargatroid.*;
 import rs.antileaf.alice.cards.Derivations.MarisasPotion;
 import rs.antileaf.alice.cards.Derivations.dolls.*;
 import rs.antileaf.alice.cards.Marisa.Alice6A;
@@ -17,31 +34,14 @@ import rs.antileaf.alice.doll.targeting.DollOrEmptySlotTargeting;
 import rs.antileaf.alice.doll.targeting.DollOrEnemyTargeting;
 import rs.antileaf.alice.doll.targeting.DollOrNoneTargeting;
 import rs.antileaf.alice.doll.targeting.DollTargeting;
+import rs.antileaf.alice.patches.enums.AbstractCardEnum;
+import rs.antileaf.alice.patches.enums.AliceMargatroidModClassEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
 import rs.antileaf.alice.relics.AlicesDarkGrimoire;
 import rs.antileaf.alice.relics.AlicesGrimoire;
 import rs.antileaf.alice.relics.SuspiciousCard;
 import rs.antileaf.alice.utils.AliceSpireKit;
 import rs.antileaf.alice.variable.TempHPVariable;
-import basemod.BaseMod;
-import basemod.interfaces.*;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
-import com.google.gson.Gson;
-import com.megacrit.cardcrawl.cards.AbstractCard;
-import com.megacrit.cardcrawl.cards.DamageInfo;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.helpers.CardHelper;
-import com.megacrit.cardcrawl.localization.*;
-import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import com.megacrit.cardcrawl.rooms.AbstractRoom;
-import com.megacrit.cardcrawl.unlock.UnlockTracker;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import rs.antileaf.alice.patches.enums.AbstractCardEnum;
-import rs.antileaf.alice.patches.enums.AliceMargatroidModClassEnum;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -259,6 +259,7 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 //		AliceSpireKit.loadCustomStrings(PotionStrings.class, "potions");
 //		AliceSpireKit.loadCustomStrings(EventStrings.class, "events");
 		AliceSpireKit.loadCustomStrings(OrbStrings.class, "dolls");
+		AliceSpireKit.loadCustomStrings(UIStrings.class, "ui");
 
 		logger.info("done editing strings");
 	}
@@ -393,6 +394,7 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		this.cardsToAdd.add(new SpiritualPower());
 		this.cardsToAdd.add(new FrostRay());
 		this.cardsToAdd.add(new SunlightRay());
+		this.cardsToAdd.add(new StarlightRay());
 		this.cardsToAdd.add(new ArtfulSacrifice());
 		this.cardsToAdd.add(new SevenColoredPuppeteer());
 		this.cardsToAdd.add(new Collector());
@@ -401,6 +403,9 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		this.cardsToAdd.add(new CallForDolls());
 		this.cardsToAdd.add(new SnowSweeping());
 		this.cardsToAdd.add(new FriendsHelp());
+		this.cardsToAdd.add(new Phantom());
+		this.cardsToAdd.add(new MysteriousMirror());
+		this.cardsToAdd.add(new ReturningDolls());
 		
 		this.cardsToAdd.add(new VivaciousShanghaiDoll());
 		this.cardsToAdd.add(new QuietHouraiDoll());

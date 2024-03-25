@@ -1,32 +1,24 @@
-package rs.antileaf.alice.patches.unique;
+package rs.antileaf.alice.patches.marisa;
 
 import ThMod.cards.Marisa.DoubleSpark;
 import ThMod.cards.derivations.Spark;
-import basemod.BaseMod;
 import basemod.abstracts.CustomCard;
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.evacipated.cardcrawl.modthespire.patcher.PatchingException;
 import com.megacrit.cardcrawl.actions.GameActionManager;
-import com.megacrit.cardcrawl.actions.common.MakeTempCardInHandAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
-import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import com.megacrit.cardcrawl.vfx.cardManip.ShowCardAndAddToDiscardEffect;
-import com.megacrit.cardcrawl.vfx.cardManip.ShowCardAndAddToHandEffect;
 import javassist.CannotCompileException;
 import javassist.CtBehavior;
 import rs.antileaf.alice.action.utils.AnonymousAction;
-import rs.antileaf.alice.cards.AliceMargatroid.FriendsHelp;
 import rs.antileaf.alice.cards.Marisa.AliceSpark;
-import rs.antileaf.alice.characters.AliceMargatroid;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
-public class AliceSparkAlternativeImagePatch {
+public class MarisaAlternativeImagePatch {
 	@SpirePatch(clz = DoubleSpark.class, method = "use", requiredModId = "TS05_Marisa",
 			paramtypez = {AbstractPlayer.class, AbstractMonster.class})
-	public static class AliceSparkAlternativeImagePatchUse {
+	public static class AliceSparkAlternativeImagePatch {
 		private static class Locator extends SpireInsertLocator {
 			@Override
 			public int[] Locate(CtBehavior ctBehavior) throws CannotCompileException, PatchingException {

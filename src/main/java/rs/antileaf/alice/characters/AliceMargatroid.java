@@ -1,10 +1,5 @@
 package rs.antileaf.alice.characters;
 
-import rs.antileaf.alice.AliceMargatroidMod;
-import rs.antileaf.alice.cards.AliceMargatroid.*;
-import rs.antileaf.alice.cards.AliceMargatroid.Thread;
-import rs.antileaf.alice.patches.enums.AbstractCardEnum;
-import rs.antileaf.alice.patches.enums.AliceMargatroidModClassEnum;
 import basemod.abstracts.CustomPlayer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -25,6 +20,11 @@ import com.megacrit.cardcrawl.screens.CharSelectInfo;
 import com.megacrit.cardcrawl.unlock.UnlockTracker;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import rs.antileaf.alice.AliceMargatroidMod;
+import rs.antileaf.alice.cards.AliceMargatroid.Thread;
+import rs.antileaf.alice.cards.AliceMargatroid.*;
+import rs.antileaf.alice.patches.enums.AbstractCardEnum;
+import rs.antileaf.alice.patches.enums.AliceMargatroidModClassEnum;
 import rs.antileaf.alice.relics.AlicesGrimoire;
 
 import java.util.ArrayList;
@@ -135,7 +135,7 @@ public class AliceMargatroid extends CustomPlayer {
 				flavor,
 				STARTING_HP,
 				MAX_HP,
-				1,
+				0,
 				STARTING_GOLD,
 				HAND_SIZE,
 				this,

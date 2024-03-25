@@ -1,7 +1,5 @@
 package rs.antileaf.alice.cards;
 
-import com.megacrit.cardcrawl.core.CardCrawlGame;
-import com.megacrit.cardcrawl.localization.CardStrings;
 import basemod.abstracts.CustomCard;
 import com.badlogic.gdx.graphics.Color;
 import com.evacipated.cardcrawl.mod.stslib.cards.interfaces.SpawnModificationCard;
@@ -10,9 +8,9 @@ import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.DrawCardAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.doll.DollManager;
-import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
@@ -20,8 +18,8 @@ import static rs.antileaf.alice.AliceMargatroidMod.ALICE_PUPPETEER_FLAVOR;
 
 public abstract class AbstractAliceCard extends CustomCard
 		implements SpawnModificationCard {
-	protected static final CardStrings cardStrings =
-			CardCrawlGame.languagePack.getCardStrings("AbstractAliceCard");
+//	protected static final CardStrings cardStrings =
+//			CardCrawlGame.languagePack.getCardStrings("AbstractAliceCard");
 	protected static final Color CYAN_COLOR = new Color(0f, 204f / 255f, 0f, 1f);
 
 	public boolean cantBePlayed = false;
@@ -78,7 +76,8 @@ public abstract class AbstractAliceCard extends CustomCard
 		
 		if (this.target == CardTargetEnum.DOLL) {
 			if (!DollManager.get().hasDoll()) {
-				this.cantUseMessage = cardStrings.EXTENDED_DESCRIPTION[0];
+				this.cantUseMessage = CardCrawlGame.languagePack.getCardStrings("AbstractAliceCard")
+						.EXTENDED_DESCRIPTION[0];
 				return false;
 			}
 		}

@@ -9,7 +9,6 @@ import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
-import rs.antileaf.alice.utils.AliceMiscKit;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class Collector extends AbstractAliceCard {
@@ -45,7 +44,7 @@ public class Collector extends AbstractAliceCard {
 			this.baseBlock += UPGRADE_PLUS_BLOCK;
 		
 		super.applyPowers();
-		this.initializeDescription();
+//		this.initializeDescription();
 	}
 	
 	@Override
