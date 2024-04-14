@@ -1,16 +1,14 @@
 package rs.antileaf.alice.powers.unique;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.PowerStrings;
-import com.megacrit.cardcrawl.powers.AbstractPower;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.powers.AbstractAlicePower;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class KirisameMahoutenPower extends AbstractPower {
+public class KirisameMahoutenPower extends AbstractAlicePower {
 	public static final String SIMPLE_NAME = KirisameMahoutenPower.class.getSimpleName();
 	public static final String POWER_ID = SIMPLE_NAME;
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
@@ -25,7 +23,7 @@ public class KirisameMahoutenPower extends AbstractPower {
 		this.potionNames = new ArrayList<>(Collections.singleton(potionName));
 		this.amount = this.potionNames.size();
 		this.updateDescription();
-		this.img = new Texture(AliceSpireKit.getPowerImgFilePath("default"));
+		this.initializeImage(null);
 	}
 	
 	public void addPotion(String potionName) {

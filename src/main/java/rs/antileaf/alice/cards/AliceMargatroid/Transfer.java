@@ -6,10 +6,8 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import rs.antileaf.alice.action.doll.DollActAction;
 import rs.antileaf.alice.action.doll.DollGainBlockAction;
 import rs.antileaf.alice.action.doll.DollLoseBlockAction;
-import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
@@ -17,7 +15,6 @@ import rs.antileaf.alice.doll.targeting.DollTargeting;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
-import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class Transfer extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = Transfer.class.getSimpleName();
@@ -51,14 +48,17 @@ public class Transfer extends AbstractAliceCard {
 	public void use(AbstractPlayer p, AbstractMonster m) {
 		AbstractDoll doll = DollTargeting.getTarget(this);
 		
-		int total = 0;
-		for (AbstractDoll other : DollManager.get().getDolls())
-			if (other != doll) {
-				total += other.block;
-				this.addToBot(new DollLoseBlockAction(other, other.block));
-			}
+		if (doll != null) {
+			int total = 0;
+			for (AbstractDoll other : DollManager.get().getDolls())
+				if (other != doll) {
+					total += other.block;
+					this.addToBot(new DollLoseBlockAction(other, other.block));
+				}
+			
+			this.addToBot(new DollGainBlockAction(doll, total));
+		}
 		
-		this.addToBot(new DollGainBlockAction(doll, total));
 		this.addToBot(new DrawCardAction(this.magicNumber));
 	}
 	

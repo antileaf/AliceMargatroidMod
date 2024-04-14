@@ -8,12 +8,11 @@ import rs.antileaf.alice.doll.DollDamageInfo;
 
 public class DollDamageAction extends DamageAction {
 	private final DollDamageInfo dollDamageInfo;
-	private final float fullDuration;
 	
 	public DollDamageAction(AbstractCreature target, DollDamageInfo info, AbstractGameAction.AttackEffect effect) {
 		super(target, info, effect);
 		this.dollDamageInfo = info;
-		this.fullDuration = this.duration;
+		this.startDuration = this.duration;
 	}
 	
 	public DollDamageAction(AbstractCreature target, DollDamageInfo info) {
@@ -23,7 +22,7 @@ public class DollDamageAction extends DamageAction {
 	@Override
 	public void update() {
 		if (!(this.shouldCancelAction() && this.dollDamageInfo.type != DamageInfo.DamageType.THORNS)) {
-			if (this.duration == this.fullDuration) {
+			if (this.duration == this.startDuration) {
 				if (!(this.dollDamageInfo.type != DamageInfo.DamageType.THORNS &&
 						(this.dollDamageInfo.owner.isDying || this.dollDamageInfo.owner.halfDead))) {
 					this.dollDamageInfo.applyPowers(this.source, this.target);

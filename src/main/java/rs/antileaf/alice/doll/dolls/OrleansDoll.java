@@ -1,17 +1,11 @@
 package rs.antileaf.alice.doll.dolls;
 
-import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.actions.common.DrawCardAction;
 import com.megacrit.cardcrawl.actions.common.GainEnergyAction;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.OrbStrings;
-import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.doll.AbstractDoll;
-import rs.antileaf.alice.doll.DollDamageInfo;
-import rs.antileaf.alice.doll.enums.DollAmountTime;
 import rs.antileaf.alice.doll.enums.DollAmountType;
-import rs.antileaf.alice.utils.AliceMiscKit;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class OrleansDoll extends AbstractDoll {
@@ -34,6 +28,11 @@ public class OrleansDoll extends AbstractDoll {
 		
 		this.passiveAmountType = DollAmountType.MAGIC;
 		this.actAmountType = DollAmountType.MAGIC;
+	}
+	
+	@Override
+	public String getID() {
+		return ID;
 	}
 	
 	@Override
@@ -64,4 +63,12 @@ public class OrleansDoll extends AbstractDoll {
 	
 	@Override
 	public void playChannelSFX() {}
+	
+	public static String getDescription() {
+		return getHpDescription(MAX_HP) + " NL " + (new OrleansDoll()).desc();
+	}
+	
+	public static String getFlavor() {
+		return dollStrings.DESCRIPTION[dollStrings.DESCRIPTION.length - 1];
+	}
 }

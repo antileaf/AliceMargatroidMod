@@ -240,8 +240,15 @@ public class AliceMargatroid extends CustomPlayer {
 		};
 	}
 	
+	@Override
 	public String getSpireHeartText() {
-		return com.megacrit.cardcrawl.events.beyond.SpireHeart.DESCRIPTIONS[10];
+//		return com.megacrit.cardcrawl.events.beyond.SpireHeart.DESCRIPTIONS[10];
+		return "NL 你的人偶们在你的指挥下，向心脏发动了致命的攻击。";
+	}
+	
+	@Override
+	public String getSensoryStoneText() {
+		return CardCrawlGame.languagePack.getEventString("AliceSensoryStone").DESCRIPTIONS[0];
 	}
 	
 	public void damage(DamageInfo info) {

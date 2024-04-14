@@ -11,7 +11,10 @@ import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 
 public class DollOrEnemyTargeting extends TargetingHandler<Object> {
 	public static Object getTarget(AbstractCard card) {
-		return CustomTargeting.getCardTarget(card);
+		Object target = CustomTargeting.getCardTarget(card);
+		if (target == null)
+			target = AbstractDungeon.getMonsters().getRandomMonster(true);
+		return target;
 	}
 	
 	protected Object hovered = null;

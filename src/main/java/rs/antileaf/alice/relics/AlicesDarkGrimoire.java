@@ -1,16 +1,17 @@
 package rs.antileaf.alice.relics;
 
 import basemod.abstracts.CustomRelic;
+import com.evacipated.cardcrawl.mod.stslib.relics.ClickableRelic;
 import com.megacrit.cardcrawl.actions.common.RelicAboveCreatureAction;
-import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import rs.antileaf.alice.action.doll.SpawnDollAction;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceTutorialHelper;
 
-public class AlicesDarkGrimoire extends CustomRelic {
+public class AlicesDarkGrimoire extends CustomRelic implements ClickableRelic {
 	public static final String SIMPLE_NAME = AlicesDarkGrimoire.class.getSimpleName();
 
 	public static final String ID = SIMPLE_NAME;
@@ -66,5 +67,11 @@ public class AlicesDarkGrimoire extends CustomRelic {
 	@Override
 	public AbstractRelic makeCopy() {
 		return new AlicesDarkGrimoire();
+	}
+	
+	@Override
+	public void onRightClick() {
+		if (AliceSpireKit.isInBattle())
+			AliceTutorialHelper.openTutorial();
 	}
 }

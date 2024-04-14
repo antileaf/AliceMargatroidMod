@@ -1,19 +1,17 @@
 package rs.antileaf.alice.cards.Marisa;
 
 import basemod.abstracts.CustomCard;
-import com.evacipated.cardcrawl.mod.stslib.actions.common.DamageCallbackAction;
-import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
-import com.megacrit.cardcrawl.actions.unique.LoseEnergyAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
-import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.NextTurnBlockPower;
+import com.megacrit.cardcrawl.ui.panels.EnergyPanel;
+import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
@@ -46,10 +44,21 @@ public class AliceAsteroidBelt extends CustomCard {
 	public void use(AbstractPlayer p, AbstractMonster m) {
 		this.addToBot(new GainBlockAction(p, p, this.block));
 		
-		if (AbstractDungeon.player.energy.energy >= 1) {
-			this.addToTop(new LoseEnergyAction(1));
-			this.addToBot(new ApplyPowerAction(p, p, new NextTurnBlockPower(p, this.block), this.block));
-		}
+		boolean shouldUseExtraEnergy = (!this.freeToPlayOnce && !this.purgeOnUse);
+		int block = this.block;
+		
+		this.addToBot(new AnonymousAction(() -> {
+			int amp = shouldUseExtraEnergy ? 1 : 0;
+			
+			if (EnergyPanel.getCurrentEnergy() >= amp) {
+				if (amp > 0)
+					AbstractDungeon.player.energy.use(amp);
+				else
+					AliceSpireKit.log("AliceAsteroidBelt: Free to amplify.");
+				
+				this.addToBot(new ApplyPowerAction(p, p, new NextTurnBlockPower(p, block), block));
+			}
+		}));
 	}
 	
 	@Override

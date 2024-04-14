@@ -18,8 +18,9 @@ public class Collector extends AbstractAliceCard {
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
-	private static final int BLOCK = 0;
-	private static final int UPGRADE_PLUS_BLOCK = 3;
+	private static final int MAGIC = 3;
+	private static final int MAGIC2 = 4;
+	private static final int UPGRADE_PLUS_MAGIC2 = 1;
 	
 	public Collector() {
 		super(
@@ -34,14 +35,12 @@ public class Collector extends AbstractAliceCard {
 				CardTarget.SELF
 		);
 		
-		this.block = this.baseBlock = BLOCK;
+		this.magicNumber = this.baseMagicNumber = MAGIC;
 	}
 	
 	@Override
 	public void applyPowers() {
-		this.baseBlock = AbstractDungeon.player.relics.size();
-		if (this.upgraded)
-			this.baseBlock += UPGRADE_PLUS_BLOCK;
+		this.baseBlock = AbstractDungeon.player.relics.size() / this.magicNumber * this.secondaryMagicNumber;
 		
 		super.applyPowers();
 //		this.initializeDescription();
@@ -70,8 +69,7 @@ public class Collector extends AbstractAliceCard {
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
-			this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
-			this.upgradeBlock(UPGRADE_PLUS_BLOCK);
+			this.upgradeSecondaryMagicNumber(UPGRADE_PLUS_MAGIC2);
 			this.initializeDescription();
 		}
 	}

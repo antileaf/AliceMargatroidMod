@@ -8,9 +8,9 @@ public class AbstractCardEnum {
   @SpireEnum
   public static AbstractCard.CardColor ALICE_MARGATROID_COLOR;
   
-  @SpireEnum
+  @SpireEnum(name = "Alice Derivation")
   public static AbstractCard.CardColor ALICE_MARGATROID_DERIVATION_COLOR;
   
-  @SpireEnum
+  @SpireEnum(name = "Marisa Derivation")
   public static AbstractCard.CardColor ALICE_MARISA_COLOR;
 }

@@ -14,6 +14,7 @@ import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
+import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class SnowSweeping extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = SnowSweeping.class.getSimpleName();
@@ -22,14 +23,15 @@ public class SnowSweeping extends AbstractAliceCard {
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
-	private static final int MAGIC = 2;
+	private static final int BLOCK = 5;
+	private static final int MAGIC = 1;
 	private static final int UPGRADE_PLUS_MAGIC = 1;
 	
 	public SnowSweeping() {
 		super(
 				ID,
 				cardStrings.NAME,
-				null, //AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.SKILL,
@@ -38,16 +40,20 @@ public class SnowSweeping extends AbstractAliceCard {
 				CardTarget.NONE
 		);
 		
+		this.block = this.baseBlock = BLOCK;
 		this.magicNumber = this.baseMagicNumber = MAGIC;
 	}
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
+		this.addToBot(new GainBlockAction(p, p, this.block));
 		this.addToBot(new DrawCardAction(this.magicNumber));
 		this.addToBot(new AnonymousAction(() -> {
 			for (AbstractDoll doll : DollManager.get().getDolls())
-				if (!(doll instanceof EmptyDollSlot))
+				if (!(doll instanceof EmptyDollSlot)) {
 					this.addToTop(new DollActAction(doll));
+					break;
+				}
 		}));
 	}
 	

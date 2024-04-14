@@ -1,6 +1,7 @@
 package rs.antileaf.alice.cards.AliceMargatroid;
 
 import com.megacrit.cardcrawl.actions.common.DrawCardAction;
+import com.megacrit.cardcrawl.actions.common.GainEnergyAction;
 import com.megacrit.cardcrawl.actions.common.HealAction;
 import com.megacrit.cardcrawl.actions.common.UpgradeSpecificCardAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -22,8 +23,10 @@ public class SurpriseSpring extends AbstractAliceCard {
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 0;
-	private static final int HEAL = 3;
-	private static final int UPGRADE_PLUS_HEAL = 2;
+	private static final int HEAL = 2;
+	private static final int ENERGY = 1;
+	private static final int UPGRADE_PLUS_HEAL = 1;
+	private static final int UPGRADE_PLUS_ENERGY = 1;
 	
 	public SurpriseSpring() {
 		super(
@@ -34,17 +37,19 @@ public class SurpriseSpring extends AbstractAliceCard {
 				cardStrings.DESCRIPTION,
 				CardType.SKILL,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
-				CardRarity.UNCOMMON,
+				CardRarity.RARE,
 				CardTarget.SELF
 		);
 		
 		this.magicNumber = this.baseMagicNumber = HEAL;
+		this.secondaryMagicNumber = this.baseSecondaryMagicNumber = ENERGY;
 		this.exhaust = true;
 		this.tags.add(CardTags.HEALING);
 	}
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
+		this.addToBot(new GainEnergyAction(this.secondaryMagicNumber));
 		this.addToBot(new HealAction(p, p, this.magicNumber));
 		this.addToBot(new DrawCardAction(
 				1,
@@ -74,7 +79,9 @@ public class SurpriseSpring extends AbstractAliceCard {
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
+			this.upgradeSecondaryMagicNumber(UPGRADE_PLUS_ENERGY);
 			this.upgradeMagicNumber(UPGRADE_PLUS_HEAL);
+			this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
 			this.initializeDescription();
 		}
 	}

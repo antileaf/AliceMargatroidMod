@@ -53,5 +53,34 @@
     "DESCRIPTIONS": [
       "一回合内，受到的 人偶 伤害增加", "点。"
     ]
+  },
+  
+  "RefractionPower": {
+    "NAME": "折射",
+    "DESCRIPTIONS": [
+      "所有 射线 牌造成的伤害提高", "点。"
+    ]
+  },
+  
+  "TyrantPower": {
+    "NAME": "统御",
+    "DESCRIPTIONS": [
+      "本场战斗中，所有 人偶 的最大生命值提高", "点。"
+    ]
+  },
+  
+  "DollActivationPower": {
+    "NAME": "人偶振起",
+    "DESCRIPTIONS": [
+      "回合开始时，使你最右侧的 人偶 行动 一次。",
+      "回合开始时，使你最右侧的", "个 人偶 各 行动 一次。"
+    ]
+  },
+  
+  "MaliceSparkPower": {
+    "NAME": "魔丽丝炮",
+    "DESCRIPTIONS": [
+      "本回合内，手牌上限减少", "张。"
+    ]
   }
 }

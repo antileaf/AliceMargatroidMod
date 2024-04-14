@@ -1,23 +1,18 @@
 package rs.antileaf.alice.cards.AliceMargatroid;
 
-import com.evacipated.cardcrawl.mod.stslib.actions.common.DamageCallbackAction;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
-import com.megacrit.cardcrawl.actions.common.GainEnergyAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.powers.unique.FrostRayPower;
-import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class FrostRay extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = FrostRay.class.getSimpleName();
@@ -25,9 +20,9 @@ public class FrostRay extends AbstractAliceCard {
 	public static final String ID = SIMPLE_NAME;
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
-	private static final int COST = 1;
-	private static final int DAMAGE = 8;
-	private static final int UPGRADE_PLUS_DAMAGE = 3;
+	private static final int COST = 2;
+	private static final int DAMAGE = 11;
+	private static final int UPGRADED_COST = 1;
 	
 	public FrostRay() {
 		super(
@@ -43,6 +38,7 @@ public class FrostRay extends AbstractAliceCard {
 		);
 		
 		this.damage = this.baseDamage = DAMAGE;
+		this.exhaust = true;
 		this.tags.add(CardTagEnum.ALICE_RAY);
 	}
 	
@@ -65,7 +61,7 @@ public class FrostRay extends AbstractAliceCard {
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
-			this.upgradeDamage(UPGRADE_PLUS_DAMAGE);
+			this.upgradeBaseCost(UPGRADED_COST);
 			this.initializeDescription();
 		}
 	}

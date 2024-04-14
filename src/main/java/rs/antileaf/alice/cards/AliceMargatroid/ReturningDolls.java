@@ -33,7 +33,7 @@ public class ReturningDolls extends AbstractAliceCard {
 				cardStrings.DESCRIPTION,
 				CardType.SKILL,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
-				CardRarity.COMMON,
+				CardRarity.UNCOMMON,
 				CardTargetEnum.DOLL
 		);
 		
@@ -44,7 +44,9 @@ public class ReturningDolls extends AbstractAliceCard {
 	public void use(AbstractPlayer p, AbstractMonster m) {
 		AbstractDoll doll = DollTargeting.getTarget(this);
 		
-		this.addToBot(new RecycleDollAction(doll));
+		if (doll != null)
+			this.addToBot(new RecycleDollAction(doll));
+		
 		this.addToBot(new DrawCardAction(this.magicNumber));
 	}
 	

@@ -9,7 +9,20 @@ import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 
 public class DollOrEmptySlotTargeting extends TargetingHandler<AbstractDoll> {
 	public static AbstractDoll getTarget(AbstractCard card) {
-		return CustomTargeting.getCardTarget(card);
+		AbstractDoll target = CustomTargeting.getCardTarget(card);
+		if (target == null) {
+			for (AbstractDoll doll : DollManager.get().getDolls()) {
+				if (doll instanceof EmptyDollSlot) {
+					target = doll;
+					break;
+				}
+			}
+			
+			if (target == null)
+				target = DollManager.get().getDolls().get(DollManager.MAX_DOLL_SLOTS - 1);
+		}
+		
+		return target;
 	}
 	
 	protected AbstractDoll hovered = null;

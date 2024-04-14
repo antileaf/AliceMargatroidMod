@@ -7,14 +7,13 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.powers.AbstractPower;
+import rs.antileaf.alice.action.doll.DollActAction;
 import rs.antileaf.alice.action.doll.MoveDollAction;
 import rs.antileaf.alice.action.doll.RecycleDollAction;
 import rs.antileaf.alice.action.doll.SpawnDollInternalAction;
 import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.characters.AliceMargatroid;
-import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
-import rs.antileaf.alice.doll.dolls.HouraiDoll;
-import rs.antileaf.alice.doll.dolls.KyotoDoll;
+import rs.antileaf.alice.doll.dolls.*;
 import rs.antileaf.alice.powers.interfaces.OnDollOperatePower;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
@@ -55,6 +54,7 @@ public class DollManager {
 	private int preservedBlock = 0;
 	
 	private boolean shown = false;
+	private int totalHouraiPassiveAmount = 0;
 	
 	public DollManager(AbstractPlayer p) {
 		AliceSpireKit.log(this.getClass(), "DollManager constructor");
@@ -93,6 +93,10 @@ public class DollManager {
 	
 	public void addBlock(AbstractDoll doll, int block) {
 		doll.addBlock(block);
+		
+		for (AbstractPower power : AbstractDungeon.player.powers)
+			if (power instanceof OnDollOperatePower)
+				((OnDollOperatePower) power).postDollGainedBlock(doll, block);
 	}
 	
 	public void loseBlock(AbstractDoll doll, int block) {
@@ -103,7 +107,7 @@ public class DollManager {
 		this.preservedBlock = 0;
 		for (AbstractDoll doll : this.dolls)
 			if (doll instanceof KyotoDoll) {
-				doll.applyPower();
+//				doll.applyPower();
 				this.preservedBlock += doll.passiveAmount;
 			}
 	}
@@ -112,9 +116,27 @@ public class DollManager {
 		return this.preservedBlock;
 	}
 	
-	public void clearBlock() {
+	public void startOfTurnClearBlock() {
 		for (AbstractDoll doll : this.dolls)
 			doll.clearBlock(this.preservedBlock);
+	}
+	
+	public void startOfTurnResetHouraiPassiveAmount() {
+		this.updateTotalHouraiPassiveAmount();
+		int cur = this.totalHouraiPassiveAmount;
+		
+		for (AbstractDoll doll : this.dolls)
+			if (doll instanceof HouraiDoll)
+				((HouraiDoll) doll).resetPassiveAmount();
+		
+		this.applyPowers();
+		
+		int diff = this.totalHouraiPassiveAmount - cur;
+		if (diff != 0) {
+			for (AbstractDoll doll : this.dolls)
+				if (doll instanceof NetherlandsDoll)
+					((NetherlandsDoll) doll).onStartOfTurnUpdate(diff);
+		}
 	}
 	
 	public void onStartOfTurn() {
@@ -133,8 +155,11 @@ public class DollManager {
 	}
 	
 	public void applyPowers() {
+		this.updateTotalHouraiPassiveAmount();
 		for (AbstractDoll doll : this.dolls)
 			doll.applyPower();
+		
+		this.updatePreservedBlock();
 	}
 	
 	public void update() {
@@ -218,20 +243,34 @@ public class DollManager {
 	public void dollAct(AbstractDoll doll) {
 		assert this.dolls.contains(doll);
 		
-		if (doll instanceof HouraiDoll) {
-			for (int i = 0; i < this.dolls.size(); i++)
-				if (!(this.dolls.get(i) instanceof HouraiDoll)) {
-					doll = this.dolls.get(i);
-					break;
-				}
+//		if (doll instanceof HouraiDoll) {
+//			for (int i = 0; i < this.dolls.size(); i++)
+//				if (!(this.dolls.get(i) instanceof HouraiDoll)) {
+//					doll = this.dolls.get(i);
+//					break;
+//				}
+//		}
+		
+		if (doll instanceof LondonDoll) {
+			int index = this.dolls.indexOf(doll);
+			
+			if (index > 0) {
+				AbstractDoll prev = this.dolls.get(index - 1);
+				if (!(prev instanceof EmptyDollSlot) && !(prev instanceof LondonDoll))
+					AliceSpireKit.addActionToBuffer(new DollActAction(prev));
+			}
+			if (index < MAX_DOLL_SLOTS - 1) {
+				AbstractDoll next = this.dolls.get(index + 1);
+				if (!(next instanceof EmptyDollSlot) && !(next instanceof LondonDoll))
+					AliceSpireKit.addActionToBuffer(new DollActAction(next));
+			}
+			
+			AliceSpireKit.commitBuffer();
+			return;
 		}
 		
 		doll.applyPower();
-		
-		if (!(doll instanceof HouraiDoll))
-			doll.onAct();
-		else
-			AliceSpireKit.log(this.getClass(), "There is no doll to act.");
+		doll.onAct();
 		
 		this.applyPowers();
 		
@@ -267,8 +306,10 @@ public class DollManager {
 		this.applyPowers();
 		
 		for (AbstractPower power : this.owner.powers)
-			if (power instanceof OnDollOperatePower)
+			if (power instanceof OnDollOperatePower) {
 				((OnDollOperatePower) power).postRecycleDoll(doll);
+				((OnDollOperatePower) power).postRecycleOrDestroyDoll(doll);
+			}
 		
 		for (AbstractDoll other : this.dolls)
 			if (other != doll) {
@@ -291,8 +332,10 @@ public class DollManager {
 		this.applyPowers();
 		
 		for (AbstractPower power : this.owner.powers)
-			if (power instanceof OnDollOperatePower)
+			if (power instanceof OnDollOperatePower) {
 				((OnDollOperatePower) power).postDestroyDoll(doll);
+				((OnDollOperatePower) power).postRecycleOrDestroyDoll(doll);
+			}
 		
 		for (AbstractDoll other : this.dolls)
 			if (other != doll) {
@@ -381,8 +424,15 @@ public class DollManager {
 		return null;
 	}
 	
-	public int getHouraiDollCount() {
-		return (int) this.dolls.stream().filter(doll -> doll instanceof HouraiDoll).count();
+	private void updateTotalHouraiPassiveAmount() {
+		this.totalHouraiPassiveAmount = this.dolls.stream()
+				.filter(doll -> doll instanceof HouraiDoll)
+				.mapToInt(doll -> doll.passiveAmount)
+				.sum();
+	}
+	
+	public int getTotalHouraiPassiveAmount() {
+		return this.totalHouraiPassiveAmount;
 	}
 	
 //	public Formation getFormation() {

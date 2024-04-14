@@ -15,6 +15,7 @@ import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
 import com.megacrit.cardcrawl.vfx.cardManip.ShowCardAndAddToDiscardEffect;
 import com.megacrit.cardcrawl.vfx.cardManip.ShowCardAndAddToHandEffect;
+import org.jetbrains.annotations.Nullable;
 import rs.antileaf.alice.AliceMargatroidMod;
 import rs.antileaf.alice.cardmodifier.PhantomCardModifier;
 
@@ -146,8 +147,13 @@ public abstract class AliceSpireKit {
 		return index;
 	}
 	
+	@Nullable
 	public static AbstractMonster getMonsterByIndex(int index) { // 0-based index
 		int cnt = 0;
+		
+		if (!isInBattle())
+			return null;
+		
 		for (AbstractMonster m : AbstractDungeon.getMonsters().monsters) {
 			if (m.isDeadOrEscaped())
 				continue;
@@ -241,7 +247,7 @@ public abstract class AliceSpireKit {
 			return FontHelper.colorString("" + amount,
 				amount > baseAmount ? "g" : "r");
 		else
-			return "" + amount;
+			return FontHelper.colorString("" + amount, "b");
 	}
 	
 	static boolean marisaModAvailable = false;

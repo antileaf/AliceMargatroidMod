@@ -20,7 +20,7 @@ public class DollGainBlockAction extends AbstractGameAction {
 	
 	@Override
 	public void update() {
-		if (this.duration == this.startDuration) {
+		if (this.duration == DURATION) {
 			if (DollManager.get().contains(this.doll))
 				DollManager.get().addBlock(this.doll, this.block);
 			else

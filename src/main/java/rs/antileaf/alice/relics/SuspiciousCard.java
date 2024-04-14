@@ -6,7 +6,6 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import rs.antileaf.alice.action.doll.SpawnDollAction;
-import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.dolls.ShanghaiDoll;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
@@ -22,7 +21,7 @@ public class SuspiciousCard extends CustomRelic {
 				ID,
 				ImageMaster.loadImage(IMG),
 				ImageMaster.loadImage(IMG_OTL),
-				RelicTier.COMMON,
+				RelicTier.UNCOMMON,
 				LandingSound.FLAT
 		);
 	}

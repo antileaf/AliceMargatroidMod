@@ -26,6 +26,9 @@ public abstract class AbstractAliceCard extends CustomCard
 	public boolean isSupplement = false;
 	public int tempHP = 0;
 	public int baseTempHP = 0;
+	public int secondaryMagicNumber = -1;
+	public int baseSecondaryMagicNumber = -1;
+	public boolean isSecondaryMagicNumberUpgraded = false;
 	
 	public AbstractAliceCard(
 			String id,
@@ -93,6 +96,8 @@ public abstract class AbstractAliceCard extends CustomCard
 		card.isSupplement = this.isSupplement;
 		card.tempHP = this.tempHP;
 		card.baseTempHP = this.baseTempHP;
+		card.secondaryMagicNumber = this.secondaryMagicNumber;
+		card.baseSecondaryMagicNumber = this.baseSecondaryMagicNumber;
 
 		return card;
 	}
@@ -123,6 +128,12 @@ public abstract class AbstractAliceCard extends CustomCard
 			this.triggerOnLeaveHand(false, true);
 		
 		super.triggerOnEndOfPlayerTurn();
+	}
+	
+	public void upgradeSecondaryMagicNumber(int amount) {
+		this.baseSecondaryMagicNumber += amount;
+		this.secondaryMagicNumber = this.baseSecondaryMagicNumber;
+		this.isSecondaryMagicNumberUpgraded = true;
 	}
 
 	public void addActionsToTop(AbstractGameAction... actions) {

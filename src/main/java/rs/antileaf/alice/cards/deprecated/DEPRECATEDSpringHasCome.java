@@ -10,7 +10,7 @@ import rs.antileaf.alice.action.doll.SpawnDollAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
-import rs.antileaf.alice.doll.dolls.unique.LilyDoll;
+import rs.antileaf.alice.doll.dolls.deprecated.LilyDoll;
 import rs.antileaf.alice.doll.targeting.DollOrEmptySlotTargeting;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;

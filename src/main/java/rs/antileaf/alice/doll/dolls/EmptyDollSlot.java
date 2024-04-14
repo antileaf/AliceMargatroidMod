@@ -31,11 +31,25 @@ public class EmptyDollSlot extends AbstractDoll {
 	}
 	
 	@Override
+	public void addBlock(int blockAmount) {}
+	
+	@Override
+	public void loseBlock(int amount, boolean shouldPlaySound) {}
+	
+	@Override
+	public void loseBlock(int amount) {}
+	
+	@Override
 	public boolean takeDamage(int amount) {
 		if (amount > 0)
 			AliceSpireKit.log(EmptyDollSlot.class, "EmptyDollSlot.takeDamage() called!");
 		
 		return false;
+	}
+	
+	@Override
+	public String getID() {
+		return ID;
 	}
 	
 	@Override
@@ -71,4 +85,8 @@ public class EmptyDollSlot extends AbstractDoll {
 	
 	@Override
 	public void playChannelSFX() {}
+	
+//	public static String getFlavor() {
+//		return dollStrings.DESCRIPTION[dollStrings.DESCRIPTION.length - 1];
+//	}
 }

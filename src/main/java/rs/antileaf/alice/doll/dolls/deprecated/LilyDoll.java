@@ -1,35 +1,19 @@
-package rs.antileaf.alice.doll.dolls.unique;
+package rs.antileaf.alice.doll.dolls.deprecated;
 
-import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.animations.TalkAction;
-import com.megacrit.cardcrawl.actions.animations.VFXAction;
-import com.megacrit.cardcrawl.actions.common.DamageAllEnemiesAction;
-import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.actions.common.GainEnergyAction;
 import com.megacrit.cardcrawl.actions.common.HealAction;
 import com.megacrit.cardcrawl.actions.unique.ArmamentsAction;
-import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.OrbStrings;
-import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import com.megacrit.cardcrawl.vfx.SpeechBubble;
-import com.megacrit.cardcrawl.vfx.combat.LightningEffect;
-import rs.antileaf.alice.action.doll.DollGainBlockAction;
 import rs.antileaf.alice.action.doll.RecycleDollAction;
-import rs.antileaf.alice.action.doll.SpawnDollAction;
-import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.doll.AbstractDoll;
-import rs.antileaf.alice.doll.DollManager;
-import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.doll.enums.DollAmountType;
-import rs.antileaf.alice.patches.enums.DamageTypeEnum;
 import rs.antileaf.alice.utils.AliceMiscKit;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
+@Deprecated
 public class LilyDoll extends AbstractDoll {
 	public static final String SIMPLE_NAME = LilyDoll.class.getSimpleName();
 	public static final String ID = SIMPLE_NAME;
@@ -56,6 +40,11 @@ public class LilyDoll extends AbstractDoll {
 	
 	@Override
 	public void applyPower() {}
+	
+	@Override
+	public String getID() {
+		return ID;
+	}
 	
 	@Override
 	public void onAct() {

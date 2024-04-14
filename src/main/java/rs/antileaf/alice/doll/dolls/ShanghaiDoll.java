@@ -38,6 +38,11 @@ public class ShanghaiDoll extends AbstractDoll {
 	}
 	
 	@Override
+	public String getID() {
+		return ID;
+	}
+	
+	@Override
 	public void onAct() {
 		AbstractMonster m = AliceSpireKit.getMonsterWithLeastHP();
 		
@@ -92,4 +97,12 @@ public class ShanghaiDoll extends AbstractDoll {
 	
 	@Override
 	public void playChannelSFX() {}
+	
+	public static String getDescription() {
+		return getHpDescription(MAX_HP) + " NL " + (new ShanghaiDoll()).desc();
+	}
+	
+	public static String getFlavor() {
+		return dollStrings.DESCRIPTION[dollStrings.DESCRIPTION.length - 1];
+	}
 }

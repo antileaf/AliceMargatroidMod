@@ -46,8 +46,9 @@ public class PhantomPurgePatch {
 		private static class Locator extends SpireInsertLocator {
 			@Override
 			public int[] Locate(CtBehavior ctBehavior) throws CannotCompileException, PatchingException {
-				return LineFinder.findInOrder(ctBehavior,
+				int[] tmp = LineFinder.findInOrder(ctBehavior,
 						new Matcher.MethodCallMatcher(CardGroup.class, "resetCardBeforeMoving"));
+				return new int[]{tmp[tmp.length - 1] + 1};
 			}
 		}
 		
@@ -72,7 +73,7 @@ public class PhantomPurgePatch {
 			public int[] Locate(CtBehavior ctBehavior) throws CannotCompileException, PatchingException {
 				int[] tmp = LineFinder.findInOrder(ctBehavior,
 						new Matcher.FieldAccessMatcher(AbstractPlayer.class, "exhaustPile"));
-				return new int[]{tmp[tmp.length - 1] - 1};
+				return new int[]{tmp[tmp.length - 1]};
 			}
 		}
 		
@@ -93,8 +94,9 @@ public class PhantomPurgePatch {
 		private static class Locator extends SpireInsertLocator {
 			@Override
 			public int[] Locate(CtBehavior ctBehavior) throws CannotCompileException, PatchingException {
-				return LineFinder.findInOrder(ctBehavior,
+				int[] tmp = LineFinder.findInOrder(ctBehavior,
 						new Matcher.MethodCallMatcher(CardGroup.class, "resetCardBeforeMoving"));
+				return new int[]{tmp[tmp.length - 1] + 1};
 			}
 		}
 		
@@ -115,8 +117,9 @@ public class PhantomPurgePatch {
 		private static class Locator extends SpireInsertLocator {
 			@Override
 			public int[] Locate(CtBehavior ctBehavior) throws CannotCompileException, PatchingException {
-				return LineFinder.findInOrder(ctBehavior,
+				int[] tmp = LineFinder.findInOrder(ctBehavior,
 						new Matcher.MethodCallMatcher(CardGroup.class, "resetCardBeforeMoving"));
+				return new int[]{tmp[tmp.length - 1] + 1};
 			}
 		}
 		

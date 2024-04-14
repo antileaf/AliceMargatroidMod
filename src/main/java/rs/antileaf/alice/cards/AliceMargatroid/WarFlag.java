@@ -42,17 +42,31 @@ public class WarFlag extends AbstractAliceCard {
 	public void use(AbstractPlayer p, AbstractMonster m) {
 		AbstractDoll doll = DollTargeting.getTarget(this);
 		
+		if (doll == null)
+			return;
+		
 		if (this.upgraded)
 			this.addToBot(new DollActAction(doll));
 		
 		this.addToBot(new AnonymousAction(() -> {
 			if (DollManager.get().contains(doll)) {
 				int block = doll.block / 2;
-				for (AbstractDoll other : DollManager.get().getDolls()) {
-					if (other != doll)
-						AliceSpireKit.addActionToBuffer(new DollGainBlockAction(other, block));
+				
+				if (block > 0) {
+					for (AbstractDoll other : DollManager.get().getDolls()) {
+						if (other != doll)
+							AliceSpireKit.addActionToBuffer(new DollGainBlockAction(other, block));
+					}
+//					int index = DollManager.get().getDolls().indexOf(doll);
+//					if (index > 0)
+//						AliceSpireKit.addActionToBuffer(new DollGainBlockAction(
+//								DollManager.get().getDolls().get(index - 1), block));
+//					if (index < DollManager.MAX_DOLL_SLOTS - 1)
+//						AliceSpireKit.addActionToBuffer(new DollGainBlockAction(
+//								DollManager.get().getDolls().get(index + 1), block));
+					
+					AliceSpireKit.commitBuffer();
 				}
-				AliceSpireKit.commitBuffer();
 			}
 		}));
 	}

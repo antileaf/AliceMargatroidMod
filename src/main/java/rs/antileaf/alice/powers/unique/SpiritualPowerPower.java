@@ -1,6 +1,5 @@
 package rs.antileaf.alice.powers.unique;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.DamageRandomEnemyAction;
 import com.megacrit.cardcrawl.actions.utility.UseCardAction;
@@ -9,13 +8,12 @@ import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.PowerStrings;
-import com.megacrit.cardcrawl.powers.AbstractPower;
 import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.patches.enums.CardTagEnum;
+import rs.antileaf.alice.powers.AbstractAlicePower;
 import rs.antileaf.alice.utils.AliceMiscKit;
-import rs.antileaf.alice.utils.AliceSpireKit;
 
-public class SpiritualPowerPower extends AbstractPower {
+public class SpiritualPowerPower extends AbstractAlicePower {
 	public static final String POWER_ID = SpiritualPowerPower.class.getSimpleName();
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
 	
@@ -27,7 +25,7 @@ public class SpiritualPowerPower extends AbstractPower {
 		
 		this.type = PowerType.BUFF;
 		this.updateDescription();
-		this.img = new Texture(AliceSpireKit.getPowerImgFilePath("default"));
+		this.initializeImage(null);
 	}
 	
 	@Override

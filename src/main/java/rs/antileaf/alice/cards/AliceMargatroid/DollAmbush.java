@@ -27,7 +27,7 @@ public class DollAmbush extends AbstractAliceCard {
 				cardStrings.DESCRIPTION,
 				CardType.POWER,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
-				CardRarity.COMMON,
+				CardRarity.UNCOMMON,
 				CardTarget.NONE
 		);
 	}

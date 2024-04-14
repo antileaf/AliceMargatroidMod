@@ -14,6 +14,7 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.*;
+import com.megacrit.cardcrawl.localization.UIStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 import com.megacrit.cardcrawl.vfx.combat.BlockedNumberEffect;
@@ -24,9 +25,11 @@ import rs.antileaf.alice.doll.dolls.*;
 import rs.antileaf.alice.doll.enums.DollAmountTime;
 import rs.antileaf.alice.doll.enums.DollAmountType;
 import rs.antileaf.alice.powers.interfaces.PlayerOrEnemyDollAmountModPower;
+import rs.antileaf.alice.utils.AliceMiscKit;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 import java.util.Arrays;
+import java.util.HashMap;
 
 public abstract class AbstractDoll extends CustomOrb {
 	public static String[] CREATURE_TEXT = CardCrawlGame.languagePack.getUIString("AbstractCreature").TEXT;
@@ -57,6 +60,7 @@ public abstract class AbstractDoll extends CustomOrb {
 	
 	private int damageAboutToTake = 0;
 	private int damageCount = 0;
+	private int overflowedDamage = 0;
 	private float vfxTimer = 1.0F;
 	private float animX, animY;
 	private float animSpeed;
@@ -98,6 +102,8 @@ public abstract class AbstractDoll extends CustomOrb {
 	public boolean reticleRendered;
 	private float reticleOffset;
 	private float reticleAnimTimer;
+	
+	public boolean dontShowHPDescription = false;
 	
 	public AbstractDoll(String ID, String name, int maxHP, int basePassiveAmount, int baseActAmount, String imgPath, RenderTextMode renderTextMode) {
 		super(ID, name, basePassiveAmount, -1, "", "", imgPath);
@@ -272,6 +278,7 @@ public abstract class AbstractDoll extends CustomOrb {
 		if (monster == null) {
 			this.damageAboutToTake = 0;
 			this.damageCount = 0;
+			this.overflowedDamage = 0;
 		}
 		else if (monster.intent == AbstractMonster.Intent.ATTACK ||
 				monster.intent == AbstractMonster.Intent.ATTACK_BUFF ||
@@ -283,15 +290,21 @@ public abstract class AbstractDoll extends CustomOrb {
 //								.getField(monster.getClass(), "intentMultiAmt")).get(monster);
 				this.damageCount = ReflectionHacks.getPrivate(monster,
 						AbstractMonster.class, "intentMultiAmt");
+				if (this.damageCount < 1)
+					this.damageCount = 1;
 			}
 			catch (NullPointerException e) {
 				AliceSpireKit.log(AbstractDoll.class, " updateDamageAboutToTake() Failed to get intentMultiAmt.");
 				this.damageCount = 1;
 			}
+			
+			this.overflowedDamage = this.onPlayerDamaged(this.damageAboutToTake * this.damageCount);
+//			AliceSpireKit.log(this.ID, "overflowedDamage: " + this.overflowedDamage);
 		}
 		else {
 			this.damageAboutToTake = 0;
 			this.damageCount = 0;
+			this.overflowedDamage = 0;
 		}
 	}
 	
@@ -323,7 +336,7 @@ public abstract class AbstractDoll extends CustomOrb {
 		this.updateDescription();
 	}
 	
-	public void loseBlock(int amount, boolean noAnimation) {
+	public void loseBlock(int amount, boolean shouldPlaySound) {
 		boolean showEffect = (this.block > 0);
 		
 		if (amount > this.block)
@@ -338,11 +351,12 @@ public abstract class AbstractDoll extends CustomOrb {
 			this.blockTextColor = col;
 			this.blockScale = 5.0F;
 		}
-		else if (this.block == 0) {
+		else if (this.block == 0 && showEffect) {
 			AbstractDungeon.effectList.add(new HbBlockBrokenEffect(
 					this.hb.cX - this.hb.width / 2.0F + BLOCK_ICON_X,
 					this.hb.cY - this.hb.height / 2.0F + BLOCK_ICON_Y));
-			CardCrawlGame.sound.play("BLOCK_BREAK");
+			if (shouldPlaySound)
+				CardCrawlGame.sound.play("BLOCK_BREAK");
 		}
 		
 		this.updateDescription();
@@ -370,7 +384,7 @@ public abstract class AbstractDoll extends CustomOrb {
 							this.hb.cY + this.hb.height / 2.0F,
 							"" + blockLoss));
 				
-				this.loseBlock(blockLoss);
+				this.loseBlock(blockLoss, true);
 				if (this.block == 0)
 					this.brokeBlock();
 				else
@@ -409,6 +423,8 @@ public abstract class AbstractDoll extends CustomOrb {
 		assert false : "AbstractDoll.onEvoke() should not be called!";
 	}
 	
+	public abstract String getID();
+	
 	public abstract void onAct();
 	
 	public void postSpawn() {}
@@ -443,7 +459,7 @@ public abstract class AbstractDoll extends CustomOrb {
 		this.passiveAmount = this.basePassiveAmount;
 		this.actAmount = this.baseActAmount;
 		
-		int hourai = DollManager.get().getHouraiDollCount();
+		int hourai = DollManager.get().getTotalHouraiPassiveAmount();
 		if (hourai > 0) {
 			if (this.passiveAmountType != DollAmountType.MAGIC)
 				this.passiveAmount += hourai;
@@ -473,7 +489,7 @@ public abstract class AbstractDoll extends CustomOrb {
 						tempActAmount, this, this.actAmountType, DollAmountTime.ACT);
 			}
 		
-		// TODO: Powers / Relics
+		// TODO: Relics
 		
 		this.passiveAmount = (int) tempPassiveAmount;
 		this.actAmount = (int) tempActAmount;
@@ -484,11 +500,21 @@ public abstract class AbstractDoll extends CustomOrb {
 	@Override
 	public void updateDescription() {
 		this.updateDescriptionImpl();
-		this.description = this.HP + "/" + this.maxHP;
-		if (this.block > 0)
-			this.description += " (+" + this.block + ")";
 		
-		this.description += " NL #y被动 ：" + this.passiveDescription + " NL #y行动 ：" + this.actDescription;
+		this.description = "";
+		if (!this.dontShowHPDescription) {
+			this.description += this.HP + "/" + this.maxHP;
+			if (this.block > 0)
+				this.description += " (+" + this.block + ")";
+			this.description += " NL ";
+		}
+		
+		UIStrings uiStrings = CardCrawlGame.languagePack.getUIString("DollDescription");
+		String passiveString = uiStrings.TEXT[0];
+		String actString = uiStrings.TEXT[1];
+		
+		this.description += "#y" + passiveString + " ：" + this.passiveDescription +
+				" NL #y" + actString + " ：" + this.actDescription;
 	}
 	
 	public abstract void updateDescriptionImpl();
@@ -571,16 +597,29 @@ public abstract class AbstractDoll extends CustomOrb {
 		}
 		
 		if (this.damageAboutToTake > 0) {
-			FontHelper.renderFontCentered(sb,
+			FontHelper.renderFontCentered(
+					sb,
 					FontHelper.cardEnergyFont_L,
 					this.damageAboutToTake + (this.damageCount > 1 ? "x" + this.damageCount : ""),
 					this.cX,
 					this.cY + this.bobEffect.y / 2.0F + NUM_Y_OFFSET + 50.0F * Settings.scale,
 					Color.RED,
-					this.fontScale);
+					this.fontScale
+			);
+		}
+		if (this.overflowedDamage > 0) {
+			FontHelper.renderFontCentered(
+					sb,
+					FontHelper.cardEnergyFont_L,
+					"(" + this.overflowedDamage + ")",
+					(this.cX + AbstractDungeon.player.drawX) / 2.0F,
+					(this.cY + this.bobEffect.y / 2.0F + NUM_Y_OFFSET + 50.0F * Settings.scale +
+							AbstractDungeon.player.drawY + AbstractDungeon.player.hb.height / 2.0F) / 2.0F,
+					Color.RED,
+					this.fontScale
+			);
 		}
 	}
-	
 	
 	public void healthBarUpdatedEvent() {
 		this.healthBarAnimTimer = 1.2F;
@@ -878,6 +917,15 @@ public abstract class AbstractDoll extends CustomOrb {
 		AliceSpireKit.addToBot(action);
 	}
 	
+	public static String getHpDescription(int maxHP) {
+		UIStrings uiStrings = CardCrawlGame.languagePack.getUIString("DollHPDescription");
+		return AliceMiscKit.join(
+				uiStrings.TEXT[0],
+				FontHelper.colorString("" + maxHP, "b"),
+				uiStrings.TEXT[1]
+		);
+	}
+	
 	public static AbstractDoll newInst(String clazz) {
 //		assert AbstractDoll.class.isAssignableFrom(clazz) : "clazz is not a subclass of Abstract";
 //		assert clazz != null : "clazz is null";
@@ -917,23 +965,26 @@ public abstract class AbstractDoll extends CustomOrb {
 		}
 	}
 	
+	public static String[] dollClasses = new String[] {
+			"ShanghaiDoll",
+			"NetherlandsDoll",
+			"HouraiDoll",
+			"KyotoDoll",
+			"LondonDoll",
+			"FranceDoll",
+			"OrleansDoll"
+	};
+	
 	public static String getRandomDollIdExcept(String... exceptClasses) {
-		String[] fullClasses = new String[] {
-				ShanghaiDoll.ID,
-				NetherlandsDoll.ID,
-				HouraiDoll.ID,
-				KyotoDoll.ID,
-				LondonDoll.ID,
-				FranceDoll.ID,
-				OrleansDoll.ID
-		};
-
 //		for (Class c : exceptClasses)
 //			assert AbstractDoll.class.isAssignableFrom(c) : "exceptClasses contains a class that is not doll";
 		
-		String[] remainingClasses = Arrays.stream(fullClasses)
+		String[] remainingClasses = Arrays.stream(dollClasses)
 				.filter(c -> Arrays.stream(exceptClasses).noneMatch(ec -> ec.equals(c)))
 				.toArray(String[]::new);
+		
+		AliceSpireKit.log(AbstractDoll.class, "Remaining classes: " + Arrays.toString(remainingClasses));
+		AliceSpireKit.log(AbstractDoll.class, "Except classes: " + Arrays.toString(exceptClasses));
 		
 		if (remainingClasses.length == 0) {
 			AliceSpireKit.log(AbstractDoll.class, "No remaining classes to choose from.");
@@ -973,5 +1024,61 @@ public abstract class AbstractDoll extends CustomOrb {
 		};
 		
 		return Arrays.stream(fullClasses).anyMatch(c -> c.equals(doll.ID));
+	}
+	
+	private static final HashMap<String, String> descriptions = new HashMap<>();
+	
+	// Please use this only when the doll is not in the game.
+	public String desc() {
+		this.dontShowHPDescription = true;
+		this.updateDescription();
+		return this.description;
+	}
+	
+	public static String getDescription(String dollID) {
+		if (descriptions.containsKey(dollID))
+			return descriptions.get(dollID);
+		
+		String res = "";
+		if (dollID.equals(ShanghaiDoll.ID))
+			res = ShanghaiDoll.getDescription();
+		else if (dollID.equals(NetherlandsDoll.ID))
+			res = NetherlandsDoll.getDescription();
+		else if (dollID.equals(HouraiDoll.ID))
+			res = HouraiDoll.getDescription();
+		else if (dollID.equals(KyotoDoll.ID))
+			res = KyotoDoll.getDescription();
+		else if (dollID.equals(LondonDoll.ID))
+			res = LondonDoll.getDescription();
+		else if (dollID.equals(FranceDoll.ID))
+			res = FranceDoll.getDescription();
+		else if (dollID.equals(OrleansDoll.ID))
+			res = OrleansDoll.getDescription();
+		else
+			AliceSpireKit.log(AbstractDoll.class, "getDescription() Unknown doll ID: " + dollID);
+		
+		descriptions.put(dollID, res);
+		return res;
+	}
+	
+	public static String getFlavor(String dollID) {
+		if (dollID.equals(ShanghaiDoll.ID))
+			return ShanghaiDoll.getFlavor();
+		else if (dollID.equals(NetherlandsDoll.ID))
+			return NetherlandsDoll.getFlavor();
+		else if (dollID.equals(HouraiDoll.ID))
+			return HouraiDoll.getFlavor();
+		else if (dollID.equals(KyotoDoll.ID))
+			return KyotoDoll.getFlavor();
+		else if (dollID.equals(LondonDoll.ID))
+			return LondonDoll.getFlavor();
+		else if (dollID.equals(FranceDoll.ID))
+			return FranceDoll.getFlavor();
+		else if (dollID.equals(OrleansDoll.ID))
+			return OrleansDoll.getFlavor();
+		else
+			AliceSpireKit.log(AbstractDoll.class, "getFlavor() Unknown doll ID: " + dollID);
+		
+		return "";
 	}
 }

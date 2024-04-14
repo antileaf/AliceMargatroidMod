@@ -12,8 +12,9 @@ public class SunlightRayPostAction extends AbstractGameAction {
 	
 	public void update() {
 		if (!this.isDone) {
-			this.addToBot(new ApplyPowerAction(AbstractDungeon.player, AbstractDungeon.player,
-					new VigorPower(AbstractDungeon.player, this.amount)));
+			if (this.amount > 0)
+				this.addToBot(new ApplyPowerAction(AbstractDungeon.player, AbstractDungeon.player,
+						new VigorPower(AbstractDungeon.player, this.amount)));
 			
 			this.isDone = true;
 		}

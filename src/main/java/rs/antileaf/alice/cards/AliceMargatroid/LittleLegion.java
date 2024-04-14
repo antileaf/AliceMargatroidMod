@@ -24,7 +24,7 @@ public class LittleLegion extends AbstractAliceCard {
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
-	private static final int DAMAGE = 5;
+	private static final int DAMAGE = 6;
 	private static final int UPGRADE_PLUS_DMG = 3;
 	
 	public LittleLegion() {
@@ -36,7 +36,7 @@ public class LittleLegion extends AbstractAliceCard {
 				cardStrings.DESCRIPTION,
 				CardType.ATTACK,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
-				CardRarity.BASIC,
+				CardRarity.COMMON,
 				CardTargetEnum.DOLL_OR_NONE
 		);
 		

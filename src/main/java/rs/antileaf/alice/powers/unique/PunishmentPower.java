@@ -1,24 +1,20 @@
 package rs.antileaf.alice.powers.unique;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.actions.common.RemoveSpecificPowerAction;
 import com.megacrit.cardcrawl.cards.DamageInfo;
-import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.PowerStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import com.megacrit.cardcrawl.powers.AbstractPower;
+import rs.antileaf.alice.powers.AbstractAlicePower;
 import rs.antileaf.alice.utils.AliceMiscKit;
-import rs.antileaf.alice.utils.AliceSpireKit;
 
-public class PunishPower extends AbstractPower {
-	public static final String POWER_ID = PunishPower.class.getSimpleName();
+public class PunishmentPower extends AbstractAlicePower {
+	public static final String POWER_ID = PunishmentPower.class.getSimpleName();
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
 	
-	public PunishPower(AbstractMonster owner, int amount) {
+	public PunishmentPower(AbstractMonster owner, int amount) {
 		this.name = powerStrings.NAME;
 		this.ID = POWER_ID;
 		this.owner = owner;
@@ -26,7 +22,7 @@ public class PunishPower extends AbstractPower {
 		
 		this.type = PowerType.DEBUFF;
 		this.updateDescription();
-		this.img = new Texture(AliceSpireKit.getPowerImgFilePath("default"));
+		this.initializeImage(null);
 	}
 	
 	@Override

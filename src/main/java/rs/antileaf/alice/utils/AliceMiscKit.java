@@ -25,4 +25,24 @@ public abstract class AliceMiscKit {
 		}
 		return sb.toString().trim();
 	}
+	
+	public static String getPeriodSymbol() {
+		switch (AliceSpireKit.getLangShort().toLowerCase()) {
+			case "zhs":
+			case "zht":
+				return "。";
+			default:
+				return ".";
+		}
+	}
+	
+	public static String getCommaSymbol() {
+		switch (AliceSpireKit.getLangShort().toLowerCase()) {
+			case "zhs":
+			case "zht":
+				return "，";
+			default:
+				return ",";
+		}
+	}
 }

@@ -8,9 +8,9 @@ public class LibraryTypeEnum {
 	@SpireEnum
 	public static CardLibrary.LibraryType ALICE_MARGATROID_COLOR;
 	
-	@SpireEnum
+	@SpireEnum(name = "Alice Derivation")
 	public static CardLibrary.LibraryType ALICE_MARGATROID_DERIVATION_COLOR;
 	
-	@SpireEnum
+	@SpireEnum(name = "Marisa Derivation")
 	public static CardLibrary.LibraryType ALICE_MARISA_COLOR;
 }

@@ -1,14 +1,14 @@
 package rs.antileaf.alice.powers.unique;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.PowerStrings;
-import com.megacrit.cardcrawl.powers.AbstractPower;
+import rs.antileaf.alice.doll.AbstractDoll;
+import rs.antileaf.alice.powers.AbstractAlicePower;
+import rs.antileaf.alice.powers.interfaces.OnDollOperatePower;
 import rs.antileaf.alice.utils.AliceMiscKit;
-import rs.antileaf.alice.utils.AliceSpireKit;
 
-public class DollAmbushPower extends AbstractPower {
+public class DollAmbushPower extends AbstractAlicePower implements OnDollOperatePower {
 	public static final String POWER_ID = DollAmbushPower.class.getSimpleName();
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
 	
@@ -20,7 +20,7 @@ public class DollAmbushPower extends AbstractPower {
 		
 		this.type = PowerType.BUFF;
 		this.updateDescription();
-		this.img = new Texture(AliceSpireKit.getPowerImgFilePath("default"));
+		this.initializeImage(null);
 	}
 	
 	@Override
@@ -38,5 +38,9 @@ public class DollAmbushPower extends AbstractPower {
 		);
 	}
 	
-	// The logic of this power is implemented in RecycleDollAction.
+	@Override
+	public void postRecycleDoll(AbstractDoll doll) {
+		this.flash();
+		// The logic of this power is implemented in RecycleDollAction.
+	}
 }

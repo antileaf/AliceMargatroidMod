@@ -1,18 +1,14 @@
 package rs.antileaf.alice.doll.dolls;
 
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
-import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.OrbStrings;
-import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.DexterityPower;
 import com.megacrit.cardcrawl.powers.LoseDexterityPower;
 import com.megacrit.cardcrawl.powers.LoseStrengthPower;
 import com.megacrit.cardcrawl.powers.StrengthPower;
 import rs.antileaf.alice.doll.AbstractDoll;
-import rs.antileaf.alice.doll.DollDamageInfo;
-import rs.antileaf.alice.doll.enums.DollAmountTime;
 import rs.antileaf.alice.doll.enums.DollAmountType;
 import rs.antileaf.alice.utils.AliceMiscKit;
 import rs.antileaf.alice.utils.AliceSpireKit;
@@ -39,6 +35,11 @@ public class NetherlandsDoll extends AbstractDoll {
 		
 		this.passiveAmountType = DollAmountType.OTHERS;
 		this.actAmountType = DollAmountType.OTHERS;
+	}
+	
+	@Override
+	public String getID() {
+		return ID;
 	}
 	
 	@Override
@@ -115,15 +116,34 @@ public class NetherlandsDoll extends AbstractDoll {
 			this.addToBot(new ApplyPowerAction(
 					AbstractDungeon.player,
 					AbstractDungeon.player,
-					new StrengthPower(AbstractDungeon.player, 1),
-					1
+					new StrengthPower(AbstractDungeon.player, doll.passiveAmount),
+					doll.passiveAmount
 			));
 			
 			this.addToBot(new ApplyPowerAction(
 					AbstractDungeon.player,
 					AbstractDungeon.player,
-					new DexterityPower(AbstractDungeon.player, 1),
-					1
+					new DexterityPower(AbstractDungeon.player, doll.passiveAmount),
+					doll.passiveAmount
+			));
+		}
+	}
+	
+	@Override
+	public void postOtherDollAct(AbstractDoll doll) {
+		if (doll instanceof HouraiDoll) {
+			this.addToBot(new ApplyPowerAction(
+					AbstractDungeon.player,
+					AbstractDungeon.player,
+					new StrengthPower(AbstractDungeon.player, doll.actAmount),
+					doll.actAmount
+			));
+			
+			this.addToBot(new ApplyPowerAction(
+					AbstractDungeon.player,
+					AbstractDungeon.player,
+					new DexterityPower(AbstractDungeon.player, doll.actAmount),
+					doll.actAmount
 			));
 		}
 	}
@@ -134,17 +154,32 @@ public class NetherlandsDoll extends AbstractDoll {
 			this.addToBot(new ApplyPowerAction(
 					AbstractDungeon.player,
 					AbstractDungeon.player,
-					new StrengthPower(AbstractDungeon.player, -1),
-					-1
+					new StrengthPower(AbstractDungeon.player, -doll.passiveAmount),
+					-doll.passiveAmount
 			));
 			
 			this.addToBot(new ApplyPowerAction(
 					AbstractDungeon.player,
 					AbstractDungeon.player,
-					new DexterityPower(AbstractDungeon.player, -1),
-					-1
+					new DexterityPower(AbstractDungeon.player, -doll.passiveAmount),
+					-doll.passiveAmount
 			));
 		}
+	}
+	
+	public void onStartOfTurnUpdate(int diff) {
+		this.addToBot(new ApplyPowerAction(
+				AbstractDungeon.player,
+				AbstractDungeon.player,
+				new StrengthPower(AbstractDungeon.player, diff),
+				diff
+		));
+		this.addToBot(new ApplyPowerAction(
+				AbstractDungeon.player,
+				AbstractDungeon.player,
+				new DexterityPower(AbstractDungeon.player, diff),
+				diff
+		));
 	}
 	
 	@Override
@@ -174,4 +209,12 @@ public class NetherlandsDoll extends AbstractDoll {
 	
 	@Override
 	public void playChannelSFX() {}
+	
+	public static String getDescription() {
+		return getHpDescription(MAX_HP) + " NL " + (new NetherlandsDoll()).desc();
+	}
+	
+	public static String getFlavor() {
+		return dollStrings.DESCRIPTION[dollStrings.DESCRIPTION.length - 1];
+	}
 }

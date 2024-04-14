@@ -71,7 +71,7 @@ public class RainbowRay extends AbstractAliceCard {
 						AbstractDungeon.player.drawPile.moveToDiscardPile(card);
 						AbstractDungeon.player.createHandIsFullDialog();
 					} else {
-						AbstractDungeon.player.drawPile.moveToHand(card, AbstractDungeon.player.drawPile);
+						AbstractDungeon.player.drawPile.moveToHand(card);
 						card.setCostForTurn(card.costForTurn - 1);
 					}
 				},

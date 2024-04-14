@@ -9,12 +9,9 @@ import rs.antileaf.alice.action.doll.DollActAction;
 import rs.antileaf.alice.action.doll.SpawnDollAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.doll.AbstractDoll;
-import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.OrleansDoll;
-import rs.antileaf.alice.doll.targeting.DollOrEmptySlotTargeting;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.CardTagEnum;
-import rs.antileaf.alice.patches.enums.CardTargetEnum;
 
 public class CharismaticOrleansDoll extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = CharismaticOrleansDoll.class.getSimpleName();
@@ -23,7 +20,7 @@ public class CharismaticOrleansDoll extends AbstractAliceCard {
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
-	private static final int MAGIC = 2;
+	private static final int MAGIC = 1;
 	
 	public CharismaticOrleansDoll() {
 		super(
@@ -35,7 +32,7 @@ public class CharismaticOrleansDoll extends AbstractAliceCard {
 				CardType.SKILL,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
 				CardRarity.UNCOMMON,
-				CardTargetEnum.DOLL_OR_EMPTY_SLOT
+				CardTarget.NONE
 		);
 		
 		this.magicNumber = this.baseMagicNumber = MAGIC;
@@ -45,11 +42,11 @@ public class CharismaticOrleansDoll extends AbstractAliceCard {
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
-		AbstractDoll target = DollOrEmptySlotTargeting.getTarget(this);
-		int index = DollManager.get().getDolls().indexOf(target);
+//		AbstractDoll target = DollOrEmptySlotTargeting.getTarget(this);
+//		int index = DollManager.get().getDolls().indexOf(target);
 		
 		AbstractDoll doll = new OrleansDoll();
-		this.addToBot(new SpawnDollAction(doll, index));
+		this.addToBot(new SpawnDollAction(doll, -1));
 		
 		for (int i = 0; i < this.magicNumber; i++)
 			this.addToBot(new DollActAction(doll));

@@ -6,16 +6,9 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import rs.antileaf.alice.action.doll.DollActAction;
-import rs.antileaf.alice.action.doll.DollGainBlockAction;
-import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
-import rs.antileaf.alice.doll.AbstractDoll;
-import rs.antileaf.alice.doll.DollManager;
-import rs.antileaf.alice.doll.targeting.DollTargeting;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
-import rs.antileaf.alice.patches.enums.CardTargetEnum;
-import rs.antileaf.alice.powers.unique.PunishPower;
+import rs.antileaf.alice.powers.unique.PunishmentPower;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class Punishment extends AbstractAliceCard {
@@ -32,7 +25,7 @@ public class Punishment extends AbstractAliceCard {
 		super(
 				ID,
 				cardStrings.NAME,
-				null, // AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.SKILL,
@@ -46,7 +39,7 @@ public class Punishment extends AbstractAliceCard {
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
-		this.addToBot(new ApplyPowerAction(m, p, new PunishPower(m, this.magicNumber), this.magicNumber));
+		this.addToBot(new ApplyPowerAction(m, p, new PunishmentPower(m, this.magicNumber), this.magicNumber));
 	}
 	
 	@Override

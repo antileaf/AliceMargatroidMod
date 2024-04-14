@@ -1,29 +1,18 @@
 package rs.antileaf.alice.cards.AliceMargatroid;
 
-import com.evacipated.cardcrawl.mod.stslib.fields.cards.AbstractCard.AlwaysRetainField;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
-import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
-import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.actions.common.DamageAllEnemiesAction;
-import com.megacrit.cardcrawl.actions.common.DamageRandomEnemyAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
-import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
-import rs.antileaf.alice.patches.enums.CardTagEnum;
-import rs.antileaf.alice.powers.unique.FrostRayPower;
 import rs.antileaf.alice.utils.AliceSpireKit;
-
-import java.util.ArrayList;
 
 public class SevenColoredPuppeteer extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = SevenColoredPuppeteer.class.getSimpleName();
@@ -37,11 +26,14 @@ public class SevenColoredPuppeteer extends AbstractAliceCard {
 	
 	private boolean gold = false;
 	
+	private int costBackup;
+	private int costForTurnBackup;
+	
 	public SevenColoredPuppeteer() {
 		super(
 				ID,
 				cardStrings.NAME,
-				null, // AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.ATTACK,
@@ -52,6 +44,43 @@ public class SevenColoredPuppeteer extends AbstractAliceCard {
 		
 		this.damage = this.baseDamage = DAMAGE;
 		this.magicNumber = this.baseMagicNumber = MAGIC;
+		this.costBackup = this.costForTurnBackup = this.cost;
+	}
+	
+	private void wrap(Runnable func) {
+		int tmpCost = this.cost, tmpCostForTurn = this.costForTurn;
+		this.cost = this.costBackup;
+		this.costForTurn = this.costForTurnBackup;
+		
+		func.run();
+		
+		this.costBackup = this.cost;
+		this.costForTurnBackup = this.costForTurn;
+		
+		this.cost = tmpCost;
+		this.costForTurn = tmpCostForTurn;
+		
+		func.run();
+	}
+	
+	@Override
+	public void updateCost(int amt) {
+		this.wrap(() -> super.updateCost(amt));
+	}
+	
+	@Override
+	public void setCostForTurn(int amt) {
+		this.wrap(() -> super.setCostForTurn(amt));
+	}
+	
+	@Override
+	public void modifyCostForCombat(int amt) {
+		this.wrap(() -> super.modifyCostForCombat(amt));
+	}
+	
+	@Override
+	public void resetAttributes() {
+		this.costForTurnBackup = this.costBackup;
 	}
 	
 	@Override
@@ -94,12 +123,14 @@ public class SevenColoredPuppeteer extends AbstractAliceCard {
 			}
 			
 			if (ok) {
-				this.setCostForTurn(0);
+				this.costForTurn = this.cost = 0;
+				this.isCostModifiedForTurn = true;
 				this.gold = true;
 			}
 			else {
-				this.setCostForTurn(this.cost);
-				this.isCostModifiedForTurn = false;
+				this.cost = this.costBackup;
+				this.costForTurn = this.costForTurnBackup;
+				this.isCostModifiedForTurn = (this.costForTurn != this.cost);
 				this.gold = false;
 			}
 			

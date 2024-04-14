@@ -1,19 +1,17 @@
 package rs.antileaf.alice.powers.unique;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.actions.common.RemoveSpecificPowerAction;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.PowerStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import com.megacrit.cardcrawl.powers.AbstractPower;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.enums.DollAmountTime;
 import rs.antileaf.alice.doll.enums.DollAmountType;
+import rs.antileaf.alice.powers.AbstractAlicePower;
 import rs.antileaf.alice.powers.interfaces.PlayerOrEnemyDollAmountModPower;
 import rs.antileaf.alice.utils.AliceMiscKit;
-import rs.antileaf.alice.utils.AliceSpireKit;
 
-public class CallForDollsPower extends AbstractPower implements PlayerOrEnemyDollAmountModPower {
+public class CallForDollsPower extends AbstractAlicePower implements PlayerOrEnemyDollAmountModPower {
 	public static final String POWER_ID = CallForDollsPower.class.getSimpleName();
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
 	
@@ -25,7 +23,7 @@ public class CallForDollsPower extends AbstractPower implements PlayerOrEnemyDol
 		
 		this.type = PowerType.DEBUFF;
 		this.updateDescription();
-		this.img = new Texture(AliceSpireKit.getPowerImgFilePath("default"));
+		this.initializeImage(null);
 	}
 	
 	@Override

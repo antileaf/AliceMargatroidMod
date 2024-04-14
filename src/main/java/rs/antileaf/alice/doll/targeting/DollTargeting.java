@@ -3,14 +3,23 @@ package rs.antileaf.alice.doll.targeting;
 import com.evacipated.cardcrawl.mod.stslib.cards.targeting.TargetingHandler;
 import com.evacipated.cardcrawl.mod.stslib.patches.CustomTargeting;
 import com.megacrit.cardcrawl.cards.AbstractCard;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 
 public class DollTargeting extends TargetingHandler<AbstractDoll> {
 	public static AbstractDoll getTarget(AbstractCard card) {
-		return CustomTargeting.getCardTarget(card);
+		AbstractDoll target = CustomTargeting.getCardTarget(card);
+		if (target == null) {
+			for (AbstractDoll doll : DollManager.get().getDolls()) {
+				if (!(doll instanceof EmptyDollSlot)) {
+					target = doll;
+					break;
+				}
+			}
+		}
+		
+		return target;
 	}
 	
 	protected AbstractDoll hovered = null;

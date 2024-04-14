@@ -53,6 +53,8 @@ public class ProtectiveMagic extends AbstractAliceCard {
 			}));
 		else
 			this.addToBot(new AnonymousAction(() -> {
+				AliceSpireKit.log(SIMPLE_NAME, "ProtectiveMagic: current block = " + target.block);
+				
 				if (!DollManager.get().contains(target))
 					AliceSpireKit.log(this.getClass(), "ProtectiveMagic: target not in DollManager");
 				else if (target.block < this.block)

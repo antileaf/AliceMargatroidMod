@@ -35,12 +35,12 @@ public class DollCrusader extends AbstractAliceCard {
 		super(
 				ID,
 				cardStrings.NAME,
-				null, // AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.SKILL,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
-				CardRarity.BASIC,
+				CardRarity.COMMON,
 				CardTargetEnum.DOLL_OR_EMPTY_SLOT
 		);
 		
@@ -86,10 +86,7 @@ public class DollCrusader extends AbstractAliceCard {
 		else {
 			ArrayList<String> dollIds = new ArrayList<>();
 			for (int i = 0; i < 3; i++) {
-				String id = AbstractDoll.getRandomDollId();
-				while (dollIds.contains(id))
-					id = AbstractDoll.getRandomDollId();
-				
+				String id = AbstractDoll.getRandomDollIdExcept(dollIds.toArray(new String[0]));
 				dollIds.add(id);
 			}
 			
@@ -99,16 +96,16 @@ public class DollCrusader extends AbstractAliceCard {
 			
 			this.addToBot(new AliceDiscoverAction(
 					choices,
-					(c) -> {
-						if (c instanceof AbstractCreateDoll) {
-							AbstractDoll doll = ((AbstractCreateDoll) c).getDoll();
+					(card) -> {
+						if (card instanceof AbstractCreateDoll) {
+							AbstractDoll doll = ((AbstractCreateDoll) card).getDoll();
 							AliceSpireKit.addActionsToTop(
 									new SpawnDollAction(doll, index),
 									new DollGainBlockAction(doll, this.magicNumber)
 							);
 						}
 						else
-							AliceSpireKit.log(this.getClass(), "Invalid choice: " + c);
+							AliceSpireKit.log(this.getClass(), "Invalid choice: " + card);
 					},
 					cardStrings.EXTENDED_DESCRIPTION[0],
 					false

@@ -1,17 +1,19 @@
 package rs.antileaf.alice.powers.unique;
 
-import com.badlogic.gdx.graphics.Texture;
+import basemod.helpers.CardModifierManager;
 import com.megacrit.cardcrawl.actions.common.RemoveSpecificPowerAction;
 import com.megacrit.cardcrawl.actions.utility.UseCardAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.PowerStrings;
-import com.megacrit.cardcrawl.powers.AbstractPower;
+import com.megacrit.cardcrawl.vfx.combat.PowerIconShowEffect;
+import rs.antileaf.alice.cardmodifier.PhantomCardModifier;
+import rs.antileaf.alice.powers.AbstractAlicePower;
 import rs.antileaf.alice.utils.AliceMiscKit;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
-public class FrostRayPower extends AbstractPower {
+public class FrostRayPower extends AbstractAlicePower {
 	public static final String POWER_ID = FrostRayPower.class.getSimpleName();
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
 	
@@ -23,7 +25,7 @@ public class FrostRayPower extends AbstractPower {
 		
 		this.type = PowerType.BUFF;
 		this.updateDescription();
-		this.img = new Texture(AliceSpireKit.getPowerImgFilePath("default"));
+		this.initializeImage(null);
 	}
 	
 	@Override
@@ -44,9 +46,11 @@ public class FrostRayPower extends AbstractPower {
 	@Override
 	public void onUseCard(AbstractCard card, UseCardAction action) {
 		if (card.purgeOnUse || !action.exhaustCard ||
-				(card.type != AbstractCard.CardType.ATTACK && card.type != AbstractCard.CardType.SKILL))
+				(card.type != AbstractCard.CardType.ATTACK && card.type != AbstractCard.CardType.SKILL) ||
+				CardModifierManager.hasModifier(card, PhantomCardModifier.ID))
 			return;
 		
+		AliceSpireKit.addEffect(new PowerIconShowEffect(this));
 		this.flash();
 		action.exhaustCard = false;
 		

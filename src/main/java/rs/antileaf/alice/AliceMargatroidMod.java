@@ -1,6 +1,7 @@
 package rs.antileaf.alice;
 
 import basemod.BaseMod;
+import basemod.ModPanel;
 import basemod.interfaces.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -12,6 +13,7 @@ import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.CardHelper;
+import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.localization.*;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
@@ -25,6 +27,7 @@ import rs.antileaf.alice.cards.Derivations.dolls.*;
 import rs.antileaf.alice.cards.Marisa.Alice6A;
 import rs.antileaf.alice.cards.Marisa.AliceAsteroidBelt;
 import rs.antileaf.alice.cards.Marisa.AliceDoubleSpark;
+import rs.antileaf.alice.cards.Marisa.AliceSpark;
 import rs.antileaf.alice.characters.AliceMargatroid;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
@@ -40,12 +43,16 @@ import rs.antileaf.alice.patches.enums.CardTargetEnum;
 import rs.antileaf.alice.relics.AlicesDarkGrimoire;
 import rs.antileaf.alice.relics.AlicesGrimoire;
 import rs.antileaf.alice.relics.SuspiciousCard;
+import rs.antileaf.alice.utils.AliceConfigHelper;
+import rs.antileaf.alice.utils.AliceKeywordsHelper;
 import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceTutorialHelper;
+import rs.antileaf.alice.variable.AliceSecondaryMagicNumberVariable;
 import rs.antileaf.alice.variable.TempHPVariable;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Arrays;
 
 @SuppressWarnings("Duplicates")
 @SpireInitializer
@@ -102,6 +109,8 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 	
 	private final ArrayList<AbstractCard> cardsToAdd = new ArrayList<>();
 	//private ArrayList<AbstractRelic> relicsToAdd = new ArrayList<>();
+	
+	private final ArrayList<Keyword> dollKeywords = new ArrayList<>();
 	
 	public AliceMargatroidMod() {
 		BaseMod.subscribe(this);
@@ -225,6 +234,7 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 	// 必须有这个函数才能初始化
 	public static void initialize() {
 		new AliceMargatroidMod();
+		AliceConfigHelper.loadConfig();
 	}
 	
 	private static String loadJson(String jsonPath) {
@@ -241,9 +251,18 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		Gson gson = new Gson();
 		Keyword[] keywords = gson.fromJson(loadJson(keywordsPath), Keyword[].class);
 		for (Keyword key : keywords) {
+			if (Arrays.asList(AbstractDoll.dollClasses).contains(key.NAMES[0])) {
+				this.dollKeywords.add(key);
+				continue;
+			}
+			
 			logger.info("Loading keyword : " + key.NAMES[0]);
 			BaseMod.addKeyword(AliceMargatroidMod.SIMPLE_NAME.toLowerCase(), key.NAMES[0], key.NAMES, key.DESCRIPTION);
 		}
+		
+		logger.info("Loading doll keywords");
+		AliceKeywordsHelper.addDollKeywords(this.dollKeywords);
+		
 		logger.info("Keywords setting finished.");
 	}
 	
@@ -257,9 +276,10 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		AliceSpireKit.loadCustomStrings(CardStrings.class, "cards");
 		AliceSpireKit.loadCustomStrings(PowerStrings.class, "powers");
 //		AliceSpireKit.loadCustomStrings(PotionStrings.class, "potions");
-//		AliceSpireKit.loadCustomStrings(EventStrings.class, "events");
 		AliceSpireKit.loadCustomStrings(OrbStrings.class, "dolls");
+		AliceSpireKit.loadCustomStrings(EventStrings.class, "events");
 		AliceSpireKit.loadCustomStrings(UIStrings.class, "ui");
+		AliceSpireKit.loadCustomStrings(TutorialStrings.class, "tutorial");
 
 		logger.info("done editing strings");
 	}
@@ -272,11 +292,17 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 	@Override
 	public void receivePostBattle(AbstractRoom room) {
 		DollManager.get().clearPostBattle();
+		BaseMod.MAX_HAND_SIZE = BaseMod.DEFAULT_MAX_HAND_SIZE;
 	}
 	
 	@Override
 	public void receiveOnBattleStart(AbstractRoom room) {
 		DollManager.get().initPreBattle();
+		if (AliceConfigHelper.shouldOpenTutorial()) {
+			AliceTutorialHelper.openTutorial();
+			AliceConfigHelper.setShouldOpenTutorial(false);
+			AliceConfigHelper.save();
+		}
 	}
 	
 	@Override
@@ -287,6 +313,13 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 	@Override
 	public void receivePostEnergyRecharge() {
 		DollManager.get().postEnergyRecharge();
+		
+		for (AbstractCard card : AbstractDungeon.player.hand.group) {
+			if (card instanceof BlackTea) {
+				card.triggerAtStartOfTurn();
+				card.flash();
+			}
+		}
 	}
 	
 	@Override
@@ -310,11 +343,20 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		CustomTargeting.registerCustomTargeting(CardTargetEnum.DOLL_OR_EMPTY_SLOT, new DollOrEmptySlotTargeting());
 		CustomTargeting.registerCustomTargeting(CardTargetEnum.DOLL_OR_ENEMY, new DollOrEnemyTargeting());
 		CustomTargeting.registerCustomTargeting(CardTargetEnum.DOLL_OR_NONE, new DollOrNoneTargeting());
+		
+		ModPanel settingsPanel = AliceConfigHelper.createConfigPanel();
+		BaseMod.registerModBadge(
+				ImageMaster.loadImage("AliceMargatroidMod/img/UI/badge.png"),
+				"Alice Margatroid",
+				"antileaf",
+				"",
+				settingsPanel
+		);
 	}
 	
 	@Override
 	public void receiveOnPlayerTurnStart() {
-		monstersDestroyedFranceDoll.clear();
+//		monstersDestroyedFranceDoll.clear();
 		DollManager.getInstance(AbstractDungeon.player).onStartOfTurn();
 	}
 	
@@ -323,47 +365,54 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		DollManager.get().update();
 	}
 	
-	HashSet<AbstractMonster> monstersDestroyedFranceDoll = new HashSet<>();
+//	HashSet<AbstractMonster> monstersDestroyedFranceDoll = new HashSet<>();
 	
 	public int receiveOnPlayerDamaged(int amount, DamageInfo damageInfo) {
-		if (!(damageInfo.owner instanceof AbstractMonster))
+		if (!AliceSpireKit.isInBattle())
 			return amount;
 		
-		if (damageInfo.type != DamageInfo.DamageType.HP_LOSS &&
-				monstersDestroyedFranceDoll.contains((AbstractMonster) damageInfo.owner))
-			return 0;
-		
-		int index = AliceSpireKit.getMonsterIndex((AbstractMonster) damageInfo.owner);
-		if (index == -1) {
-			AliceSpireKit.log("AliceMargatroidMod.receiveOnPlayerDamaged", "index == -1");
-			return amount;
-		}
-		
-		AbstractDoll doll = DollManager.get().getDolls().get(index);
-		if (doll instanceof EmptyDollSlot)
+		if (damageInfo.type == DamageInfo.DamageType.HP_LOSS)
 			return amount;
 		
-		if (damageInfo.type != DamageInfo.DamageType.NORMAL) {
-			if (damageInfo.type == DamageInfo.DamageType.HP_LOSS ||
-					!(doll instanceof FranceDoll))
+		else if (damageInfo.type == DamageInfo.DamageType.NORMAL) {
+			int index = AliceSpireKit.getMonsterIndex((AbstractMonster) damageInfo.owner);
+			if (index == -1) {
+				AliceSpireKit.log("AliceMargatroidMod.receiveOnPlayerDamaged", "index == -1");
 				return amount;
+			}
+			
+			AbstractDoll doll = DollManager.get().getDolls().get(index);
+			if (doll instanceof EmptyDollSlot)
+				return amount;
+			
+			int remaining = doll.onPlayerDamaged(amount);
+			boolean destroyed = DollManager.get().dollTakesDamage(doll, amount - remaining);
+			return remaining;
 		}
 		
-		int remaining = doll.onPlayerDamaged(amount);
-		boolean destroyed = DollManager.get().dollTakesDamage(doll, amount - remaining);
-		
-//		if (destroyed && (doll instanceof FranceDoll))
-//			monstersDestroyedFranceDoll.add((AbstractMonster) damageInfo.owner);
-		// 抵挡多段还是太强了，不如只挡一段，并且只挡一段就已经够强了
-		
-		return remaining;
+		else {
+			int remaining = amount;
+			for (int i = DollManager.MAX_DOLL_SLOTS - 1; i >= 0; i--)
+				if (DollManager.get().getDolls().get(i) instanceof FranceDoll) {
+					FranceDoll doll = (FranceDoll) DollManager.get().getDolls().get(i);
+					remaining = doll.onPlayerDamaged(remaining);
+					DollManager.get().dollTakesDamage(doll, amount - remaining);
+					
+					if (remaining == 0)
+						break;
+				}
+			
+			return remaining;
+		}
 	}
 	
 	public int receiveOnPlayerLoseBlock(int amount) {
-		DollManager.get().updatePreservedBlock();
-		DollManager.get().clearBlock();
-		
+//		DollManager.get().updatePreservedBlock();
+		DollManager.get().startOfTurnClearBlock();
 		int preserve = DollManager.get().getPreservedBlock();
+		
+		DollManager.get().startOfTurnResetHouraiPassiveAmount();
+		
 		return Integer.min(amount, AbstractDungeon.player.currentBlock - preserve);
 	}
 	
@@ -376,9 +425,11 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		
 		this.cardsToAdd.add(new Strike_AliceMargatroid());
 		this.cardsToAdd.add(new Defend_AliceMargatroid());
+		this.cardsToAdd.add(new DollPlacement());
+		this.cardsToAdd.add(new Chant());
+		
 		this.cardsToAdd.add(new Thread());
 		this.cardsToAdd.add(new DollCrusader());
-		
 		this.cardsToAdd.add(new LittleLegion());
 		this.cardsToAdd.add(new ProtectiveMagic());
 		this.cardsToAdd.add(new RainbowRay());
@@ -387,7 +438,7 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		this.cardsToAdd.add(new KirisameMahouten());
 		this.cardsToAdd.add(new SurpriseSpring());
 		this.cardsToAdd.add(new WarFlag());
-		this.cardsToAdd.add(new Transfer());
+//		this.cardsToAdd.add(new Transfer());
 		this.cardsToAdd.add(new DollAmbush());
 		this.cardsToAdd.add(new DollWar());
 		this.cardsToAdd.add(new DollJudge());
@@ -395,7 +446,7 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		this.cardsToAdd.add(new FrostRay());
 		this.cardsToAdd.add(new SunlightRay());
 		this.cardsToAdd.add(new StarlightRay());
-		this.cardsToAdd.add(new ArtfulSacrifice());
+		this.cardsToAdd.add(new DollCremation());
 		this.cardsToAdd.add(new SevenColoredPuppeteer());
 		this.cardsToAdd.add(new Collector());
 		this.cardsToAdd.add(new Punishment());
@@ -406,6 +457,30 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		this.cardsToAdd.add(new Phantom());
 		this.cardsToAdd.add(new MysteriousMirror());
 		this.cardsToAdd.add(new ReturningDolls());
+		this.cardsToAdd.add(new SPDoll());
+		this.cardsToAdd.add(new Kick());
+		this.cardsToAdd.add(new InterlacedRay());
+		this.cardsToAdd.add(new Furnace());
+		this.cardsToAdd.add(new GuidingRay());
+		this.cardsToAdd.add(new Refraction());
+		this.cardsToAdd.add(new Bookmark());
+		this.cardsToAdd.add(new DollLances());
+		this.cardsToAdd.add(new CutiePhalanx());
+		this.cardsToAdd.add(new Ultimatum());
+		this.cardsToAdd.add(new BlackTea());
+		this.cardsToAdd.add(new PokerTrick());
+		this.cardsToAdd.add(new MysteriousChallenger());
+		this.cardsToAdd.add(new DollShield());
+		this.cardsToAdd.add(new DollOfRoundTable());
+		this.cardsToAdd.add(new Tyrant());
+		this.cardsToAdd.add(new Dessert());
+		this.cardsToAdd.add(new ConcealmentRay());
+		this.cardsToAdd.add(new Sale());
+		this.cardsToAdd.add(new Throw());
+		this.cardsToAdd.add(new DollActivation());
+		this.cardsToAdd.add(new TheUnmovingGreatLibrary());
+		this.cardsToAdd.add(new VisitOfThreeFairies());
+		this.cardsToAdd.add(new ScatterTheWeak());
 		
 		this.cardsToAdd.add(new VivaciousShanghaiDoll());
 		this.cardsToAdd.add(new QuietHouraiDoll());
@@ -425,6 +500,7 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		this.cardsToAdd.add(new CreateOrleansDoll());
 		
 		if (!AliceSpireKit.isMarisaModAvailable()) {
+			this.cardsToAdd.add(new AliceSpark());
 			this.cardsToAdd.add(new AliceDoubleSpark());
 			this.cardsToAdd.add(new AliceAsteroidBelt());
 			this.cardsToAdd.add(new Alice6A());
@@ -433,5 +509,6 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 	
 	private void loadVariables() {
 		BaseMod.addDynamicVariable(new TempHPVariable());
+		BaseMod.addDynamicVariable(new AliceSecondaryMagicNumberVariable());
 	}
 }
