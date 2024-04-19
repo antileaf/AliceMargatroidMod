@@ -82,5 +82,12 @@
     "DESCRIPTIONS": [
       "本回合内，手牌上限减少", "张。"
     ]
+  },
+  
+  "AliceInWonderlandPower": {
+    "NAME": "爱丽丝梦游仙境",
+    "DESCRIPTIONS": [
+      "每回合开始时，将 #b%d 张随机的罕见牌加入手牌。"
+    ]
   }
 }

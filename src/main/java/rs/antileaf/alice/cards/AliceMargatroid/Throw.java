@@ -38,7 +38,7 @@ public class Throw extends AbstractAliceCard {
 				cardStrings.DESCRIPTION,
 				CardType.ATTACK,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
-				CardRarity.COMMON,
+				CardRarity.UNCOMMON,
 				CardTargetEnum.DOLL
 		);
 		

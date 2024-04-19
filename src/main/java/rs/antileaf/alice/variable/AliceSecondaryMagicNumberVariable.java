@@ -14,7 +14,7 @@ public class AliceSecondaryMagicNumberVariable extends DynamicVariable {
 	public boolean isModified(AbstractCard card) {
 		if (card instanceof AbstractAliceCard) {
 			AbstractAliceCard aliceCard = (AbstractAliceCard) card;
-			return aliceCard.secondaryMagicNumber != aliceCard.baseSecondaryMagicNumber;
+			return aliceCard.isSecondaryMagicNumberModified;
 		}
 		return false;
 	}
@@ -38,7 +38,7 @@ public class AliceSecondaryMagicNumberVariable extends DynamicVariable {
 	public boolean upgraded(AbstractCard card) {
 		if (card instanceof AbstractAliceCard) {
 			AbstractAliceCard aliceCard = (AbstractAliceCard) card;
-			return aliceCard.isSecondaryMagicNumberUpgraded;
+			return aliceCard.upgradedSecondaryMagicNumber;
 		}
 		return false;
 	}

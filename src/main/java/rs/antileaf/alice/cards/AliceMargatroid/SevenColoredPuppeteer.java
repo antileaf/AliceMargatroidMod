@@ -1,16 +1,15 @@
 package rs.antileaf.alice.cards.AliceMargatroid;
 
+import basemod.BaseMod;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.DamageAllEnemiesAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.cards.AbstractAliceCard;
-import rs.antileaf.alice.doll.AbstractDoll;
-import rs.antileaf.alice.doll.DollManager;
-import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
@@ -23,8 +22,6 @@ public class SevenColoredPuppeteer extends AbstractAliceCard {
 	private static final int COST = 7;
 	private static final int DAMAGE = 7;
 	private static final int MAGIC = 7;
-	
-	private boolean gold = false;
 	
 	private int costBackup;
 	private int costForTurnBackup;
@@ -80,6 +77,7 @@ public class SevenColoredPuppeteer extends AbstractAliceCard {
 	
 	@Override
 	public void resetAttributes() {
+		super.resetAttributes();
 		this.costForTurnBackup = this.costBackup;
 	}
 	
@@ -87,10 +85,12 @@ public class SevenColoredPuppeteer extends AbstractAliceCard {
 	public void triggerOnGlowCheck() {
 		super.triggerOnGlowCheck();
 		
-		if (this.gold)
-			this.glowColor = AbstractCard.GOLD_BORDER_GLOW_COLOR.cpy();
-		else
-			this.glowColor = AbstractCard.BLUE_BORDER_GLOW_COLOR.cpy();
+		if (AliceSpireKit.isInBattle()) {
+			if (!AliceSpireKit.hasDuplicateCards(AbstractDungeon.player.hand.group, null))
+				this.glowColor = GOLD_BORDER_GLOW_COLOR;
+			else
+				this.glowColor = BLUE_BORDER_GLOW_COLOR;
+		}
 	}
 	
 	@Override
@@ -98,43 +98,15 @@ public class SevenColoredPuppeteer extends AbstractAliceCard {
 		super.applyPowers();
 		
 		if (AliceSpireKit.isInBattle()) {
-			boolean ok = true;
-			
-			for (AbstractDoll doll : DollManager.get().getDolls()) {
-				if (doll instanceof EmptyDollSlot) {
-					ok = false;
-					break;
-				}
-				
-				else if (!AbstractDoll.isBaseDoll(doll)) {
-					ok = false;
-					break;
-				}
-				
-				for (AbstractDoll doll2 : DollManager.get().getDolls()) {
-					if (doll2 == doll)
-						break;
-					
-					if (doll2.ID.equals(doll.ID)) {
-						ok = false;
-						break;
-					}
-				}
-			}
-			
-			if (ok) {
+			if (AbstractDungeon.player.hand.size() >= BaseMod.MAX_HAND_SIZE) {
 				this.costForTurn = this.cost = 0;
 				this.isCostModifiedForTurn = true;
-				this.gold = true;
 			}
 			else {
 				this.cost = this.costBackup;
 				this.costForTurn = this.costForTurnBackup;
 				this.isCostModifiedForTurn = (this.costForTurn != this.cost);
-				this.gold = false;
 			}
-			
-			this.triggerOnGlowCheck();
 		}
 	}
 	
@@ -162,7 +134,6 @@ public class SevenColoredPuppeteer extends AbstractAliceCard {
 		if (!this.upgraded) {
 			this.upgradeName();
 			this.retain = this.selfRetain = true;
-//			AlwaysRetainField.alwaysRetain.set(this, true);
 			this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
 			this.initializeDescription();
 		}

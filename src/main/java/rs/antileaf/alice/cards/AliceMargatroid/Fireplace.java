@@ -12,9 +12,10 @@ import rs.antileaf.alice.action.common.AliceExhaustSpecificCardAction;
 import rs.antileaf.alice.action.common.AliceSelectCardsInHandAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
+import rs.antileaf.alice.utils.AliceSpireKit;
 
-public class Furnace extends AbstractAliceCard {
-	public static final String SIMPLE_NAME = Furnace.class.getSimpleName();
+public class Fireplace extends AbstractAliceCard {
+	public static final String SIMPLE_NAME = Fireplace.class.getSimpleName();
 //	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
 	public static final String ID = SIMPLE_NAME;
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
@@ -25,11 +26,11 @@ public class Furnace extends AbstractAliceCard {
 	private static final int UPGRADE_PLUS_MAGIC = 1;
 	private static final int MAGIC2 = 4;
 	
-	public Furnace() {
+	public Fireplace() {
 		super(
 				ID,
 				cardStrings.NAME,
-				null, // AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.ATTACK,
@@ -73,7 +74,7 @@ public class Furnace extends AbstractAliceCard {
 	
 	@Override
 	public AbstractCard makeCopy() {
-		return new Furnace();
+		return new Fireplace();
 	}
 	
 //	@Override

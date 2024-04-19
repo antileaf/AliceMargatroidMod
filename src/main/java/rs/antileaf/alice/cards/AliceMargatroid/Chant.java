@@ -12,6 +12,7 @@ import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.targeting.DollOrNoneTargeting;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
+import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class Chant extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = Chant.class.getSimpleName();
@@ -27,7 +28,7 @@ public class Chant extends AbstractAliceCard {
 		super(
 				ID,
 				cardStrings.NAME,
-				null, // AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.SKILL,

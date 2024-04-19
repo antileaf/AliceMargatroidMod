@@ -460,7 +460,7 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		this.cardsToAdd.add(new SPDoll());
 		this.cardsToAdd.add(new Kick());
 		this.cardsToAdd.add(new InterlacedRay());
-		this.cardsToAdd.add(new Furnace());
+		this.cardsToAdd.add(new Fireplace());
 		this.cardsToAdd.add(new GuidingRay());
 		this.cardsToAdd.add(new Refraction());
 		this.cardsToAdd.add(new Bookmark());
@@ -481,6 +481,7 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		this.cardsToAdd.add(new TheUnmovingGreatLibrary());
 		this.cardsToAdd.add(new VisitOfThreeFairies());
 		this.cardsToAdd.add(new ScatterTheWeak());
+		this.cardsToAdd.add(new AliceInWonderland());
 		
 		this.cardsToAdd.add(new VivaciousShanghaiDoll());
 		this.cardsToAdd.add(new QuietHouraiDoll());

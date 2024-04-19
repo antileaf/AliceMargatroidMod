@@ -130,14 +130,13 @@
   
   "SevenColoredPuppeteer": {
     "NAME": "七色的人偶使",
-    "DESCRIPTION": "对所有敌人造成 !D! 点伤害 !M! 次。 NL 如果你拥有七种不同的基础 alicemargatroidmod:人偶 各一个，这张牌的耗能变为 0 。",
-    "UPGRADE_DESCRIPTION": "保留 。 对所有敌人造成 !D! 点伤害 !M! 次。 NL 如果你拥有七种不同的基础 alicemargatroidmod:人偶 各一个，这张牌的耗能变为 0 。"
+    "DESCRIPTION": "如果你的手牌中没有相同的牌，对所有敌人造成 !D! 点伤害 !M! 次。 NL 如果你的手牌数已达到上限，这张牌的耗能变为 0 。",
+    "UPGRADE_DESCRIPTION": "保留 。 如果你的手牌中没有相同的牌，对所有敌人造成 !D! 点伤害 !M! 次。 NL 如果你的手牌数已达到上限，这张牌的耗能变为 0 。"
   },
   
   "Collector": {
     "NAME": "收集家",
     "DESCRIPTION": "每拥有 !M! 个遗物，获得 !aliceM2! 点 格挡 。",
-    "UPGRADE_DESCRIPTION": "获得等同于你遗物数量 +3 的 格挡 。",
     "EXTENDED_DESCRIPTION": [" NL (获得 !B! 点 格挡。)"]
   },
   
@@ -202,7 +201,7 @@
     "DESCRIPTION": "随机对两个敌人各造成 !D! 点伤害。"
   },
   
-  "Furnace": {
+  "Fireplace": {
     "NAME": "炉火",
     "DESCRIPTION": "消耗 至多 !M! 张手牌，造成 !D! 点伤害。 NL 每 消耗 一张牌，本次伤害提高 !aliceM2! 点。",
     "EXTENDED_DESCRIPTION": ["消耗"]
@@ -311,6 +310,11 @@
     "NAME": "弱者退散",
     "DESCRIPTION": "造成 !D! 点伤害。 NL 如果对 *爪牙 敌人造成了未被 格挡 的伤害，直接将其消灭。 NL 消耗 。",
     "UPGRADE_DESCRIPTION": "对所有敌人造成 !D! 点伤害。 NL 如果对 *爪牙 敌人造成了未被 格挡 的伤害，直接将其消灭。 NL 消耗 。"
+  },
+  
+  "AliceInWonderland": {
+    "NAME": "爱丽丝梦游仙境",
+    "DESCRIPTION": "每回合开始时，将一张随机的罕见牌加入手牌。"
   },
   
   

@@ -36,6 +36,7 @@ public class Collector extends AbstractAliceCard {
 		);
 		
 		this.magicNumber = this.baseMagicNumber = MAGIC;
+		this.secondaryMagicNumber = this.baseSecondaryMagicNumber = MAGIC2;
 	}
 	
 	@Override
@@ -48,7 +49,8 @@ public class Collector extends AbstractAliceCard {
 	
 	@Override
 	public void initializeDescription() {
-		this.rawDescription = (!this.upgraded ? cardStrings.DESCRIPTION : cardStrings.UPGRADE_DESCRIPTION);
+		this.rawDescription = cardStrings.DESCRIPTION;
+		
 		if (AliceSpireKit.isInBattle())
 			this.rawDescription += cardStrings.EXTENDED_DESCRIPTION[0];
 		

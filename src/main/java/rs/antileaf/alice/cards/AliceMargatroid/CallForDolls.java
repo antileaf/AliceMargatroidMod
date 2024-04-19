@@ -12,6 +12,7 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.powers.unique.CallForDollsPower;
+import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class CallForDolls extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = CallForDolls.class.getSimpleName();
@@ -29,7 +30,7 @@ public class CallForDolls extends AbstractAliceCard {
 		super(
 				ID,
 				cardStrings.NAME,
-				null, // AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.ATTACK,

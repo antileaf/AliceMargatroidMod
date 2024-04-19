@@ -95,8 +95,10 @@ public class AliceMargatroid extends CustomPlayer {
 	public ArrayList<String> getStartingDeck() { // 初始卡组
 		ArrayList<String> ret = new ArrayList<>();
 		
-		ret.add(LittleLegion.ID);
-		ret.add(DollCrusader.ID);
+//		ret.add(LittleLegion.ID);
+//		ret.add(DollCrusader.ID);
+		ret.add(DollPlacement.ID);
+		ret.add(Chant.ID);
 		
 		for (int i = 0; i < 4; i++)
 			ret.add(Strike_AliceMargatroid.ID);
