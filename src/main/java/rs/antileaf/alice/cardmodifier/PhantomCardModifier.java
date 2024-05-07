@@ -7,9 +7,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.megacrit.cardcrawl.actions.common.ExhaustSpecificCardAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.CardGroup;
-import com.megacrit.cardcrawl.core.CardCrawlGame;
-import com.megacrit.cardcrawl.localization.UIStrings;
 import com.megacrit.cardcrawl.vfx.cardManip.ExhaustCardEffect;
+import rs.antileaf.alice.strings.AliceCardModifierStrings;
+import rs.antileaf.alice.strings.AliceLanguageStrings;
+import rs.antileaf.alice.utils.AliceMiscKit;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import java.util.List;
 public class PhantomCardModifier extends AbstractCardModifier {
 	private static final String SIMPLE_NAME = PhantomCardModifier.class.getSimpleName();
 	public static final String ID = SIMPLE_NAME;
-	private static final UIStrings uiStrings = CardCrawlGame.languagePack.getUIString(ID);
+	private static final AliceCardModifierStrings cardModifierStrings = AliceCardModifierStrings.get(SIMPLE_NAME);
 	
 	public static boolean check(AbstractCard card) {
 		return CardModifierManager.hasModifier(card, ID);
@@ -30,13 +31,16 @@ public class PhantomCardModifier extends AbstractCardModifier {
 	
 	@Override
 	public String modifyDescription(String rawDescription, AbstractCard card) {
-		return rawDescription + " NL *" + uiStrings.TEXT[0] + " " + uiStrings.TEXT[2];
+		return rawDescription + "NL *" + AliceMiscKit.join(
+				cardModifierStrings.NAME,
+				AliceLanguageStrings.PERIOD
+		);
 	}
 	
 	@Override
 	public List<TooltipInfo> additionalTooltips(AbstractCard card) {
 		ArrayList<TooltipInfo> tips = new ArrayList<>();
-		tips.add(new TooltipInfo(uiStrings.TEXT[0], uiStrings.TEXT[1]));
+		tips.add(new TooltipInfo(cardModifierStrings.NAME, cardModifierStrings.DESCRIPTION));
 		return tips;
 	}
 	

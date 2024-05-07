@@ -89,5 +89,27 @@
     "DESCRIPTIONS": [
       "每回合开始时，将 #b%d 张随机的罕见牌加入手牌。"
     ]
+  },
+  
+  "AliceExtraTurnPower": {
+    "NAME": "额外回合",
+    "DESCRIPTIONS": [
+      "本回合结束后，获得一个额外回合。",
+      "本回合结束后，获得一个额外回合。剩余 #b%d 次。"
+    ]
+  },
+  
+  "DollOrchestraPower": {
+    "NAME": "人偶乐团",
+    "DESCRIPTIONS": [
+      "每 生成 一个 人偶，抽 #b%d 张牌。"
+    ]
+  },
+  
+  "ThePhantomOfTheGrandGuignolPower": {
+    "NAME": "猎奇 剧团里的怪人",
+    "DESCRIPTIONS": [
+      "人偶 的被动和 行动 效果的基础数值提高 #b%d 点。"
+    ]
   }
 }

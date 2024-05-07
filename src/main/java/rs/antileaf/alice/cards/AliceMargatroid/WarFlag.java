@@ -13,6 +13,7 @@ import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.targeting.DollTargeting;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
+import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
@@ -36,6 +37,8 @@ public class WarFlag extends AbstractAliceCard {
 				CardRarity.UNCOMMON,
 				CardTargetEnum.DOLL
 		);
+		
+		this.tags.add(CardTagEnum.ALICE_COMMAND);
 	}
 	
 	@Override
@@ -80,6 +83,7 @@ public class WarFlag extends AbstractAliceCard {
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
+			this.tags.add(CardTagEnum.ALICE_DOLL_ACT);
 			this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
 			this.initializeDescription();
 		}

@@ -17,6 +17,7 @@ import com.megacrit.cardcrawl.helpers.*;
 import com.megacrit.cardcrawl.localization.UIStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.AbstractPower;
+import com.megacrit.cardcrawl.relics.RunicDome;
 import com.megacrit.cardcrawl.vfx.combat.BlockedNumberEffect;
 import com.megacrit.cardcrawl.vfx.combat.FlashAtkImgEffect;
 import com.megacrit.cardcrawl.vfx.combat.HbBlockBrokenEffect;
@@ -596,28 +597,30 @@ public abstract class AbstractDoll extends CustomOrb {
 					this.cY + this.bobEffect.y / 2.0F + NUM_Y_OFFSET - 4.0F * Settings.scale);
 		}
 		
-		if (this.damageAboutToTake > 0) {
-			FontHelper.renderFontCentered(
-					sb,
-					FontHelper.cardEnergyFont_L,
-					this.damageAboutToTake + (this.damageCount > 1 ? "x" + this.damageCount : ""),
-					this.cX,
-					this.cY + this.bobEffect.y / 2.0F + NUM_Y_OFFSET + 50.0F * Settings.scale,
-					Color.RED,
-					this.fontScale
-			);
-		}
-		if (this.overflowedDamage > 0) {
-			FontHelper.renderFontCentered(
-					sb,
-					FontHelper.cardEnergyFont_L,
-					"(" + this.overflowedDamage + ")",
-					(this.cX + AbstractDungeon.player.drawX) / 2.0F,
-					(this.cY + this.bobEffect.y / 2.0F + NUM_Y_OFFSET + 50.0F * Settings.scale +
-							AbstractDungeon.player.drawY + AbstractDungeon.player.hb.height / 2.0F) / 2.0F,
-					Color.RED,
-					this.fontScale
-			);
+		if (AbstractDungeon.player != null && !AbstractDungeon.player.hasRelic(RunicDome.ID)) {
+			if (this.damageAboutToTake > 0) {
+				FontHelper.renderFontCentered(
+						sb,
+						FontHelper.cardEnergyFont_L,
+						this.damageAboutToTake + (this.damageCount > 1 ? "x" + this.damageCount : ""),
+						this.cX,
+						this.cY + this.bobEffect.y / 2.0F + NUM_Y_OFFSET + 50.0F * Settings.scale,
+						Color.RED,
+						this.fontScale
+				);
+			}
+			if (this.overflowedDamage > 0) {
+				FontHelper.renderFontCentered(
+						sb,
+						FontHelper.cardEnergyFont_L,
+						"(" + this.overflowedDamage + ")",
+						(this.cX + AbstractDungeon.player.drawX) / 2.0F,
+						(this.cY + this.bobEffect.y / 2.0F + NUM_Y_OFFSET + 50.0F * Settings.scale +
+								AbstractDungeon.player.drawY + AbstractDungeon.player.hb.height / 2.0F) / 2.0F,
+						Color.RED,
+						this.fontScale
+				);
+			}
 		}
 	}
 	

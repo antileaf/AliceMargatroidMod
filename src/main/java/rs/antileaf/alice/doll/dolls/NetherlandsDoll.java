@@ -10,7 +10,6 @@ import com.megacrit.cardcrawl.powers.LoseStrengthPower;
 import com.megacrit.cardcrawl.powers.StrengthPower;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.enums.DollAmountType;
-import rs.antileaf.alice.utils.AliceMiscKit;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class NetherlandsDoll extends AbstractDoll {
@@ -184,17 +183,9 @@ public class NetherlandsDoll extends AbstractDoll {
 	
 	@Override
 	public void updateDescriptionImpl() {
-		this.passiveDescription = AliceMiscKit.join(
-				dollStrings.DESCRIPTION[0],
-				this.coloredPassiveAmount(),
-				dollStrings.DESCRIPTION[1]
-		);
+		this.passiveDescription = String.format(dollStrings.DESCRIPTION[0], this.coloredPassiveAmount());
 		
-		this.actDescription = AliceMiscKit.join(
-				dollStrings.DESCRIPTION[2],
-				this.coloredActAmount(),
-				dollStrings.DESCRIPTION[3]
-		);
+		this.actDescription = String.format(dollStrings.DESCRIPTION[1], this.coloredActAmount());
 	}
 	
 	@Override

@@ -102,6 +102,8 @@ public abstract class AbstractAliceCard extends CustomCard
 
 		return card;
 	}
+	
+	public void aliceTriggerAtStartOfTurn() {}
 
 	public void triggerOnLeaveHand(boolean isExhaust, boolean isEndOfTurn) {
 

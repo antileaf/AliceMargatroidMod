@@ -13,6 +13,7 @@ import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.targeting.DollOrNoneTargeting;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
+import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
@@ -40,6 +41,8 @@ public class ProtectiveMagic extends AbstractAliceCard {
 		);
 		
 		this.block = this.baseBlock = BLOCK;
+		
+		this.tags.add(CardTagEnum.ALICE_COMMAND);
 	}
 	
 	@Override

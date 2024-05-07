@@ -5,7 +5,6 @@ import com.megacrit.cardcrawl.localization.OrbStrings;
 import rs.antileaf.alice.action.doll.DollGainBlockAction;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.enums.DollAmountType;
-import rs.antileaf.alice.utils.AliceMiscKit;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class FranceDoll extends AbstractDoll {
@@ -58,11 +57,7 @@ public class FranceDoll extends AbstractDoll {
 	public void updateDescriptionImpl() {
 		this.passiveDescription = dollStrings.DESCRIPTION[0];
 		
-		this.actDescription = AliceMiscKit.join(
-				dollStrings.DESCRIPTION[1],
-				this.coloredActAmount(),
-				dollStrings.DESCRIPTION[2]
-		);
+		this.actDescription = String.format(dollStrings.DESCRIPTION[1], this.coloredActAmount());
 	}
 	
 	@Override

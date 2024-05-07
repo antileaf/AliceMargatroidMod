@@ -13,6 +13,7 @@ import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
+import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class DollOfRoundTable extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = DollOfRoundTable.class.getSimpleName();
@@ -22,13 +23,13 @@ public class DollOfRoundTable extends AbstractAliceCard {
 	
 	private static final int COST = 2;
 	private static final int UPGRADED_COST = 1;
-	private static final int BLOCK = 16;
+	private static final int BLOCK = 15;
 	
 	public DollOfRoundTable() {
 		super(
 				ID,
 				cardStrings.NAME,
-				null, // AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.SKILL,

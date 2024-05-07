@@ -6,7 +6,6 @@ import com.megacrit.cardcrawl.orbs.AbstractOrb;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.enums.DollAmountType;
-import rs.antileaf.alice.utils.AliceMiscKit;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class HouraiDoll extends AbstractDoll {
@@ -60,7 +59,6 @@ public class HouraiDoll extends AbstractDoll {
 	
 	@Override
 	public void onAct() {
-//		AliceSpireKit.log(this.getClass(), "HouraiDoll.onAct() should not be called!");
 		this.additionalPassiveAmount += this.actAmount;
 		this.applyPower();
 	}
@@ -81,18 +79,20 @@ public class HouraiDoll extends AbstractDoll {
 	@Override
 	public void updateDescriptionImpl() {
 		if (this.dontShowHPDescription)
-			this.passiveDescription = dollStrings.DESCRIPTION[0];
+			this.passiveDescription = String.format(dollStrings.DESCRIPTION[0], this.coloredPassiveAmount());
 		else {
-			this.passiveDescription = AliceMiscKit.join(
-					dollStrings.DESCRIPTION[1],
-					this.coloredPassiveAmount(),
-					dollStrings.DESCRIPTION[2],
-					"" + DollManager.get().getTotalHouraiPassiveAmount(),
-					dollStrings.DESCRIPTION[3]
-			);
+//			this.passiveDescription = AliceMiscKit.join(
+//					dollStrings.DESCRIPTION[1],
+//					this.coloredPassiveAmount(),
+//					dollStrings.DESCRIPTION[2],
+//					"" + DollManager.get().getTotalHouraiPassiveAmount(),
+//					dollStrings.DESCRIPTION[3]
+//			);
+			this.passiveDescription = String.format(dollStrings.DESCRIPTION[1],
+					this.coloredPassiveAmount(), DollManager.get().getTotalHouraiPassiveAmount());
 		}
 		
-		this.actDescription = dollStrings.DESCRIPTION[4];
+		this.actDescription = String.format(dollStrings.DESCRIPTION[2], this.coloredActAmount());
 	}
 	
 	@Override

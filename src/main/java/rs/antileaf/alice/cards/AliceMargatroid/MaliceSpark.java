@@ -13,6 +13,7 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.powers.unique.MaliceSparkPower;
+import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class MaliceSpark extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = MaliceSpark.class.getSimpleName();
@@ -30,7 +31,7 @@ public class MaliceSpark extends AbstractAliceCard {
 		super(
 				ID,
 				cardStrings.NAME,
-				null, // AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.ATTACK,

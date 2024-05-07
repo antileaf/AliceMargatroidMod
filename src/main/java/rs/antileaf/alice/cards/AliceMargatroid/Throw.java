@@ -15,6 +15,7 @@ import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.targeting.DollTargeting;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
+import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
@@ -25,15 +26,15 @@ public class Throw extends AbstractAliceCard {
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
-	private static final int DAMAGE = 7;
-	private static final int UPGRADE_PLUS_DAMAGE = 2;
+	private static final int DAMAGE = 8;
+	private static final int UPGRADE_PLUS_DAMAGE = 3;
 	private static final int MAGIC = 3;
 	
 	public Throw() {
 		super(
 				ID,
 				cardStrings.NAME,
-				null, // AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.ATTACK,
@@ -45,6 +46,8 @@ public class Throw extends AbstractAliceCard {
 		this.damage = this.baseDamage = DAMAGE;
 		this.magicNumber = this.baseMagicNumber = MAGIC;
 		PersistFields.setBaseValue(this, this.magicNumber);
+		
+		this.tags.add(CardTagEnum.ALICE_COMMAND);
 	}
 	
 	@Override

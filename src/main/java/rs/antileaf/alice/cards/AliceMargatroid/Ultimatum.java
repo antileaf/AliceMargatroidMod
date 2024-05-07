@@ -10,6 +10,7 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.powers.VulnerablePower;
 import com.megacrit.cardcrawl.powers.WeakPower;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
@@ -36,7 +37,7 @@ public class Ultimatum extends AbstractAliceCard {
 				cardStrings.DESCRIPTION,
 				CardType.ATTACK,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
-				CardRarity.COMMON,
+				CardRarity.UNCOMMON,
 				CardTarget.ENEMY
 		);
 		
@@ -64,30 +65,31 @@ public class Ultimatum extends AbstractAliceCard {
 			this.glowColor = BLUE_BORDER_GLOW_COLOR.cpy();
 	}
 	
-	@Override
-	public void use(AbstractPlayer p, AbstractMonster m) {
+	private void dealOn(AbstractMonster m) {
 		this.addToBot(new DamageAction(m,
-				new DamageInfo(p, this.damage, this.damageTypeForTurn),
+				new DamageInfo(AbstractDungeon.player, this.damage, this.damageTypeForTurn),
 				AbstractGameAction.AttackEffect.BLUNT_LIGHT));
 		this.addToBot(new ApplyPowerAction(
 				m,
-				p,
+				AbstractDungeon.player,
 				new WeakPower(m, this.magicNumber, false),
 				this.magicNumber
 		));
+		this.addToBot(new ApplyPowerAction(
+				m,
+				AbstractDungeon.player,
+				new VulnerablePower(m, this.magicNumber, false),
+				this.magicNumber
+		));
+	}
+	
+	@Override
+	public void use(AbstractPlayer p, AbstractMonster m) {
+		this.dealOn(m);
 		
 		for (AbstractMonster other : AbstractDungeon.getMonsters().monsters)
-			if (!other.isDeadOrEscaped() && other != m && other.name.equals(m.name)) {
-				this.addToBot(new DamageAction(other,
-						new DamageInfo(p, this.damage, this.damageTypeForTurn),
-						AbstractGameAction.AttackEffect.BLUNT_LIGHT));
-				this.addToBot(new ApplyPowerAction(
-						other,
-						p,
-						new WeakPower(other, this.magicNumber, false),
-						this.magicNumber
-				));
-			}
+			if (!other.isDeadOrEscaped() && other != m && other.name.equals(m.name))
+				this.dealOn(other);
 	}
 	
 	@Override

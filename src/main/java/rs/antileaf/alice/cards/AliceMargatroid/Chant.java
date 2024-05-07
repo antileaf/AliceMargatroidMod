@@ -11,6 +11,7 @@ import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.targeting.DollOrNoneTargeting;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
+import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
@@ -39,6 +40,9 @@ public class Chant extends AbstractAliceCard {
 		
 		this.block = this.baseBlock = BLOCK;
 		this.magicNumber = this.baseMagicNumber = MAGIC;
+		
+		this.tags.add(CardTagEnum.ALICE_COMMAND);
+		this.tags.add(CardTagEnum.ALICE_DOLL_ACT);
 	}
 	
 	@Override

@@ -34,7 +34,7 @@ public class StarlightRay extends AbstractAliceCard {
 				cardStrings.DESCRIPTION,
 				CardType.ATTACK,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
-				CardRarity.UNCOMMON,
+				CardRarity.COMMON,
 				CardTarget.ENEMY
 		);
 		

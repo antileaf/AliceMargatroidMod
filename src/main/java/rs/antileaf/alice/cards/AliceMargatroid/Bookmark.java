@@ -1,15 +1,20 @@
 package rs.antileaf.alice.cards.AliceMargatroid;
 
-import com.evacipated.cardcrawl.mod.stslib.actions.common.SelectCardsAction;
-import com.megacrit.cardcrawl.actions.common.DrawCardAction;
+import basemod.BaseMod;
+import com.evacipated.cardcrawl.mod.stslib.patches.FlavorText;
+import com.megacrit.cardcrawl.actions.utility.WaitAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
+import rs.antileaf.alice.strings.AliceLanguageStrings;
+import rs.antileaf.alice.utils.AliceSpireKit;
 
 import java.util.ArrayList;
 
@@ -19,47 +24,111 @@ public class Bookmark extends AbstractAliceCard {
 	public static final String ID = SIMPLE_NAME;
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
-	private static final int COST = 0;
-	private static final int MAGIC = 2;
-	private static final int UPGRADE_PLUS_MAGIC = 1;
+	private static final int COST = 1;
+	private static final int UPGRADED_COST = 0;
+	
+	static ArrayList<AbstractCard> cache = new ArrayList<>();
+	
+	// The logic of calling this is implemented in patches.
+	public static void updateCache() {
+		if (AliceSpireKit.isInBattle())
+			cache = AbstractDungeon.player.hand.group.stream()
+					.filter(c -> !(c instanceof Bookmark))
+					.collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+	}
+	
+	public static void clearCache() {
+		cache = new ArrayList<>();
+	}
 	
 	public Bookmark() {
 		super(
 				ID,
 				cardStrings.NAME,
-				null, // AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.SKILL,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
 				CardRarity.RARE,
-				CardTarget.SELF
+				CardTarget.NONE
 		);
 		
-		this.magicNumber = this.baseMagicNumber = MAGIC;
+		this.exhaust = true;
+	}
+	
+	@Override
+	public void applyPowers() {
+		super.applyPowers();
+		
+		if (AliceSpireKit.isInBattle()) {
+//			String flavor = FlavorText.CardStringsFlavorField.flavor.get(cardStrings);
+			String flavor = "";
+			
+			if (cache.isEmpty())
+				flavor += cardStrings.EXTENDED_DESCRIPTION[0];
+			else {
+				flavor += String.format(cardStrings.EXTENDED_DESCRIPTION[1], cache.size());
+				flavor += " NL " + cache.stream()
+						.map(c -> c.name)
+						.reduce((a, b) -> a + AliceLanguageStrings.CAESURA_WITH_SPACE + b)
+						.orElse("")
+						+ AliceLanguageStrings.PERIOD;
+			}
+			
+			FlavorText.AbstractCardFlavorFields.flavor.set(this, flavor);
+		}
 	}
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
-		this.addToBot(new SelectCardsAction(
-				p.discardPile.group,
-				this.magicNumber,
-				cardStrings.EXTENDED_DESCRIPTION[0] +
-						this.magicNumber + cardStrings.EXTENDED_DESCRIPTION[1],
-				true,
-				(c) -> true,
-				(cards) -> {
-					ArrayList<AbstractCard> copy = new ArrayList<>(cards);
-					this.addToTop(new AnonymousAction(() -> {
-						for (int i = copy.size() - 1; i >= 0; i--) {
-							AbstractCard card = copy.get(i);
-							p.discardPile.removeCard(card);
-							p.drawPile.addToTop(card);
-						}
-					}));
+		ArrayList<AbstractCard> tmp = cache.stream()
+				.collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+		
+		if (!tmp.isEmpty())
+			this.addToBot(new AnonymousAction(() -> {
+				ArrayList<AbstractCard> cards = new ArrayList<>();
+				
+				for (AbstractCard card : tmp)
+					if (AbstractDungeon.player.discardPile.contains(card) ||
+						AbstractDungeon.player.drawPile.contains(card) ||
+						AbstractDungeon.player.exhaustPile.contains(card))
+						cards.add(card);
+				
+				int countToHand = cards.size();
+				
+				if (AbstractDungeon.player.hand.size() + cards.size() >= BaseMod.MAX_HAND_SIZE) {
+					AbstractDungeon.player.createHandIsFullDialog();
+					countToHand = Math.max(0, BaseMod.MAX_HAND_SIZE - AbstractDungeon.player.hand.size());
 				}
-		));
-		this.addToBot(new DrawCardAction(1));
+				
+				for (int i = 0; i < countToHand; i++) {
+					AbstractCard card = cards.get(i);
+//					AliceSpireKit.log("Add to hand: " + card.name);
+					
+					if (AbstractDungeon.player.discardPile.contains(card))
+						AbstractDungeon.player.discardPile.moveToHand(card);
+					else if (AbstractDungeon.player.drawPile.contains(card))
+						AbstractDungeon.player.drawPile.moveToHand(card);
+					else if (AbstractDungeon.player.exhaustPile.contains(card))
+						AbstractDungeon.player.exhaustPile.moveToHand(card);
+				}
+				
+				for (int i = countToHand; i < cards.size(); i++) {
+					AbstractCard card = cards.get(i);
+//					AliceSpireKit.log("Add to discard: " + card.name);
+					
+					if (AbstractDungeon.player.drawPile.contains(card))
+						AbstractDungeon.player.drawPile.moveToDiscardPile(card);
+					else if (AbstractDungeon.player.exhaustPile.contains(card))
+						AbstractDungeon.player.exhaustPile.moveToDiscardPile(card);
+				}
+				
+				for (AbstractCard card : cards)
+					card.unfadeOut();
+				
+				this.addToTop(new WaitAction(Settings.ACTION_DUR_XFAST));
+			}));
 	}
 	
 	@Override
@@ -71,7 +140,7 @@ public class Bookmark extends AbstractAliceCard {
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
-			this.upgradeMagicNumber(UPGRADE_PLUS_MAGIC);
+			this.upgradeBaseCost(UPGRADED_COST);
 			this.initializeDescription();
 		}
 	}

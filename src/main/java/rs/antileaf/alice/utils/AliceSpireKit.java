@@ -18,9 +18,11 @@ import com.megacrit.cardcrawl.vfx.cardManip.ShowCardAndAddToHandEffect;
 import org.jetbrains.annotations.Nullable;
 import rs.antileaf.alice.AliceMargatroidMod;
 import rs.antileaf.alice.cardmodifier.PhantomCardModifier;
+import rs.antileaf.alice.strings.AliceLanguageStrings;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 
 public abstract class AliceSpireKit {
@@ -223,10 +225,10 @@ public abstract class AliceSpireKit {
 		StringBuilder sb = new StringBuilder(uiStrings.TEXT[0]);
 		for (AbstractCard c : duplicates) {
 			if (c != duplicates.get(0))
-				sb.append(uiStrings.TEXT[1]);
+				sb.append(AliceLanguageStrings.CAESURA);
 			sb.append(c.name);
 		}
-		sb.append(uiStrings.TEXT[2]);
+		sb.append(AliceLanguageStrings.PERIOD);
 		return sb.toString();
 	}
 	
@@ -250,14 +252,24 @@ public abstract class AliceSpireKit {
 			return FontHelper.colorString("" + amount, "b");
 	}
 	
-	static boolean marisaModAvailable = false;
-	static boolean marisaModChecked = false;
+	static String MARISA_MOD_ID = "TS05_Marisa";
+	static String PATCHOULI_MOD_ID = "PatchouliMod";
+	
+	static HashMap<String, Boolean> modAvailable = new HashMap<>();
+	
+	public static boolean isModAvailable(String modID) {
+		if (!modAvailable.containsKey(modID))
+			modAvailable.put(modID, Loader.isModLoaded(modID));
+		
+		return modAvailable.get(modID);
+	}
 	
 	public static boolean isMarisaModAvailable() {
-		if (!marisaModChecked)
-			marisaModAvailable = Loader.isModLoaded("TS05_Marisa");
-		
-		return marisaModAvailable;
+		return AliceSpireKit.isModAvailable(MARISA_MOD_ID);
+	}
+	
+	public static boolean isPatchouliModAvailable() {
+		return AliceSpireKit.isModAvailable(PATCHOULI_MOD_ID);
 	}
 	
 	public static void log(String what) {
@@ -265,6 +277,6 @@ public abstract class AliceSpireKit {
 	}
 	
 	public static void log(Object who, Object what) {
-		AliceMargatroidMod.logger.info(who.getClass().getSimpleName() + " : " + what);
+		AliceMargatroidMod.logger.info("{} : {}", who.getClass().getSimpleName(), what);
 	}
 }

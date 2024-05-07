@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.mod.stslib.patches.CustomTargeting;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
@@ -20,6 +21,7 @@ import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.unlock.UnlockTracker;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.cards.AliceMargatroid.Thread;
 import rs.antileaf.alice.cards.AliceMargatroid.*;
 import rs.antileaf.alice.cards.Derivations.MarisasPotion;
@@ -40,19 +42,20 @@ import rs.antileaf.alice.doll.targeting.DollTargeting;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.AliceMargatroidModClassEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
+import rs.antileaf.alice.powers.potions.DollPotion;
 import rs.antileaf.alice.relics.AlicesDarkGrimoire;
 import rs.antileaf.alice.relics.AlicesGrimoire;
 import rs.antileaf.alice.relics.SuspiciousCard;
-import rs.antileaf.alice.utils.AliceConfigHelper;
-import rs.antileaf.alice.utils.AliceKeywordsHelper;
-import rs.antileaf.alice.utils.AliceSpireKit;
-import rs.antileaf.alice.utils.AliceTutorialHelper;
+import rs.antileaf.alice.strings.AliceCardModifierStrings;
+import rs.antileaf.alice.strings.AliceLanguageStrings;
+import rs.antileaf.alice.utils.*;
 import rs.antileaf.alice.variable.AliceSecondaryMagicNumberVariable;
 import rs.antileaf.alice.variable.TempHPVariable;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 
 @SuppressWarnings("Duplicates")
 @SpireInitializer
@@ -111,6 +114,8 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 	//private ArrayList<AbstractRelic> relicsToAdd = new ArrayList<>();
 	
 	private final ArrayList<Keyword> dollKeywords = new ArrayList<>();
+	
+//	public static boolean postInitialize = false;
 	
 	public AliceMargatroidMod() {
 		BaseMod.subscribe(this);
@@ -275,11 +280,21 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		AliceSpireKit.loadCustomStrings(RelicStrings.class, "relics");
 		AliceSpireKit.loadCustomStrings(CardStrings.class, "cards");
 		AliceSpireKit.loadCustomStrings(PowerStrings.class, "powers");
-//		AliceSpireKit.loadCustomStrings(PotionStrings.class, "potions");
+		AliceSpireKit.loadCustomStrings(PotionStrings.class, "potions");
 		AliceSpireKit.loadCustomStrings(OrbStrings.class, "dolls");
 		AliceSpireKit.loadCustomStrings(EventStrings.class, "events");
 		AliceSpireKit.loadCustomStrings(UIStrings.class, "ui");
 		AliceSpireKit.loadCustomStrings(TutorialStrings.class, "tutorial");
+		
+		AliceCardModifierStrings.init((new Gson()).fromJson(
+				Gdx.files.internal(AliceSpireKit.getLocalizationFilePath("cardmodifier"))
+						.readString(String.valueOf(StandardCharsets.UTF_8)),
+				(new TypeToken<Map<String, AliceCardModifierStrings>>() {}).getType()));
+		
+		AliceLanguageStrings.init((new Gson()).fromJson(
+				Gdx.files.internal(AliceSpireKit.getLocalizationFilePath("language"))
+						.readString(String.valueOf(StandardCharsets.UTF_8)),
+				(new TypeToken<Map<String, String>>() {}).getType()));
 
 		logger.info("done editing strings");
 	}
@@ -292,12 +307,14 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 	@Override
 	public void receivePostBattle(AbstractRoom room) {
 		DollManager.get().clearPostBattle();
+		Bookmark.clearCache();
 		BaseMod.MAX_HAND_SIZE = BaseMod.DEFAULT_MAX_HAND_SIZE;
 	}
 	
 	@Override
 	public void receiveOnBattleStart(AbstractRoom room) {
 		DollManager.get().initPreBattle();
+		Bookmark.clearCache();
 		if (AliceConfigHelper.shouldOpenTutorial()) {
 			AliceTutorialHelper.openTutorial();
 			AliceConfigHelper.setShouldOpenTutorial(false);
@@ -315,10 +332,8 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		DollManager.get().postEnergyRecharge();
 		
 		for (AbstractCard card : AbstractDungeon.player.hand.group) {
-			if (card instanceof BlackTea) {
-				card.triggerAtStartOfTurn();
-				card.flash();
-			}
+			if (card instanceof AbstractAliceCard)
+				((AbstractAliceCard) card).aliceTriggerAtStartOfTurn();
 		}
 	}
 	
@@ -339,19 +354,28 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 	@Override
 	public void receivePostInitialize() {
 		logger.debug("AliceMargatroidMod.receivePostInitialize");
+//		postInitialize = true;
+		
 		CustomTargeting.registerCustomTargeting(CardTargetEnum.DOLL, new DollTargeting());
 		CustomTargeting.registerCustomTargeting(CardTargetEnum.DOLL_OR_EMPTY_SLOT, new DollOrEmptySlotTargeting());
 		CustomTargeting.registerCustomTargeting(CardTargetEnum.DOLL_OR_ENEMY, new DollOrEnemyTargeting());
 		CustomTargeting.registerCustomTargeting(CardTargetEnum.DOLL_OR_NONE, new DollOrNoneTargeting());
 		
+		BaseMod.addPotion(DollPotion.class, Color.YELLOW, Color.GOLD.cpy(), Color.CLEAR, DollPotion.ID,
+				AliceMargatroidModClassEnum.ALICE_MARGATROID);
+		
 		ModPanel settingsPanel = AliceConfigHelper.createConfigPanel();
 		BaseMod.registerModBadge(
 				ImageMaster.loadImage("AliceMargatroidMod/img/UI/badge.png"),
 				"Alice Margatroid",
-				"antileaf",
+				"antileaf, Little Wolf",
 				"",
 				settingsPanel
 		);
+		
+		AliceImageMaster.loadImages();
+		
+		WitchsTeaParty.updateAll();
 	}
 	
 	@Override
@@ -435,7 +459,7 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		this.cardsToAdd.add(new RainbowRay());
 		this.cardsToAdd.add(new EmeraldRay());
 		this.cardsToAdd.add(new MoonlightRay());
-		this.cardsToAdd.add(new KirisameMahouten());
+		this.cardsToAdd.add(new KirisameMagicShop());
 		this.cardsToAdd.add(new SurpriseSpring());
 		this.cardsToAdd.add(new WarFlag());
 //		this.cardsToAdd.add(new Transfer());
@@ -455,7 +479,7 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		this.cardsToAdd.add(new SnowSweeping());
 		this.cardsToAdd.add(new FriendsHelp());
 		this.cardsToAdd.add(new Phantom());
-		this.cardsToAdd.add(new MysteriousMirror());
+//		this.cardsToAdd.add(new MysteriousMirror());
 		this.cardsToAdd.add(new ReturningDolls());
 		this.cardsToAdd.add(new SPDoll());
 		this.cardsToAdd.add(new Kick());
@@ -463,7 +487,6 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		this.cardsToAdd.add(new Fireplace());
 		this.cardsToAdd.add(new GuidingRay());
 		this.cardsToAdd.add(new Refraction());
-		this.cardsToAdd.add(new Bookmark());
 		this.cardsToAdd.add(new DollLances());
 		this.cardsToAdd.add(new CutiePhalanx());
 		this.cardsToAdd.add(new Ultimatum());
@@ -482,6 +505,18 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		this.cardsToAdd.add(new VisitOfThreeFairies());
 		this.cardsToAdd.add(new ScatterTheWeak());
 		this.cardsToAdd.add(new AliceInWonderland());
+		this.cardsToAdd.add(new Pause());
+		this.cardsToAdd.add(new SealOfLight());
+		this.cardsToAdd.add(new Tripwire());
+		this.cardsToAdd.add(new DollMiraCeti());
+		this.cardsToAdd.add(new Revelation());
+		this.cardsToAdd.add(new FailedExperiment());
+		this.cardsToAdd.add(new ButterflyFlurry());
+		this.cardsToAdd.add(new WitchsTeaParty());
+		this.cardsToAdd.add(new DollOrchestra());
+		this.cardsToAdd.add(new ThePhantomOfTheGrandGuignol());
+		this.cardsToAdd.add(new Housework());
+		this.cardsToAdd.add(new Bookmark());
 		
 		this.cardsToAdd.add(new VivaciousShanghaiDoll());
 		this.cardsToAdd.add(new QuietHouraiDoll());

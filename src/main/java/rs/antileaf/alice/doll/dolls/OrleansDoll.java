@@ -6,7 +6,10 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.OrbStrings;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.enums.DollAmountType;
+import rs.antileaf.alice.utils.AliceMiscKit;
 import rs.antileaf.alice.utils.AliceSpireKit;
+
+import java.util.stream.Stream;
 
 public class OrleansDoll extends AbstractDoll {
 	public static final String SIMPLE_NAME = OrleansDoll.class.getSimpleName();
@@ -20,10 +23,10 @@ public class OrleansDoll extends AbstractDoll {
 				ID,
 				dollStrings.NAME,
 				MAX_HP,
-				-1,
-				-1,
+				2,
+				1,
 				AliceSpireKit.getOrbImgFilePath("black"),
-				RenderTextMode.NONE
+				RenderTextMode.ACT
 		);
 		
 		this.passiveAmountType = DollAmountType.MAGIC;
@@ -37,18 +40,21 @@ public class OrleansDoll extends AbstractDoll {
 	
 	@Override
 	public void onAct() {
-		this.addToBot(new DrawCardAction(1));
+		this.addToBot(new DrawCardAction(this.actAmount));
 	}
 	
 	@Override
 	public void onRecycle() {
-		this.addToTop(new GainEnergyAction(2));
+		this.addToTop(new GainEnergyAction(this.passiveAmount));
 	}
 	
 	@Override
 	public void updateDescriptionImpl() {
-		this.passiveDescription = dollStrings.DESCRIPTION[0];
-		this.actDescription = dollStrings.DESCRIPTION[1];
+		this.passiveDescription = String.format(dollStrings.DESCRIPTION[0],
+				AliceMiscKit.join(Stream.generate(this::coloredPassiveAmount)
+						.limit(this.passiveAmount).toArray(String[]::new)));
+		
+		this.actDescription = String.format(dollStrings.DESCRIPTION[1], this.coloredActAmount());
 	}
 	
 	@Override

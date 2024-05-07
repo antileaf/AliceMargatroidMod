@@ -44,7 +44,7 @@ public class VisitOfThreeFairies extends AbstractAliceCard {
 		ArrayList<AbstractCard> choices = new ArrayList<>();
 		
 		for (AbstractCard card : CardLibrary.cards.values())
-			if (card.color == color && card.type == type && card.rarity == rarity)
+			if (card.color == color && card.type == type && card.rarity == rarity && !card.hasTag(CardTags.HEALING))
 				choices.add(card);
 		
 		return choices.get(AbstractDungeon.cardRandomRng.random(choices.size() - 1));

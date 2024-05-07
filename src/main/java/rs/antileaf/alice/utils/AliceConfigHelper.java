@@ -2,12 +2,20 @@ package rs.antileaf.alice.utils;
 
 import basemod.ModLabeledToggleButton;
 import basemod.ModPanel;
+import basemod.abstracts.CustomCard;
 import com.badlogic.gdx.Gdx;
 import com.evacipated.cardcrawl.modthespire.lib.SpireConfig;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.helpers.CardLibrary;
 import com.megacrit.cardcrawl.helpers.FontHelper;
+import rs.antileaf.alice.cards.AliceMargatroid.WitchsTeaParty;
+import rs.antileaf.alice.cards.Marisa.Alice6A;
+import rs.antileaf.alice.cards.Marisa.AliceAsteroidBelt;
+import rs.antileaf.alice.cards.Marisa.AliceDoubleSpark;
+import rs.antileaf.alice.cards.Marisa.AliceSpark;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -15,13 +23,18 @@ import java.util.Map;
 import java.util.Properties;
 
 public class AliceConfigHelper {
+	public static String SHOULD_OPEN_TUTORIAL = "shouldOpenTutorial";
+	public static String ENABLE_ALTERNATIVE_MARISA_CARD_IMAGE = "enableAlternativeMarisaCardImage";
+	public static String ENABLE_WITCHS_TEA_PARTY_FEATURE = "enableWitchsTeaPartyFeature";
+	
 	public static SpireConfig conf = null;
 	
 	public static void loadConfig() {
 		try {
 			Properties defaults = new Properties();
-			defaults.setProperty("shouldOpenTutorial", "true");
-			defaults.setProperty("useAlternativeMarisaCardImage", "true");
+			defaults.setProperty(SHOULD_OPEN_TUTORIAL, "true");
+			defaults.setProperty(ENABLE_ALTERNATIVE_MARISA_CARD_IMAGE, "true");
+			defaults.setProperty(ENABLE_WITCHS_TEA_PARTY_FEATURE, "true");
 			
 			conf = new SpireConfig(AliceSpireKit.getModID(), "config", defaults);
 		} catch (IOException e) {
@@ -30,21 +43,45 @@ public class AliceConfigHelper {
 	}
 	
 	public static boolean shouldOpenTutorial() {
-		return conf.getBool("shouldOpenTutorial");
+		return conf.getBool(SHOULD_OPEN_TUTORIAL);
 	}
 	
 	public static void setShouldOpenTutorial(boolean shouldOpenTutorial) {
-		conf.setBool("shouldOpenTutorial", shouldOpenTutorial);
+		conf.setBool(SHOULD_OPEN_TUTORIAL, shouldOpenTutorial);
 	}
 	
-	// TODO: Implement choosing between the two Marisa card images
-	public static boolean useAlternativeMarisaCardImage() {
-		return conf.getBool("useAlternativeMarisaCardImage");
+	public static boolean enableAlternativeMarisaCardImage() {
+		return conf.getBool(ENABLE_ALTERNATIVE_MARISA_CARD_IMAGE);
 	}
 	
-	public static void setUseAlternativeMarisaCardImage(boolean useAlternativeMarisaCardImage) {
-		conf.setBool("useAlternativeMarisaCardImage", useAlternativeMarisaCardImage);
-			
+	public static void setEnableAlternativeMarisaCardImage(boolean enableAlternativeMarisaCardImage) {
+		conf.setBool(ENABLE_ALTERNATIVE_MARISA_CARD_IMAGE, enableAlternativeMarisaCardImage);
+		
+		if (!AliceSpireKit.isMarisaModAvailable()) {
+			for (String id : new String[]{Alice6A.ID, AliceAsteroidBelt.ID, AliceDoubleSpark.ID, AliceSpark.ID}) {
+				AbstractCard card = CardLibrary.getCard(id);
+				if (card instanceof CustomCard) {
+					if (enableAlternativeMarisaCardImage)
+						((CustomCard) card).textureImg = AliceSpireKit.getImgFilePath("Marisa/cards",
+								card.getClass().getSimpleName() + "_original");
+					else
+						((CustomCard) card).textureImg = AliceSpireKit.getImgFilePath("Marisa/cards",
+																card.getClass().getSimpleName());
+					
+					((CustomCard) card).loadCardImage(((CustomCard) card).textureImg);
+				}
+			}
+		}
+	}
+	
+	public static boolean enableWitchsTeaPartyFeature() {
+		return conf.getBool(ENABLE_WITCHS_TEA_PARTY_FEATURE);
+	}
+	
+	public static void setEnableWitchsTeaPartyFeature(boolean enableWitchsTeaPartyFeature) {
+		conf.setBool(ENABLE_WITCHS_TEA_PARTY_FEATURE, enableWitchsTeaPartyFeature);
+		
+		WitchsTeaParty.updateAll();
 	}
 	
 	public static void save() {
@@ -66,7 +103,7 @@ public class AliceConfigHelper {
 		float y = 700.0F;
 		
 		ModLabeledToggleButton tutorialButton = new ModLabeledToggleButton(
-				config.get("shouldOpenTutorial"),
+				config.get(SHOULD_OPEN_TUTORIAL),
 				350.0F,
 				y,
 				Settings.CREAM_COLOR,
@@ -81,23 +118,42 @@ public class AliceConfigHelper {
 		);
 		
 		y -= 50.0F;
-		
+
 		ModLabeledToggleButton useAlternativeMarisaCardImageButton = new ModLabeledToggleButton(
-				config.get("useAlternativeMarisaCardImage"),
+				config.get(ENABLE_ALTERNATIVE_MARISA_CARD_IMAGE),
 				350.0F,
 				y,
 				Settings.CREAM_COLOR,
 				FontHelper.charDescFont,
-				useAlternativeMarisaCardImage(),
+				enableAlternativeMarisaCardImage(),
 				panel,
 				(modLabel) -> {},
 				(button) -> {
-					setUseAlternativeMarisaCardImage(button.enabled);
+					setEnableAlternativeMarisaCardImage(button.enabled);
+					save();
+				}
+		);
+		
+		y -= 50.0F;
+		
+		ModLabeledToggleButton enableWitchsTeaPartyFeatureButton = new ModLabeledToggleButton(
+				config.get(ENABLE_WITCHS_TEA_PARTY_FEATURE),
+				350.0F,
+				y,
+				Settings.CREAM_COLOR,
+				FontHelper.charDescFont,
+				enableWitchsTeaPartyFeature(),
+				panel,
+				(modLabel) -> {},
+				(button) -> {
+					setEnableWitchsTeaPartyFeature(button.enabled);
 					save();
 				}
 		);
 		
 		panel.addUIElement(tutorialButton);
+		panel.addUIElement(useAlternativeMarisaCardImageButton);
+		panel.addUIElement(enableWitchsTeaPartyFeatureButton);
 		
 		return panel;
 	}

@@ -8,7 +8,6 @@ import rs.antileaf.alice.action.doll.DollGainBlockAction;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.enums.DollAmountType;
-import rs.antileaf.alice.utils.AliceMiscKit;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class KyotoDoll extends AbstractDoll {
@@ -60,27 +59,14 @@ public class KyotoDoll extends AbstractDoll {
 	@Override
 	public void updateDescriptionImpl() {
 		if (this.dontShowHPDescription)
-			this.passiveDescription = AliceMiscKit.join(
-					dollStrings.DESCRIPTION[0],
-					this.coloredPassiveAmount(),
-					dollStrings.DESCRIPTION[1],
-					dollStrings.DESCRIPTION[4],
-					this.coloredActAmount(),
-					dollStrings.DESCRIPTION[5]
-			);
+			this.passiveDescription = String.format(dollStrings.DESCRIPTION[0], this.coloredPassiveAmount());
 		else
-			this.passiveDescription = AliceMiscKit.join(
-					dollStrings.DESCRIPTION[0],
-					this.coloredPassiveAmount(),
-					dollStrings.DESCRIPTION[2],
-					"" + DollManager.get().getPreservedBlock(),
-					dollStrings.DESCRIPTION[3],
-					dollStrings.DESCRIPTION[4],
-					this.coloredActAmount(),
-					dollStrings.DESCRIPTION[5]
-			);
+			this.passiveDescription = String.format(dollStrings.DESCRIPTION[1],
+					this.coloredPassiveAmount(), DollManager.get().getPreservedBlock());
 		
-		this.actDescription = dollStrings.DESCRIPTION[6];
+		this.passiveDescription += " NL " + String.format(dollStrings.DESCRIPTION[2], this.coloredActAmount());
+		
+		this.actDescription = dollStrings.DESCRIPTION[3];
 	}
 	
 	@Override

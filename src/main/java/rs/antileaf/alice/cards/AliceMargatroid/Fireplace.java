@@ -10,6 +10,7 @@ import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.action.common.AliceExhaustSpecificCardAction;
 import rs.antileaf.alice.action.common.AliceSelectCardsInHandAction;
+import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.utils.AliceSpireKit;
@@ -46,30 +47,40 @@ public class Fireplace extends AbstractAliceCard {
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
-		this.addToBot(new AliceSelectCardsInHandAction(
-				this.magicNumber,
-				cardStrings.EXTENDED_DESCRIPTION[0],
-				true,
-				true,
-				(c) -> true,
-				(cards) -> {
-					for (AbstractCard card : cards)
-						this.addToBot(new AliceExhaustSpecificCardAction(card, p.hand));
-					
-					int modifier = cards.size() * this.magicNumber;
-					this.baseDamage += modifier;
-					this.applyPowers();
-					
-					this.addToBot(new DamageAction(
-							m,
-							new DamageInfo(p, this.damage, this.damageTypeForTurn),
-							AbstractGameAction.AttackEffect.FIRE));
-					
-					this.baseDamage -= modifier;
-					this.applyPowers();
-				},
-				false
-		));
+		this.addToBot(
+				new AnonymousAction(() -> {
+					if (p.hand.isEmpty())
+						this.addToBot(new DamageAction(
+								m,
+								new DamageInfo(p, this.damage, this.damageTypeForTurn),
+								AbstractGameAction.AttackEffect.FIRE
+						));
+					else
+						this.addToTop(new AliceSelectCardsInHandAction(
+									this.magicNumber,
+									cardStrings.EXTENDED_DESCRIPTION[0],
+									true,
+									true,
+									(c) -> true,
+									(cards) -> {
+										for (AbstractCard card : cards)
+											this.addToBot(new AliceExhaustSpecificCardAction(card, p.hand));
+										
+										int modifier = cards.size() * this.secondaryMagicNumber;
+										this.baseDamage += modifier;
+										this.applyPowers();
+										
+										this.addToBot(new DamageAction(
+												m,
+												new DamageInfo(p, this.damage, this.damageTypeForTurn),
+												AbstractGameAction.AttackEffect.FIRE));
+										
+										this.baseDamage -= modifier;
+										this.applyPowers();
+									},
+									false
+						));
+				}));
 	}
 	
 	@Override

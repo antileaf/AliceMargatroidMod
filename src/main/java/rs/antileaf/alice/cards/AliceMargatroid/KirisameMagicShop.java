@@ -16,8 +16,8 @@ import rs.antileaf.alice.utils.AliceSpireKit;
 
 import java.util.ArrayList;
 
-public class KirisameMahouten extends AbstractAliceCard {
-	public static final String SIMPLE_NAME = KirisameMahouten.class.getSimpleName();
+public class KirisameMagicShop extends AbstractAliceCard {
+	public static final String SIMPLE_NAME = KirisameMagicShop.class.getSimpleName();
 //	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
 	public static final String ID = SIMPLE_NAME;
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
@@ -26,7 +26,7 @@ public class KirisameMahouten extends AbstractAliceCard {
 	private static final int UPGRADED_COST = 1;
 	private static final int MAGIC = 3;
 	
-	public KirisameMahouten() {
+	public KirisameMagicShop() {
 		super(
 				ID,
 				cardStrings.NAME,
@@ -87,7 +87,7 @@ public class KirisameMahouten extends AbstractAliceCard {
 	
 	@Override
 	public AbstractCard makeCopy() {
-		return new KirisameMahouten();
+		return new KirisameMagicShop();
 	}
 	
 	@Override

@@ -11,6 +11,7 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
+import rs.antileaf.alice.utils.AliceConfigHelper;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class AliceDoubleSpark extends CustomCard {
@@ -37,6 +38,11 @@ public class AliceDoubleSpark extends CustomCard {
 		
 		this.damage = this.baseDamage = DAMAGE;
 		this.cardsToPreview = new AliceSpark();
+		
+		if (!AliceConfigHelper.enableAlternativeMarisaCardImage()) {
+			this.textureImg = AliceSpireKit.getImgFilePath("Marisa/cards", SIMPLE_NAME + "_original");
+			this.loadCardImage(this.textureImg);
+		}
 	}
 	
 	@Override

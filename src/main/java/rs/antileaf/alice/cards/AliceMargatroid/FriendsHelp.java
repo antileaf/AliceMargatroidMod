@@ -3,36 +3,21 @@ package rs.antileaf.alice.cards.AliceMargatroid;
 import ThMod.cards.Marisa.AsteroidBelt;
 import ThMod.cards.Marisa.DoubleSpark;
 import ThMod.cards.Marisa._6A;
-import basemod.BaseMod;
 import basemod.abstracts.CustomCard;
 import basemod.patches.com.megacrit.cardcrawl.cards.AbstractCard.MultiCardPreview;
-import com.evacipated.cardcrawl.modthespire.Loader;
-import com.megacrit.cardcrawl.actions.common.GainBlockAction;
-import com.megacrit.cardcrawl.actions.common.MakeTempCardInDiscardAction;
-import com.megacrit.cardcrawl.actions.common.MakeTempCardInHandAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
-import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import com.megacrit.cardcrawl.vfx.cardManip.ShowCardAndAddToDiscardEffect;
-import com.megacrit.cardcrawl.vfx.cardManip.ShowCardAndAddToHandEffect;
 import rs.antileaf.alice.action.common.AliceDiscoverAction;
-import rs.antileaf.alice.action.doll.DollGainBlockAction;
-import rs.antileaf.alice.action.doll.SpawnDollAction;
 import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
-import rs.antileaf.alice.cards.Derivations.dolls.AbstractCreateDoll;
 import rs.antileaf.alice.cards.Marisa.Alice6A;
 import rs.antileaf.alice.cards.Marisa.AliceAsteroidBelt;
 import rs.antileaf.alice.cards.Marisa.AliceDoubleSpark;
-import rs.antileaf.alice.doll.AbstractDoll;
-import rs.antileaf.alice.doll.DollManager;
-import rs.antileaf.alice.doll.targeting.DollOrEmptySlotTargeting;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
-import rs.antileaf.alice.patches.enums.CardTargetEnum;
+import rs.antileaf.alice.utils.AliceConfigHelper;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 import java.util.ArrayList;
@@ -91,7 +76,8 @@ public class FriendsHelp extends AbstractAliceCard {
 		
 		if (AliceSpireKit.isMarisaModAvailable()) {
 			for (CustomCard card : new CustomCard[]{new DoubleSpark(), new AsteroidBelt(), new _6A()}) {
-				setAlternativeImg(card);
+				if (AliceConfigHelper.enableAlternativeMarisaCardImage())
+					setAlternativeImg(card);
 				choices.add(card);
 			}
 		}

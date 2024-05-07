@@ -18,7 +18,7 @@ public class DollWar extends AbstractAliceCard {
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
-	private static final int MAGIC = 3;
+	private static final int MAGIC = 4;
 	private static final int UPGRADE_PLUS_MAGIC = 1;
 	public DollWar() {
 		super(

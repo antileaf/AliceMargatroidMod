@@ -13,6 +13,7 @@ import com.megacrit.cardcrawl.powers.NextTurnBlockPower;
 import com.megacrit.cardcrawl.ui.panels.EnergyPanel;
 import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
+import rs.antileaf.alice.utils.AliceConfigHelper;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class AliceAsteroidBelt extends CustomCard {
@@ -38,6 +39,11 @@ public class AliceAsteroidBelt extends CustomCard {
 		);
 		
 		this.block = this.baseBlock = BLOCK;
+		
+		if (!AliceConfigHelper.enableAlternativeMarisaCardImage()) {
+			this.textureImg = AliceSpireKit.getImgFilePath("Marisa/cards", SIMPLE_NAME + "_original");
+			this.loadCardImage(this.textureImg);
+		}
 	}
 	
 	@Override

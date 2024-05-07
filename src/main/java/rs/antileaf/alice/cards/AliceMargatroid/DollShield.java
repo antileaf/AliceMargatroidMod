@@ -6,12 +6,14 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import rs.antileaf.alice.action.doll.DollActAction;
 import rs.antileaf.alice.action.doll.DollGainBlockAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.doll.targeting.DollTargeting;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
+import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
 
 public class DollShield extends AbstractAliceCard {
@@ -21,7 +23,8 @@ public class DollShield extends AbstractAliceCard {
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
-	private static final int BLOCK = 9;
+	private static final int BLOCK = 6;
+	private static final int UPGRADE_PLUS_BLOCK = 1;
 	
 	public DollShield() {
 		super(
@@ -37,14 +40,19 @@ public class DollShield extends AbstractAliceCard {
 		);
 		
 		this.block = this.baseBlock = BLOCK;
+		
+		this.tags.add(CardTagEnum.ALICE_COMMAND);
+		this.tags.add(CardTagEnum.ALICE_DOLL_ACT);
 	}
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
 		AbstractDoll doll = DollTargeting.getTarget(this);
 		
-		if (doll != null && !(doll instanceof EmptyDollSlot))
+		if (doll != null && !(doll instanceof EmptyDollSlot)) {
 			this.addToBot(new DollGainBlockAction(doll, this.block));
+			this.addToBot(new DollActAction(doll));
+		}
 	}
 	
 	@Override
@@ -56,6 +64,7 @@ public class DollShield extends AbstractAliceCard {
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
+			this.upgradeBlock(UPGRADE_PLUS_BLOCK);
 			PersistFields.setBaseValue(this, 2);
 			this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
 			this.initializeDescription();

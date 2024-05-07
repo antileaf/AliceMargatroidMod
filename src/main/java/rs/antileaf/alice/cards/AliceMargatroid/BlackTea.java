@@ -52,11 +52,13 @@ public class BlackTea extends AbstractAliceCard {
 	
 	@Override
 	public void triggerWhenDrawn() {
-		this.triggerAtStartOfTurn();
+		this.aliceTriggerAtStartOfTurn();
 	}
 	
 	@Override
-	public void triggerAtStartOfTurn() {
+	public void aliceTriggerAtStartOfTurn() {
+		this.flash();
+		
 		this.addToBot(new GainEnergyAction(1));
 		
 		this.applyPowers();
