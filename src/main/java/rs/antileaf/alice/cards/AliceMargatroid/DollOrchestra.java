@@ -17,8 +17,8 @@ public class DollOrchestra extends AbstractAliceCard {
 	public static final String ID = SIMPLE_NAME;
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
-	private static final int COST = 2;
-	private static final int UPGRADED_COST = 1;
+	private static final int COST = 1;
+	private static final int UPGRADED_COST = 0;
 	private static final int MAGIC = 1;
 	public DollOrchestra() {
 		super(

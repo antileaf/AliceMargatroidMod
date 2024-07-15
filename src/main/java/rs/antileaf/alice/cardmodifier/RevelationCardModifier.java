@@ -107,14 +107,16 @@ public class RevelationCardModifier extends AbstractCardModifier implements Dyna
 		
 		tmp = AbstractDungeon.player.stance.atDamageGive(tmp, card.damageTypeForTurn, card);
 		
-		for (AbstractPower p : mo.powers)
-			tmp = p.atDamageReceive(tmp, card.damageTypeForTurn, card);
+		if (mo != null)
+			for (AbstractPower p : mo.powers)
+				tmp = p.atDamageReceive(tmp, card.damageTypeForTurn, card);
 		
 		for (AbstractPower p : AbstractDungeon.player.powers)
 			tmp = p.atDamageFinalGive(tmp, card.damageTypeForTurn, card);
 		
-		for (AbstractPower p : mo.powers)
-			tmp = p.atDamageFinalReceive(tmp, card.damageTypeForTurn, card);
+		if (mo != null)
+			for (AbstractPower p : mo.powers)
+				tmp = p.atDamageFinalReceive(tmp, card.damageTypeForTurn, card);
 		
 		if (tmp < 0.0F)
 			tmp = 0.0F;

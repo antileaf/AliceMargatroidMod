@@ -31,7 +31,7 @@ public class PhantomCardModifier extends AbstractCardModifier {
 	
 	@Override
 	public String modifyDescription(String rawDescription, AbstractCard card) {
-		return rawDescription + "NL *" + AliceMiscKit.join(
+		return rawDescription + " NL *" + AliceMiscKit.join(
 				cardModifierStrings.NAME,
 				AliceLanguageStrings.PERIOD
 		);

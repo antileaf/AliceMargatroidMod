@@ -26,6 +26,9 @@ public class KirisameMagicShop extends AbstractAliceCard {
 	private static final int UPGRADED_COST = 1;
 	private static final int MAGIC = 3;
 	
+	private static final int UNCOMMON_COST = 10;
+	private static final int RARE_COST = 20;
+	
 	public KirisameMagicShop() {
 		super(
 				ID,
@@ -47,6 +50,7 @@ public class KirisameMagicShop extends AbstractAliceCard {
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
 		ArrayList<AbstractPotion> potions = new ArrayList<>();
+		
 		for (int i = 0; i < this.magicNumber; i++) {
 			AbstractPotion potion = AbstractDungeon.returnRandomPotion();
 			if (potions.stream().anyMatch(po -> potion.ID.equals(po.ID))) {
@@ -56,8 +60,6 @@ public class KirisameMagicShop extends AbstractAliceCard {
 			
 			potions.add(potion);
 		}
-		
-		AliceSpireKit.log("qwq");
 		
 		ArrayList<AbstractCard> choices = new ArrayList<>();
 		for (AbstractPotion potion : potions)

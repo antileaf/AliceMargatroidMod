@@ -1,0 +1,25 @@
+{
+  "AlicesGrimoire": {
+    "NAME": "Alice's Grimoire",
+    "FLAVOR": "Knowledge is power.",
+    "DESCRIPTIONS": [
+      "At the start of each combat, #yGenerate a random #yDoll."
+    ]
+  },
+  
+  "SuspiciousCard": {
+    "NAME": "Suspicious Card",
+    "FLAVOR": "A card with a Shanghai Doll on it. Where did Marisa get this from?",
+    "DESCRIPTIONS": [
+      "At the start of each combat, #yGenerate a #yShanghai #yDoll."
+    ]
+  },
+  
+  "AlicesDarkGrimoire": {
+    "NAME": "Alice's Dark Grimoire",
+    "FLAVOR": "Kn0w13d93 1$ p0w3r.",
+    "DESCRIPTIONS": [
+      "At the start of each combat, #yGenerate 3 random #yDolls."
+    ]
+  }
+}

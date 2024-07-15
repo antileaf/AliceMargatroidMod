@@ -1,0 +1,115 @@
+{
+  "DollAmbushPower": {
+    "NAME": "Doll Ambush",
+    "DESCRIPTIONS": [
+      "When a #yDoll is #yRecycled , make it #yAct", "times."
+    ]
+  },
+  
+  "KirisameMahoutenPower": {
+    "NAME": "Kirisame Mahouten",
+    "DESCRIPTIONS": [
+      "After this combat, gain: ", ", ", "."
+    ]
+  },
+  
+  "FrostRayPower": {
+    "NAME": "Frost Ray",
+    "DESCRIPTIONS": [
+      "Next", "times, when you play an attack or skill card with #yExhaust , put it into discard pile instead."
+    ]
+  },
+  
+  "DollWarPower": {
+    "NAME": "Doll War",
+    "DESCRIPTIONS": [
+      "Whenever #yGenerate a #yDoll , it will gain", "#yBlock ."
+    ]
+  },
+  
+  "DollJudgePower": {
+    "NAME": "Doll Judge",
+    "DESCRIPTIONS": [
+      "Whenever a #yDoll gains #yBlock , Alice will also gain", "of that amount."
+    ]
+  },
+  
+  "SpiritualPowerPower": {
+    "NAME": "Spiritual Power",
+    "DESCRIPTIONS": [
+      "Whenever play a #yCommand card, deal", "damage to a random enemy."
+    ]
+  },
+  
+  "PunishmentPower": {
+    "NAME": "Punishment",
+    "DESCRIPTIONS": [
+      "Take", "damage when attacking."
+    ]
+  },
+  
+  "CallForDollsPower": {
+    "NAME": "Call For Dolls",
+    "DESCRIPTIONS": [
+      "In one turn, take", "extra damage from #yDolls ."
+    ]
+  },
+  
+  "RefractionPower": {
+    "NAME": "Refraction",
+    "DESCRIPTIONS": [
+      "All #yRay cards deal", "extra damage."
+    ]
+  },
+  
+  "TyrantPower": {
+    "NAME": "Tyrant",
+    "DESCRIPTIONS": [
+      "In this combat, the max HP of all #yDolls increase by", "."
+    ]
+  },
+  
+  "DollActivationPower": {
+    "NAME": "Doll Activation",
+    "DESCRIPTIONS": [
+      "回合开始时，使你最右侧的 人偶 行动 一次。",
+      "回合开始时，使你最右侧的", "个 人偶 各 行动 一次。"
+    ]
+  },
+  
+  "MaliceSparkPower": {
+    "NAME": "MAlice Spark",
+    "DESCRIPTIONS": [
+      "In this turn, maximum hand size reduces by", "."
+    ]
+  },
+  
+  "AliceInWonderlandPower": {
+    "NAME": "Alice In Wonderland",
+    "DESCRIPTIONS": [
+      "At start of each turn, add #b%d random uncommon cards to your hand."
+    ]
+  },
+  
+  "AliceExtraTurnPower": {
+    "NAME": "Extra Turn",
+    "DESCRIPTIONS": [
+      "Gain an extra turn after this turn.",
+      "Gain an extra turn after this turn. #b%d times left."
+    ]
+  },
+  
+  "DollOrchestraPower": {
+    "NAME": "Doll Orchestra",
+    "DESCRIPTIONS": [
+      "Whenever #yGenerate a #yDoll, draw #b%d card(s)."
+    ]
+  },
+  
+  "ThePhantomOfTheGrandGuignolPower": {
+    "NAME": "The Phantom Of The Grand Guignol",
+    "DESCRIPTIONS": [
+      "The base amount of all #yDolls increase by #b%d ."
+    ]
+  }
+}

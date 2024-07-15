@@ -42,6 +42,7 @@ public class WitchsTeaParty extends AbstractAliceCard {
 		);
 		
 		this.magicNumber = this.baseMagicNumber = MAGIC;
+		this.exhaust = true;
 		
 //		if (AliceMargatroidMod.postInitialize)
 		this.updateFlavor();

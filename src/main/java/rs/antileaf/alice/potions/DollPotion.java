@@ -1,8 +1,9 @@
-package rs.antileaf.alice.powers.potions;
+package rs.antileaf.alice.potions;
 
 import basemod.abstracts.CustomPotion;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.helpers.CardHelper;
 import com.megacrit.cardcrawl.helpers.PowerTip;
 import com.megacrit.cardcrawl.localization.PotionStrings;
 import com.megacrit.cardcrawl.potions.AbstractPotion;
@@ -24,6 +25,8 @@ public class DollPotion extends CustomPotion {
 				PotionSize.SPHERE,
 				PotionColor.SWIFT
 		);
+		
+		this.labOutlineColor = CardHelper.getColor(255,215,0);
 		
 		this.potency = this.getPotency();
 		this.description = String.format(potionStrings.DESCRIPTIONS[0], this.potency);

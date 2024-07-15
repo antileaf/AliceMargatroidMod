@@ -2,9 +2,9 @@ package rs.antileaf.alice.doll.dolls;
 
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.OrbStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import rs.antileaf.alice.action.doll.DollActAction;
 import rs.antileaf.alice.action.doll.DollDamageAction;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollDamageInfo;
@@ -18,7 +18,7 @@ public class ShanghaiDoll extends AbstractDoll {
 	public static final OrbStrings dollStrings = CardCrawlGame.languagePack.getOrbString(ID);
 	
 	public static final int MAX_HP = 3;
-	public static final int PASSIVE_AMOUNT = 5;
+//	public static final int PASSIVE_AMOUNT = 5;
 	public static final int ACT_AMOUNT = 4;
 	
 	public ShanghaiDoll() {
@@ -26,13 +26,13 @@ public class ShanghaiDoll extends AbstractDoll {
 				ID,
 				dollStrings.NAME,
 				MAX_HP,
-				PASSIVE_AMOUNT,
+				-1,
 				ACT_AMOUNT,
 				AliceSpireKit.getOrbImgFilePath("red"),
-				RenderTextMode.BOTH
+				RenderTextMode.ACT
 		);
 		
-		this.passiveAmountType = DollAmountType.DAMAGE;
+//		this.passiveAmountType = DollAmountType.DAMAGE;
 		this.actAmountType = DollAmountType.DAMAGE;
 	}
 	
@@ -56,15 +56,16 @@ public class ShanghaiDoll extends AbstractDoll {
 	}
 	
 	public void postSpawn() {
-		AbstractMonster m = AbstractDungeon.getRandomMonster();
-		
-		if (m != null)
-			this.addToTop(new DollDamageAction(m,
-					new DollDamageInfo(this.passiveAmount, this,
-							DollAmountType.DAMAGE, DollAmountTime.PASSIVE),
-							AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
-		
-		this.highlightPassiveValue();
+		this.addToTop(new DollActAction(this));
+//		AbstractMonster m = AbstractDungeon.getRandomMonster();
+//
+//		if (m != null)
+//			this.addToTop(new DollDamageAction(m,
+//					new DollDamageInfo(this.passiveAmount, this,
+//							DollAmountType.DAMAGE, DollAmountTime.PASSIVE),
+//							AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
+//
+//		this.highlightPassiveValue();
 	}
 	
 	// The logic of Strength is implemented in AbstractDoll.applyPowers().

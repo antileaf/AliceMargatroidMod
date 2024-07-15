@@ -65,6 +65,10 @@ public abstract class AliceSpireKit {
 		return AliceSpireKit.getImgFilePath("relics/outline", name);
 	}
 	
+	public static String getRelicLargeImgFilePath(String name) {
+		return AliceSpireKit.getImgFilePath("relics/large", name);
+	}
+	
 	public static String getOrbImgFilePath(String name) {
 		return AliceSpireKit.getImgFilePath("orbs", name);
 	}

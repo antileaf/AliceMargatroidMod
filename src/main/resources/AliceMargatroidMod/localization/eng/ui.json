@@ -1,0 +1,27 @@
+{
+  "AliceDuplicateCards": {
+    "TEXT": [
+      "There are duplicate cards in my hand:"
+    ]
+  },
+  
+  "AliceExtraTurnButton": {
+    "TEXT": [
+      "Extra Turn"
+    ]
+  },
+  
+  "DollDescription": {
+    "TEXT": [
+      "Passive",
+      "Act"
+    ]
+  },
+  
+  "DollHPDescription": {
+    "TEXT": [
+      "Initial HP:",
+      "."
+    ]
+  }
+}

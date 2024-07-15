@@ -51,7 +51,7 @@ public class OrleansDoll extends AbstractDoll {
 	@Override
 	public void updateDescriptionImpl() {
 		this.passiveDescription = String.format(dollStrings.DESCRIPTION[0],
-				AliceMiscKit.join(Stream.generate(this::coloredPassiveAmount)
+				AliceMiscKit.join(Stream.generate(() -> "[E]")
 						.limit(this.passiveAmount).toArray(String[]::new)));
 		
 		this.actDescription = String.format(dollStrings.DESCRIPTION[1], this.coloredActAmount());

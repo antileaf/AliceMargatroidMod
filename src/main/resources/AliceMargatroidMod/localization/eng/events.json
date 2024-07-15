@@ -1,15 +1,15 @@
 {
   "AliceSensoryStone": {
-    "NAME": "爱丽丝-感知石",
+    "NAME": "Alice-SensoryStone",
     "DESCRIPTIONS": [
       "#y~雪夜。~ NL NL 本该是樱花如雪花般飘落的季节，然而满目所见仍是真正的雪花。 NL 你轻轻摘取其中一片，感受着它慢慢在你手心融化。 NL NL 不经意间，你遇见了一个熟悉的 #r红白色 身影。 NL “谁会和你这种 #y~七色魔法笨蛋~ 是旧友啦。” NL “明明好不容易遇见旧友，就只有这种问候吗？ NL 久别重逢就应该这样——” NL NL “作为好久不见的赠礼，将 #r~你的性命~ 收下！”"
     ]
   },
   
   "AliceSpireHeart": {
-    "NAME": "爱丽丝-尖塔之心",
+    "NAME": "Alice-SpireHeart",
     "DESCRIPTIONS": [
-      "NL 你的人偶们在你的指挥下，向心脏发动了全力一击。"
+      "NL Your dolls, under your command, launched a full blow to the heart."
     ]
   }
 }

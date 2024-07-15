@@ -17,6 +17,7 @@ public class AlicesGrimoire extends CustomRelic implements ClickableRelic {
 	public static final String ID = SIMPLE_NAME;
 	private static final String IMG = AliceSpireKit.getRelicImgFilePath(SIMPLE_NAME);
 	private static final String IMG_OTL = AliceSpireKit.getRelicOutlineImgFilePath(SIMPLE_NAME);
+	private static final String IMG_LARGE = AliceSpireKit.getRelicLargeImgFilePath(SIMPLE_NAME);
 
 	public AlicesGrimoire() {
 		super(
@@ -26,6 +27,8 @@ public class AlicesGrimoire extends CustomRelic implements ClickableRelic {
 				RelicTier.STARTER,
 				LandingSound.MAGICAL
 		);
+		
+		this.largeImg = ImageMaster.loadImage(IMG_LARGE);
 	}
 	
 	@Override

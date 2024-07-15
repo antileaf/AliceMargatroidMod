@@ -1,75 +1,75 @@
 {
   "EmptyDollSlot": {
-    "NAME": "空人偶栏位",
+    "NAME": "Empty Doll Slot",
     "DESCRIPTION": [
-      "这是一个空的人偶栏位。",
-      "空栏位"
+      "This slot is empty.",
+      "empty slot"
     ]
   },
   
   "ShanghaiDoll": {
-    "NAME": "上海人偶",
+    "NAME": "Shanghai Doll",
     "DESCRIPTION": [
-      "生成 时自动 行动 一次。上海人偶的伤害可以享受 #y力量 加成。",
-      "对生命值最低的敌人造成 %s 点伤害。",
-      "单体伤害"
+      "When generated, deal %s damage to a random enemy. Can be affected by #yStrength.",
+      "Deal %s damage to the enemy with the lowest HP.",
+      "single target damage"
     ]
   },
   
   "NetherlandsDoll": {
-    "NAME": "荷兰人偶",
+    "NAME": "Netherlands Doll",
     "DESCRIPTION": [
-      "为爱丽丝提供 %s 点 力量 与 敏捷 。",
-      "爱丽丝获得 %s 点临时 力量 与 敏捷 。",
-      "为爱丽丝提供增益"
+      "Provide %s #yStrength and #yDexterity for Alice.",
+      "In this turn, provide %s #yStrength and #yDexterity for Alice.",
+      "providing buffs"
     ]
   },
   
   "HouraiDoll": {
-    "NAME": "蓬莱人偶",
+    "NAME": "Hourai Doll",
     "DESCRIPTION": [
-      "其他人偶的数值效果提升 %s 点。不受蓬莱人偶影响。",
-      "其他人偶的数值效果提升 %s 点 (当前共 #b%d 点)。不受蓬莱人偶影响。",
-      "直到你的下个回合，被动效果提升 %s 点。",
-      "支援"
+      "Other dolls gain %s to their effects. Not affected by #yHourai #yDolls .",
+      "Other dolls gain %s to their effects (currently #b%d). Not affected by #yHourai #yDolls .",
+      "Until your next turn, gain %s to passive effects.",
+      "support"
     ]
   },
   
   "KyotoDoll": {
-    "NAME": "京都人偶",
+    "NAME": "Kyoto Doll",
     "DESCRIPTION": [
-      "爱丽丝和所有 人偶 在回合开始时可以保留最多 %s 点 格挡 。",
-      "爱丽丝和所有 人偶 在回合开始时可以保留最多 %s 点 格挡 (当前共 #b%d 点)。",
-      "回合开始时，所有 人偶 获得 %s 点 格挡 。",
-      "使爱丽丝获得等同于自己当前 格挡 值的 格挡 。",
-      "防御增益"
+      "At the start of your turn, Alice and all #yDolls retain up to %s #yBlock .",
+      "At the start of your turn, Alice and all #yDolls retain up to %s #yBlock (currently #b%d).",
+      "At the start of your turn, all #yDolls gain %s #yBlock .",
+      "Alice gains #yBlock equal to the #yBlock of this.",
+      "defensive buff"
     ]
   },
   
   "LondonDoll": {
-    "NAME": "伦敦人偶",
+    "NAME": "London Doll",
     "DESCRIPTION": [
-      "被摧毁或 回收 后，在最左侧空栏位随机 生成 一个其他类型 人偶 。不受 蓬莱人偶 影响。",
-      "改为使相邻的其他类型 人偶 各 行动 一次。",
-      "调遣其他人偶"
+      "When destroyed or #yRecycled , generate a random non-London #yDoll in the leftmost empty slot.",
+      "Let adjacent non-London #yDolls gain %s #yBlock .",
+      "dispatch other dolls"
     ]
   },
   
   "FranceDoll": {
-    "NAME": "法兰西人偶",
+    "NAME": "France Doll",
     "DESCRIPTION": [
-      "可以承受所有来源的非攻击伤害。回合开始时，不会失去 格挡 。",
-      "获得 %s 点格挡 。",
-      "承受伤害"
+      "Can absorb all non-attack damage from all sources. Will not lose #yBlock at the start of your turn.",
+      "Gain %s #yBlock .",
+      "absorbing damage"
     ]
   },
   
   "OrleansDoll": {
-    "NAME": "奥尔良人偶",
+    "NAME": "Orleans Doll",
     "DESCRIPTION": [
-      "被 回收 时，获得 %s 。不受蓬莱人偶影响。",
-      "抽 %s 张牌。",
-      "过牌与加费"
+      "When #yRecycled , gain %s . Not affected by #yHourai #yDolls .",
+      "draw %s card(s)",
+      "drawing cards and gaining energy"
     ]
   },
   

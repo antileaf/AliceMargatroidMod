@@ -50,7 +50,7 @@ public class SealOfLight extends AbstractAliceCard {
 						1
 				));
 			else {
-				m.currentHealth -= m.maxHealth * percent / 100;
+				m.currentHealth -= m.currentHealth * percent / 100;
 				m.decreaseMaxHealth(m.maxHealth * percent / 100);
 			}
 		}));

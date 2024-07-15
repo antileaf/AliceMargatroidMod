@@ -15,6 +15,7 @@ public class SuspiciousCard extends CustomRelic {
 	public static final String ID = SIMPLE_NAME;
 	private static final String IMG = AliceSpireKit.getRelicImgFilePath(SIMPLE_NAME);
 	private static final String IMG_OTL = AliceSpireKit.getRelicOutlineImgFilePath(SIMPLE_NAME);
+	private static final String IMG_LARGE = AliceSpireKit.getRelicLargeImgFilePath(SIMPLE_NAME);
 
 	public SuspiciousCard() {
 		super(
@@ -24,6 +25,8 @@ public class SuspiciousCard extends CustomRelic {
 				RelicTier.UNCOMMON,
 				LandingSound.FLAT
 		);
+		
+		this.largeImg = ImageMaster.loadImage(IMG_LARGE);
 	}
 	
 	@Override
