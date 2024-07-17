@@ -7,10 +7,10 @@ import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.dolls.LondonDoll;
 import rs.antileaf.alice.doll.enums.DollAmountTime;
 import rs.antileaf.alice.doll.enums.DollAmountType;
+import rs.antileaf.alice.doll.interfaces.PlayerOrEnemyDollAmountModHook;
 import rs.antileaf.alice.powers.AbstractAlicePower;
-import rs.antileaf.alice.powers.interfaces.PlayerOrEnemyDollAmountModPower;
 
-public class ThePhantomOfTheGrandGuignolPower extends AbstractAlicePower implements PlayerOrEnemyDollAmountModPower {
+public class ThePhantomOfTheGrandGuignolPower extends AbstractAlicePower implements PlayerOrEnemyDollAmountModHook {
 	public static final String POWER_ID = ThePhantomOfTheGrandGuignolPower.class.getSimpleName();
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
 	

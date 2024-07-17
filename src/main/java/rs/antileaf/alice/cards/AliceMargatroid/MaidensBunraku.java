@@ -6,70 +6,52 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import com.megacrit.cardcrawl.relics.ChemicalX;
-import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
-import rs.antileaf.alice.powers.unique.TyrantPower;
+import rs.antileaf.alice.powers.unique.MaidensBunrakuPower;
+import rs.antileaf.alice.utils.AliceSpireKit;
 
-public class Tyrant extends AbstractAliceCard {
-	public static final String SIMPLE_NAME = Tyrant.class.getSimpleName();
+public class MaidensBunraku extends AbstractAliceCard {
+	public static final String SIMPLE_NAME = MaidensBunraku.class.getSimpleName();
 //	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
 	public static final String ID = SIMPLE_NAME;
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
-	private static final int COST = -1;
-	
-	public Tyrant() {
+	private static final int COST = 0;
+	private static final int MAGIC = 3;
+	private static final int UPGRADE_PLUS_MAGIC = 1;
+	public MaidensBunraku() {
 		super(
 				ID,
 				cardStrings.NAME,
-				null, // AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
-				CardType.POWER,
+				CardType.SKILL,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
-				CardRarity.RARE,
-				CardTarget.SELF
+				CardRarity.UNCOMMON,
+				CardTarget.NONE
 		);
+		
+		this.magicNumber = this.baseMagicNumber = MAGIC;
+		this.isEthereal = true;
 	}
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
-		int amount = this.energyOnUse;
-		if (this.upgraded)
-			amount += 1;
-		
-		if (p.hasRelic(ChemicalX.ID))
-			amount += ChemicalX.BOOST;
-		
-		if (amount > 0) {
-			amount *= 2;
-			
-			this.addToBot(new ApplyPowerAction(
-					p,
-					p,
-					new TyrantPower(amount),
-					amount
-			));
-			
-			this.addToBot(new AnonymousAction(() -> {
-				if (!this.freeToPlayOnce)
-					p.energy.use(this.energyOnUse);
-			}));
-		}
+		this.addToBot(new ApplyPowerAction(p, p, new MaidensBunrakuPower(this.magicNumber), this.magicNumber));
 	}
 	
 	@Override
 	public AbstractCard makeCopy() {
-		return new Tyrant();
+		return new MaidensBunraku();
 	}
 	
 	@Override
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
-			this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
+			this.upgradeMagicNumber(UPGRADE_PLUS_MAGIC);
 			this.initializeDescription();
 		}
 	}

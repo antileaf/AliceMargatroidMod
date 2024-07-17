@@ -7,7 +7,7 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 import rs.antileaf.alice.doll.enums.DollAmountTime;
 import rs.antileaf.alice.doll.enums.DollAmountType;
-import rs.antileaf.alice.powers.interfaces.PlayerOrEnemyDollAmountModPower;
+import rs.antileaf.alice.doll.interfaces.PlayerOrEnemyDollAmountModHook;
 
 public class DollDamageInfo extends DamageInfo {
 	public AbstractDoll doll;
@@ -36,9 +36,9 @@ public class DollDamageInfo extends DamageInfo {
 		// This logic should not be implemented here, but in AbstractDoll.
 	
 		for (AbstractPower power : target.powers) {
-			if (power instanceof PlayerOrEnemyDollAmountModPower &&
-					!((PlayerOrEnemyDollAmountModPower) power).isFinal())
-				res = ((PlayerOrEnemyDollAmountModPower) power)
+			if (power instanceof PlayerOrEnemyDollAmountModHook &&
+					!((PlayerOrEnemyDollAmountModHook) power).isFinal())
+				res = ((PlayerOrEnemyDollAmountModHook) power)
 						.modifyDollAmount(res, this.doll, this.amountType, this.amountTime);
 		}
 		
@@ -50,9 +50,9 @@ public class DollDamageInfo extends DamageInfo {
 		}
 		
 		for (AbstractPower power : target.powers) {
-			if (power instanceof PlayerOrEnemyDollAmountModPower &&
-					((PlayerOrEnemyDollAmountModPower) power).isFinal())
-				res = ((PlayerOrEnemyDollAmountModPower) power)
+			if (power instanceof PlayerOrEnemyDollAmountModHook &&
+					((PlayerOrEnemyDollAmountModHook) power).isFinal())
+				res = ((PlayerOrEnemyDollAmountModHook) power)
 						.modifyDollAmount(res, this.doll, this.amountType, this.amountTime);
 		}
 		

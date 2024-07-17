@@ -39,6 +39,11 @@ public class FranceDoll extends AbstractDoll {
 	}
 	
 	@Override
+	public int getBaseHP() {
+		return MAX_HP;
+	}
+	
+	@Override
 	public void onAct() {
 		AliceSpireKit.addToTop(new DollGainBlockAction(this, this.actAmount));
 		

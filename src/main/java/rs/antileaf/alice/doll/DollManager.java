@@ -7,6 +7,7 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.powers.AbstractPower;
+import com.megacrit.cardcrawl.relics.AbstractRelic;
 import rs.antileaf.alice.action.doll.DollActAction;
 import rs.antileaf.alice.action.doll.MoveDollAction;
 import rs.antileaf.alice.action.doll.RecycleDollAction;
@@ -14,7 +15,7 @@ import rs.antileaf.alice.action.doll.SpawnDollInternalAction;
 import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.characters.AliceMargatroid;
 import rs.antileaf.alice.doll.dolls.*;
-import rs.antileaf.alice.powers.interfaces.OnDollOperatePower;
+import rs.antileaf.alice.doll.interfaces.OnDollOperateHook;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 import java.util.ArrayList;
@@ -94,9 +95,13 @@ public class DollManager {
 	public void addBlock(AbstractDoll doll, int block) {
 		doll.addBlock(block);
 		
+		for (AbstractRelic relic : AbstractDungeon.player.relics)
+			if (relic instanceof OnDollOperateHook)
+				((OnDollOperateHook) relic).postDollGainedBlock(doll, block);
+		
 		for (AbstractPower power : AbstractDungeon.player.powers)
-			if (power instanceof OnDollOperatePower)
-				((OnDollOperatePower) power).postDollGainedBlock(doll, block);
+			if (power instanceof OnDollOperateHook)
+				((OnDollOperateHook) power).postDollGainedBlock(doll, block);
 	}
 	
 	public void loseBlock(AbstractDoll doll, int block) {
@@ -221,6 +226,14 @@ public class DollManager {
 		assert index >= 0 && index < MAX_DOLL_SLOTS;
 		assert this.dolls.get(index) == doll || this.dolls.get(index) instanceof EmptyDollSlot;
 		
+		for (AbstractRelic relic : this.owner.relics)
+			if (relic instanceof OnDollOperateHook)
+				((OnDollOperateHook) relic).preSpawnDoll(doll);
+		
+		for (AbstractPower power : this.owner.powers)
+			if (power instanceof OnDollOperateHook)
+				((OnDollOperateHook) power).preSpawnDoll(doll);
+		
 		doll.showHealthBar();
 		
 		this.dolls.set(index, doll);
@@ -229,9 +242,13 @@ public class DollManager {
 		
 		this.applyPowers();
 		
+		for (AbstractRelic relic : this.owner.relics)
+			if (relic instanceof OnDollOperateHook)
+				((OnDollOperateHook) relic).postSpawnDoll(doll);
+		
 		for (AbstractPower power : this.owner.powers)
-			if (power instanceof OnDollOperatePower)
-				((OnDollOperatePower) power).postSpawnDoll(doll);
+			if (power instanceof OnDollOperateHook)
+				((OnDollOperateHook) power).postSpawnDoll(doll);
 		
 		for (AbstractDoll other : this.dolls)
 			if (other != doll)
@@ -274,9 +291,13 @@ public class DollManager {
 		
 		this.applyPowers();
 		
+		for (AbstractRelic relic : this.owner.relics)
+			if (relic instanceof OnDollOperateHook)
+				((OnDollOperateHook) relic).postDollAct(doll);
+		
 		for (AbstractPower power : this.owner.powers)
-			if (power instanceof OnDollOperatePower)
-				((OnDollOperatePower) power).postDollAct(doll);
+			if (power instanceof OnDollOperateHook)
+				((OnDollOperateHook) power).postDollAct(doll);
 		
 		for (AbstractDoll other : this.dolls)
 			if (other != doll)
@@ -305,10 +326,16 @@ public class DollManager {
 		
 		this.applyPowers();
 		
+		for (AbstractRelic relic : this.owner.relics)
+			if (relic instanceof OnDollOperateHook) {
+				((OnDollOperateHook) relic).postRecycleDoll(doll);
+				((OnDollOperateHook) relic).postRecycleOrDestroyDoll(doll);
+			}
+		
 		for (AbstractPower power : this.owner.powers)
-			if (power instanceof OnDollOperatePower) {
-				((OnDollOperatePower) power).postRecycleDoll(doll);
-				((OnDollOperatePower) power).postRecycleOrDestroyDoll(doll);
+			if (power instanceof OnDollOperateHook) {
+				((OnDollOperateHook) power).postRecycleDoll(doll);
+				((OnDollOperateHook) power).postRecycleOrDestroyDoll(doll);
 			}
 		
 		for (AbstractDoll other : this.dolls)
@@ -331,10 +358,16 @@ public class DollManager {
 		
 		this.applyPowers();
 		
+		for (AbstractRelic relic : this.owner.relics)
+			if (relic instanceof OnDollOperateHook) {
+				((OnDollOperateHook) relic).postDestroyDoll(doll);
+				((OnDollOperateHook) relic).postRecycleOrDestroyDoll(doll);
+			}
+		
 		for (AbstractPower power : this.owner.powers)
-			if (power instanceof OnDollOperatePower) {
-				((OnDollOperatePower) power).postDestroyDoll(doll);
-				((OnDollOperatePower) power).postRecycleOrDestroyDoll(doll);
+			if (power instanceof OnDollOperateHook) {
+				((OnDollOperateHook) power).postDestroyDoll(doll);
+				((OnDollOperateHook) power).postRecycleOrDestroyDoll(doll);
 			}
 		
 		for (AbstractDoll other : this.dolls)

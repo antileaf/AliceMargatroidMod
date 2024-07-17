@@ -35,7 +35,7 @@ public class Sale extends AbstractAliceCard {
 				cardStrings.DESCRIPTION,
 				CardType.SKILL,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
-				CardRarity.COMMON,
+				CardRarity.UNCOMMON,
 				CardTargetEnum.DOLL
 		);
 		

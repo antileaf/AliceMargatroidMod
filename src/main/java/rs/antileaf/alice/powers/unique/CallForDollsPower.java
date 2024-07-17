@@ -7,11 +7,11 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.enums.DollAmountTime;
 import rs.antileaf.alice.doll.enums.DollAmountType;
+import rs.antileaf.alice.doll.interfaces.PlayerOrEnemyDollAmountModHook;
 import rs.antileaf.alice.powers.AbstractAlicePower;
-import rs.antileaf.alice.powers.interfaces.PlayerOrEnemyDollAmountModPower;
 import rs.antileaf.alice.utils.AliceMiscKit;
 
-public class CallForDollsPower extends AbstractAlicePower implements PlayerOrEnemyDollAmountModPower {
+public class CallForDollsPower extends AbstractAlicePower implements PlayerOrEnemyDollAmountModHook {
 	public static final String POWER_ID = CallForDollsPower.class.getSimpleName();
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
 	

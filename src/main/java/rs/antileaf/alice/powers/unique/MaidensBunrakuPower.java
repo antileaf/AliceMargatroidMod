@@ -1,22 +1,24 @@
 package rs.antileaf.alice.powers.unique;
 
+import com.megacrit.cardcrawl.actions.common.RemoveSpecificPowerAction;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.PowerStrings;
+import rs.antileaf.alice.action.doll.DollGainBlockAction;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.interfaces.OnDollOperateHook;
 import rs.antileaf.alice.powers.AbstractAlicePower;
-import rs.antileaf.alice.utils.AliceMiscKit;
 
-public class DollAmbushPower extends AbstractAlicePower implements OnDollOperateHook {
-	public static final String POWER_ID = DollAmbushPower.class.getSimpleName();
+public class MaidensBunrakuPower extends AbstractAlicePower implements OnDollOperateHook {
+	public static final String POWER_ID = MaidensBunrakuPower.class.getSimpleName();
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
 	
-	public DollAmbushPower(int amount) {
+	public MaidensBunrakuPower(int amount) {
 		this.name = powerStrings.NAME;
 		this.ID = POWER_ID;
 		this.owner = AbstractDungeon.player;
 		this.amount = amount;
+		this.priority = 0;
 		
 		this.type = PowerType.BUFF;
 		this.updateDescription();
@@ -31,16 +33,17 @@ public class DollAmbushPower extends AbstractAlicePower implements OnDollOperate
 	
 	@Override
 	public void updateDescription() {
-		this.description = AliceMiscKit.join(
-				powerStrings.DESCRIPTIONS[0],
-				"#b" + this.amount,
-				powerStrings.DESCRIPTIONS[1]
-		);
+		this.description = String.format(powerStrings.DESCRIPTIONS[0], this.amount);
 	}
 	
 	@Override
-	public void postRecycleDoll(AbstractDoll doll) {
+	public void atStartOfTurn() {
+		this.addToBot(new RemoveSpecificPowerAction(this.owner, this.owner, this));
+	}
+	
+	@Override
+	public void postDollAct(AbstractDoll doll) {
 		this.flash();
-		// The logic of this power is implemented in RecycleDollAction.
+		this.addToBot(new DollGainBlockAction(doll, this.amount));
 	}
 }

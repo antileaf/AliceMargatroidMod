@@ -58,6 +58,11 @@ public class HouraiDoll extends AbstractDoll {
 	}
 	
 	@Override
+	public int getBaseHP() {
+		return MAX_HP;
+	}
+	
+	@Override
 	public void onAct() {
 		this.additionalPassiveAmount += this.actAmount;
 		this.applyPower();

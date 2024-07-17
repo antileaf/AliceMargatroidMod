@@ -1,4 +1,4 @@
-package rs.antileaf.alice.cards.deprecated;
+package rs.antileaf.alice.cards.DEPRECATED;
 
 import com.megacrit.cardcrawl.actions.common.HealAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;

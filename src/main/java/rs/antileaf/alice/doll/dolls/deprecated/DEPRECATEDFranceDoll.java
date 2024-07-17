@@ -50,6 +50,11 @@ public class DEPRECATEDFranceDoll extends AbstractDoll {
 	}
 	
 	@Override
+	public int getBaseHP() {
+		return MAX_HP;
+	}
+	
+	@Override
 	public void onAct() {
 		AliceSpireKit.addActionToBuffer(new DollGainBlockAction(this, this.actAmount));
 		

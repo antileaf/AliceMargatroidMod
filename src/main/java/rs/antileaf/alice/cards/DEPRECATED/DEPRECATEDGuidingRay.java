@@ -1,4 +1,4 @@
-package rs.antileaf.alice.cards.AliceMargatroid;
+package rs.antileaf.alice.cards.DEPRECATED;
 
 import basemod.BaseMod;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
@@ -17,8 +17,9 @@ import rs.antileaf.alice.patches.enums.CardTagEnum;
 
 import java.util.ArrayList;
 
-public class GuidingRay extends AbstractAliceCard {
-	public static final String SIMPLE_NAME = GuidingRay.class.getSimpleName();
+@Deprecated
+public class DEPRECATEDGuidingRay extends AbstractAliceCard {
+	public static final String SIMPLE_NAME = DEPRECATEDGuidingRay.class.getSimpleName();
 //	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
 	public static final String ID = SIMPLE_NAME;
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
@@ -28,7 +29,7 @@ public class GuidingRay extends AbstractAliceCard {
 	private static final int MAGIC = 2;
 	private static final int UPGRADE_PLUS_MAGIC = 1;
 	
-	public GuidingRay() {
+	public DEPRECATEDGuidingRay() {
 		super(
 				ID,
 				cardStrings.NAME,
@@ -75,7 +76,7 @@ public class GuidingRay extends AbstractAliceCard {
 	
 	@Override
 	public AbstractCard makeCopy() {
-		return new GuidingRay();
+		return new DEPRECATEDGuidingRay();
 	}
 	
 	@Override

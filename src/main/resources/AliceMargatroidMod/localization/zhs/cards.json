@@ -59,11 +59,6 @@
     "EXTENDED_DESCRIPTION": ["选择一张牌"]
   },
   
-  "EmeraldRay": {
-    "NAME": "翠绿射线",
-    "DESCRIPTION": "造成 !D! 点伤害，获得 [E] 。 NL 如果你在本回合内打出过 alicemargatroidmod:射线 牌，以随机敌人为目标再重复一次。"
-  },
-  
   "MoonlightRay": {
     "NAME": "月光射线",
     "DESCRIPTION": "对所有敌人造成 !D! 点伤害，获得 !B! 点格挡。 NL 如果你在本回合内打出过 alicemargatroidmod:射线 牌，改为获得 临时生命 。"
@@ -95,7 +90,7 @@
   
   "DollWar": {
     "NAME": "人偶战争",
-    "DESCRIPTION": "每 alicemargatroidmod:生成 一个 alicemargatroidmod:人偶 ，使其获得 !M! 点 格挡 。"
+    "DESCRIPTION": "alicemargatroidmod:生成 alicemargatroidmod:人偶 时，使其最大生命值提高 !M! 倍。"
   },
   
   "DollJudge": {
@@ -147,7 +142,8 @@
   
   "MaliceSpark": {
     "NAME": "魔丽丝炮",
-    "DESCRIPTION": "造成 !D! 点伤害。 NL 抽 !M! 张牌，但在本回合内手牌上限减少 !aliceM2! 张。"
+    "DESCRIPTION": "造成 !D! 点伤害。 NL 抽 !M! 张牌，但在本回合内手牌上限减少 !aliceM2! 张。",
+    "FLAVOR": "手牌上限减少的效果会在抽牌之前就生效。"
   },
   
   "CallForDolls": {
@@ -196,27 +192,6 @@
     "DESCRIPTION": "造成 !D! 点伤害。 NL 如果目标敌人的意图为攻击，施加 !M! 层 易伤 。"
   },
   
-  "InterlacedRay": {
-    "NAME": "交错射线",
-    "DESCRIPTION": "随机对两个敌人各造成 !D! 点伤害。"
-  },
-  
-  "Fireplace": {
-    "NAME": "炉火",
-    "DESCRIPTION": "消耗 至多 !M! 张手牌，造成 !D! 点伤害。 NL 每 消耗 一张牌，本次伤害提高 !aliceM2! 点。",
-    "EXTENDED_DESCRIPTION": ["消耗"]
-  },
-  
-  "GuidingRay": {
-    "NAME": "引导射线",
-    "DESCRIPTION": "造成 !D! 点伤害。 NL 随机将抽牌堆中的 !M! 张 alicemargatroidmod:射线 牌加入手牌，它们在本回合耗能减少 [E] 。"
-  },
-  
-  "Refraction": {
-    "NAME": "折射",
-    "DESCRIPTION": "所有 alicemargatroidmod:射线 牌造成的伤害提高 !M! 点。"
-  },
-  
   "DollLances": {
     "NAME": "人偶千枪",
     "DESCRIPTION": "造成 !D! 点伤害。 NL 所有 alicemargatroidmod:上海人偶 alicemargatroidmod:行动 一次。"
@@ -254,12 +229,6 @@
     "DESCRIPTION": "所有 alicemargatroidmod:人偶 获得 !B! 点 格挡 。 NL 本回合内，无法再从卡牌中获得 格挡 。 NL 消耗 。"
   },
   
-  "Tyrant": {
-    "NAME": "统御",
-    "DESCRIPTION": "本场战斗中，所有人偶的最大生命值提高 2X 点。",
-    "UPGRADE_DESCRIPTION": "本场战斗中，所有人偶的最大生命值提高 2(X+1) 点。"
-  },
-  
   "Dessert": {
     "NAME": "甜点",
     "DESCRIPTION": "获得 [E] 。 NL 使用手牌中最右侧的牌后，自动触发并丢弃这张牌 NL （不视为打出）。",
@@ -276,22 +245,10 @@
     "DESCRIPTION": "alicemargatroidmod:指令 ： alicemargatroidmod:回收 目标 alicemargatroidmod:人偶 ，获得 !M! 金币。 NL 消耗 。"
   },
   
-  "Throw": {
-    "NAME": "投掷",
-    "DESCRIPTION": "alicemargatroidmod:指令 ： alicemargatroidmod:回收 目标 alicemargatroidmod:人偶 ，对随机敌人造成 !D! 点伤害。 NL 使用 !M! 次后才会进入弃牌堆，抽到时重置。",
-    "EXTENDED_DESCRIPTION": [" NL (剩余 !stslib:persist! 次。)"]
-  },
-  
   "DollActivation": {
     "NAME": "人偶振起",
     "DESCRIPTION": "回合开始时，使你最右侧的 alicemargatroidmod:人偶 alicemargatroidmod:行动 一次。",
     "UPGRADE_DESCRIPTION": "回合开始时，使你最右侧的 !M! 个 alicemargatroidmod:人偶 alicemargatroidmod:行动 一次。"
-  },
-  
-  "TheUnmovingGreatLibrary": {
-    "NAME": "不动的大图书馆",
-    "DESCRIPTION": "随机打出一张任意颜色的卡牌。 NL 消耗 。",
-    "UPGRADE_DESCRIPTION": "随机打出一张任意颜色的卡牌。"
   },
   
   "VisitOfThreeFairies": {
@@ -320,11 +277,6 @@
     "NAME": "光之封印",
     "DESCRIPTION": "目标敌人的当前生命值和最大生命值减少 !M! %。 NL 消耗 。",
     "UPGRADE_DESCRIPTION": "固有 。 NL 目标敌人的当前生命值和最大生命值减少 !M! %。 NL 消耗 。"
-  },
-  
-  "Tripwire": {
-    "NAME": "绊线",
-    "DESCRIPTION": "对所有敌人造成 !D! 点伤害。 NL 具有负面状态的敌人会受到 !M! 倍伤害。"
   },
   
   "DollMiraCeti": {
@@ -378,6 +330,11 @@
     "DESCRIPTION": "将上回合结束时的所有手牌移回手牌（不包括“书签”）。 NL 消耗 。",
     "EXTENDED_DESCRIPTION": ["上回合结束时 #r没有 手牌。", "上回合结束时，共有 %d 张手牌（不包括“书签”）："],
     "FLAVOR": "仅作用于弃牌堆、抽牌堆或消耗堆中的牌。 NL 如果在第一回合打出此牌，则不会产生任何效果。"
+  },
+  
+  "MaidensBunraku": {
+    "NAME": "少女文乐",
+    "DESCRIPTION": "直到你的下个回合，每当 alicemargatroidmod:人偶 alicemargatroidmod:行动 后，使其获得 !M! 点 格挡 。 NL 虚无 。"
   },
   
   
@@ -496,8 +453,57 @@
   
   
   "DEPRECATEDSpringHasCome": {
-    "NAME": "春天来了",
+    "NAME": "春天来了 (已弃用)",
     "DESCRIPTION": "alicemargatroidmod:可指向生成 一个 alicemargatroidmod:莉莉人偶 。 NL 消耗 。",
     "UPGRADE_DESCRIPTION": "恢复 !M! 点生命。 NL alicemargatroidmod:可指向生成 一个 alicemargatroidmod:莉莉人偶 。 NL 消耗 。"
+  },
+  
+  "DEPRECATEDInterlacedRay": {
+    "NAME": "交错射线 (已弃用)",
+    "DESCRIPTION": "随机对两个敌人各造成 !D! 点伤害。"
+  },
+  
+  "DEPRECATEDTripwire": {
+    "NAME": "绊线 (已弃用)",
+    "DESCRIPTION": "对所有敌人造成 !D! 点伤害。 NL 具有负面状态的敌人会受到 !M! 倍伤害。"
+  },
+  
+  "DEPRECATEDTheUnmovingGreatLibrary": {
+    "NAME": "不动的大图书馆 (已弃用)",
+    "DESCRIPTION": "随机打出一张任意颜色的卡牌。 NL 消耗 。",
+    "UPGRADE_DESCRIPTION": "随机打出一张任意颜色的卡牌。"
+  },
+  
+  "DEPRECATEDThrow": {
+    "NAME": "投掷 (已弃用)",
+    "DESCRIPTION": "alicemargatroidmod:指令 ： alicemargatroidmod:回收 目标 alicemargatroidmod:人偶 ，对随机敌人造成 !D! 点伤害。 NL 使用 !M! 次后才会进入弃牌堆，抽到时重置。",
+    "EXTENDED_DESCRIPTION": [" NL (剩余 !stslib:persist! 次。)"]
+  },
+  
+  "DEPRECATEDRefraction": {
+    "NAME": "折射 (已弃用)",
+    "DESCRIPTION": "所有 alicemargatroidmod:射线 牌造成的伤害提高 !M! 点。"
+  },
+  
+  "DEPRECATEDEmeraldRay": {
+    "NAME": "翠绿射线 (已弃用)",
+    "DESCRIPTION": "造成 !D! 点伤害，获得 [E] 。 NL 如果你在本回合内打出过 alicemargatroidmod:射线 牌，以随机敌人为目标再重复一次。"
+  },
+  
+  "DEPRECATEDGuidingRay": {
+    "NAME": "引导射线 (已弃用)",
+    "DESCRIPTION": "造成 !D! 点伤害。 NL 随机将抽牌堆中的 !M! 张 alicemargatroidmod:射线 牌加入手牌，它们在本回合耗能减少 [E] 。"
+  },
+  
+  "DEPRECATEDFireplace": {
+    "NAME": "炉火 (已弃用)",
+    "DESCRIPTION": "消耗 至多 !M! 张手牌，造成 !D! 点伤害。 NL 每 消耗 一张牌，本次伤害提高 !aliceM2! 点。",
+    "EXTENDED_DESCRIPTION": ["消耗"]
+  },
+  
+  "DEPRECATEDTyrant": {
+    "NAME": "统御 (已弃用)",
+    "DESCRIPTION": "本场战斗中，所有人偶的最大生命值提高 2X 点。",
+    "UPGRADE_DESCRIPTION": "本场战斗中，所有人偶的最大生命值提高 2(X+1) 点。"
   }
 }

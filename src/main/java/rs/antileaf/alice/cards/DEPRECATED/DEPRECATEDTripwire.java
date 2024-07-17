@@ -1,4 +1,4 @@
-package rs.antileaf.alice.cards.AliceMargatroid;
+package rs.antileaf.alice.cards.DEPRECATED;
 
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.DamageAllEnemiesAction;
@@ -12,8 +12,9 @@ import com.megacrit.cardcrawl.powers.AbstractPower;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 
-public class Tripwire extends AbstractAliceCard {
-	public static final String SIMPLE_NAME = Tripwire.class.getSimpleName();
+@Deprecated
+public class DEPRECATEDTripwire extends AbstractAliceCard {
+	public static final String SIMPLE_NAME = DEPRECATEDTripwire.class.getSimpleName();
 //	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
 	public static final String ID = SIMPLE_NAME;
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
@@ -23,7 +24,7 @@ public class Tripwire extends AbstractAliceCard {
 	private static final int MAGIC = 2;
 	private static final int UPGRADE_PLUS_MAGIC = 1;
 	
-	public Tripwire() {
+	public DEPRECATEDTripwire() {
 		super(
 				ID,
 				cardStrings.NAME,
@@ -71,7 +72,7 @@ public class Tripwire extends AbstractAliceCard {
 	
 	@Override
 	public AbstractCard makeCopy() {
-		return new Tripwire();
+		return new DEPRECATEDTripwire();
 	}
 	
 	@Override

@@ -66,13 +66,13 @@ public class MaliceSpark extends AbstractAliceCard {
 				new DamageInfo(p, this.damage, this.damageTypeForTurn),
 				AbstractGameAction.AttackEffect.BLUNT_LIGHT));
 		
-		this.addToBot(new DrawCardAction(this.magicNumber));
 		this.addToBot(new ApplyPowerAction(
 				p,
 				p,
 				new MaliceSparkPower(this.secondaryMagicNumber),
 				this.secondaryMagicNumber
 		));
+		this.addToBot(new DrawCardAction(this.magicNumber));
 	}
 	
 	@Override

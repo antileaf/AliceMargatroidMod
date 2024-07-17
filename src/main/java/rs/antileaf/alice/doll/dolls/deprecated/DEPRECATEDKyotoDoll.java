@@ -47,6 +47,11 @@ public class DEPRECATEDKyotoDoll extends AbstractDoll {
 	}
 	
 	@Override
+	public int getBaseHP() {
+		return MAX_HP;
+	}
+	
+	@Override
 	public void onAct() {
 		ArrayList<AbstractGameAction> actions = new ArrayList<>();
 		for (AbstractDoll doll : DollManager.get().getDolls())

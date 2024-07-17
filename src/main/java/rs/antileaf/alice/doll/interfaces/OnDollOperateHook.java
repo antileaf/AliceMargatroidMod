@@ -1,9 +1,12 @@
-package rs.antileaf.alice.powers.interfaces;
+package rs.antileaf.alice.doll.interfaces;
 
 import rs.antileaf.alice.doll.AbstractDoll;
 
-public interface OnDollOperatePower {
-	// Called after the doll is spawned.
+// A hook interface for both powers and relics.
+// Relic hooks will be called before power hooks.
+public interface OnDollOperateHook {
+	default void preSpawnDoll(AbstractDoll doll) {}
+	
 	default void postSpawnDoll(AbstractDoll doll) {}
 	
 	default void postDollAct(AbstractDoll doll) {}

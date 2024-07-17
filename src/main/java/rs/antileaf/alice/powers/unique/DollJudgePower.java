@@ -5,11 +5,11 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.PowerStrings;
 import rs.antileaf.alice.doll.AbstractDoll;
+import rs.antileaf.alice.doll.interfaces.OnDollOperateHook;
 import rs.antileaf.alice.powers.AbstractAlicePower;
-import rs.antileaf.alice.powers.interfaces.OnDollOperatePower;
 import rs.antileaf.alice.utils.AliceMiscKit;
 
-public class DollJudgePower extends AbstractAlicePower implements OnDollOperatePower {
+public class DollJudgePower extends AbstractAlicePower implements OnDollOperateHook {
 	public static final String POWER_ID = DollJudgePower.class.getSimpleName();
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
 	

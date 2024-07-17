@@ -33,6 +33,11 @@ public class LondonDoll extends AbstractDoll {
 	}
 	
 	@Override
+	public int getBaseHP() {
+		return MAX_HP;
+	}
+	
+	@Override
 	public void onAct() {
 //		this.highlightActValue();
 	}

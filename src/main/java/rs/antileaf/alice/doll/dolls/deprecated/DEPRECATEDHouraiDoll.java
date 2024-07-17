@@ -45,6 +45,11 @@ public class DEPRECATEDHouraiDoll extends AbstractDoll {
 	}
 	
 	@Override
+	public int getBaseHP() {
+		return MAX_HP;
+	}
+	
+	@Override
 	public void onAct() {
 		AliceSpireKit.log(this.getClass(), "HouraiDoll.onAct() should not be called!");
 	}

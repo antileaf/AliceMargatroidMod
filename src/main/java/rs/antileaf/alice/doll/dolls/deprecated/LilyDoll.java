@@ -47,6 +47,11 @@ public class LilyDoll extends AbstractDoll {
 	}
 	
 	@Override
+	public int getBaseHP() {
+		return MAX_HP;
+	}
+	
+	@Override
 	public void onAct() {
 		this.addToBot(new ArmamentsAction(false)); // I am lazy, so I reused the Armaments action.
 	}

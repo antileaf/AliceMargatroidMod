@@ -67,7 +67,7 @@ public class RainbowRay extends AbstractAliceCard {
 					return result;
 				},
 				(card) -> {
-					if (AbstractDungeon.player.hand.size() == BaseMod.MAX_HAND_SIZE) {
+					if (AbstractDungeon.player.hand.size() >= BaseMod.MAX_HAND_SIZE) {
 						AbstractDungeon.player.drawPile.moveToDiscardPile(card);
 						AbstractDungeon.player.createHandIsFullDialog();
 					} else {

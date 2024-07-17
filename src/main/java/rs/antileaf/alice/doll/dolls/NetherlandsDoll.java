@@ -42,6 +42,11 @@ public class NetherlandsDoll extends AbstractDoll {
 	}
 	
 	@Override
+	public int getBaseHP() {
+		return MAX_HP;
+	}
+	
+	@Override
 	public void onAct() {
 		AliceSpireKit.addActionToBuffer(new ApplyPowerAction(
 				AbstractDungeon.player,

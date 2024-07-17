@@ -41,6 +41,11 @@ public class KyotoDoll extends AbstractDoll {
 	}
 	
 	@Override
+	public int getBaseHP() {
+		return MAX_HP;
+	}
+	
+	@Override
 	public void onAct() {
 		this.addToTop(new GainBlockAction(AbstractDungeon.player, AbstractDungeon.player, this.block));
 	}

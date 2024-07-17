@@ -55,6 +55,11 @@ public class DEPRECATEDLondonDoll extends AbstractDoll {
 	}
 	
 	@Override
+	public int getBaseHP() {
+		return MAX_HP;
+	}
+	
+	@Override
 	public void onAct() {
 		this.addActionsToTop(new DollGainBlockAction(this, this.actAmount),
 				new GainBlockAction(AbstractDungeon.player, this.actAmount));

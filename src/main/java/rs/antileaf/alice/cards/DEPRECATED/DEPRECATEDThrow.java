@@ -1,4 +1,4 @@
-package rs.antileaf.alice.cards.AliceMargatroid;
+package rs.antileaf.alice.cards.DEPRECATED;
 
 import com.evacipated.cardcrawl.mod.stslib.fields.cards.AbstractCard.PersistFields;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
@@ -19,8 +19,9 @@ import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
-public class Throw extends AbstractAliceCard {
-	public static final String SIMPLE_NAME = Throw.class.getSimpleName();
+@Deprecated
+public class DEPRECATEDThrow extends AbstractAliceCard {
+	public static final String SIMPLE_NAME = DEPRECATEDThrow.class.getSimpleName();
 //	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
 	public static final String ID = SIMPLE_NAME;
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
@@ -30,7 +31,7 @@ public class Throw extends AbstractAliceCard {
 	private static final int UPGRADE_PLUS_DAMAGE = 3;
 	private static final int MAGIC = 3;
 	
-	public Throw() {
+	public DEPRECATEDThrow() {
 		super(
 				ID,
 				cardStrings.NAME,
@@ -74,7 +75,7 @@ public class Throw extends AbstractAliceCard {
 	
 	@Override
 	public AbstractCard makeCopy() {
-		return new Throw();
+		return new DEPRECATEDThrow();
 	}
 	
 	@Override

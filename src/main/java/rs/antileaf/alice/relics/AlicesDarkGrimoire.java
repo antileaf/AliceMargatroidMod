@@ -2,22 +2,25 @@ package rs.antileaf.alice.relics;
 
 import basemod.abstracts.CustomRelic;
 import com.evacipated.cardcrawl.mod.stslib.relics.ClickableRelic;
-import com.megacrit.cardcrawl.actions.common.RelicAboveCreatureAction;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
-import rs.antileaf.alice.action.doll.SpawnDollAction;
 import rs.antileaf.alice.doll.AbstractDoll;
+import rs.antileaf.alice.doll.DollManager;
+import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
+import rs.antileaf.alice.doll.interfaces.OnDollOperateHook;
 import rs.antileaf.alice.utils.AliceSpireKit;
 import rs.antileaf.alice.utils.AliceTutorialHelper;
 
-public class AlicesDarkGrimoire extends CustomRelic implements ClickableRelic {
+public class AlicesDarkGrimoire extends CustomRelic implements ClickableRelic, OnDollOperateHook {
 	public static final String SIMPLE_NAME = AlicesDarkGrimoire.class.getSimpleName();
 
 	public static final String ID = SIMPLE_NAME;
 	private static final String IMG = AliceSpireKit.getRelicImgFilePath(SIMPLE_NAME);
 	private static final String IMG_OTL = AliceSpireKit.getRelicOutlineImgFilePath(SIMPLE_NAME);
 	private static final String IMG_LARGE = AliceSpireKit.getRelicLargeImgFilePath(SIMPLE_NAME);
+	
+	private static final int MULTIPLIER = 2;
 
 	public AlicesDarkGrimoire() {
 		super(
@@ -53,13 +56,15 @@ public class AlicesDarkGrimoire extends CustomRelic implements ClickableRelic {
 	}
 	
 	@Override
-	public void atBattleStart() {
-		this.flash();
-		this.addToBot(new RelicAboveCreatureAction(AbstractDungeon.player, this));
+	public void preSpawnDoll(AbstractDoll doll) {
+		int count = (int)DollManager.get().getDolls().stream()
+				.filter(other -> other != doll && !(other instanceof EmptyDollSlot))
+				.count();
 		
-//		for (int i = 0; i < 2; i++)
-		for (int i = 0; i < 3; i++)
-			this.addToBot(new SpawnDollAction(AbstractDoll.getRandomDoll(), -1));
+		doll.maxHP += count * MULTIPLIER;
+		doll.HP += count * MULTIPLIER;
+		
+		this.flash();
 	}
 	
 	@Override

@@ -7,11 +7,11 @@ import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
+import rs.antileaf.alice.doll.interfaces.OnDollOperateHook;
 import rs.antileaf.alice.powers.AbstractAlicePower;
-import rs.antileaf.alice.powers.interfaces.OnDollOperatePower;
 import rs.antileaf.alice.utils.AliceMiscKit;
 
-public class TyrantPower extends AbstractAlicePower implements OnDollOperatePower {
+public class TyrantPower extends AbstractAlicePower implements OnDollOperateHook {
 	public static final String POWER_ID = TyrantPower.class.getSimpleName();
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
 	

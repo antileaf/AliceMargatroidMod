@@ -2,7 +2,7 @@
   "modid": "AliceMargatroidMod",
   "name": "Alice Margatroid",
   "author_list": [
-    "antileaf"
+    "antileaf", "wolf"
   ],
   "description": "Adds Alice Margatroid from Touhou Project as a new playable character.",
   "dependencies": [

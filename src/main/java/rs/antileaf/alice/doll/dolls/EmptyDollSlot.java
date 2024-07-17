@@ -53,6 +53,12 @@ public class EmptyDollSlot extends AbstractDoll {
 	}
 	
 	@Override
+	public int getBaseHP() {
+		AliceSpireKit.log("EmptyDollSlot.getBaseHP() called.");
+		return 0;
+	}
+	
+	@Override
 	public void onAct() {
 		AliceSpireKit.log(EmptyDollSlot.class, "EmptyDollSlot.onAct() called!");
 	}

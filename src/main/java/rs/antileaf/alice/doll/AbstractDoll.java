@@ -17,6 +17,7 @@ import com.megacrit.cardcrawl.helpers.*;
 import com.megacrit.cardcrawl.localization.UIStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.AbstractPower;
+import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.relics.RunicDome;
 import com.megacrit.cardcrawl.vfx.combat.BlockedNumberEffect;
 import com.megacrit.cardcrawl.vfx.combat.FlashAtkImgEffect;
@@ -25,8 +26,7 @@ import org.jetbrains.annotations.Nullable;
 import rs.antileaf.alice.doll.dolls.*;
 import rs.antileaf.alice.doll.enums.DollAmountTime;
 import rs.antileaf.alice.doll.enums.DollAmountType;
-import rs.antileaf.alice.powers.interfaces.PlayerOrEnemyDollAmountModPower;
-import rs.antileaf.alice.utils.AliceMiscKit;
+import rs.antileaf.alice.doll.interfaces.PlayerOrEnemyDollAmountModHook;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 import java.util.Arrays;
@@ -426,6 +426,8 @@ public abstract class AbstractDoll extends CustomOrb {
 	
 	public abstract String getID();
 	
+	public abstract int getBaseHP();
+	
 	public abstract void onAct();
 	
 	public void postSpawn() {}
@@ -481,16 +483,23 @@ public abstract class AbstractDoll extends CustomOrb {
 		
 		float tempPassiveAmount = this.passiveAmount, tempActAmount = this.actAmount;
 		
-		for (AbstractPower p : player.powers)
-			if (p instanceof PlayerOrEnemyDollAmountModPower) {
-				tempPassiveAmount = ((PlayerOrEnemyDollAmountModPower) p).modifyDollAmount(
+		for (AbstractRelic r : player.relics)
+			if (r instanceof PlayerOrEnemyDollAmountModHook) {
+				tempPassiveAmount = ((PlayerOrEnemyDollAmountModHook) r).modifyDollAmount(
 						tempPassiveAmount, this, this.passiveAmountType, DollAmountTime.PASSIVE);
 				
-				tempActAmount = ((PlayerOrEnemyDollAmountModPower) p).modifyDollAmount(
+				tempActAmount = ((PlayerOrEnemyDollAmountModHook) r).modifyDollAmount(
 						tempActAmount, this, this.actAmountType, DollAmountTime.ACT);
 			}
 		
-		// TODO: Relics
+		for (AbstractPower p : player.powers)
+			if (p instanceof PlayerOrEnemyDollAmountModHook) {
+				tempPassiveAmount = ((PlayerOrEnemyDollAmountModHook) p).modifyDollAmount(
+						tempPassiveAmount, this, this.passiveAmountType, DollAmountTime.PASSIVE);
+				
+				tempActAmount = ((PlayerOrEnemyDollAmountModHook) p).modifyDollAmount(
+						tempActAmount, this, this.actAmountType, DollAmountTime.ACT);
+			}
 		
 		this.passiveAmount = (int) tempPassiveAmount;
 		this.actAmount = (int) tempActAmount;
@@ -922,11 +931,7 @@ public abstract class AbstractDoll extends CustomOrb {
 	
 	public static String getHpDescription(int maxHP) {
 		UIStrings uiStrings = CardCrawlGame.languagePack.getUIString("DollHPDescription");
-		return AliceMiscKit.join(
-				uiStrings.TEXT[0],
-				FontHelper.colorString("" + maxHP, "b"),
-				uiStrings.TEXT[1]
-		);
+		return String.format(uiStrings.TEXT[0], maxHP);
 	}
 	
 	public static AbstractDoll newInst(String clazz) {

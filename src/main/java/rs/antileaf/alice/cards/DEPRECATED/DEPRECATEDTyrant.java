@@ -1,4 +1,4 @@
-package rs.antileaf.alice.cards.AliceMargatroid;
+package rs.antileaf.alice.cards.DEPRECATED;
 
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -6,21 +6,22 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.relics.ChemicalX;
+import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
-import rs.antileaf.alice.powers.unique.RefractionPower;
+import rs.antileaf.alice.powers.unique.TyrantPower;
 
-public class Refraction extends AbstractAliceCard {
-	public static final String SIMPLE_NAME = Refraction.class.getSimpleName();
+@Deprecated
+public class DEPRECATEDTyrant extends AbstractAliceCard {
+	public static final String SIMPLE_NAME = DEPRECATEDTyrant.class.getSimpleName();
 //	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
 	public static final String ID = SIMPLE_NAME;
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
-	private static final int COST = 1;
-	private static final int MAGIC = 3;
-	private static final int UPGRADE_PLUS_MAGIC = 1;
+	private static final int COST = -1;
 	
-	public Refraction() {
+	public DEPRECATEDTyrant() {
 		super(
 				ID,
 				cardStrings.NAME,
@@ -29,28 +30,47 @@ public class Refraction extends AbstractAliceCard {
 				cardStrings.DESCRIPTION,
 				CardType.POWER,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
-				CardRarity.UNCOMMON,
-				CardTarget.NONE
+				CardRarity.RARE,
+				CardTarget.SELF
 		);
-		
-		this.magicNumber = this.baseMagicNumber = MAGIC;
 	}
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
-		this.addToBot(new ApplyPowerAction(p, p, new RefractionPower(this.magicNumber), this.magicNumber));
+		int amount = this.energyOnUse;
+		if (this.upgraded)
+			amount += 1;
+		
+		if (p.hasRelic(ChemicalX.ID))
+			amount += ChemicalX.BOOST;
+		
+		if (amount > 0) {
+			amount *= 2;
+			
+			this.addToBot(new ApplyPowerAction(
+					p,
+					p,
+					new TyrantPower(amount),
+					amount
+			));
+			
+			this.addToBot(new AnonymousAction(() -> {
+				if (!this.freeToPlayOnce)
+					p.energy.use(this.energyOnUse);
+			}));
+		}
 	}
 	
 	@Override
 	public AbstractCard makeCopy() {
-		return new Refraction();
+		return new DEPRECATEDTyrant();
 	}
 	
 	@Override
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
-			this.upgradeMagicNumber(UPGRADE_PLUS_MAGIC);
+			this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
 			this.initializeDescription();
 		}
 	}

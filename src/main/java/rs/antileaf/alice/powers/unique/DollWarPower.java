@@ -3,13 +3,11 @@ package rs.antileaf.alice.powers.unique;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.PowerStrings;
-import rs.antileaf.alice.action.doll.DollGainBlockAction;
 import rs.antileaf.alice.doll.AbstractDoll;
+import rs.antileaf.alice.doll.interfaces.OnDollOperateHook;
 import rs.antileaf.alice.powers.AbstractAlicePower;
-import rs.antileaf.alice.powers.interfaces.OnDollOperatePower;
-import rs.antileaf.alice.utils.AliceMiscKit;
 
-public class DollWarPower extends AbstractAlicePower implements OnDollOperatePower {
+public class DollWarPower extends AbstractAlicePower implements OnDollOperateHook {
 	public static final String POWER_ID = DollWarPower.class.getSimpleName();
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
 	
@@ -32,16 +30,13 @@ public class DollWarPower extends AbstractAlicePower implements OnDollOperatePow
 	
 	@Override
 	public void updateDescription() {
-		this.description = AliceMiscKit.join(
-				powerStrings.DESCRIPTIONS[0],
-				"#b" + this.amount,
-				powerStrings.DESCRIPTIONS[1]
-		);
+		this.description = String.format(powerStrings.DESCRIPTIONS[0], this.amount);
 	}
 	
 	@Override
-	public void postSpawnDoll(AbstractDoll doll) {
+	public void preSpawnDoll(AbstractDoll doll) {
 		this.flash();
-		this.addToBot(new DollGainBlockAction(doll, this.amount));
+		doll.maxHP += doll.getBaseHP() * this.amount;
+		doll.HP += doll.getBaseHP() * this.amount;
 	}
 }
