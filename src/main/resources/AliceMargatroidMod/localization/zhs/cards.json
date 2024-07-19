@@ -17,8 +17,7 @@
   
   "Chant": {
     "NAME": "咏唱",
-    "DESCRIPTION": "选择：获得 !B! 点 格挡 ； NL 或者 alicemargatroidmod:指令 ：目标 alicemargatroidmod:人偶 alicemargatroidmod:行动 !M! 次。",
-    "UPGRADE_DESCRIPTION": "获得 !B! 点 格挡 。 NL alicemargatroidmod:指令 ：目标 alicemargatroidmod:人偶 alicemargatroidmod:行动 !M! 次。"
+    "DESCRIPTION": "获得 !B! 点 格挡 。 NL alicemargatroidmod:指令 ：目标 alicemargatroidmod:人偶 alicemargatroidmod:行动 !M! 次。"
   },
   
   "DollPlacement": {
@@ -50,7 +49,7 @@
   
   "Transfer": {
     "NAME": "传递",
-    "DESCRIPTION": "alicemargatroidmod:指令 ：将所有其他 alicemargatroidmod:人偶 的 格挡 转移给目标 alicemargatroidmod:人偶 。 NL 抽一张牌。"
+    "DESCRIPTION": "alicemargatroidmod:指令 ：将所有其它 alicemargatroidmod:人偶 的 格挡 转移给目标 alicemargatroidmod:人偶 。 NL 抽一张牌。"
   },
   
   "RainbowRay": {
@@ -184,7 +183,7 @@
   
   "SPDoll": {
     "NAME": "人偶SP",
-    "DESCRIPTION": "在空的人偶栏位中 alicemargatroidmod:生成 至多 !M! 个不同的随机 alicemargatroidmod:人偶 。"
+    "DESCRIPTION": "在至多 !M! 个随机空栏位中各随机 alicemargatroidmod:生成 一个 alicemargatroidmod:上海人偶 、 alicemargatroidmod:蓬莱人偶 或 alicemargatroidmod:法兰西人偶 。"
   },
   
   "Kick": {
@@ -199,7 +198,7 @@
   
   "CutiePhalanx": {
     "NAME": "萌萌大千枪",
-    "DESCRIPTION": "随机对敌人造成 !D! 点伤害。 NL 每有一个 alicemargatroidmod:人偶 ，重复一次。"
+    "DESCRIPTION": "随机对敌人造成 !D! 点伤害。 NL 每有一个 alicemargatroidmod:人偶 ，再重复一次。"
   },
   
   "Ultimatum": {
@@ -281,8 +280,7 @@
   
   "DollMiraCeti": {
     "NAME": "人偶鲸鱼座",
-    "DESCRIPTION": "alicemargatroidmod:指令 ：目标 alicemargatroidmod:人偶 alicemargatroidmod:行动 X 次。",
-    "UPGRADE_DESCRIPTION": "alicemargatroidmod:指令 ：目标 alicemargatroidmod:人偶 alicemargatroidmod:行动 X+1 次。"
+    "DESCRIPTION": "alicemargatroidmod:指令 ：目标 alicemargatroidmod:人偶 alicemargatroidmod:行动 !M! X 次。"
   },
   
   "Revelation": {
@@ -337,6 +335,13 @@
     "DESCRIPTION": "直到你的下个回合，每当 alicemargatroidmod:人偶 alicemargatroidmod:行动 后，使其获得 !M! 点 格挡 。 NL 虚无 。"
   },
   
+  "Usokae": {
+    "NAME": "莺替神事",
+    "DESCRIPTION": "爱丽丝受到非攻击伤害或失去生命时，可以由 alicemargatroidmod:人偶 的 格挡 承担。",
+    "UPGRADE_DESCRIPTION": "固有 。 NL 爱丽丝受到非攻击伤害或失去生命时，可以由 alicemargatroidmod:人偶 的 格挡 承担。",
+    "FLAVOR": "按照从左至右的顺序，依次承担伤害。 NL 如果没有足够的 格挡 ，则仍然会由爱丽丝承担。"
+  },
+  
   
   "PokerTrick": {
     "NAME": "扑克戏法",
@@ -356,8 +361,8 @@
   
   "QuietHouraiDoll": {
     "NAME": "文静的蓬莱人偶",
-    "DESCRIPTION": "alicemargatroidmod:可指向生成 一个 alicemargatroidmod:蓬莱人偶 。 NL 所有 alicemargatroidmod:人偶 alicemargatroidmod:行动 一次。 NL 消耗 。",
-    "UPGRADE_DESCRIPTION": "alicemargatroidmod:可指向生成 一个 alicemargatroidmod:蓬莱人偶 。 NL 所有 alicemargatroidmod:人偶 alicemargatroidmod:行动 一次。"
+    "DESCRIPTION": "alicemargatroidmod:可指向生成 一个 alicemargatroidmod:蓬莱人偶 。",
+    "UPGRADE_DESCRIPTION": "alicemargatroidmod:可指向生成 一个 alicemargatroidmod:蓬莱人偶 。 NL 如果选择的位置上已经有一个 alicemargatroidmod:蓬莱人偶 ，则在 alicemargatroidmod:回收 之前先使其 alicemargatroidmod:行动 !M! 次。"
   },
   
   "MistyLondonDoll": {
@@ -367,7 +372,7 @@
   
   "SpringKyotoDoll": {
     "NAME": "春之京都人偶",
-    "DESCRIPTION": "获得 !B! 点 格挡 。 NL alicemargatroidmod:可指向生成 一个 alicemargatroidmod:京都人偶 ，使其获得等同于你当前 格挡 值的 格挡 。"
+    "DESCRIPTION": "alicemargatroidmod:可指向生成 一个 alicemargatroidmod:京都人偶 。 NL 如果选择的位置上已经有一个 alicemargatroidmod:京都人偶 ，则不会 alicemargatroidmod:生成 ，而是改为使其 alicemargatroidmod:行动 !M! 次。"
   },
   
   "RedHairedNetherlandsDoll": {
@@ -378,13 +383,14 @@
   
   "CharismaticOrleansDoll": {
     "NAME": "魅力的奥尔良人偶",
-    "DESCRIPTION": "alicemargatroidmod:可指向生成 一个 alicemargatroidmod:奥尔良人偶 ，使其 alicemargatroidmod:行动 !M! 次。 NL 消耗 。",
-    "UPGRADE_DESCRIPTION": "alicemargatroidmod:可指向生成 一个 alicemargatroidmod:奥尔良人偶 ，使其 alicemargatroidmod:行动 !M! 次。"
+    "DESCRIPTION": "alicemargatroidmod:可指向生成 一个 alicemargatroidmod:奥尔良人偶 ，使其 alicemargatroidmod:行动 !M! 次。",
+    "UPGRADE_DESCRIPTION": "WWW NL alicemargatroidmod:可指向生成 一个 alicemargatroidmod:奥尔良人偶 ，使其 alicemargatroidmod:行动 !M! 次。"
   },
   
   "CharitableFranceDoll": {
     "NAME": "博爱的法兰西人偶",
-    "DESCRIPTION": "alicemargatroidmod:可指向生成 一个 alicemargatroidmod:法兰西人偶 ，使其 获得 !B! 点 格挡 。"
+    "DESCRIPTION": "在随机空栏位中 alicemargatroidmod:生成 一个 alicemargatroidmod:法兰西人偶 。 NL 消耗 。",
+    "UPGRADE_DESCRIPTION": "在至多 !M! 个随机空栏位中各 alicemargatroidmod:生成 一个 alicemargatroidmod:法兰西人偶 。 NL 消耗 。"
   },
   
   

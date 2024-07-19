@@ -24,6 +24,7 @@ public class CharismaticOrleansDoll extends AbstractAliceCard {
 	
 	private static final int COST = 1;
 	private static final int MAGIC = 1;
+	private static final int UPGRADE_PLUS_MAGIC = 1;
 	
 	public CharismaticOrleansDoll() {
 		super(
@@ -39,7 +40,7 @@ public class CharismaticOrleansDoll extends AbstractAliceCard {
 		);
 		
 		this.magicNumber = this.baseMagicNumber = MAGIC;
-		this.exhaust = true;
+//		this.exhaust = true;
 		this.tags.add(CardTagEnum.ALICE_DOLL_ACT);
 	}
 	
@@ -64,8 +65,9 @@ public class CharismaticOrleansDoll extends AbstractAliceCard {
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
-			this.exhaust = false;
-			this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
+			this.upgradeMagicNumber(UPGRADE_PLUS_MAGIC);
+//			this.exhaust = false;
+//			this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
 			this.initializeDescription();
 		}
 	}

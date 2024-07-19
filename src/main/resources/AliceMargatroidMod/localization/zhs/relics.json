@@ -3,7 +3,7 @@
     "NAME": "爱丽丝的魔法书",
     "FLAVOR": "知识就是力量。",
     "DESCRIPTIONS": [
-      "每场战斗开始时，在最左侧与最右侧的空栏位中 #y生成 一个随机 #y人偶 。"
+      "每场战斗开始时，在最右侧的空栏位中 #yalicemargatroidmod:生成 一个 #yalicemargatroidmod:上海人偶 ，然后在最左侧 #yalicemargatroidmod:生成 一个 #yalicemargatroidmod:蓬莱人偶 。"
     ]
   },
   
@@ -11,7 +11,7 @@
     "NAME": "可疑的卡牌",
     "FLAVOR": "黑市流通的卡牌，上面画着上海人偶。",
     "DESCRIPTIONS": [
-      "每场战斗开始时， #y生成 一个 #y上海人偶 。"
+      "每场战斗开始时， #yalicemargatroidmod:生成 一个 #yalicemargatroidmod:上海人偶 。"
     ]
   },
   
@@ -19,7 +19,7 @@
     "NAME": "爱丽丝的黑暗魔法书",
     "FLAVOR": "椥識蹴Sんⓘㄉ糧°",
     "DESCRIPTIONS": [
-      "替换 #r爱丽丝的魔法书 。每有一个 #y人偶 ，新 #y生成 的 #y人偶 的最大生命值就提高 #b2 点。"
+      "替换 #r爱丽丝的魔法书 。每有一个 #yalicemargatroidmod:人偶 ，新 #yalicemargatroidmod:生成 的 #yalicemargatroidmod:人偶 的最大生命值就提高 #b2 点。"
     ]
   }
 }

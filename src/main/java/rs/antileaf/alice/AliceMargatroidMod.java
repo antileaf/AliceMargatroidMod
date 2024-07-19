@@ -34,7 +34,6 @@ import rs.antileaf.alice.characters.AliceMargatroid;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
-import rs.antileaf.alice.doll.dolls.FranceDoll;
 import rs.antileaf.alice.doll.targeting.DollOrEmptySlotTargeting;
 import rs.antileaf.alice.doll.targeting.DollOrEnemyTargeting;
 import rs.antileaf.alice.doll.targeting.DollOrNoneTargeting;
@@ -43,6 +42,7 @@ import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.AliceMargatroidModClassEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
 import rs.antileaf.alice.potions.DollPotion;
+import rs.antileaf.alice.powers.unique.UsokaePower;
 import rs.antileaf.alice.relics.AlicesDarkGrimoire;
 import rs.antileaf.alice.relics.AlicesGrimoire;
 import rs.antileaf.alice.relics.SuspiciousCard;
@@ -395,16 +395,18 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		if (!AliceSpireKit.isInBattle())
 			return amount;
 		
-		if (damageInfo.type == DamageInfo.DamageType.HP_LOSS)
-			return amount;
-		
-		else if (damageInfo.type == DamageInfo.DamageType.NORMAL) {
-			int index = AliceSpireKit.getMonsterIndex((AbstractMonster) damageInfo.owner);
-			if (index == -1) {
-				AliceSpireKit.log("AliceMargatroidMod.receiveOnPlayerDamaged", "index == -1");
+		if (damageInfo.type == DamageInfo.DamageType.NORMAL) {
+			if (!(damageInfo.owner instanceof AbstractMonster))
+				return amount;
+			
+			AbstractMonster monster = (AbstractMonster) damageInfo.owner;
+			if (!DollManager.get().damageTarget.containsKey(monster)) {
+				AliceSpireKit.log("AliceMargatroidMod.receiveOnPlayerDamaged",
+						"damageTarget does not contain " + monster.name);
 				return amount;
 			}
 			
+			int index = DollManager.get().damageTarget.get(monster);
 			AbstractDoll doll = DollManager.get().getDolls().get(index);
 			if (doll instanceof EmptyDollSlot)
 				return amount;
@@ -414,20 +416,26 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 			return remaining;
 		}
 		
-		else {
+		else if (AbstractDungeon.player.hasPower(UsokaePower.POWER_ID)) {
 			int remaining = amount;
-			for (int i = DollManager.MAX_DOLL_SLOTS - 1; i >= 0; i--)
-				if (DollManager.get().getDolls().get(i) instanceof FranceDoll) {
-					FranceDoll doll = (FranceDoll) DollManager.get().getDolls().get(i);
-					remaining = doll.onPlayerDamaged(remaining);
-					DollManager.get().dollTakesDamage(doll, amount - remaining);
-					
-					if (remaining == 0)
-						break;
+			for (int i = DollManager.MAX_DOLL_SLOTS - 1; i >= 0; i--) {
+				AbstractDoll doll = DollManager.get().getDolls().get(i);
+				if (!(doll instanceof EmptyDollSlot)) {
+					int tmp = Math.min(remaining, doll.block);
+					remaining -= tmp;
+					doll.block -= tmp;
 				}
+				
+				if (remaining == 0)
+					break;
+			}
 			
+			if (remaining < amount)
+				AbstractDungeon.player.getPower(UsokaePower.POWER_ID).flash();
 			return remaining;
 		}
+		
+		return amount;
 	}
 	
 	public int receiveOnPlayerLoseBlock(int amount) {
@@ -435,7 +443,7 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		DollManager.get().startOfTurnClearBlock();
 		int preserve = DollManager.get().getPreservedBlock();
 		
-		DollManager.get().startOfTurnResetHouraiPassiveAmount();
+//		DollManager.get().startOfTurnResetHouraiPassiveAmount();
 		
 		return Integer.min(amount, AbstractDungeon.player.currentBlock - preserve);
 	}
@@ -465,9 +473,9 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		this.cardsToAdd.add(new Transfer());
 		this.cardsToAdd.add(new DollAmbush());
 		this.cardsToAdd.add(new DollWar());
-		this.cardsToAdd.add(new DollJudge());
+//		this.cardsToAdd.add(new DollJudge());
 		this.cardsToAdd.add(new SpiritualPower());
-		this.cardsToAdd.add(new FrostRay());
+//		this.cardsToAdd.add(new FrostRay());
 		this.cardsToAdd.add(new SunlightRay());
 		this.cardsToAdd.add(new StarlightRay());
 		this.cardsToAdd.add(new DollCremation());
@@ -518,6 +526,7 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		this.cardsToAdd.add(new Housework());
 		this.cardsToAdd.add(new Bookmark());
 		this.cardsToAdd.add(new MaidensBunraku());
+		this.cardsToAdd.add(new Usokae());
 		
 		this.cardsToAdd.add(new VivaciousShanghaiDoll());
 		this.cardsToAdd.add(new QuietHouraiDoll());

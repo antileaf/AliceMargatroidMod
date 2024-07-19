@@ -1,11 +1,19 @@
 package rs.antileaf.alice.doll.dolls;
 
+import com.megacrit.cardcrawl.actions.animations.VFXAction;
+import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.OrbStrings;
+import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.vfx.combat.LightningEffect;
 import rs.antileaf.alice.action.doll.SpawnDollAction;
 import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.doll.AbstractDoll;
+import rs.antileaf.alice.doll.DollDamageInfo;
 import rs.antileaf.alice.doll.DollManager;
+import rs.antileaf.alice.doll.enums.DollAmountTime;
+import rs.antileaf.alice.doll.enums.DollAmountType;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class LondonDoll extends AbstractDoll {
@@ -14,6 +22,7 @@ public class LondonDoll extends AbstractDoll {
 	public static final OrbStrings dollStrings = CardCrawlGame.languagePack.getOrbString(ID);
 	
 	public static final int MAX_HP = 1;
+	public static final int ACT_AMOUNT = 8;
 	
 	public LondonDoll() {
 		super(
@@ -21,10 +30,13 @@ public class LondonDoll extends AbstractDoll {
 				dollStrings.NAME,
 				MAX_HP,
 				-1,
-				-1,
+				ACT_AMOUNT,
 				AliceSpireKit.getOrbImgFilePath("purple"),
-				RenderTextMode.NONE
+				RenderTextMode.ACT
 		);
+		
+		this.passiveAmountType = DollAmountType.OTHERS;
+		this.actAmountType = DollAmountType.DAMAGE;
 	}
 	
 	@Override
@@ -39,7 +51,66 @@ public class LondonDoll extends AbstractDoll {
 	
 	@Override
 	public void onAct() {
-//		this.highlightActValue();
+		int pos = -1;
+		for (int i = 0; i < DollManager.get().getDolls().size(); i++) {
+			AbstractDoll doll = DollManager.get().getDolls().get(i);
+			
+			if (doll == this)
+				break;
+			
+			if (!(doll instanceof EmptyDollSlot)) {
+				pos = i;
+				break;
+			}
+		}
+		
+		if (pos != -1) {
+			int nowpos = DollManager.get().getIndex(this), finalPos = pos;
+			AliceSpireKit.addToTop(new AnonymousAction(() -> {
+				AbstractDoll other = DollManager.get().getDolls().get(finalPos);
+				DollManager.get().getDolls().set(finalPos, this);
+				DollManager.get().getDolls().set(nowpos, other);
+			}));
+		}
+		else {
+			AbstractMonster m = AbstractDungeon.getRandomMonster();
+			if (m != null) {
+				this.addActionsToTop(
+						new VFXAction(new LightningEffect(m.drawX, m.drawY), 0.0F),
+						new DamageAction(
+								m,
+								new DollDamageInfo(
+										this.actAmount,
+										this,
+										this.actAmountType,
+										DollAmountTime.ACT
+								)
+						)
+				);
+				
+				this.highlightActValue();
+			}
+		}
+	}
+	
+	@Override
+	public void postSpawn() {
+		this.addToBot(new AnonymousAction(() -> {
+			int index = -1;
+			for (int i = DollManager.MAX_DOLL_SLOTS - 1; i >= 0; i--) {
+				AbstractDoll doll = DollManager.get().getDolls().get(i);
+				
+				if (doll instanceof EmptyDollSlot) {
+					index = i;
+					break;
+				}
+			}
+			
+			if (index == -1)
+				AliceSpireKit.log(this.getClass(), "No empty doll slot found");
+			
+			this.addToTop(new SpawnDollAction(AbstractDoll.getRandomDollExcept(LondonDoll.ID), index));
+		}));
 	}
 	
 	@Override
@@ -60,13 +131,12 @@ public class LondonDoll extends AbstractDoll {
 			
 			this.addToTop(new SpawnDollAction(AbstractDoll.getRandomDollExcept(LondonDoll.ID), index));
 		}));
-		
 	}
 	
 	@Override
 	public void updateDescriptionImpl() {
 		this.passiveDescription = dollStrings.DESCRIPTION[0];
-		this.actDescription = dollStrings.DESCRIPTION[1];
+		this.actDescription = String.format(dollStrings.DESCRIPTION[1], this.coloredActAmount());
 	}
 	
 	@Override

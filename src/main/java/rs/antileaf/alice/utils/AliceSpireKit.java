@@ -77,6 +77,10 @@ public abstract class AliceSpireKit {
 		return AliceSpireKit.getImgFilePath("powers", name);
 	}
 	
+	public static String getEventImgFilePath(String name) {
+		return AliceSpireKit.getImgFilePath("events", name);
+	}
+	
 	public static String getLocalizationFilePath(String name) {
 		return "AliceMargatroidMod/localization/" + AliceSpireKit.getLangShort() + "/" + name + ".json";
 	}

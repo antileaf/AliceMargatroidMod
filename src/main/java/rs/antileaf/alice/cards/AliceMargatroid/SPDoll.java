@@ -3,6 +3,7 @@ package rs.antileaf.alice.cards.AliceMargatroid;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.action.doll.SpawnDollAction;
@@ -11,10 +12,13 @@ import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
+import rs.antileaf.alice.doll.dolls.FranceDoll;
+import rs.antileaf.alice.doll.dolls.HouraiDoll;
+import rs.antileaf.alice.doll.dolls.ShanghaiDoll;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 
 public class SPDoll extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = SPDoll.class.getSimpleName();
@@ -45,22 +49,32 @@ public class SPDoll extends AbstractAliceCard {
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
 		this.addToBot(new AnonymousAction(() -> {
-			int count = (int) DollManager.get().getDolls().stream()
-					.filter(doll -> doll instanceof EmptyDollSlot)
-					.count();
-			count = Math.min(count, this.magicNumber);
-			
-			HashSet<String> existing = new HashSet<>();
+			ArrayList<Integer> indices = new ArrayList<>();
+			for (int i = 0; i < DollManager.get().getDolls().size(); i++) {
+				if (DollManager.get().getDolls().get(i) instanceof EmptyDollSlot)
+					indices.add(i);
+			}
+					
+			int count = Math.min(indices.size(), this.magicNumber);
 			
 			for (int i = 0; i < count; i++) {
-				AbstractDoll newDoll = AbstractDoll.getRandomDollExcept(existing.toArray(new String[0]));
-				if (newDoll == null) {
-					AliceSpireKit.log("SPDoll: No dolls left to spawn.");
-					break;
+				AbstractDoll doll = null;
+				switch (AbstractDungeon.cardRandomRng.random(3)) {
+					case 0:
+						doll = new ShanghaiDoll();
+						break;
+					case 1:
+						doll = new HouraiDoll();
+						break;
+					case 2:
+						doll = new FranceDoll();
+						break;
 				}
 				
-				existing.add(newDoll.getID());
-				AliceSpireKit.addActionToBuffer(new SpawnDollAction(newDoll, -1));
+				int index = indices.get(i);
+				indices.remove(index);
+				
+				AliceSpireKit.addActionToBuffer(new SpawnDollAction(doll, index));
 			}
 			
 			AliceSpireKit.commitBuffer();

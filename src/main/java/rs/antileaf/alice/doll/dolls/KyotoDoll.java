@@ -1,10 +1,9 @@
 package rs.antileaf.alice.doll.dolls;
 
-import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.OrbStrings;
 import rs.antileaf.alice.action.doll.DollGainBlockAction;
+import rs.antileaf.alice.action.doll.MoveDollAction;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.enums.DollAmountType;
@@ -17,8 +16,8 @@ public class KyotoDoll extends AbstractDoll {
 	public static final OrbStrings dollStrings = CardCrawlGame.languagePack.getOrbString(ID);
 	
 	public static final int MAX_HP = 5;
-	public static final int PASSIVE_AMOUNT = 5;
-	public static final int ACT_AMOUNT = 1;
+	public static final int PASSIVE_AMOUNT = 4;
+	public static final int ACT_AMOUNT = 6;
 	
 	public KyotoDoll() {
 		super(
@@ -47,37 +46,46 @@ public class KyotoDoll extends AbstractDoll {
 	
 	@Override
 	public void onAct() {
-		this.addToTop(new GainBlockAction(AbstractDungeon.player, AbstractDungeon.player, this.block));
+		int pos = -1, val = 0;
+		for (int i = 0; i < DollManager.get().getDolls().size(); i++) {
+			AbstractDoll doll = DollManager.get().getDolls().get(i);
+			
+			int tmp = doll.calcTotalDamageAboutToTake();
+			if (tmp > 0) {
+				if (pos == -1 || tmp > val) {
+					pos = i;
+					val = tmp;
+				}
+			}
+		}
+		
+		if (pos != -1 && DollManager.get().getDolls().get(pos) != this) {
+			this.addToTop(new MoveDollAction(this, pos));
+		}
+		else {
+			this.addToTop(new DollGainBlockAction(this, this.actAmount));
+			this.highlightActValue();
+		}
 	}
 	
 	@Override
 	public void onStartOfTurn() {
-		for (AbstractDoll doll : DollManager.get().getDolls())
-			if (!(doll instanceof EmptyDollSlot))
-				AliceSpireKit.addActionToBuffer(new DollGainBlockAction(doll, this.actAmount));
-		
-		AliceSpireKit.commitBuffer();
-		
-		this.highlightActValue();
+		AliceSpireKit.addToTop(new DollGainBlockAction(this, this.passiveAmount));
+		this.highlightPassiveValue();
 	}
 	
 	@Override
 	public void updateDescriptionImpl() {
-		if (this.dontShowHPDescription)
-			this.passiveDescription = String.format(dollStrings.DESCRIPTION[0], this.coloredPassiveAmount());
-		else
-			this.passiveDescription = String.format(dollStrings.DESCRIPTION[1],
-					this.coloredPassiveAmount(), DollManager.get().getPreservedBlock());
+		this.passiveDescription = String.format(dollStrings.DESCRIPTION[0],
+					this.coloredPassiveAmount());
 		
-		this.passiveDescription += " NL " + String.format(dollStrings.DESCRIPTION[2], this.coloredActAmount());
-		
-		this.actDescription = dollStrings.DESCRIPTION[3];
+		this.actDescription = String.format(dollStrings.DESCRIPTION[1],
+					this.coloredActAmount());
 	}
 	
 	@Override
-	public void clearBlock(int preserve) {
-		super.clearBlock(preserve);
-		this.highlightPassiveValue();
+	public void clearBlock(int preserved) {
+		// Will not lose block.
 	}
 	
 	@Override

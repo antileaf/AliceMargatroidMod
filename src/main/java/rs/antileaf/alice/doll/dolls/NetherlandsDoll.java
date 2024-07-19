@@ -17,7 +17,7 @@ public class NetherlandsDoll extends AbstractDoll {
 	public static final String ID = SIMPLE_NAME;
 	public static final OrbStrings dollStrings = CardCrawlGame.languagePack.getOrbString(ID);
 	
-	public static final int MAX_HP = 4;
+	public static final int MAX_HP = 3;
 	public static final int PASSIVE_AMOUNT = 1;
 	public static final int ACT_AMOUNT = 1;
 	
@@ -116,75 +116,75 @@ public class NetherlandsDoll extends AbstractDoll {
 	
 	@Override
 	public void postOtherDollSpawn(AbstractDoll doll) {
-		if (doll instanceof HouraiDoll) {
-			this.addToBot(new ApplyPowerAction(
-					AbstractDungeon.player,
-					AbstractDungeon.player,
-					new StrengthPower(AbstractDungeon.player, doll.passiveAmount),
-					doll.passiveAmount
-			));
-			
-			this.addToBot(new ApplyPowerAction(
-					AbstractDungeon.player,
-					AbstractDungeon.player,
-					new DexterityPower(AbstractDungeon.player, doll.passiveAmount),
-					doll.passiveAmount
-			));
-		}
+//		if (doll instanceof HouraiDoll) {
+//			this.addToBot(new ApplyPowerAction(
+//					AbstractDungeon.player,
+//					AbstractDungeon.player,
+//					new StrengthPower(AbstractDungeon.player, doll.passiveAmount),
+//					doll.passiveAmount
+//			));
+//
+//			this.addToBot(new ApplyPowerAction(
+//					AbstractDungeon.player,
+//					AbstractDungeon.player,
+//					new DexterityPower(AbstractDungeon.player, doll.passiveAmount),
+//					doll.passiveAmount
+//			));
+//		}
 	}
 	
 	@Override
 	public void postOtherDollAct(AbstractDoll doll) {
-		if (doll instanceof HouraiDoll) {
-			this.addToBot(new ApplyPowerAction(
-					AbstractDungeon.player,
-					AbstractDungeon.player,
-					new StrengthPower(AbstractDungeon.player, doll.actAmount),
-					doll.actAmount
-			));
-			
-			this.addToBot(new ApplyPowerAction(
-					AbstractDungeon.player,
-					AbstractDungeon.player,
-					new DexterityPower(AbstractDungeon.player, doll.actAmount),
-					doll.actAmount
-			));
-		}
+//		if (doll instanceof HouraiDoll) {
+//			this.addToBot(new ApplyPowerAction(
+//					AbstractDungeon.player,
+//					AbstractDungeon.player,
+//					new StrengthPower(AbstractDungeon.player, doll.actAmount),
+//					doll.actAmount
+//			));
+//
+//			this.addToBot(new ApplyPowerAction(
+//					AbstractDungeon.player,
+//					AbstractDungeon.player,
+//					new DexterityPower(AbstractDungeon.player, doll.actAmount),
+//					doll.actAmount
+//			));
+//		}
 	}
 	
 	@Override
 	public void postOtherDollRemoved(AbstractDoll doll) {
-		if (doll instanceof HouraiDoll) {
-			this.addToBot(new ApplyPowerAction(
-					AbstractDungeon.player,
-					AbstractDungeon.player,
-					new StrengthPower(AbstractDungeon.player, -doll.passiveAmount),
-					-doll.passiveAmount
-			));
-			
-			this.addToBot(new ApplyPowerAction(
-					AbstractDungeon.player,
-					AbstractDungeon.player,
-					new DexterityPower(AbstractDungeon.player, -doll.passiveAmount),
-					-doll.passiveAmount
-			));
-		}
+//		if (doll instanceof HouraiDoll) {
+//			this.addToBot(new ApplyPowerAction(
+//					AbstractDungeon.player,
+//					AbstractDungeon.player,
+//					new StrengthPower(AbstractDungeon.player, -doll.passiveAmount),
+//					-doll.passiveAmount
+//			));
+//
+//			this.addToBot(new ApplyPowerAction(
+//					AbstractDungeon.player,
+//					AbstractDungeon.player,
+//					new DexterityPower(AbstractDungeon.player, -doll.passiveAmount),
+//					-doll.passiveAmount
+//			));
+//		}
 	}
 	
-	public void onStartOfTurnUpdate(int diff) {
-		this.addToBot(new ApplyPowerAction(
-				AbstractDungeon.player,
-				AbstractDungeon.player,
-				new StrengthPower(AbstractDungeon.player, diff),
-				diff
-		));
-		this.addToBot(new ApplyPowerAction(
-				AbstractDungeon.player,
-				AbstractDungeon.player,
-				new DexterityPower(AbstractDungeon.player, diff),
-				diff
-		));
-	}
+//	public void onStartOfTurnUpdate(int diff) {
+//		this.addToBot(new ApplyPowerAction(
+//				AbstractDungeon.player,
+//				AbstractDungeon.player,
+//				new StrengthPower(AbstractDungeon.player, diff),
+//				diff
+//		));
+//		this.addToBot(new ApplyPowerAction(
+//				AbstractDungeon.player,
+//				AbstractDungeon.player,
+//				new DexterityPower(AbstractDungeon.player, diff),
+//				diff
+//		));
+//	}
 	
 	@Override
 	public void updateDescriptionImpl() {

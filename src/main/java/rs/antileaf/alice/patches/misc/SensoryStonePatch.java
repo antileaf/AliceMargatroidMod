@@ -1,5 +1,7 @@
 package rs.antileaf.alice.patches.misc;
 
+import basemod.ReflectionHacks;
+import com.badlogic.gdx.graphics.Color;
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.evacipated.cardcrawl.modthespire.patcher.PatchingException;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
@@ -8,8 +10,27 @@ import com.megacrit.cardcrawl.events.beyond.SensoryStone;
 import javassist.CannotCompileException;
 import javassist.CtBehavior;
 import rs.antileaf.alice.characters.AliceMargatroid;
+import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class SensoryStonePatch {
+//	private static float alternateAnimateTimer = 0.0F;
+	
+	@SpirePatch(clz = SensoryStone.class, method = "reward", paramtypez = {int.class})
+	public static class ReplaceImagePatch {
+		@SpirePrefixPatch
+		public static void Prefix(SensoryStone _inst, int num) {
+			if (num != 0 && AbstractDungeon.isPlayerInDungeon() && AbstractDungeon.player instanceof AliceMargatroid) {
+				_inst.imageEventText.loadImage(AliceSpireKit.getEventImgFilePath("AliceSensoryStone"));
+				AliceSpireKit.log("SensoryStonePatch",
+						"Loading image: " + AliceSpireKit.getEventImgFilePath("AliceSensoryStone"));
+				Color new_color = Color.WHITE.cpy();
+				new_color.a = 0.0F;
+				ReflectionHacks.setPrivate(_inst.imageEventText, GenericEventDialog.class,
+						"imgColor", new_color);
+			}
+		}
+	}
+	
 	@SpirePatch(clz = SensoryStone.class, method = "getRandomMemory")
 	public static class GetRandomMemoryPatch {
 		private static class Locator extends SpireInsertLocator {

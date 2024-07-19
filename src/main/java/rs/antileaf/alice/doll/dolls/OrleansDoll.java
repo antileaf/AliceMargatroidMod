@@ -16,7 +16,7 @@ public class OrleansDoll extends AbstractDoll {
 	public static final String ID = SIMPLE_NAME;
 	public static final OrbStrings dollStrings = CardCrawlGame.languagePack.getOrbString(ID);
 	
-	public static final int MAX_HP = 1;
+	public static final int MAX_HP = 4;
 	
 	public OrleansDoll() {
 		super(

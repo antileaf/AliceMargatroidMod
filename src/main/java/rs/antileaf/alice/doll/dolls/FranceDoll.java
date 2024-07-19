@@ -1,9 +1,16 @@
 package rs.antileaf.alice.doll.dolls;
 
+import com.megacrit.cardcrawl.actions.AbstractGameAction;
+import com.megacrit.cardcrawl.actions.common.DamageAllEnemiesAction;
+import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.OrbStrings;
-import rs.antileaf.alice.action.doll.DollGainBlockAction;
+import com.megacrit.cardcrawl.vfx.combat.HealEffect;
+import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.doll.AbstractDoll;
+import rs.antileaf.alice.doll.DollDamageInfo;
+import rs.antileaf.alice.doll.enums.DollAmountTime;
 import rs.antileaf.alice.doll.enums.DollAmountType;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
@@ -12,22 +19,22 @@ public class FranceDoll extends AbstractDoll {
 	public static final String ID = SIMPLE_NAME;
 	public static final OrbStrings dollStrings = CardCrawlGame.languagePack.getOrbString(ID);
 	
-	public static final int MAX_HP = 5;
-	public static final int ACT_AMOUNT = 3;
+	public static final int MAX_HP = 6;
+//	public static final int ACT_AMOUNT = 3;
 	
 	public FranceDoll() {
 		super(
 				ID,
 				dollStrings.NAME,
 				MAX_HP,
+				MAX_HP,
 				-1,
-				ACT_AMOUNT,
 				AliceSpireKit.getOrbImgFilePath("blue"),
-				RenderTextMode.ACT
+				RenderTextMode.PASSIVE
 		);
 		
 		this.passiveAmountType = DollAmountType.MAGIC;
-		this.actAmountType = DollAmountType.BLOCK;
+		this.actAmountType = DollAmountType.OTHERS;
 	}
 	
 	@Override
@@ -45,9 +52,34 @@ public class FranceDoll extends AbstractDoll {
 	
 	@Override
 	public void onAct() {
-		AliceSpireKit.addToTop(new DollGainBlockAction(this, this.actAmount));
+//		AliceSpireKit.addToTop(new DollGainBlockAction(this, this.actAmount));
+		AliceSpireKit.addToTop(new DamageAllEnemiesAction(
+				AbstractDungeon.player,
+				DollDamageInfo.createDamageMatrix(
+						this.passiveAmount,
+						this,
+						this.passiveAmountType,
+						DollAmountTime.PASSIVE),
+				DamageInfo.DamageType.THORNS,
+				AbstractGameAction.AttackEffect.SHIELD,
+				true
+		));
 		
-		this.highlightActValue();
+//		this.highlightActValue();
+	}
+	
+	@Override
+	public void onEndOfTurn() {
+		if (this.HP < this.passiveAmount) {
+			int diff = this.passiveAmount - this.HP;
+			if (diff > 0) {
+				AliceSpireKit.addToTop(new AnonymousAction(() -> {
+					this.HP = Math.min(this.maxHP, this.HP + diff);
+					AbstractDungeon.effectsQueue.add(new HealEffect(this.hb.cX - this.animX, this.hb.cY, diff));
+					this.updateDescription();
+				}));
+			}
+		}
 	}
 	
 //	@Override
@@ -60,9 +92,9 @@ public class FranceDoll extends AbstractDoll {
 	
 	@Override
 	public void updateDescriptionImpl() {
-		this.passiveDescription = dollStrings.DESCRIPTION[0];
+		this.passiveDescription = String.format(dollStrings.DESCRIPTION[0], this.coloredPassiveAmount());
 		
-		this.actDescription = String.format(dollStrings.DESCRIPTION[1], this.coloredActAmount());
+		this.actDescription = dollStrings.DESCRIPTION[1];
 	}
 	
 	@Override

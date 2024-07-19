@@ -1,6 +1,5 @@
 package rs.antileaf.alice.doll;
 
-import basemod.ReflectionHacks;
 import basemod.abstracts.CustomOrb;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -15,7 +14,6 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.*;
 import com.megacrit.cardcrawl.localization.UIStrings;
-import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.relics.RunicDome;
@@ -63,8 +61,8 @@ public abstract class AbstractDoll extends CustomOrb {
 	private int damageCount = 0;
 	private int overflowedDamage = 0;
 	private float vfxTimer = 1.0F;
-	private float animX, animY;
-	private float animSpeed;
+	protected float animX, animY;
+	protected float animSpeed;
 	
 	protected float highlightPassiveValueTimer = 0.0F;
 	protected float passiveFontScale = FONT_SCALE;
@@ -195,11 +193,11 @@ public abstract class AbstractDoll extends CustomOrb {
 	@Override
 	public void update() {
 		if (DollManager.get().contains(this)) {
-			Vector2 pos = DollManager.get().calcDollPosition(DollManager.get().getDolls().indexOf(this));
+			Vector2 pos = DollManager.get().calcDollPosition(DollManager.get().getIndex(this));
 			if (pos != null)
 				this.transAnim(pos);
 			
-			this.updateDamageAboutToTake();
+//			this.updateDamageAboutToTake();
 		}
 		
 		this.hb.move(this.tX, this.tY);
@@ -272,41 +270,15 @@ public abstract class AbstractDoll extends CustomOrb {
 		}
 	}
 	
-	public void updateDamageAboutToTake() {
-		int index = DollManager.get().getDolls().indexOf(this);
-		AbstractMonster monster = AliceSpireKit.getMonsterByIndex(index);
+	public void updateDamageAboutToTake(int damage, int count) {
+		this.damageAboutToTake = damage;
+		this.damageCount = count;
 		
-		if (monster == null) {
-			this.damageAboutToTake = 0;
-			this.damageCount = 0;
-			this.overflowedDamage = 0;
-		}
-		else if (monster.intent == AbstractMonster.Intent.ATTACK ||
-				monster.intent == AbstractMonster.Intent.ATTACK_BUFF ||
-				monster.intent == AbstractMonster.Intent.ATTACK_DEBUFF ||
-				monster.intent == AbstractMonster.Intent.ATTACK_DEFEND) {
-			this.damageAboutToTake = monster.getIntentDmg();
-			try {
-//				this.damageCount = (int) Objects.requireNonNull(DEPRECATEDAliceReflectKit
-//								.getField(monster.getClass(), "intentMultiAmt")).get(monster);
-				this.damageCount = ReflectionHacks.getPrivate(monster,
-						AbstractMonster.class, "intentMultiAmt");
-				if (this.damageCount < 1)
-					this.damageCount = 1;
-			}
-			catch (NullPointerException e) {
-				AliceSpireKit.log(AbstractDoll.class, " updateDamageAboutToTake() Failed to get intentMultiAmt.");
-				this.damageCount = 1;
-			}
-			
-			this.overflowedDamage = this.onPlayerDamaged(this.damageAboutToTake * this.damageCount);
-//			AliceSpireKit.log(this.ID, "overflowedDamage: " + this.overflowedDamage);
-		}
-		else {
-			this.damageAboutToTake = 0;
-			this.damageCount = 0;
-			this.overflowedDamage = 0;
-		}
+		this.overflowedDamage = this.onPlayerDamaged(this.damageAboutToTake * this.damageCount);
+	}
+	
+	public int calcTotalDamageAboutToTake() {
+		return this.damageAboutToTake * this.damageCount;
 	}
 	
 	// Returns remaining damage.
@@ -446,11 +418,11 @@ public abstract class AbstractDoll extends CustomOrb {
 	@Override
 	public void onEndOfTurn() {}
 	
-	public void postOtherDollAct(AbstractDoll doll) {}
-	
 	public void postOtherDollSpawn(AbstractDoll doll) {}
 	
-	public void postOtherDollRecycle(AbstractDoll doll) {}
+	public void postOtherDollAct(AbstractDoll doll) {}
+	
+	public void postOtherDollRecycled(AbstractDoll doll) {}
 	
 	public void postOtherDollDestroyed(AbstractDoll doll) {}
 	
@@ -462,13 +434,13 @@ public abstract class AbstractDoll extends CustomOrb {
 		this.passiveAmount = this.basePassiveAmount;
 		this.actAmount = this.baseActAmount;
 		
-		int hourai = DollManager.get().getTotalHouraiPassiveAmount();
-		if (hourai > 0) {
-			if (this.passiveAmountType != DollAmountType.MAGIC)
-				this.passiveAmount += hourai;
-			if (this.actAmountType != DollAmountType.MAGIC)
-				this.actAmount += hourai;
-		}
+//		int hourai = DollManager.get().getTotalHouraiPassiveAmount();
+//		if (hourai > 0) {
+//			if (this.passiveAmountType != DollAmountType.MAGIC)
+//				this.passiveAmount += hourai;
+//			if (this.actAmountType != DollAmountType.MAGIC)
+//				this.actAmount += hourai;
+//		}
 		
 		if (this instanceof ShanghaiDoll) {
 			if (player.hasPower("Strength")) {

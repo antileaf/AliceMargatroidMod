@@ -37,7 +37,7 @@ public class DollMechanicsPatch {
 			@SpirePatch(clz = Defect.class, method = "renderOrb"),
 			@SpirePatch(clz = Watcher.class, method = "renderOrb")
 	})
-	public static class RenderOldPlayerDollPatch {
+	public static class RenderOriginalPlayerDollPatch {
 		@SpirePostfixPatch
 		public static void Postfix(AbstractCreature _inst, SpriteBatch sb,
 		                           boolean enabled, float current_x, float current_y) {
@@ -118,6 +118,15 @@ public class DollMechanicsPatch {
 					}
 				}
 			}
+		}
+	}
+	
+	@SpirePatch(clz = AbstractCreature.class, method = "applyEndOfTurnTriggers")
+	public static class EndOfTurnTriggerPatch {
+		@SpirePostfixPatch
+		public static void Postfix(AbstractCreature _inst) {
+			if (_inst instanceof AbstractPlayer)
+				DollManager.getInstance((AbstractPlayer) _inst).onEndOfTurn();
 		}
 	}
 	

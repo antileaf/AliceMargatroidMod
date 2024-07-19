@@ -1,21 +1,19 @@
 package rs.antileaf.alice.cards.AliceMargatroid;
 
-import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import rs.antileaf.alice.action.doll.DollGainBlockAction;
+import rs.antileaf.alice.action.doll.DollActAction;
 import rs.antileaf.alice.action.doll.SpawnDollAction;
-import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.KyotoDoll;
 import rs.antileaf.alice.doll.targeting.DollOrEmptySlotTargeting;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
+import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
 
 public class SpringKyotoDoll extends AbstractAliceCard {
@@ -25,8 +23,8 @@ public class SpringKyotoDoll extends AbstractAliceCard {
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
-	private static final int BLOCK = 4;
-	private static final int UPGRADE_PLUS_BLOCK = 2;
+	private static final int MAGIC = 2;
+	private static final int UPGRADE_PLUS_MAGIC = 1;
 	
 	public SpringKyotoDoll() {
 		super(
@@ -41,21 +39,21 @@ public class SpringKyotoDoll extends AbstractAliceCard {
 				CardTargetEnum.DOLL_OR_EMPTY_SLOT
 		);
 		
-		this.block = this.baseBlock = BLOCK;
+		this.magicNumber = this.baseMagicNumber = MAGIC;
+		this.tags.add(CardTagEnum.ALICE_DOLL_ACT);
 	}
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
 		AbstractDoll target = DollOrEmptySlotTargeting.getTarget(this);
-		int index = DollManager.get().getDolls().indexOf(target);
-		
-		this.addToBot(new GainBlockAction(p, p, this.block));
-		
-		AbstractDoll doll = new KyotoDoll();
-		this.addToBot(new SpawnDollAction(doll, index));
-		this.addToBot(new AnonymousAction(() -> {
-			this.addToTop(new DollGainBlockAction(doll, AbstractDungeon.player.currentBlock));
-		}));
+		if (target instanceof KyotoDoll) {
+			for (int i = 0; i < this.magicNumber; i++)
+				this.addToBot(new DollActAction(target));
+		}
+		else {
+			int index = DollManager.get().getDolls().indexOf(target);
+			this.addToBot(new SpawnDollAction(new KyotoDoll(), index));
+		}
 	}
 	
 	@Override
@@ -67,7 +65,7 @@ public class SpringKyotoDoll extends AbstractAliceCard {
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
-			this.upgradeBlock(UPGRADE_PLUS_BLOCK);
+			this.upgradeMagicNumber(UPGRADE_PLUS_MAGIC);
 			this.initializeDescription();
 		}
 	}

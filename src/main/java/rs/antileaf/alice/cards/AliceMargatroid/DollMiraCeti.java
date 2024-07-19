@@ -7,6 +7,7 @@ import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.relics.ChemicalX;
 import rs.antileaf.alice.action.doll.DollActAction;
+import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.targeting.DollTargeting;
@@ -21,6 +22,8 @@ public class DollMiraCeti extends AbstractAliceCard {
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = -1;
+	private static final int MAGIC = 2;
+	private static final int UPGRADE_PLUS_MAGIC = 1;
 	
 	public DollMiraCeti() {
 		super(
@@ -35,6 +38,7 @@ public class DollMiraCeti extends AbstractAliceCard {
 				CardTargetEnum.DOLL
 		);
 		
+		this.magicNumber = this.baseMagicNumber = MAGIC;
 		this.tags.add(CardTagEnum.ALICE_COMMAND);
 		this.tags.add(CardTagEnum.ALICE_DOLL_ACT);
 	}
@@ -42,17 +46,19 @@ public class DollMiraCeti extends AbstractAliceCard {
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
 		int amount = this.energyOnUse;
-		if (this.upgraded)
-			amount += 1;
-		
 		if (p.hasRelic(ChemicalX.ID))
 			amount += ChemicalX.BOOST;
 		
 		if (amount > 0) {
+			this.addToBot(new AnonymousAction(() -> {
+				if (!this.freeToPlayOnce)
+					p.energy.use(this.energyOnUse);
+			}));
+			
 			AbstractDoll doll = DollTargeting.getTarget(this);
 			
 			if (doll != null)
-				for (int i = 0; i < amount; i++)
+				for (int i = 0; i < amount * this.magicNumber; i++)
 					this.addToBot(new DollActAction(doll));
 		}
 	}
@@ -66,7 +72,7 @@ public class DollMiraCeti extends AbstractAliceCard {
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
-			this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
+			this.upgradeMagicNumber(UPGRADE_PLUS_MAGIC);
 			this.initializeDescription();
 		}
 	}
