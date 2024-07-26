@@ -27,7 +27,7 @@ public class MaidensBunraku extends AbstractAliceCard {
 				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
-				CardType.SKILL,
+				CardType.POWER,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
 				CardRarity.UNCOMMON,
 				CardTarget.NONE

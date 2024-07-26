@@ -1,5 +1,6 @@
 package rs.antileaf.alice.powers.unique;
 
+import com.megacrit.cardcrawl.actions.common.ReducePowerAction;
 import com.megacrit.cardcrawl.actions.common.RemoveSpecificPowerAction;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.PowerStrings;
@@ -9,13 +10,13 @@ import rs.antileaf.alice.doll.enums.DollAmountTime;
 import rs.antileaf.alice.doll.enums.DollAmountType;
 import rs.antileaf.alice.doll.interfaces.PlayerOrEnemyDollAmountModHook;
 import rs.antileaf.alice.powers.AbstractAlicePower;
-import rs.antileaf.alice.utils.AliceMiscKit;
+import rs.antileaf.alice.utils.AliceSpireKit;
 
-public class CallForDollsPower extends AbstractAlicePower implements PlayerOrEnemyDollAmountModHook {
-	public static final String POWER_ID = CallForDollsPower.class.getSimpleName();
+public class CallToDollsPower extends AbstractAlicePower implements PlayerOrEnemyDollAmountModHook {
+	public static final String POWER_ID = CallToDollsPower.class.getSimpleName();
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
 	
-	public CallForDollsPower(AbstractMonster owner, int amount) {
+	public CallToDollsPower(AbstractMonster owner, int amount) {
 		this.name = powerStrings.NAME;
 		this.ID = POWER_ID;
 		this.owner = owner;
@@ -34,21 +35,21 @@ public class CallForDollsPower extends AbstractAlicePower implements PlayerOrEne
 	
 	@Override
 	public void updateDescription() {
-		this.description = AliceMiscKit.join(
-				powerStrings.DESCRIPTIONS[0],
-				"#b" + this.amount,
-				powerStrings.DESCRIPTIONS[1]
-		);
+		AliceSpireKit.log("this.amount = ", this.amount);
+		this.description = String.format(powerStrings.DESCRIPTIONS[0], this.amount);
 	}
 	
 	@Override
 	public void atEndOfRound() {
-		this.addToBot(new RemoveSpecificPowerAction(this.owner, this.owner, this));
+		if (this.amount > 1)
+			this.addToBot(new ReducePowerAction(this.owner, this.owner, this, 1));
+		else
+			this.addToBot(new RemoveSpecificPowerAction(this.owner, this.owner, this));
 	}
 	
 	@Override
 	public boolean isFinal() {
-		return false;
+		return true;
 	}
 	
 	@Override
@@ -57,7 +58,6 @@ public class CallForDollsPower extends AbstractAlicePower implements PlayerOrEne
 			AbstractDoll doll,
 			DollAmountType amountType,
 			DollAmountTime amountTime) {
-		
-		return amountType == DollAmountType.DAMAGE ? amount + this.amount : amount;
+		return amountType == DollAmountType.DAMAGE ? amount * 1.5F : amount;
 	}
 }

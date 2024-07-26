@@ -26,9 +26,9 @@ public class AliceTutorialHelper {
 			
 			String[] dollClasses = new String[] {
 					"ShanghaiDoll",
-					"NetherlandsDoll",
 					"HouraiDoll",
 					"KyotoDoll",
+					"NetherlandsDoll",
 					"LondonDoll",
 					"FranceDoll",
 					"OrleansDoll"
@@ -60,13 +60,9 @@ public class AliceTutorialHelper {
 			generateTutorial();
 		
 		Texture[] images = new Texture[generated.TEXT.length];
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < images.length; i++)
 			images[i] = ImageMaster.loadImage(
 					AliceSpireKit.getImgFilePath("tutorial", "" + i)
-			);
-		for (int i = 4; i < images.length; i++)
-			images[i] = ImageMaster.loadImage(
-					AliceSpireKit.getImgFilePath("tutorial", "placeholder")
 			);
 		
 		AbstractDungeon.ftue = new CustomMultiPageFtue(

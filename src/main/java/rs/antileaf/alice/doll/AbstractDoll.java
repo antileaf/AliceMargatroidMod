@@ -221,11 +221,11 @@ public abstract class AbstractDoll extends CustomOrb {
 //
 		this.c.a = Interpolation.pow2In.apply(1.0F, 0.01F, this.channelAnimTimer / 0.5F);
 		this.scale = Interpolation.swingIn.apply(Settings.scale, 0.01F, this.channelAnimTimer / 0.5F);
-		this.angle += Gdx.graphics.getDeltaTime() * 45.0F;
-		this.vfxTimer -= Gdx.graphics.getDeltaTime();
-		if (this.vfxTimer < 0.0F) {
-			this.vfxTimer = 0.0F; // TODO
-		}
+//		this.angle += Gdx.graphics.getDeltaTime() * 45.0F;
+//		this.vfxTimer -= Gdx.graphics.getDeltaTime();
+//		if (this.vfxTimer < 0.0F) {
+//			this.vfxTimer = 0.0F; // TODO
+//		}
 //
 //		this.c.a = Interpolation.pow2In.apply(1.0F, 0.01F, this.channelAnimTimer / 0.5F);
 //		this.scale = Interpolation.swingIn.apply(Settings.scale, 0.01F, this.channelAnimTimer / 0.5F);
@@ -408,6 +408,7 @@ public abstract class AbstractDoll extends CustomOrb {
 	
 	public void onDestroyed() {}
 	
+	// Not equal to recycled or destroyed.
 	public void onRemoved() {}
 	
 	@Override
@@ -426,7 +427,7 @@ public abstract class AbstractDoll extends CustomOrb {
 	
 	public void postOtherDollDestroyed(AbstractDoll doll) {}
 	
-	public void postOtherDollRemoved(AbstractDoll doll) {}
+//	public void postOtherDollRemoved(AbstractDoll doll) {}
 	
 	public void applyPower() {
 		AbstractPlayer player = AbstractDungeon.player;
@@ -510,6 +511,14 @@ public abstract class AbstractDoll extends CustomOrb {
 		int blockLoss = this.block - preserve;
 		if (blockLoss > 0)
 			this.loseBlock(blockLoss);
+	}
+	
+	public float getDrawCX() {
+		return this.hb.cX;
+	}
+	
+	public float getDrawCY() {
+		return this.hb.cY - this.img.getHeight() / 2.0F + this.bobEffect.y / 2.0F;
 	}
 	
 	@Override
@@ -927,14 +936,14 @@ public abstract class AbstractDoll extends CustomOrb {
 		else if (clazz.equals(HouraiDoll.ID)) {
 			return new HouraiDoll();
 		}
-		else if (clazz.equals(KyotoDoll.ID)) {
-			return new KyotoDoll();
+		else if (clazz.equals(FranceDoll.ID)) {
+			return new FranceDoll();
 		}
 		else if (clazz.equals(LondonDoll.ID)) {
 			return new LondonDoll();
 		}
-		else if (clazz.equals(FranceDoll.ID)) {
-			return new FranceDoll();
+		else if (clazz.equals(KyotoDoll.ID)) {
+			return new KyotoDoll();
 		}
 		else if (clazz.equals(OrleansDoll.ID)) {
 			return new OrleansDoll();
@@ -997,9 +1006,9 @@ public abstract class AbstractDoll extends CustomOrb {
 				ShanghaiDoll.ID,
 				NetherlandsDoll.ID,
 				HouraiDoll.ID,
-				KyotoDoll.ID,
-				LondonDoll.ID,
 				FranceDoll.ID,
+				LondonDoll.ID,
+				KyotoDoll.ID,
 				OrleansDoll.ID
 		};
 		
@@ -1026,12 +1035,12 @@ public abstract class AbstractDoll extends CustomOrb {
 			res = NetherlandsDoll.getDescription();
 		else if (dollID.equals(HouraiDoll.ID))
 			res = HouraiDoll.getDescription();
-		else if (dollID.equals(KyotoDoll.ID))
-			res = KyotoDoll.getDescription();
-		else if (dollID.equals(LondonDoll.ID))
-			res = LondonDoll.getDescription();
 		else if (dollID.equals(FranceDoll.ID))
 			res = FranceDoll.getDescription();
+		else if (dollID.equals(LondonDoll.ID))
+			res = LondonDoll.getDescription();
+		else if (dollID.equals(KyotoDoll.ID))
+			res = KyotoDoll.getDescription();
 		else if (dollID.equals(OrleansDoll.ID))
 			res = OrleansDoll.getDescription();
 		else
@@ -1048,12 +1057,12 @@ public abstract class AbstractDoll extends CustomOrb {
 			return NetherlandsDoll.getFlavor();
 		else if (dollID.equals(HouraiDoll.ID))
 			return HouraiDoll.getFlavor();
-		else if (dollID.equals(KyotoDoll.ID))
-			return KyotoDoll.getFlavor();
-		else if (dollID.equals(LondonDoll.ID))
-			return LondonDoll.getFlavor();
 		else if (dollID.equals(FranceDoll.ID))
 			return FranceDoll.getFlavor();
+		else if (dollID.equals(LondonDoll.ID))
+			return LondonDoll.getFlavor();
+		else if (dollID.equals(KyotoDoll.ID))
+			return KyotoDoll.getFlavor();
 		else if (dollID.equals(OrleansDoll.ID))
 			return OrleansDoll.getFlavor();
 		else

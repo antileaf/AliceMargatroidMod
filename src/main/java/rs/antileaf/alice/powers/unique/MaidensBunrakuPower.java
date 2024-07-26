@@ -1,6 +1,5 @@
 package rs.antileaf.alice.powers.unique;
 
-import com.megacrit.cardcrawl.actions.common.RemoveSpecificPowerAction;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.PowerStrings;
@@ -36,10 +35,10 @@ public class MaidensBunrakuPower extends AbstractAlicePower implements OnDollOpe
 		this.description = String.format(powerStrings.DESCRIPTIONS[0], this.amount);
 	}
 	
-	@Override
-	public void atStartOfTurn() {
-		this.addToBot(new RemoveSpecificPowerAction(this.owner, this.owner, this));
-	}
+//	@Override
+//	public void atStartOfTurn() {
+//		this.addToBot(new RemoveSpecificPowerAction(this.owner, this.owner, this));
+//	}
 	
 	@Override
 	public void postDollAct(AbstractDoll doll) {

@@ -48,10 +48,10 @@
     ]
   },
   
-  "CallForDollsPower": {
+  "CallToDollsPower": {
     "NAME": "战斗号角",
     "DESCRIPTIONS": [
-      "一回合内，受到的 人偶 伤害增加", "点。"
+      "#b%d 回合内，受到的 人偶 伤害提高 #b50%% 。"
     ]
   },
   
@@ -116,7 +116,7 @@
   "MaidensBunrakuPower": {
     "NAME": "少女文乐",
     "DESCRIPTIONS": [
-      "直到你的下个回合，每当 人偶 行动 时，使其获得 #b%d 点 格挡。"
+      "每当 人偶 行动 后，使其获得 #b%d 点 格挡。"
     ]
   },
   
@@ -124,6 +124,34 @@
     "NAME": "莺替神事",
     "DESCRIPTIONS": [
       "爱丽丝受到非攻击伤害或失去生命时，可以由 人偶 的 格挡 承担。"
+    ]
+  },
+  
+  "DevilryLightRayPower": {
+    "NAME": "惨虐之光",
+    "DESCRIPTIONS": [
+      "下回合开始时，对所有敌人施加 #b%d 层 #y虚弱 。"
+    ]
+  },
+  
+  "MagicConduitPower": {
+    "NAME": "魔力传导线",
+    "DESCRIPTIONS": [
+      "如果最左侧栏位中有 人偶 ，每当它 行动 时，获得 #b%d [E] 。"
+    ]
+  },
+  
+  "ArtfulChanterPower": {
+    "NAME": "狡猾的吟诵者",
+    "DESCRIPTIONS": [
+      "每 回收 一个 人偶 ，获得 #b%d 点临时 力量 和 敏捷 。"
+    ]
+  },
+  
+  "SealOfLightPower": {
+    "NAME": "光之封印",
+    "DESCRIPTIONS": [
+      "最大生命值降低 #b%d%% 。"
     ]
   }
 }

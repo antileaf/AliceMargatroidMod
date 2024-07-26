@@ -1,37 +1,40 @@
 package rs.antileaf.alice.doll.dolls;
 
+import com.megacrit.cardcrawl.actions.AbstractGameAction;
+import com.megacrit.cardcrawl.actions.common.DamageAllEnemiesAction;
+import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.OrbStrings;
-import rs.antileaf.alice.action.doll.DollGainBlockAction;
-import rs.antileaf.alice.action.doll.MoveDollAction;
+import com.megacrit.cardcrawl.vfx.combat.HealEffect;
+import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.doll.AbstractDoll;
-import rs.antileaf.alice.doll.DollManager;
+import rs.antileaf.alice.doll.DollDamageInfo;
+import rs.antileaf.alice.doll.enums.DollAmountTime;
 import rs.antileaf.alice.doll.enums.DollAmountType;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class KyotoDoll extends AbstractDoll {
 	public static final String SIMPLE_NAME = KyotoDoll.class.getSimpleName();
 	public static final String ID = SIMPLE_NAME;
-	
 	public static final OrbStrings dollStrings = CardCrawlGame.languagePack.getOrbString(ID);
 	
-	public static final int MAX_HP = 5;
-	public static final int PASSIVE_AMOUNT = 4;
-	public static final int ACT_AMOUNT = 6;
+	public static final int MAX_HP = 6;
+//	public static final int ACT_AMOUNT = 3;
 	
 	public KyotoDoll() {
 		super(
 				ID,
 				dollStrings.NAME,
 				MAX_HP,
-				PASSIVE_AMOUNT,
-				ACT_AMOUNT,
+				MAX_HP,
+				-1,
 				AliceSpireKit.getOrbImgFilePath("green"),
-				RenderTextMode.BOTH
+				RenderTextMode.PASSIVE
 		);
 		
-		this.passiveAmountType = DollAmountType.BLOCK;
-		this.actAmountType = DollAmountType.BLOCK;
+		this.passiveAmountType = DollAmountType.MAGIC;
+		this.actAmountType = DollAmountType.OTHERS;
 	}
 	
 	@Override
@@ -46,46 +49,49 @@ public class KyotoDoll extends AbstractDoll {
 	
 	@Override
 	public void onAct() {
-		int pos = -1, val = 0;
-		for (int i = 0; i < DollManager.get().getDolls().size(); i++) {
-			AbstractDoll doll = DollManager.get().getDolls().get(i);
-			
-			int tmp = doll.calcTotalDamageAboutToTake();
-			if (tmp > 0) {
-				if (pos == -1 || tmp > val) {
-					pos = i;
-					val = tmp;
-				}
-			}
-		}
+//		AliceSpireKit.addToTop(new DollGainBlockAction(this, this.actAmount));
+		AliceSpireKit.addToTop(new DamageAllEnemiesAction(
+				AbstractDungeon.player,
+				DollDamageInfo.createDamageMatrix(
+						this.HP / 2,
+						this,
+						DollAmountType.DAMAGE,
+						DollAmountTime.PASSIVE),
+				DamageInfo.DamageType.THORNS,
+				AbstractGameAction.AttackEffect.FIRE,
+				true
+		));
 		
-		if (pos != -1 && DollManager.get().getDolls().get(pos) != this) {
-			this.addToTop(new MoveDollAction(this, pos));
-		}
-		else {
-			this.addToTop(new DollGainBlockAction(this, this.actAmount));
-			this.highlightActValue();
-		}
+//		this.highlightActValue();
 	}
 	
 	@Override
-	public void onStartOfTurn() {
-		AliceSpireKit.addToTop(new DollGainBlockAction(this, this.passiveAmount));
-		this.highlightPassiveValue();
+	public void onEndOfTurn() {
+		if (this.HP < this.passiveAmount) {
+			int diff = this.passiveAmount - this.HP;
+			if (diff > 0) {
+				AliceSpireKit.addToTop(new AnonymousAction(() -> {
+					this.HP = Math.min(this.maxHP, this.HP + diff);
+					AbstractDungeon.effectsQueue.add(new HealEffect(this.hb.cX - this.animX, this.hb.cY, diff));
+					this.updateDescription();
+				}));
+			}
+		}
 	}
+	
+//	@Override
+//	public void postOtherDollDestroyed(AbstractDoll doll) {
+//		if (doll instanceof EmptyDollSlot)
+//			AliceSpireKit.log("FranceDoll", "EmptyDollSlot destroyed");
+//		else
+//			AliceSpireKit.addToBot(new DollActAction(this));
+//	}
 	
 	@Override
 	public void updateDescriptionImpl() {
-		this.passiveDescription = String.format(dollStrings.DESCRIPTION[0],
-					this.coloredPassiveAmount());
+		this.passiveDescription = String.format(dollStrings.DESCRIPTION[0], this.coloredPassiveAmount());
 		
-		this.actDescription = String.format(dollStrings.DESCRIPTION[1],
-					this.coloredActAmount());
-	}
-	
-	@Override
-	public void clearBlock(int preserved) {
-		// Will not lose block.
+		this.actDescription = dollStrings.DESCRIPTION[1];
 	}
 	
 	@Override

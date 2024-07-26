@@ -19,7 +19,7 @@ public class FailedExperiment extends AbstractAliceCard {
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 0;
-	private static final int DAMAGE = 9;
+	private static final int DAMAGE = 10;
 	private static final int UPGRADE_PLUS_DMG = 3;
 	
 	public FailedExperiment() {

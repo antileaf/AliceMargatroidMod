@@ -6,6 +6,7 @@ import com.megacrit.cardcrawl.localization.PowerStrings;
 import rs.antileaf.alice.action.doll.DollActAction;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
+import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.powers.AbstractAlicePower;
 import rs.antileaf.alice.utils.AliceMiscKit;
 
@@ -50,13 +51,14 @@ public class DollActivationPower extends AbstractAlicePower {
 			this.flash();
 			
 			int count = this.amount;
-			for (AbstractDoll doll : DollManager.get().getDolls()) {
-				if (count <= 0)
-					break;
-				
-				this.addToBot(new DollActAction(doll));
-				count--;
-			}
+			for (AbstractDoll doll : DollManager.get().getDolls())
+				if (!(doll instanceof EmptyDollSlot)) {
+					if (count <= 0)
+						break;
+					
+					this.addToBot(new DollActAction(doll));
+					count--;
+				}
 		}
 	}
 }

@@ -8,7 +8,6 @@ import com.megacrit.cardcrawl.powers.DexterityPower;
 import com.megacrit.cardcrawl.powers.StrengthPower;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
-import rs.antileaf.alice.doll.dolls.HouraiDoll;
 import rs.antileaf.alice.doll.dolls.LondonDoll;
 import rs.antileaf.alice.doll.dolls.NetherlandsDoll;
 import rs.antileaf.alice.doll.enums.DollAmountTime;
@@ -33,14 +32,13 @@ public class ThePhantomOfTheGrandGuignolPower extends AbstractAlicePower impleme
 	}
 	
 	private void updatePowers(int diff) {
-		int hourai_count = (int)DollManager.get().getDolls().stream()
-				.filter(doll -> doll instanceof HouraiDoll)
-				.count();
 		int netherlands_count = (int)DollManager.get().getDolls().stream()
 				.filter(doll -> doll instanceof NetherlandsDoll)
 				.count();
 		
-		int amt = this.amount * netherlands_count * (hourai_count + 1);
+		int amt = this.amount * netherlands_count;
+		if (amt == 0)
+			return;
 		
 		AliceSpireKit.addActionToBuffer(new ApplyPowerAction(
 				this.owner,

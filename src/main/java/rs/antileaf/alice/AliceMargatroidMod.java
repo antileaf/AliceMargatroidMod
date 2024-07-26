@@ -77,7 +77,8 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		OnStartBattleSubscriber,
 		OnPlayerTurnStartSubscriber,
 		PostPlayerUpdateSubscriber,
-		RenderSubscriber {
+		RenderSubscriber,
+		AddAudioSubscriber {
 	public static final String SIMPLE_NAME = AliceMargatroidMod.class.getSimpleName();
 	
 	public static final Logger logger = LogManager.getLogger(AliceMargatroidMod.class.getName());
@@ -300,6 +301,18 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 	}
 	
 	@Override
+	public void receiveAddAudio() {
+		logger.info("Adding audio");
+		
+		BaseMod.addAudio("AliceMargatroidMod:CHAR_SELECT_1",
+				"AliceMargatroidMod/audio/charSelect/SELECT_ALICE1.wav");
+		BaseMod.addAudio("AliceMargatroidMod:CHAR_SELECT_2",
+				"AliceMargatroidMod/audio/charSelect/SELECT_ALICE2.wav");
+		BaseMod.addAudio("AliceMargatroidMod:CHAR_SELECT_3",
+				"AliceMargatroidMod/audio/charSelect/SELECT_ALICE3.wav");
+	}
+	
+	@Override
 	public void receivePostExhaust(AbstractCard card) {
 		// Auto-generated method stub
 	}
@@ -440,7 +453,7 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 	
 	public int receiveOnPlayerLoseBlock(int amount) {
 //		DollManager.get().updatePreservedBlock();
-		DollManager.get().startOfTurnClearBlock();
+		DollManager.get().startOfTurnClearBlock(amount);
 		int preserve = DollManager.get().getPreservedBlock();
 		
 //		DollManager.get().startOfTurnResetHouraiPassiveAmount();
@@ -483,7 +496,7 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		this.cardsToAdd.add(new Collector());
 		this.cardsToAdd.add(new Punishment());
 		this.cardsToAdd.add(new MaliceSpark());
-		this.cardsToAdd.add(new CallForDolls());
+		this.cardsToAdd.add(new CallToDolls());
 		this.cardsToAdd.add(new SnowSweeping());
 		this.cardsToAdd.add(new FriendsHelp());
 		this.cardsToAdd.add(new Phantom());
@@ -521,28 +534,36 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		this.cardsToAdd.add(new FailedExperiment());
 		this.cardsToAdd.add(new ButterflyFlurry());
 		this.cardsToAdd.add(new WitchsTeaParty());
-		this.cardsToAdd.add(new DollOrchestra());
-		this.cardsToAdd.add(new ThePhantomOfTheGrandGuignol());
+//		this.cardsToAdd.add(new DollOrchestra());
+//		this.cardsToAdd.add(new ThePhantomOfTheGrandGuignol());
 		this.cardsToAdd.add(new Housework());
 		this.cardsToAdd.add(new Bookmark());
 		this.cardsToAdd.add(new MaidensBunraku());
 		this.cardsToAdd.add(new Usokae());
+		this.cardsToAdd.add(new Tripwire());
+		this.cardsToAdd.add(new DevilryLightRay());
+		this.cardsToAdd.add(new RefreshingSpringWater());
+		this.cardsToAdd.add(new DollArmy());
+		this.cardsToAdd.add(new DollParade());
+		this.cardsToAdd.add(new MagicConduit());
+		this.cardsToAdd.add(new SeekerDoll());
+		this.cardsToAdd.add(new ArtfulChanter());
 		
 		this.cardsToAdd.add(new VivaciousShanghaiDoll());
 		this.cardsToAdd.add(new QuietHouraiDoll());
 		this.cardsToAdd.add(new MistyLondonDoll());
-		this.cardsToAdd.add(new SpringKyotoDoll());
+		this.cardsToAdd.add(new CharitableFranceDoll());
 		this.cardsToAdd.add(new RedHairedNetherlandsDoll());
 		this.cardsToAdd.add(new CharismaticOrleansDoll());
-		this.cardsToAdd.add(new CharitableFranceDoll());
+		this.cardsToAdd.add(new SpringKyotoDoll());
 		
 		this.cardsToAdd.add(new MarisasPotion());
 		this.cardsToAdd.add(new CreateShanghaiDoll());
 		this.cardsToAdd.add(new CreateNetherlandsDoll());
 		this.cardsToAdd.add(new CreateHouraiDoll());
-		this.cardsToAdd.add(new CreateKyotoDoll());
-		this.cardsToAdd.add(new CreateLondonDoll());
 		this.cardsToAdd.add(new CreateFranceDoll());
+		this.cardsToAdd.add(new CreateLondonDoll());
+		this.cardsToAdd.add(new CreateKyotoDoll());
 		this.cardsToAdd.add(new CreateOrleansDoll());
 		
 		if (!AliceSpireKit.isMarisaModAvailable()) {

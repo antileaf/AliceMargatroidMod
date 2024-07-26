@@ -12,8 +12,8 @@ import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
-import rs.antileaf.alice.doll.dolls.FranceDoll;
 import rs.antileaf.alice.doll.dolls.HouraiDoll;
+import rs.antileaf.alice.doll.dolls.KyotoDoll;
 import rs.antileaf.alice.doll.dolls.ShanghaiDoll;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.utils.AliceSpireKit;
@@ -59,7 +59,7 @@ public class SPDoll extends AbstractAliceCard {
 			
 			for (int i = 0; i < count; i++) {
 				AbstractDoll doll = null;
-				switch (AbstractDungeon.cardRandomRng.random(3)) {
+				switch (AbstractDungeon.cardRandomRng.random(0, 2)) {
 					case 0:
 						doll = new ShanghaiDoll();
 						break;
@@ -67,12 +67,13 @@ public class SPDoll extends AbstractAliceCard {
 						doll = new HouraiDoll();
 						break;
 					case 2:
-						doll = new FranceDoll();
+						doll = new KyotoDoll();
 						break;
 				}
 				
-				int index = indices.get(i);
-				indices.remove(index);
+				int k = AbstractDungeon.cardRandomRng.random(indices.size() - 1);
+				int index = indices.get(k);
+				indices.remove(k);
 				
 				AliceSpireKit.addActionToBuffer(new SpawnDollAction(doll, index));
 			}

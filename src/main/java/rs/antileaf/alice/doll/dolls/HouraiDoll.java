@@ -65,7 +65,7 @@ public class HouraiDoll extends AbstractDoll {
 			if (this.block > 0) {
 				ArrayList<AbstractDoll> receivers = new ArrayList<>();
 				for (AbstractDoll doll : DollManager.get().getDolls())
-					if (doll.calcTotalDamageAboutToTake() > 0)
+					if (!(doll instanceof EmptyDollSlot) && doll.calcTotalDamageAboutToTake() > 0)
 						receivers.add(doll);
 				
 				if (!receivers.isEmpty()) {

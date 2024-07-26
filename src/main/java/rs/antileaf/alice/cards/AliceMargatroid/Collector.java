@@ -26,7 +26,7 @@ public class Collector extends AbstractAliceCard {
 		super(
 				ID,
 				cardStrings.NAME,
-				null, //AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.SKILL,
@@ -37,6 +37,9 @@ public class Collector extends AbstractAliceCard {
 		
 		this.magicNumber = this.baseMagicNumber = MAGIC;
 		this.secondaryMagicNumber = this.baseSecondaryMagicNumber = MAGIC2;
+		
+		if (AliceSpireKit.isInBattle())
+			this.applyPowers();
 	}
 	
 	@Override
@@ -72,6 +75,8 @@ public class Collector extends AbstractAliceCard {
 		if (!this.upgraded) {
 			this.upgradeName();
 			this.upgradeSecondaryMagicNumber(UPGRADE_PLUS_MAGIC2);
+			if (AliceSpireKit.isInBattle())
+				this.applyPowers();
 			this.initializeDescription();
 		}
 	}

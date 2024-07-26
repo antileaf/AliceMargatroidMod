@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatches;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePostfixPatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePrefixPatch;
+import com.megacrit.cardcrawl.actions.GameActionManager;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.*;
 import com.megacrit.cardcrawl.core.AbstractCreature;
@@ -127,6 +129,14 @@ public class DollMechanicsPatch {
 		public static void Postfix(AbstractCreature _inst) {
 			if (_inst instanceof AbstractPlayer)
 				DollManager.getInstance((AbstractPlayer) _inst).onEndOfTurn();
+		}
+	}
+	
+	@SpirePatch(clz = GameActionManager.class, method = "callEndOfTurnActions")
+	public static class EndOfTurnLockDamageTargetPatch {
+		@SpirePrefixPatch
+		public static void Prefix(GameActionManager _inst) {
+			DollManager.get().onEndOfTurnLockDamageTarget();
 		}
 	}
 	

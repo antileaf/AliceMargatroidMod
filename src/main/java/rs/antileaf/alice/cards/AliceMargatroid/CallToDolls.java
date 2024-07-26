@@ -11,11 +11,11 @@ import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
-import rs.antileaf.alice.powers.unique.CallForDollsPower;
+import rs.antileaf.alice.powers.unique.CallToDollsPower;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
-public class CallForDolls extends AbstractAliceCard {
-	public static final String SIMPLE_NAME = CallForDolls.class.getSimpleName();
+public class CallToDolls extends AbstractAliceCard {
+	public static final String SIMPLE_NAME = CallToDolls.class.getSimpleName();
 //	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
 	public static final String ID = SIMPLE_NAME;
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
@@ -26,7 +26,7 @@ public class CallForDolls extends AbstractAliceCard {
 	private static final int MAGIC = 2;
 	private static final int UPGRADE_PLUS_MAGIC = 1;
 	
-	public CallForDolls() {
+	public CallToDolls() {
 		super(
 				ID,
 				cardStrings.NAME,
@@ -48,14 +48,15 @@ public class CallForDolls extends AbstractAliceCard {
 		this.addToBot(new DamageAction(
 				m,
 				new DamageInfo(p, this.damage, this.damageTypeForTurn),
-				AbstractGameAction.AttackEffect.FIRE));
+				AbstractGameAction.AttackEffect.BLUNT_LIGHT)
+		);
 		
-		this.addToBot(new ApplyPowerAction(m, p, new CallForDollsPower(m, this.magicNumber), this.magicNumber));
+		this.addToBot(new ApplyPowerAction(m, p, new CallToDollsPower(m, this.magicNumber), this.magicNumber));
 	}
 	
 	@Override
 	public AbstractCard makeCopy() {
-		return new CallForDolls();
+		return new CallToDolls();
 	}
 	
 	@Override

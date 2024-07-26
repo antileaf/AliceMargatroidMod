@@ -7,13 +7,13 @@ import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.relics.ChemicalX;
 import rs.antileaf.alice.action.doll.DollActAction;
-import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.targeting.DollTargeting;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
+import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class DollMiraCeti extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = DollMiraCeti.class.getSimpleName();
@@ -23,13 +23,12 @@ public class DollMiraCeti extends AbstractAliceCard {
 	
 	private static final int COST = -1;
 	private static final int MAGIC = 2;
-	private static final int UPGRADE_PLUS_MAGIC = 1;
 	
 	public DollMiraCeti() {
 		super(
 				ID,
 				cardStrings.NAME,
-				null, // AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.SKILL,
@@ -39,6 +38,7 @@ public class DollMiraCeti extends AbstractAliceCard {
 		);
 		
 		this.magicNumber = this.baseMagicNumber = MAGIC;
+		
 		this.tags.add(CardTagEnum.ALICE_COMMAND);
 		this.tags.add(CardTagEnum.ALICE_DOLL_ACT);
 	}
@@ -46,14 +46,14 @@ public class DollMiraCeti extends AbstractAliceCard {
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
 		int amount = this.energyOnUse;
+		if (this.upgraded)
+			amount++;
 		if (p.hasRelic(ChemicalX.ID))
 			amount += ChemicalX.BOOST;
 		
 		if (amount > 0) {
-			this.addToBot(new AnonymousAction(() -> {
-				if (!this.freeToPlayOnce)
-					p.energy.use(this.energyOnUse);
-			}));
+			if (!this.freeToPlayOnce)
+				p.energy.use(this.energyOnUse);
 			
 			AbstractDoll doll = DollTargeting.getTarget(this);
 			
@@ -72,7 +72,7 @@ public class DollMiraCeti extends AbstractAliceCard {
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
-			this.upgradeMagicNumber(UPGRADE_PLUS_MAGIC);
+			this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
 			this.initializeDescription();
 		}
 	}

@@ -169,7 +169,7 @@ public class AliceMargatroid extends CustomPlayer {
 	}
 	
 	public Color getCardTrailColor() {
-		return AliceMargatroidMod.ALICE_PUPPETEER;
+		return AliceMargatroidMod.ALICE_PUPPETEER.cpy();
 	}
 	
 	public int getAscensionMaxHPLoss() {
@@ -181,16 +181,16 @@ public class AliceMargatroid extends CustomPlayer {
 	}
 	
 	public void doCharSelectScreenSelectEffect() {
-		CardCrawlGame.sound.playA("SELECT_ALICE_Margatroid", MathUtils.random(-0.1F, 0.1F));
+		CardCrawlGame.sound.play("AliceMargatroidMod:CHAR_SELECT_" + MathUtils.random(1, 3));
 		CardCrawlGame.screenShake.shake(
-				ScreenShake.ShakeIntensity.MED,
+				ScreenShake.ShakeIntensity.LOW,
 				ScreenShake.ShakeDur.SHORT,
 				false
 		);
 	}
 	
 	public String getCustomModeCharacterButtonSoundKey() {
-		return "SELECT_ALICE_Margatroid";
+		return "AliceMargatroidMod:CHAR_SELECT_" + MathUtils.random(1, 3);
 	}
 	
 	public String getLocalizedCharacterName() {
@@ -215,7 +215,7 @@ public class AliceMargatroid extends CustomPlayer {
 	}
 	
 	public Color getCardRenderColor() {
-		return AliceMargatroidMod.ALICE_PUPPETEER;
+		return AliceMargatroidMod.ALICE_PUPPETEER.cpy();
 	}
 	
 	@Override
@@ -228,7 +228,7 @@ public class AliceMargatroid extends CustomPlayer {
 	}
 	
 	public Color getSlashAttackColor() {
-		return AliceMargatroidMod.ALICE_PUPPETEER;
+		return AliceMargatroidMod.ALICE_PUPPETEER.cpy();
 	}
 	
 	public AttackEffect[] getSpireHeartSlashEffect() {

@@ -33,11 +33,12 @@ public class AlicesGrimoire extends CustomRelic implements ClickableRelic {
 		);
 		
 		this.largeImg = ImageMaster.loadImage(IMG_LARGE);
+//		this.tips.add(new PowerTip(this.DESCRIPTIONS[2], this.DESCRIPTIONS[1]));
 	}
 	
 	@Override
 	public String getUpdatedDescription() {
-		return DESCRIPTIONS[0];
+		return this.DESCRIPTIONS[0] + " NL (" + this.DESCRIPTIONS[1] + ")";
 	}
 	
 	@Override

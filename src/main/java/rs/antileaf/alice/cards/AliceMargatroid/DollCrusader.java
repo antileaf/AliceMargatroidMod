@@ -1,22 +1,21 @@
 package rs.antileaf.alice.cards.AliceMargatroid;
 
-import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import rs.antileaf.alice.action.common.AliceDiscoverAction;
-import rs.antileaf.alice.action.doll.DollGainBlockAction;
+import rs.antileaf.alice.action.doll.DollActAction;
+import rs.antileaf.alice.action.doll.RecycleDollAction;
+import rs.antileaf.alice.action.doll.RemoveDollAction;
 import rs.antileaf.alice.action.doll.SpawnDollAction;
 import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
-import rs.antileaf.alice.cards.Derivations.dolls.AbstractCreateDoll;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
-import rs.antileaf.alice.doll.targeting.DollOrEmptySlotTargeting;
+import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
-import rs.antileaf.alice.patches.enums.CardTargetEnum;
+import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 import java.util.ArrayList;
@@ -28,8 +27,7 @@ public class DollCrusader extends AbstractAliceCard {
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 2;
-	private static final int BLOCK = 8;
-	private static final int MAGIC = 4;
+	private static final int MAGIC = 2;
 	
 	public DollCrusader() {
 		super(
@@ -41,76 +39,45 @@ public class DollCrusader extends AbstractAliceCard {
 				CardType.SKILL,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
 				CardRarity.COMMON,
-				CardTargetEnum.DOLL_OR_EMPTY_SLOT
+				CardTarget.NONE
 		);
 		
-		this.block = this.baseBlock = BLOCK;
 		this.magicNumber = this.baseMagicNumber = MAGIC;
-	}
-	
-	@Override
-	public void applyPowers() {
-		int tmp = this.block, tmpBase = this.baseBlock;
 		
-		this.baseBlock = this.baseMagicNumber;
-		this.block = this.magicNumber;
-		super.applyPowers();
-		this.baseMagicNumber = this.baseBlock;
-		this.magicNumber = this.block;
-		
-		this.baseBlock = tmpBase;
-		this.block = tmp;
-		tmpBase = this.baseMagicNumber;
-		tmp = this.magicNumber;
-		super.applyPowers();
-		this.baseMagicNumber = tmpBase;
-		this.magicNumber = tmp;
+		this.tags.add(CardTagEnum.ALICE_DOLL_ACT);
 	}
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
-		AbstractDoll target = DollOrEmptySlotTargeting.getTarget(this);
-		int index = DollManager.get().getDolls().indexOf(target);
+		boolean upg = this.upgraded;
+		int count = this.magicNumber;
 		
-		this.addToBot(new GainBlockAction(p, this.block));
-		
-		if (!this.upgraded) {
-			AbstractDoll doll = AbstractDoll.getRandomDoll();
-			this.addToBot(new AnonymousAction(() -> {
-				AliceSpireKit.addActionsToTop(
-						new SpawnDollAction(doll, index),
-						new DollGainBlockAction(doll, this.magicNumber)
-				);
-			}));
-		}
-		else {
-			ArrayList<String> dollIds = new ArrayList<>();
-			for (int i = 0; i < 3; i++) {
-				String id = AbstractDoll.getRandomDollIdExcept(dollIds.toArray(new String[0]));
-				dollIds.add(id);
+		this.addToBot(new AnonymousAction(() -> {
+			ArrayList<Integer> indices = new ArrayList<>();
+			
+			for (int i = 0; i < DollManager.get().getDolls().size(); i++)
+				if (!(DollManager.get().getDolls().get(i) instanceof EmptyDollSlot)) {
+					AbstractDoll doll = DollManager.get().getDolls().get(i);
+					if (doll.calcTotalDamageAboutToTake() > 0) {
+						indices.add(i);
+						
+						if (!upg)
+							AliceSpireKit.addActionToBuffer(new RemoveDollAction(doll));
+						else
+							AliceSpireKit.addActionToBuffer(new RecycleDollAction(doll));
+					}
+				}
+			
+			for (int i : indices) {
+				AbstractDoll doll = AbstractDoll.getRandomDoll();
+				AliceSpireKit.addActionToBuffer(new SpawnDollAction(doll, i));
+				
+				for (int k = 0; k < count; k++)
+					AliceSpireKit.addActionToBuffer(new DollActAction(doll));
 			}
 			
-			ArrayList<AbstractCard> choices = dollIds.stream()
-					.map(AbstractCreateDoll::get)
-					.collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
-			
-			this.addToBot(new AliceDiscoverAction(
-					choices,
-					(card) -> {
-						if (card instanceof AbstractCreateDoll) {
-							AbstractDoll doll = ((AbstractCreateDoll) card).getDoll();
-							AliceSpireKit.addActionsToTop(
-									new SpawnDollAction(doll, index),
-									new DollGainBlockAction(doll, this.magicNumber)
-							);
-						}
-						else
-							AliceSpireKit.log(this.getClass(), "Invalid choice: " + card);
-					},
-					cardStrings.EXTENDED_DESCRIPTION[0],
-					false
-			));
-		}
+			AliceSpireKit.commitBuffer();
+		}));
 	}
 	
 	@Override

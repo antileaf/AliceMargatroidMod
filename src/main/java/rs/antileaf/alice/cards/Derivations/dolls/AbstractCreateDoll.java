@@ -59,12 +59,12 @@ public abstract class AbstractCreateDoll extends AbstractAliceCard {
 			return new CreateNetherlandsDoll();
 		else if (id.equals(HouraiDoll.ID))
 			return new CreateHouraiDoll();
-		else if (id.equals(KyotoDoll.ID))
-			return new CreateKyotoDoll();
-		else if (id.equals(LondonDoll.ID))
-			return new CreateLondonDoll();
 		else if (id.equals(FranceDoll.ID))
 			return new CreateFranceDoll();
+		else if (id.equals(LondonDoll.ID))
+			return new CreateLondonDoll();
+		else if (id.equals(KyotoDoll.ID))
+			return new CreateKyotoDoll();
 		else if (id.equals(OrleansDoll.ID))
 			return new CreateOrleansDoll();
 		

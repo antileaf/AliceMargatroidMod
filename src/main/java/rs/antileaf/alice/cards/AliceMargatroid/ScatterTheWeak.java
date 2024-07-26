@@ -23,7 +23,7 @@ public class ScatterTheWeak extends AbstractAliceCard {
 	public static final String ID = SIMPLE_NAME;
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
-	private static final int COST = 2;
+	private static final int COST = 1;
 	private static final int DAMAGE = 5;
 	
 	public ScatterTheWeak() {

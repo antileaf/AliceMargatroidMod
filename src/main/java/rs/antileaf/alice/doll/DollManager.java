@@ -18,6 +18,7 @@ import rs.antileaf.alice.action.doll.SpawnDollInternalAction;
 import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.characters.AliceMargatroid;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
+import rs.antileaf.alice.doll.dolls.FranceDoll;
 import rs.antileaf.alice.doll.dolls.HouraiDoll;
 import rs.antileaf.alice.doll.interfaces.OnDollOperateHook;
 import rs.antileaf.alice.utils.AliceSpireKit;
@@ -131,12 +132,16 @@ public class DollManager {
 		return this.preservedBlock;
 	}
 	
-	public void startOfTurnClearBlock() {
+	public void startOfTurnClearBlock(int playerBlock) {
 		if (this.preservedBlock != 0)
 			AliceSpireKit.log("DollManager", "Preserved block is not 0: " + this.preservedBlock);
 		
-		for (AbstractDoll doll : this.dolls)
+		for (AbstractDoll doll : this.dolls) {
 			doll.clearBlock(this.preservedBlock);
+			
+			if (doll instanceof FranceDoll)
+				((FranceDoll) doll).passiveEffect(playerBlock);
+		}
 	}
 	
 	public void updateDamageAboutToTake() {
@@ -239,14 +244,14 @@ public class DollManager {
 			doll.postEnergyRecharge();
 	}
 	
+	public void onEndOfTurnLockDamageTarget() {
+		this.isDamageTargetLocked = true;
+	}
+	
 	// The trigger is implemented in the doll mechanics patch
 	public void onEndOfTurn() {
 		for (AbstractDoll doll : this.dolls)
 			doll.onEndOfTurn();
-		
-		AliceSpireKit.addToBot(new AnonymousAction(() -> {
-			this.isDamageTargetLocked = true;
-		}));
 	}
 	
 	public void applyPowers() {
@@ -414,9 +419,8 @@ public class DollManager {
 		assert this.dolls.contains(doll);
 		
 		doll.applyPower();
-		
 		doll.onRecycle();
-		doll.onRemoved();
+		
 		this.dolls.set(this.dolls.indexOf(doll),
 				newDoll != null ? newDoll : new EmptyDollSlot());
 		
@@ -437,7 +441,6 @@ public class DollManager {
 		for (AbstractDoll other : this.dolls)
 			if (other != doll) {
 				other.postOtherDollRecycled(doll);
-				other.postOtherDollRemoved(doll);
 			}
 		
 		this.update();
@@ -447,9 +450,8 @@ public class DollManager {
 		assert this.dolls.contains(doll);
 		
 		doll.applyPower();
-		
 		doll.onDestroyed();
-		doll.onRemoved();
+		
 		this.dolls.set(this.dolls.indexOf(doll), new EmptyDollSlot());
 		
 		this.applyPowers();
@@ -469,9 +471,19 @@ public class DollManager {
 		for (AbstractDoll other : this.dolls)
 			if (other != doll) {
 				other.postOtherDollDestroyed(doll);
-				other.postOtherDollRemoved(doll);
 			}
 		
+		this.update();
+	}
+	
+	public void removeDoll(AbstractDoll doll) {
+		assert this.dolls.contains(doll);
+		
+		doll.applyPower();
+		doll.onRemoved();
+		
+		this.dolls.set(this.dolls.indexOf(doll), new EmptyDollSlot());
+		this.applyPowers();
 		this.update();
 	}
 	

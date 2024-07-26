@@ -2,6 +2,7 @@ package rs.antileaf.alice.cards.Marisa;
 
 import basemod.abstracts.CustomCard;
 import com.evacipated.cardcrawl.mod.stslib.actions.common.DamageCallbackAction;
+import com.evacipated.cardcrawl.mod.stslib.cards.interfaces.SpawnModificationCard;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
@@ -14,7 +15,9 @@ import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.utils.AliceConfigHelper;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
-public class Alice6A extends CustomCard {
+import java.util.ArrayList;
+
+public class Alice6A extends CustomCard implements SpawnModificationCard {
 	public static final String SIMPLE_NAME = Alice6A.class.getSimpleName();
 	public static final String ID = SIMPLE_NAME;
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
@@ -42,6 +45,16 @@ public class Alice6A extends CustomCard {
 			this.textureImg = AliceSpireKit.getImgFilePath("Marisa/cards", SIMPLE_NAME + "_original");
 			this.loadCardImage(this.textureImg);
 		}
+	}
+	
+	@Override
+	public boolean canSpawn(ArrayList<AbstractCard> currentRewardCards) {
+		return false;
+	}
+	
+	@Override
+	public boolean canSpawnShop(ArrayList<AbstractCard> currentShopCards) {
+		return false;
 	}
 	
 	@Override

@@ -1,15 +1,14 @@
 package rs.antileaf.alice.cards.AliceMargatroid;
 
-import com.megacrit.cardcrawl.actions.common.ReducePowerAction;
+import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import com.megacrit.cardcrawl.powers.ArtifactPower;
-import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
+import rs.antileaf.alice.powers.unique.SealOfLightPower;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class SealOfLight extends AbstractAliceCard {
@@ -40,20 +39,8 @@ public class SealOfLight extends AbstractAliceCard {
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
-		int percent = this.magicNumber;
-		this.addToBot(new AnonymousAction(() -> {
-			if (m.hasPower(ArtifactPower.POWER_ID))
-				AliceSpireKit.addToTop(new ReducePowerAction(
-						m,
-						p,
-						m.getPower(ArtifactPower.POWER_ID),
-						1
-				));
-			else {
-				m.currentHealth -= m.currentHealth * percent / 100;
-				m.decreaseMaxHealth(m.maxHealth * percent / 100);
-			}
-		}));
+		this.addToBot(new ApplyPowerAction(m, p,
+				new SealOfLightPower(m, this.magicNumber), this.magicNumber));
 	}
 	
 	@Override

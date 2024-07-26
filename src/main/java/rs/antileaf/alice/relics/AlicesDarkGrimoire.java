@@ -20,7 +20,7 @@ public class AlicesDarkGrimoire extends CustomRelic implements ClickableRelic, O
 	private static final String IMG_OTL = AliceSpireKit.getRelicOutlineImgFilePath(SIMPLE_NAME);
 	private static final String IMG_LARGE = AliceSpireKit.getRelicLargeImgFilePath(SIMPLE_NAME);
 	
-	private static final int MULTIPLIER = 2;
+	private static final int MULTIPLIER = 3;
 
 	public AlicesDarkGrimoire() {
 		super(
@@ -32,11 +32,12 @@ public class AlicesDarkGrimoire extends CustomRelic implements ClickableRelic, O
 		);
 		
 		this.largeImg = ImageMaster.loadImage(IMG_LARGE);
+//		this.tips.add(new PowerTip(this.DESCRIPTIONS[2], this.DESCRIPTIONS[1]));
 	}
 	
 	@Override
 	public String getUpdatedDescription() {
-		return DESCRIPTIONS[0];
+		return this.DESCRIPTIONS[0] + " NL (" + this.DESCRIPTIONS[1] + ")";
 	}
 	
 	@Override

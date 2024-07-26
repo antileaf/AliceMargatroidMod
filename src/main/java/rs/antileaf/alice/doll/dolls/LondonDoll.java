@@ -113,8 +113,7 @@ public class LondonDoll extends AbstractDoll {
 		}));
 	}
 	
-	@Override
-	public void onRemoved() {
+	private void onRecycleOrDestroyed() {
 		this.addToBot(new AnonymousAction(() -> {
 			int index = -1;
 			for (int i = DollManager.MAX_DOLL_SLOTS - 1; i >= 0; i--) {
@@ -131,6 +130,16 @@ public class LondonDoll extends AbstractDoll {
 			
 			this.addToTop(new SpawnDollAction(AbstractDoll.getRandomDollExcept(LondonDoll.ID), index));
 		}));
+	}
+	
+	@Override
+	public void onRecycle() {
+		this.onRecycleOrDestroyed();
+	}
+	
+	@Override
+	public void onDestroyed() {
+		this.onRecycleOrDestroyed();
 	}
 	
 	@Override

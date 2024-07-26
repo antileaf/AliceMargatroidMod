@@ -32,9 +32,8 @@
   
   "DollCrusader": {
     "NAME": "人偶十字军",
-    "DESCRIPTION": "获得 !B! 点 格挡 。 NL alicemargatroidmod:可指向生成 一个随机 alicemargatroidmod:人偶 ，使其获得 !M! 点 格挡 。",
-    "UPGRADE_DESCRIPTION": "获得 !B! 点 格挡 。 NL alicemargatroidmod:可指向生成 一个你 alicemargatroidmod:发现 的 alicemargatroidmod:人偶 ，使其获得 !M! 点 格挡 。",
-    "EXTENDED_DESCRIPTION": ["选择一个人偶"]
+    "DESCRIPTION": "移除所有将要受到攻击的 alicemargatroidmod:人偶 ，然后在原位置 alicemargatroidmod:生成 一个随机 alicemargatroidmod:人偶 ，并使它们 alicemargatroidmod:行动 !M! 次。",
+    "UPGRADE_DESCRIPTION": "alicemargatroidmod:回收 所有将要受到攻击的 alicemargatroidmod:人偶 ，然后在原位置 alicemargatroidmod:生成 一个随机 alicemargatroidmod:人偶 ，并使它们 alicemargatroidmod:行动 !M! 次。"
   },
   
   "Thread": {
@@ -125,7 +124,8 @@
   "SevenColoredPuppeteer": {
     "NAME": "七色的人偶使",
     "DESCRIPTION": "如果你的手牌中没有相同的牌，对所有敌人造成 !D! 点伤害 !M! 次。 NL 如果你的手牌数已达到上限，这张牌的耗能变为 0 。",
-    "UPGRADE_DESCRIPTION": "保留 。 如果你的手牌中没有相同的牌，对所有敌人造成 !D! 点伤害 !M! 次。 NL 如果你的手牌数已达到上限，这张牌的耗能变为 0 。"
+    "UPGRADE_DESCRIPTION": "保留 。 如果你的手牌中没有相同的牌，对所有敌人造成 !D! 点伤害 !M! 次。 NL 如果你的手牌数已达到上限，这张牌的耗能变为 0 。",
+    "FLAVOR": "目前存在一个 bug，会导致这张牌无法与异蛇之眼互动。稍后会修复。"
   },
   
   "Collector": {
@@ -145,9 +145,9 @@
     "FLAVOR": "手牌上限减少的效果会在抽牌之前就生效。"
   },
   
-  "CallForDolls": {
+  "CallToDolls": {
     "NAME": "战斗号角",
-    "DESCRIPTION": "造成 !D! 点伤害。 NL 一回合内，目标敌人受到 alicemargatroidmod:人偶 的伤害增加 !M! 点。"
+    "DESCRIPTION": "造成 !D! 点伤害。 NL !M! 回合内，目标敌人受到 alicemargatroidmod:人偶 的伤害提高 50% 。"
   },
   
   "SnowSweeping": {
@@ -183,7 +183,7 @@
   
   "SPDoll": {
     "NAME": "人偶SP",
-    "DESCRIPTION": "在至多 !M! 个随机空栏位中各随机 alicemargatroidmod:生成 一个 alicemargatroidmod:上海人偶 、 alicemargatroidmod:蓬莱人偶 或 alicemargatroidmod:法兰西人偶 。"
+    "DESCRIPTION": "在至多 !M! 个随机空栏位中各随机 alicemargatroidmod:生成 一个 alicemargatroidmod:上海人偶 、 alicemargatroidmod:蓬莱人偶 或 alicemargatroidmod:京都人偶 。"
   },
   
   "Kick": {
@@ -280,12 +280,13 @@
   
   "DollMiraCeti": {
     "NAME": "人偶鲸鱼座",
-    "DESCRIPTION": "alicemargatroidmod:指令 ：目标 alicemargatroidmod:人偶 alicemargatroidmod:行动 !M! X 次。"
+    "DESCRIPTION": "alicemargatroidmod:指令 ：目标 alicemargatroidmod:人偶 alicemargatroidmod:行动 !M! X 次。",
+    "UPGRADE_DESCRIPTION": "alicemargatroidmod:指令 ：目标 alicemargatroidmod:人偶 alicemargatroidmod:行动 !M! (X+1) 次。"
   },
   
   "Revelation": {
     "NAME": "启示",
-    "DESCRIPTION": "造成 !D! 点伤害。 NL 将此效果附加给手牌中一张随机的攻击牌。 NL 消耗 。",
+    "DESCRIPTION": "造成 !D! 点伤害。 NL 将上述效果附加给手牌中一张随机的攻击牌。 NL 消耗 。",
     "FLAVOR": "如果附加给了不指定目标的牌，则会随机选择目标。"
   },
   
@@ -332,7 +333,7 @@
   
   "MaidensBunraku": {
     "NAME": "少女文乐",
-    "DESCRIPTION": "直到你的下个回合，每当 alicemargatroidmod:人偶 alicemargatroidmod:行动 后，使其获得 !M! 点 格挡 。 NL 虚无 。"
+    "DESCRIPTION": "每当 alicemargatroidmod:人偶 alicemargatroidmod:行动 后，使其获得 !M! 点 格挡 。 NL 虚无 。"
   },
   
   "Usokae": {
@@ -340,6 +341,16 @@
     "DESCRIPTION": "爱丽丝受到非攻击伤害或失去生命时，可以由 alicemargatroidmod:人偶 的 格挡 承担。",
     "UPGRADE_DESCRIPTION": "固有 。 NL 爱丽丝受到非攻击伤害或失去生命时，可以由 alicemargatroidmod:人偶 的 格挡 承担。",
     "FLAVOR": "按照从左至右的顺序，依次承担伤害。 NL 如果没有足够的 格挡 ，则仍然会由爱丽丝承担。"
+  },
+  
+  "MagicConduit": {
+    "NAME": "魔力传导线",
+    "DESCRIPTION": "如果最左侧栏位中有 alicemargatroidmod:人偶 ，每当它 alicemargatroidmod:行动 时，获得 [E] 。"
+  },
+  
+  "ArtfulChanter": {
+    "NAME": "狡猾的吟诵者",
+    "DESCRIPTION": "每 alicemargatroidmod:回收 一个 alicemargatroidmod:人偶 ，获得 !M! 点临时 力量 和 敏捷 。"
   },
   
   
@@ -370,9 +381,9 @@
     "DESCRIPTION": "alicemargatroidmod:可指向生成 一个 alicemargatroidmod:伦敦人偶 。 NL 所有 alicemargatroidmod:人偶 获得 !B! 点 格挡 。"
   },
   
-  "SpringKyotoDoll": {
-    "NAME": "春之京都人偶",
-    "DESCRIPTION": "alicemargatroidmod:可指向生成 一个 alicemargatroidmod:京都人偶 。 NL 如果选择的位置上已经有一个 alicemargatroidmod:京都人偶 ，则不会 alicemargatroidmod:生成 ，而是改为使其 alicemargatroidmod:行动 !M! 次。"
+  "CharitableFranceDoll": {
+    "NAME": "博爱的法兰西人偶",
+    "DESCRIPTION": "alicemargatroidmod:可指向生成 一个 alicemargatroidmod:法兰西人偶 。 NL 如果选择的位置上已经有一个 alicemargatroidmod:法兰西人偶 ，则不会 alicemargatroidmod:生成 ，而是改为使其 alicemargatroidmod:行动 !M! 次。"
   },
   
   "RedHairedNetherlandsDoll": {
@@ -387,10 +398,43 @@
     "UPGRADE_DESCRIPTION": "WWW NL alicemargatroidmod:可指向生成 一个 alicemargatroidmod:奥尔良人偶 ，使其 alicemargatroidmod:行动 !M! 次。"
   },
   
-  "CharitableFranceDoll": {
-    "NAME": "博爱的法兰西人偶",
-    "DESCRIPTION": "在随机空栏位中 alicemargatroidmod:生成 一个 alicemargatroidmod:法兰西人偶 。 NL 消耗 。",
-    "UPGRADE_DESCRIPTION": "在至多 !M! 个随机空栏位中各 alicemargatroidmod:生成 一个 alicemargatroidmod:法兰西人偶 。 NL 消耗 。"
+  "SpringKyotoDoll": {
+    "NAME": "春之京都人偶",
+    "DESCRIPTION": "在随机空栏位中 alicemargatroidmod:生成 一个 alicemargatroidmod:京都人偶 。 NL 消耗 。",
+    "UPGRADE_DESCRIPTION": "在至多 !M! 个随机空栏位中各 alicemargatroidmod:生成 一个 alicemargatroidmod:京都人偶 。 NL 消耗 。"
+  },
+  
+  "Tripwire": {
+    "NAME": "绊线",
+    "DESCRIPTION": "每有一个空的 alicemargatroidmod:人偶 栏位，造成 !D! 点伤害。"
+  },
+  
+  "DevilryLightRay": {
+    "NAME": "惨虐之光",
+    "DESCRIPTION": "对所有敌人施加 !M! 层 易伤 。 NL 下回合开始时，对所有敌人施加 !M! 层 虚弱 。"
+  },
+  
+  "RefreshingSpringWater": {
+    "NAME": "清凉的泉水",
+    "DESCRIPTION": "如果你至少有 5 个 alicemargatroidmod:人偶 ，获得 [E] ，并抽一张牌。",
+    "UPGRADE_DESCRIPTION": "如果你至少有 5 个 alicemargatroidmod:人偶 ，获得 [E] [E] ，并抽一张牌。"
+  },
+  
+  "DollArmy": {
+    "NAME": "人偶军团",
+    "DESCRIPTION": "alicemargatroidmod:指令 ：在所有空栏位中 alicemargatroidmod:生成 一个与目标 alicemargatroidmod:人偶 类别相同的 alicemargatroidmod:人偶 。"
+  },
+  
+  "DollParade": {
+    "NAME": "人偶的盛装游行",
+    "DESCRIPTION": "将除最右侧 alicemargatroidmod:人偶 以外的所有 alicemargatroidmod:人偶 移除。 NL 每移除一个，使最右侧的 alicemargatroidmod:人偶 alicemargatroidmod:行动 一次。 消耗 。",
+    "UPGRADE_DESCRIPTION": "将除最右侧 alicemargatroidmod:人偶 以外的所有 alicemargatroidmod:人偶 移除。 NL 每移除一个，使最右侧的 alicemargatroidmod:人偶 alicemargatroidmod:行动 一次。",
+    "FLAVOR": "先全部移除，再行动。 NL 移除并不会触发回收效果。"
+  },
+  
+  "SeekerDoll": {
+    "NAME": "探索人偶",
+    "DESCRIPTION": "alicemargatroidmod:指令 ：目标 alicemargatroidmod:人偶 alicemargatroidmod:行动 !aliceM2! 次。 NL 如果是本回合首次打出“探索人偶”，额外 alicemargatroidmod:行动 !M! 次。"
   },
   
   
@@ -405,11 +449,6 @@
     "DESCRIPTION": "alicemargatroidmod:生成 一个 alicemargatroidmod:上海人偶 。"
   },
   
-  "CreateNetherlandsDoll": {
-    "NAME": "荷兰人偶",
-    "DESCRIPTION": "alicemargatroidmod:生成 一个 alicemargatroidmod:荷兰人偶 。"
-  },
-  
   "CreateHouraiDoll": {
       "NAME": "蓬莱人偶",
       "DESCRIPTION": "alicemargatroidmod:生成 一个 alicemargatroidmod:蓬莱人偶 。"
@@ -418,6 +457,11 @@
   "CreateKyotoDoll": {
       "NAME": "京都人偶",
       "DESCRIPTION": "alicemargatroidmod:生成 一个 alicemargatroidmod:京都人偶 。"
+  },
+  
+  "CreateNetherlandsDoll": {
+    "NAME": "荷兰人偶",
+    "DESCRIPTION": "alicemargatroidmod:生成 一个 alicemargatroidmod:荷兰人偶 。"
   },
   
   "CreateLondonDoll": {
