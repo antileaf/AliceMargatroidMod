@@ -52,20 +52,11 @@ public class ConcealmentRay extends AbstractAliceCard {
 				AbstractGameAction.AttackEffect.SLASH_HORIZONTAL,
 				(amount) -> {
 					if (amount > 0) {
-						for (int i = 0; i < DollManager.MAX_DOLL_SLOTS; i++) {
-							AbstractMonster mon = AliceSpireKit.getMonsterByIndex(i);
-							if (mon == null)
-								break;
-							
-							if (mon.intent == AbstractMonster.Intent.ATTACK ||
-									mon.intent == AbstractMonster.Intent.ATTACK_BUFF ||
-									mon.intent == AbstractMonster.Intent.ATTACK_DEBUFF ||
-									mon.intent == AbstractMonster.Intent.ATTACK_DEFEND) {
-								AbstractDoll doll = DollManager.get().getDolls().get(i);
-								if (!(doll instanceof EmptyDollSlot))
-									this.addToBot(new DollGainBlockAction(doll, amount));
-							}
-						}
+						for (AbstractDoll doll : DollManager.get().getDolls())
+							if (!(doll instanceof EmptyDollSlot) && doll.calcTotalDamageAboutToTake() != -1)
+								AliceSpireKit.addActionToBuffer(new DollGainBlockAction(doll, amount));
+						
+						AliceSpireKit.commitBuffer();
 					}
 				}
 		));

@@ -17,7 +17,7 @@
   
   "Chant": {
     "NAME": "咏唱",
-    "DESCRIPTION": "获得 !B! 点 格挡 。 NL alicemargatroidmod:指令 ：目标 alicemargatroidmod:人偶 alicemargatroidmod:行动 !M! 次。"
+    "DESCRIPTION": "获得 !B! 点 格挡 。 NL 下回合开始时，所有 alicemargatroidmod:人偶 alicemargatroidmod:行动 !M! 次。"
   },
   
   "DollPlacement": {
@@ -41,9 +41,10 @@
     "DESCRIPTION": "造成 !D! 点伤害。 NL 如果造成了未被 格挡 的伤害，则抽一张牌，并 alicemargatroidmod:生成 一个随机 alicemargatroidmod:人偶 。"
   },
   
-  "ProtectiveMagic": {
+  "ProtectiveSpell": {
     "NAME": "防护魔法",
-    "DESCRIPTION": "如果你的 格挡 不足 !B! 点，将其补至相应值。 NL alicemargatroidmod:指令 ：改为对目标 alicemargatroidmod:人偶 使用。"
+    "DESCRIPTION": "如果你的 格挡 不足 !B! 点，将其补至相应值。 NL alicemargatroidmod:指令 ：改为对目标 alicemargatroidmod:人偶 使用。",
+    "FLAVOR": "你就说有没有防护吧。"
   },
   
   "Transfer": {
@@ -65,19 +66,22 @@
   "KirisameMagicShop": {
     "NAME": "雾雨魔法店",
     "DESCRIPTION": "alicemargatroidmod:发现 一瓶药水，将其加入战斗奖励中。 NL 消耗 。",
-    "EXTENDED_DESCRIPTION": ["选择一瓶药水"]
+    "EXTENDED_DESCRIPTION": ["选择一瓶药水"],
+    "FLAVOR": "道理我都懂，但是为什么这里会有芙莉莲？"
   },
   
   "SurpriseSpring": {
     "NAME": "惊喜之春",
-    "DESCRIPTION": "获得 [E] 。 NL 恢复 !M! 点生命。 NL 抽一张牌，将其 升级 。 NL 消耗 。",
-    "UPGRADE_DESCRIPTION": "获得 [E] [E] 。 NL 恢复 !M! 点生命。 NL 抽一张牌，将其 升级 。 NL 消耗 。"
+    "DESCRIPTION": "获得 [E] 。 NL 恢复 !M! 点生命。 NL 抽一张牌，将其在本场战斗中 升级 。 NL 消耗 。",
+    "UPGRADE_DESCRIPTION": "获得 [E] [E] 。 NL 恢复 !M! 点生命。 NL 抽一张牌，将其在本场战斗中 升级 。 NL 消耗 。",
+    "FLAVOR": "“什么是春度？就是你脑子里究竟有多春的程度啊。 ”"
   },
   
   "WarFlag": {
     "NAME": "战旗",
     "DESCRIPTION": "alicemargatroidmod:指令 ：使其他 alicemargatroidmod:人偶 获得等同于目标 alicemargatroidmod:人偶 一半的 格挡 。",
-    "UPGRADE_DESCRIPTION": "alicemargatroidmod:指令 ：目标 alicemargatroidmod:人偶 alicemargatroidmod:行动 一次，然后使其他 alicemargatroidmod:人偶 获得等同于目标 alicemargatroidmod:人偶 一半的 格挡 。"
+    "UPGRADE_DESCRIPTION": "alicemargatroidmod:指令 ：目标 alicemargatroidmod:人偶 alicemargatroidmod:行动 !M! 次，然后使其他 alicemargatroidmod:人偶 获得等同于目标 alicemargatroidmod:人偶 一半的 格挡 。",
+    "FLAVOR": "所有人，都过来！"
   },
   
   "DollAmbush": {
@@ -93,7 +97,8 @@
   
   "DollJudge": {
     "NAME": "人偶裁判",
-    "DESCRIPTION": "每当有 alicemargatroidmod:人偶 获得 格挡 时，爱丽丝也会获得 50% 的 格挡 。"
+    "DESCRIPTION": "alicemargatroidmod:人偶 被 alicemargatroidmod:回收 时，爱丽丝获得其拥有 格挡 的 50%。",
+    "FLAVOR": "我有异议！"
   },
   
   "SpiritualPower": {
@@ -118,20 +123,21 @@
   
   "DollCremation": {
     "NAME": "人偶火葬",
-    "DESCRIPTION": "alicemargatroidmod:指令 ： alicemargatroidmod:回收 目标 alicemargatroidmod:人偶 ，对所有敌人造成 !D! 点伤害。 NL 虚无 。"
+    "DESCRIPTION": "alicemargatroidmod:指令 ： alicemargatroidmod:回收 目标 alicemargatroidmod:人偶 ，对随机敌人造成 !D! 点伤害。 NL 虚无 。",
+    "FLAVOR": "人偶：我没意见"
   },
   
   "SevenColoredPuppeteer": {
     "NAME": "七色的人偶使",
     "DESCRIPTION": "如果你的手牌中没有相同的牌，对所有敌人造成 !D! 点伤害 !M! 次。 NL 如果你的手牌数已达到上限，这张牌的耗能变为 0 。",
-    "UPGRADE_DESCRIPTION": "保留 。 如果你的手牌中没有相同的牌，对所有敌人造成 !D! 点伤害 !M! 次。 NL 如果你的手牌数已达到上限，这张牌的耗能变为 0 。",
-    "FLAVOR": "目前存在一个 bug，会导致这张牌无法与异蛇之眼互动。稍后会修复。"
+    "UPGRADE_DESCRIPTION": "保留 。 如果你的手牌中没有相同的牌，对所有敌人造成 !D! 点伤害 !M! 次。 NL 如果你的手牌数已达到上限，这张牌的耗能变为 0 。"
   },
   
   "Collector": {
     "NAME": "收集家",
     "DESCRIPTION": "每拥有 !M! 个遗物，获得 !aliceM2! 点 格挡 。",
-    "EXTENDED_DESCRIPTION": [" NL (获得 !B! 点 格挡。)"]
+    "EXTENDED_DESCRIPTION": [" NL (获得 !B! 点 格挡。)"],
+    "FLAVOR": "你怎么知道我收集了这么多人偶？"
   },
   
   "Punishment": {
@@ -142,12 +148,13 @@
   "MaliceSpark": {
     "NAME": "魔丽丝炮",
     "DESCRIPTION": "造成 !D! 点伤害。 NL 抽 !M! 张牌，但在本回合内手牌上限减少 !aliceM2! 张。",
-    "FLAVOR": "手牌上限减少的效果会在抽牌之前就生效。"
+    "FLAVOR": "不要小瞧我们之间的羁绊啊魂淡！"
   },
   
   "CallToDolls": {
     "NAME": "战斗号角",
-    "DESCRIPTION": "造成 !D! 点伤害。 NL !M! 回合内，目标敌人受到 alicemargatroidmod:人偶 的伤害提高 50% 。"
+    "DESCRIPTION": "造成 !D! 点伤害。 NL !M! 回合内，目标敌人受到 alicemargatroidmod:人偶 的伤害提高 50% 。",
+    "FLAVOR": "魔法之森的人偶们，听我号令！"
   },
   
   "SnowSweeping": {
@@ -159,21 +166,20 @@
     "NAME": "友人之助",
     "DESCRIPTION": "从 *双重火花 、 *小行星带 、 *尻击 中选择一张加入手牌，使其在本回合内耗能变为 0。 消耗 。",
     "UPGRADE_DESCRIPTION": "从 *双重火花+ 、 *小行星带+ 、 *尻击+ 中选择一张加入手牌，使其在本回合内耗能变为 0。 消耗 。",
-    "EXTENDED_DESCRIPTION": ["选择并获得一张牌"]
+    "EXTENDED_DESCRIPTION": ["选择并获得一张牌"],
+    "FLAVOR": "怎么只舍得给白卡？"
   },
   
   "Phantom": {
     "NAME": "幻影",
-    "DESCRIPTION": "只有你的手牌中没有相同的牌（包括这张牌）时才能打出。 NL 将一张手牌复制 !M! 份。",
-    "EXTENDED_DESCRIPTION": ["复制", "份"],
-    "FLAVOR": "复制品在离开手牌或回合结束时即会消失， #r不会 进入消耗堆。 NL 计算相同的牌时，不计入复制品。"
+    "DESCRIPTION": "只有你的手牌中没有相同的牌（包括这张牌）时才能打出。 NL 选择一张手牌，获得 !M! 张具有 alicemargatroidmod:幻影 的复制。",
+    "EXTENDED_DESCRIPTION": ["复制", "份"]
   },
   
   "MysteriousMirror": {
     "NAME": "魔镜",
     "DESCRIPTION": "复制所有手牌。 NL 本回合内无法再抽牌。 NL 消耗 。",
-    "UPGRADE_DESCRIPTION": "保留 。复制所有手牌。 NL 本回合内无法再抽牌。 NL 消耗 。",
-    "FLAVOR": "复制品在离开手牌或回合结束时即会消失， #r不会 进入消耗堆。 NL 计算相同的牌时，不计入复制品。"
+    "UPGRADE_DESCRIPTION": "保留 。复制所有手牌。 NL 本回合内无法再抽牌。 NL 消耗 。"
   },
   
   "ReturningDolls": {
@@ -193,7 +199,7 @@
   
   "DollLances": {
     "NAME": "人偶千枪",
-    "DESCRIPTION": "造成 !D! 点伤害。 NL 所有 alicemargatroidmod:上海人偶 alicemargatroidmod:行动 一次。"
+    "DESCRIPTION": "造成 !D! 点伤害。 NL alicemargatroidmod:生成 一个 alicemargatroidmod:上海人偶 。 NL 所有 alicemargatroidmod:上海人偶 alicemargatroidmod:行动 一次。"
   },
   
   "CutiePhalanx": {
@@ -208,13 +214,14 @@
   
   "BlackTea": {
     "NAME": "红茶",
-    "DESCRIPTION": "不能被打出 。 保留 。 NL 抽到时以及回合开始时，获得 [E] 。 NL 生效 !M! 次后 消耗 。"
+    "DESCRIPTION": "不能被打出 。 保留 。 NL 抽到时以及回合开始时，获得 [E] 。 NL 生效 !M! 次后 消耗 。",
+    "FLAVOR": "来自明治十七年的上海爱丽丝开办的上海红茶馆。"
   },
   
   "MysteriousChallenger": {
     "NAME": "神秘挑战者",
-    "DESCRIPTION": "如果你恰好有 5 个 alicemargatroidmod:人偶 ，使所有 alicemargatroidmod:人偶 alicemargatroidmod:行动 一次。",
-    "UPGRADE_DESCRIPTION": "如果你恰好有 3 、 4 或 5 个 alicemargatroidmod:人偶 ，使所有 alicemargatroidmod:人偶 alicemargatroidmod:行动 一次。"
+    "DESCRIPTION": "如果你恰好有 5 个相邻的 alicemargatroidmod:人偶 ，使所有 alicemargatroidmod:人偶 alicemargatroidmod:行动 一次。",
+    "UPGRADE_DESCRIPTION": "如果你恰好有 3 、 4 或 5 个相邻的 alicemargatroidmod:人偶 ，使所有 alicemargatroidmod:人偶 alicemargatroidmod:行动 一次。"
   },
   
   "DollShield": {
@@ -225,7 +232,8 @@
   
   "DollOfRoundTable": {
     "NAME": "圆桌人偶",
-    "DESCRIPTION": "所有 alicemargatroidmod:人偶 获得 !B! 点 格挡 。 NL 本回合内，无法再从卡牌中获得 格挡 。 NL 消耗 。"
+    "DESCRIPTION": "所有 alicemargatroidmod:人偶 获得 !B! 点 格挡 。 NL 本回合内，无法再从卡牌中获得 格挡 。 NL 消耗 。",
+    "FLAVOR": "幸好没有兰斯洛特人偶。"
   },
   
   "Dessert": {
@@ -258,8 +266,7 @@
   
   "ScatterTheWeak": {
     "NAME": "弱者退散",
-    "DESCRIPTION": "造成 !D! 点伤害。 NL 如果对 *爪牙 敌人造成了未被 格挡 的伤害，直接将其消灭。 NL 消耗 。",
-    "UPGRADE_DESCRIPTION": "对所有敌人造成 !D! 点伤害。 NL 如果对 *爪牙 敌人造成了未被 格挡 的伤害，直接将其消灭。 NL 消耗 。"
+    "DESCRIPTION": "对所有敌人造成 !D! 点伤害。 NL 如果对 *爪牙 敌人造成了未被 格挡 的伤害，直接将其消灭。 NL 消耗 。"
   },
   
   "AliceInWonderland": {
@@ -286,8 +293,8 @@
   
   "Revelation": {
     "NAME": "启示",
-    "DESCRIPTION": "造成 !D! 点伤害。 NL 将上述效果附加给手牌中一张随机的攻击牌。 NL 消耗 。",
-    "FLAVOR": "如果附加给了不指定目标的牌，则会随机选择目标。"
+    "DESCRIPTION": "使手牌中一张随机攻击牌的基础伤害提高 !M! 点，并获得与这张牌相同的效果。 NL 消耗 。",
+    "UPGRADE_DESCRIPTION": "使手牌中所有攻击牌的基础伤害提高 !M! 点，并获得与这张牌相同的效果。 NL 消耗 。"
   },
   
   "FailedExperiment": {
@@ -297,15 +304,15 @@
   
   "ButterflyFlurry": {
     "NAME": "乱蝶",
-    "DESCRIPTION": "造成 !D! 点伤害。 NL 斩杀 时，在本回合结束后，获得一个额外回合。"
+    "DESCRIPTION": "造成 !D! 点伤害。 NL 斩杀 时，在本回合结束后，获得一个额外回合。",
+    "FLAVOR": "“早点给你个痛快！”"
   },
   
   "WitchsTeaParty": {
     "NAME": "魔女的茶话会",
     "DESCRIPTION": "从 !M! 张其它不同颜色的技能牌中 alicemargatroidmod:发现 一张。 NL 消耗 。",
     "UPGRADE_DESCRIPTION": "从 !M! 张其它不同颜色的技能牌中 alicemargatroidmod:发现 一张，使其在本回合内耗能变为 0。 NL 消耗 。",
-    "EXTENDED_DESCRIPTION": ["选择并获得一张牌", "#g已启用", "#r未启用"],
-    "FLAVOR": "如果开启了魔理沙或帕秋莉 mod ，则选项中必定包含对应颜色。 NL 可以在设置中选择是否启用此特性。 NL 当前状态： %s 。"
+    "EXTENDED_DESCRIPTION": ["选择并获得一张牌"]
   },
   
   "DollOrchestra": {
@@ -326,9 +333,7 @@
   
   "Bookmark": {
     "NAME": "书签",
-    "DESCRIPTION": "将上回合结束时的所有手牌移回手牌（不包括“书签”）。 NL 消耗 。",
-    "EXTENDED_DESCRIPTION": ["上回合结束时 #r没有 手牌。", "上回合结束时，共有 %d 张手牌（不包括“书签”）："],
-    "FLAVOR": "仅作用于弃牌堆、抽牌堆或消耗堆中的牌。 NL 如果在第一回合打出此牌，则不会产生任何效果。"
+    "DESCRIPTION": "将上回合结束时的所有手牌移回手牌（不包括“书签”）。 NL 消耗 。"
   },
   
   "MaidensBunraku": {
@@ -340,7 +345,40 @@
     "NAME": "莺替神事",
     "DESCRIPTION": "爱丽丝受到非攻击伤害或失去生命时，可以由 alicemargatroidmod:人偶 的 格挡 承担。",
     "UPGRADE_DESCRIPTION": "固有 。 NL 爱丽丝受到非攻击伤害或失去生命时，可以由 alicemargatroidmod:人偶 的 格挡 承担。",
-    "FLAVOR": "按照从左至右的顺序，依次承担伤害。 NL 如果没有足够的 格挡 ，则仍然会由爱丽丝承担。"
+    "FLAVOR": "“啾啾，来，好吃吗？”"
+  },
+  
+  "Tripwire": {
+    "NAME": "绊线",
+    "DESCRIPTION": "每有一个空的 alicemargatroidmod:人偶 栏位，造成 !D! 点伤害。"
+  },
+  
+  "DevilryLight": {
+    "NAME": "惨虐之光",
+    "DESCRIPTION": "对所有敌人施加 !M! 层 易伤 。 NL 下回合开始时，对所有敌人施加 !M! 层 虚弱 。"
+  },
+  
+  "RefreshingSpringWater": {
+    "NAME": "清凉的泉水",
+    "DESCRIPTION": "如果你至少有 5 个 alicemargatroidmod:人偶 ，获得 [E] ，并抽一张牌。",
+    "UPGRADE_DESCRIPTION": "如果你至少有 5 个 alicemargatroidmod:人偶 ，获得 [E] [E] ，并抽一张牌。"
+  },
+  
+  "DollArmy": {
+    "NAME": "人偶军团",
+    "DESCRIPTION": "alicemargatroidmod:指令 ：在所有空栏位中 alicemargatroidmod:生成 一个与目标 alicemargatroidmod:人偶 类别相同的 alicemargatroidmod:人偶 。",
+    "FLAVOR": "我想要你，还有你，还有你！"
+  },
+  
+  "DollParade": {
+    "NAME": "人偶的盛装游行",
+    "DESCRIPTION": "将除最右侧 alicemargatroidmod:人偶 以外的所有 alicemargatroidmod:人偶 移除。 NL 每移除一个，使最右侧的 alicemargatroidmod:人偶 alicemargatroidmod:行动 一次。 消耗 。",
+    "UPGRADE_DESCRIPTION": "将除最右侧 alicemargatroidmod:人偶 以外的所有 alicemargatroidmod:人偶 移除。 NL 每移除一个，使最右侧的 alicemargatroidmod:人偶 alicemargatroidmod:行动 一次。"
+  },
+  
+  "SeekerDoll": {
+    "NAME": "探索人偶",
+    "DESCRIPTION": "alicemargatroidmod:指令 ：目标 alicemargatroidmod:人偶 alicemargatroidmod:行动 !aliceM2! 次。 NL 如果是本回合首次打出“探索人偶”，额外 alicemargatroidmod:行动 !M! 次。"
   },
   
   "MagicConduit": {
@@ -353,6 +391,45 @@
     "DESCRIPTION": "每 alicemargatroidmod:回收 一个 alicemargatroidmod:人偶 ，获得 !M! 点临时 力量 和 敏捷 。"
   },
   
+  "Masterpiece": {
+    "NAME": "杰作收藏",
+    "DESCRIPTION": "alicemargatroidmod:指令 ：回收目标 alicemargatroidmod:人偶 ，获得 !B! 点 格挡 ，并抽一张牌。"
+  },
+  
+  "MagicianRay": {
+    "NAME": "魔法使射线",
+    "DESCRIPTION": "造成 !D! 点伤害。 NL 下回合开始时，获得 !M! 点临时 力量 。"
+  },
+  
+  "LuminousShanghaiDoll": {
+    "NAME": "魔彩光的上海人偶",
+    "DESCRIPTION": "每当有即将受到攻击的 alicemargatroidmod:人偶 alicemargatroidmod:行动 时，使一个随机的 alicemargatroidmod:上海人偶 也 alicemargatroidmod:行动 一次。"
+  },
+  
+  "TheSouthernCross": {
+    "NAME": "碧通白榆",
+    "DESCRIPTION": "造成 !D! 点伤害。 NL 随机将抽牌堆中 !M! 张耗能不为 0 的攻击牌加入手牌，将它们在本场战斗中 升级 。",
+    "FLAVOR": "天上何所有，历历种白榆。"
+  },
+  
+  "Perihelion": {
+    "NAME": "乃命羲和",
+    "DESCRIPTION": "对所有敌人造成 !D! 点伤害。 NL 如果这张牌的 *状态 在本场战斗中被改变过，则造成三倍伤害。",
+    "FLAVOR": "吾令羲和弭节兮，望崦嵫而勿迫。"
+  },
+  
+  "IllusoryMoon": {
+    "NAME": "玄度空盘",
+    "DESCRIPTION": "造成 !aliceD2! 点伤害，然后再对所有敌人造成 !D! 点伤害 !M! 次。",
+    "FLAVOR": "清风朗月，辄思玄度。"
+  },
+  
+  "DollMagic": {
+    "NAME": "人偶魔术",
+    "DESCRIPTION": "获得 !B! 点 格挡 。 NL 每当任意 alicemargatroidmod:人偶 累计 alicemargatroidmod:行动 !M! 次后，将这张牌从抽牌堆或弃牌堆返回手牌。",
+    "EXTENDED_DESCRIPTION": [" NL (还剩 %d 次。)"]
+  },
+  
   
   "PokerTrick": {
     "NAME": "扑克戏法",
@@ -361,8 +438,13 @@
       "黑桃", "造成 !D! 点伤害。 NL 施加 !M! 层 虚弱 和 易伤 。 NL 消耗 。",
       "红桃", "造成 !D! 点伤害两次。 NL 消耗 。",
       "方块", "造成 !D! 点伤害。 NL 获得 !aliceM2! 金币。 NL 消耗 。",
-      "梅花", "造成 !D! 点伤害。 NL 获得等同于未被格挡的伤害的 临时生命 。 NL 消耗 。"
-    ]
+      "梅花", "造成 !D! 点伤害。 NL 获得等同于未被格挡的伤害的 临时生命 。 NL 消耗 。",
+      "“我明白黑桃如士兵手握的利剑，”",
+      "“但那些都不是红桃心的真意。”",
+      "“方块如若到手的金币，”",
+      "“梅花似战场轰鸣的炮枪，”"
+    ],
+    "FLAVOR": "那些多言却无知的人们， NL 斤斤计较眼前得失； NL 如同四处抱怨命运者， NL 戚戚于失。"
   },
   
   "VivaciousShanghaiDoll": {
@@ -388,8 +470,8 @@
   
   "RedHairedNetherlandsDoll": {
     "NAME": "红发的荷兰人偶",
-    "DESCRIPTION": "alicemargatroidmod:生成 !M! 个 alicemargatroidmod:荷兰人偶 ，使其 alicemargatroidmod:行动 一次。",
-    "UPGRADE_DESCRIPTION": "alicemargatroidmod:可指向生成 !M! 个 alicemargatroidmod:荷兰人偶 ，使其 alicemargatroidmod:行动 一次。"
+    "DESCRIPTION": "alicemargatroidmod:生成 一个 alicemargatroidmod:荷兰人偶 。",
+    "UPGRADE_DESCRIPTION": "alicemargatroidmod:生成 一个 alicemargatroidmod:荷兰人偶 ，使其 alicemargatroidmod:行动 一次。 NL 爱丽丝获得 !B! 点 格挡 !M! 次。"
   },
   
   "CharismaticOrleansDoll": {
@@ -402,39 +484,6 @@
     "NAME": "春之京都人偶",
     "DESCRIPTION": "在随机空栏位中 alicemargatroidmod:生成 一个 alicemargatroidmod:京都人偶 。 NL 消耗 。",
     "UPGRADE_DESCRIPTION": "在至多 !M! 个随机空栏位中各 alicemargatroidmod:生成 一个 alicemargatroidmod:京都人偶 。 NL 消耗 。"
-  },
-  
-  "Tripwire": {
-    "NAME": "绊线",
-    "DESCRIPTION": "每有一个空的 alicemargatroidmod:人偶 栏位，造成 !D! 点伤害。"
-  },
-  
-  "DevilryLightRay": {
-    "NAME": "惨虐之光",
-    "DESCRIPTION": "对所有敌人施加 !M! 层 易伤 。 NL 下回合开始时，对所有敌人施加 !M! 层 虚弱 。"
-  },
-  
-  "RefreshingSpringWater": {
-    "NAME": "清凉的泉水",
-    "DESCRIPTION": "如果你至少有 5 个 alicemargatroidmod:人偶 ，获得 [E] ，并抽一张牌。",
-    "UPGRADE_DESCRIPTION": "如果你至少有 5 个 alicemargatroidmod:人偶 ，获得 [E] [E] ，并抽一张牌。"
-  },
-  
-  "DollArmy": {
-    "NAME": "人偶军团",
-    "DESCRIPTION": "alicemargatroidmod:指令 ：在所有空栏位中 alicemargatroidmod:生成 一个与目标 alicemargatroidmod:人偶 类别相同的 alicemargatroidmod:人偶 。"
-  },
-  
-  "DollParade": {
-    "NAME": "人偶的盛装游行",
-    "DESCRIPTION": "将除最右侧 alicemargatroidmod:人偶 以外的所有 alicemargatroidmod:人偶 移除。 NL 每移除一个，使最右侧的 alicemargatroidmod:人偶 alicemargatroidmod:行动 一次。 消耗 。",
-    "UPGRADE_DESCRIPTION": "将除最右侧 alicemargatroidmod:人偶 以外的所有 alicemargatroidmod:人偶 移除。 NL 每移除一个，使最右侧的 alicemargatroidmod:人偶 alicemargatroidmod:行动 一次。",
-    "FLAVOR": "先全部移除，再行动。 NL 移除并不会触发回收效果。"
-  },
-  
-  "SeekerDoll": {
-    "NAME": "探索人偶",
-    "DESCRIPTION": "alicemargatroidmod:指令 ：目标 alicemargatroidmod:人偶 alicemargatroidmod:行动 !aliceM2! 次。 NL 如果是本回合首次打出“探索人偶”，额外 alicemargatroidmod:行动 !M! 次。"
   },
   
   

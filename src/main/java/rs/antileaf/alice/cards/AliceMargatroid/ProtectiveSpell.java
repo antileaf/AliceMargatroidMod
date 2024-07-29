@@ -17,8 +17,8 @@ import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
-public class ProtectiveMagic extends AbstractAliceCard {
-	public static final String SIMPLE_NAME = ProtectiveMagic.class.getSimpleName();
+public class ProtectiveSpell extends AbstractAliceCard {
+	public static final String SIMPLE_NAME = ProtectiveSpell.class.getSimpleName();
 //	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
 	public static final String ID = SIMPLE_NAME;
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
@@ -27,7 +27,7 @@ public class ProtectiveMagic extends AbstractAliceCard {
 	private static final int BLOCK = 10;
 	private static final int UPGRADE_PLUS_BLOCK = 4;
 	
-	public ProtectiveMagic() {
+	public ProtectiveSpell() {
 		super(
 				ID,
 				cardStrings.NAME,
@@ -67,7 +67,7 @@ public class ProtectiveMagic extends AbstractAliceCard {
 	
 	@Override
 	public AbstractCard makeCopy() {
-		return new ProtectiveMagic();
+		return new ProtectiveSpell();
 	}
 	
 	@Override

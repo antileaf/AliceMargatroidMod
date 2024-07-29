@@ -29,7 +29,7 @@ public class DollJudge extends AbstractAliceCard {
 				cardStrings.DESCRIPTION,
 				CardType.POWER,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
-				CardRarity.UNCOMMON,
+				CardRarity.RARE,
 				CardTarget.NONE
 		);
 	}

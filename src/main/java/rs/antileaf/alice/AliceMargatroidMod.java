@@ -47,10 +47,12 @@ import rs.antileaf.alice.relics.AlicesDarkGrimoire;
 import rs.antileaf.alice.relics.AlicesGrimoire;
 import rs.antileaf.alice.relics.SuspiciousCard;
 import rs.antileaf.alice.strings.AliceCardModifierStrings;
+import rs.antileaf.alice.strings.AliceCardNoteStrings;
+import rs.antileaf.alice.strings.AliceCardSignStrings;
 import rs.antileaf.alice.strings.AliceLanguageStrings;
 import rs.antileaf.alice.utils.*;
+import rs.antileaf.alice.variable.AliceSecondaryDamageVariable;
 import rs.antileaf.alice.variable.AliceSecondaryMagicNumberVariable;
-import rs.antileaf.alice.variable.TempHPVariable;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -287,11 +289,25 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		AliceSpireKit.loadCustomStrings(UIStrings.class, "ui");
 		AliceSpireKit.loadCustomStrings(TutorialStrings.class, "tutorial");
 		
+		logger.info("Loading card modifier strings...");
 		AliceCardModifierStrings.init((new Gson()).fromJson(
 				Gdx.files.internal(AliceSpireKit.getLocalizationFilePath("cardmodifier"))
 						.readString(String.valueOf(StandardCharsets.UTF_8)),
 				(new TypeToken<Map<String, AliceCardModifierStrings>>() {}).getType()));
 		
+		logger.info("Loading card cardnote strings...");
+		AliceCardNoteStrings.init((new Gson()).fromJson(
+				Gdx.files.internal(AliceSpireKit.getLocalizationFilePath("cardnote"))
+						.readString(String.valueOf(StandardCharsets.UTF_8)),
+				(new TypeToken<Map<String, AliceCardNoteStrings>>() {}).getType()));
+		
+		logger.info("Loading card cardsign strings...");
+		AliceCardSignStrings.init((new Gson()).fromJson(
+				Gdx.files.internal(AliceSpireKit.getLocalizationFilePath("cardsign"))
+						.readString(String.valueOf(StandardCharsets.UTF_8)),
+				(new TypeToken<Map<String, AliceCardSignStrings>>() {}).getType()));
+		
+		logger.info("Loading card language strings...");
 		AliceLanguageStrings.init((new Gson()).fromJson(
 				Gdx.files.internal(AliceSpireKit.getLocalizationFilePath("language"))
 						.readString(String.valueOf(StandardCharsets.UTF_8)),
@@ -476,25 +492,25 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		this.cardsToAdd.add(new Thread());
 		this.cardsToAdd.add(new DollCrusader());
 		this.cardsToAdd.add(new LittleLegion());
-		this.cardsToAdd.add(new ProtectiveMagic());
+		this.cardsToAdd.add(new ProtectiveSpell());
 		this.cardsToAdd.add(new RainbowRay());
 //		this.cardsToAdd.add(new DEPRECATEDEmeraldRay());
-		this.cardsToAdd.add(new MoonlightRay());
+//		this.cardsToAdd.add(new MoonlightRay());
 		this.cardsToAdd.add(new KirisameMagicShop());
 		this.cardsToAdd.add(new SurpriseSpring());
 		this.cardsToAdd.add(new WarFlag());
 		this.cardsToAdd.add(new Transfer());
 		this.cardsToAdd.add(new DollAmbush());
 		this.cardsToAdd.add(new DollWar());
-//		this.cardsToAdd.add(new DollJudge());
-		this.cardsToAdd.add(new SpiritualPower());
+		this.cardsToAdd.add(new DollJudge());
+//		this.cardsToAdd.add(new SpiritualPower());
 //		this.cardsToAdd.add(new FrostRay());
-		this.cardsToAdd.add(new SunlightRay());
+		this.cardsToAdd.add(new Perihelion());
 		this.cardsToAdd.add(new StarlightRay());
 		this.cardsToAdd.add(new DollCremation());
 		this.cardsToAdd.add(new SevenColoredPuppeteer());
 		this.cardsToAdd.add(new Collector());
-		this.cardsToAdd.add(new Punishment());
+//		this.cardsToAdd.add(new Punishment());
 		this.cardsToAdd.add(new MaliceSpark());
 		this.cardsToAdd.add(new CallToDolls());
 		this.cardsToAdd.add(new SnowSweeping());
@@ -541,13 +557,19 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		this.cardsToAdd.add(new MaidensBunraku());
 		this.cardsToAdd.add(new Usokae());
 		this.cardsToAdd.add(new Tripwire());
-		this.cardsToAdd.add(new DevilryLightRay());
+		this.cardsToAdd.add(new DevilryLight());
 		this.cardsToAdd.add(new RefreshingSpringWater());
 		this.cardsToAdd.add(new DollArmy());
 		this.cardsToAdd.add(new DollParade());
 		this.cardsToAdd.add(new MagicConduit());
 		this.cardsToAdd.add(new SeekerDoll());
 		this.cardsToAdd.add(new ArtfulChanter());
+		this.cardsToAdd.add(new TheSouthernCross());
+		this.cardsToAdd.add(new Masterpiece());
+		this.cardsToAdd.add(new MagicianRay());
+		this.cardsToAdd.add(new LuminousShanghaiDoll());
+		this.cardsToAdd.add(new IllusoryMoon());
+		this.cardsToAdd.add(new DollMagic());
 		
 		this.cardsToAdd.add(new VivaciousShanghaiDoll());
 		this.cardsToAdd.add(new QuietHouraiDoll());
@@ -575,7 +597,8 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 	}
 	
 	private void loadVariables() {
-		BaseMod.addDynamicVariable(new TempHPVariable());
+//		BaseMod.addDynamicVariable(new TempHPVariable());
 		BaseMod.addDynamicVariable(new AliceSecondaryMagicNumberVariable());
+		BaseMod.addDynamicVariable(new AliceSecondaryDamageVariable());
 	}
 }

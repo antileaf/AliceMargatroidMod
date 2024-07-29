@@ -1,4 +1,10 @@
 {
+  "AliceNoDollDialog": {
+    "TEXT": [
+      "我 #r没有 人偶。"
+    ]
+  },
+  
   "AliceDuplicateCards": {
     "TEXT": [
       "我的手牌中有相同的牌："

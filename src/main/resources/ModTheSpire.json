@@ -9,7 +9,7 @@
     "basemod", "stslib"
   ],
   "optional_dependencies": [
-    "TS05_Marisa"
+    "TS05_Marisa", "PatchouliMod"
   ],
   "version": "0.0.1",
   "sts_version": "12-06-2019v2",

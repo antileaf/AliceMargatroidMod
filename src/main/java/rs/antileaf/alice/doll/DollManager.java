@@ -4,6 +4,7 @@ import basemod.ReflectionHacks;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
@@ -16,6 +17,7 @@ import rs.antileaf.alice.action.doll.MoveDollAction;
 import rs.antileaf.alice.action.doll.RecycleDollAction;
 import rs.antileaf.alice.action.doll.SpawnDollInternalAction;
 import rs.antileaf.alice.action.utils.AnonymousAction;
+import rs.antileaf.alice.cards.AliceMargatroid.DollMagic;
 import rs.antileaf.alice.characters.AliceMargatroid;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.doll.dolls.FranceDoll;
@@ -98,6 +100,9 @@ public class DollManager {
 		
 		this.isDamageTargetLocked = false;
 		this.damageTarget.clear();
+		
+		this.preservedBlock = 0;
+		this.totalHouraiPassiveAmount = 0;
 	}
 	
 	private void activateInternal() {
@@ -149,7 +154,7 @@ public class DollManager {
 			return;
 		
 		for (AbstractDoll doll : this.dolls)
-			doll.updateDamageAboutToTake(0, 0);
+			doll.updateDamageAboutToTake(-1, 0);
 		
 		if (!this.isDamageTargetLocked) {
 			this.damageTarget.clear();
@@ -185,13 +190,13 @@ public class DollManager {
 			}
 			
 			int index = this.damageTarget.get(monster);
-			int damage = 0, count = 0;
+			int damage = -1, count = 0;
 			
 			if (monster.intent == AbstractMonster.Intent.ATTACK ||
 					monster.intent == AbstractMonster.Intent.ATTACK_BUFF ||
 					monster.intent == AbstractMonster.Intent.ATTACK_DEBUFF ||
 					monster.intent == AbstractMonster.Intent.ATTACK_DEFEND) {
-				damage = monster.getIntentDmg();
+				damage = Math.max(monster.getIntentDmg(), 0);
 				try {
 					count = ReflectionHacks.getPrivate(monster,
 							AbstractMonster.class, "intentMultiAmt");
@@ -358,34 +363,8 @@ public class DollManager {
 		this.update();
 	}
 	
-	public void dollAct(AbstractDoll doll) {
+	public void dollAct(AbstractDoll doll, boolean isSpecial) {
 		assert this.dolls.contains(doll);
-		
-//		if (doll instanceof HouraiDoll) {
-//			for (int i = 0; i < this.dolls.size(); i++)
-//				if (!(this.dolls.get(i) instanceof HouraiDoll)) {
-//					doll = this.dolls.get(i);
-//					break;
-//				}
-//		}
-		
-//		if (doll instanceof LondonDoll) {
-//			int index = this.dolls.indexOf(doll);
-//
-//			if (index > 0) {
-//				AbstractDoll prev = this.dolls.get(index - 1);
-//				if (!(prev instanceof EmptyDollSlot) && !(prev instanceof LondonDoll))
-//					AliceSpireKit.addActionToBuffer(new DollActAction(prev));
-//			}
-//			if (index < MAX_DOLL_SLOTS - 1) {
-//				AbstractDoll next = this.dolls.get(index + 1);
-//				if (!(next instanceof EmptyDollSlot) && !(next instanceof LondonDoll))
-//					AliceSpireKit.addActionToBuffer(new DollActAction(next));
-//			}
-//
-//			AliceSpireKit.commitBuffer();
-//			return;
-//		}
 		
 		doll.applyPower();
 		doll.onAct();
@@ -393,16 +372,25 @@ public class DollManager {
 		this.applyPowers();
 		
 		for (AbstractRelic relic : this.owner.relics)
-			if (relic instanceof OnDollOperateHook)
+			if (relic instanceof OnDollOperateHook &&
+					(!isSpecial || ((OnDollOperateHook) relic).canWorkOnSpecialAct()))
 				((OnDollOperateHook) relic).postDollAct(doll);
 		
 		for (AbstractPower power : this.owner.powers)
-			if (power instanceof OnDollOperateHook)
+			if (power instanceof OnDollOperateHook &&
+					(!isSpecial || ((OnDollOperateHook) power).canWorkOnSpecialAct()))
 				((OnDollOperateHook) power).postDollAct(doll);
 		
 		for (AbstractDoll other : this.dolls)
 			if (other != doll)
 				other.postOtherDollAct(doll);
+		
+		for (AbstractCard card : this.owner.drawPile.group)
+			if (card instanceof DollMagic)
+				((DollMagic) card).postDollAct();
+		for (AbstractCard card : this.owner.discardPile.group)
+			if (card instanceof DollMagic)
+				((DollMagic) card).postDollAct();
 		
 		this.update();
 	}

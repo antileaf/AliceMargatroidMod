@@ -38,14 +38,34 @@ public class MysteriousChallenger extends AbstractAliceCard {
 //		this.magicNumber = this.baseMagicNumber = MAGIC;
 	}
 	
+	public boolean shouldTriggerEffect() {
+		int count = (int)DollManager.get().getDolls().stream()
+				.filter(doll -> !(doll instanceof EmptyDollSlot))
+				.count();
+		
+		if ((!this.upgraded && count != 5) || (this.upgraded && (count < 3 || count > 5)))
+			return false;
+		
+		for (int i = 0; i < DollManager.get().getDolls().size(); i++) {
+			AbstractDoll doll = DollManager.get().getDolls().get(i);
+			if (!(doll instanceof EmptyDollSlot)) {
+				for (int j = 1; j < count && i + j < DollManager.get().getDolls().size(); j++) {
+					AbstractDoll other = DollManager.get().getDolls().get(i + j);
+					if (other instanceof EmptyDollSlot)
+						return false;
+				}
+				
+				return true;
+			}
+		}
+		
+		AliceSpireKit.log("MysteriousChallenger: There was a bug in the code. Please report this to the mod author.");
+		return false;
+	}
+	
 	@Override
 	public void triggerOnGlowCheck() {
-		int dollCount = DollManager.get().getDolls().stream()
-				.filter(doll -> !(doll instanceof EmptyDollSlot))
-				.mapToInt(doll -> 1)
-				.sum();
-		
-		if ((!this.upgraded && dollCount == 5) || (this.upgraded && dollCount >= 3 && dollCount <= 5))
+		if (this.shouldTriggerEffect())
 			this.glowColor = AbstractCard.GOLD_BORDER_GLOW_COLOR.cpy();
 		else
 			this.glowColor = AbstractCard.BLUE_BORDER_GLOW_COLOR.cpy();
@@ -53,12 +73,7 @@ public class MysteriousChallenger extends AbstractAliceCard {
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
-		int dollCount = DollManager.get().getDolls().stream()
-				.filter(doll -> !(doll instanceof EmptyDollSlot))
-				.mapToInt(doll -> 1)
-				.sum();
-		
-		if ((!this.upgraded && dollCount == 5) || (this.upgraded && dollCount >= 3 && dollCount <= 5)) {
+		if (this.shouldTriggerEffect()) {
 			for (AbstractDoll doll : DollManager.get().getDolls())
 				if (!(doll instanceof EmptyDollSlot))
 					this.addToBot(new DollActAction(doll));

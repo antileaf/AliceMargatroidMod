@@ -1,78 +1,77 @@
 package rs.antileaf.alice.cards.AliceMargatroid;
 
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
-import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
+import com.megacrit.cardcrawl.actions.common.DamageAllEnemiesAction;
+import com.megacrit.cardcrawl.actions.utility.WaitAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import rs.antileaf.alice.action.unique.SunlightRayAction;
-import rs.antileaf.alice.action.unique.SunlightRayPostAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
-import rs.antileaf.alice.patches.enums.CardTagEnum;
-import rs.antileaf.alice.powers.unique.FrostRayPower;
+import rs.antileaf.alice.utils.AliceSpireKit;
 
-public class SunlightRay extends AbstractAliceCard {
-	public static final String SIMPLE_NAME = SunlightRay.class.getSimpleName();
+public class IllusoryMoon extends AbstractAliceCard {
+	public static final String SIMPLE_NAME = IllusoryMoon.class.getSimpleName();
 //	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
 	public static final String ID = SIMPLE_NAME;
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
-	private static final int COST = 1;
-	private static final int DAMAGE = 1;
-	private static final int MAGIC = 5;
-	private static final int UPGRADE_PLUS_MAGIC = 2;
+	private static final int COST = 2;
+	private static final int DAMAGE = 6;
+	private static final int DAMAGE2 = 9;
+	private static final int MAGIC = 2;
+	private static final int UPGRADE_PLUS_DAMAGE = 3;
 	
-	public SunlightRay() {
+	public IllusoryMoon() {
 		super(
 				ID,
 				cardStrings.NAME,
-				null, // AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.ATTACK,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
 				CardRarity.UNCOMMON,
-				CardTarget.ALL_ENEMY
+				CardTarget.ENEMY
 		);
 		
 		this.damage = this.baseDamage = DAMAGE;
+		this.secondaryDamage = this.baseSecondaryDamage = DAMAGE2;
 		this.magicNumber = this.baseMagicNumber = MAGIC;
-		this.tags.add(CardTagEnum.ALICE_RAY);
-	}
-	
-	@Override
-	public void applyPowers() {
-		super.applyPowers();
-		this.damage = this.baseDamage = DAMAGE;
-	}
-	
-	@Override
-	public void calculateCardDamage(AbstractMonster mo) {
-		this.damage = this.baseDamage = DAMAGE;
+		this.isMultiDamage = true;
 	}
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
-		SunlightRayPostAction postAction = new SunlightRayPostAction();
-		this.addToBot(new SunlightRayAction(postAction, this.damage, this.magicNumber));
-		this.addToBot(postAction);
+		this.isMultiDamage = false;
+		this.calculateCardDamage(m);
+		this.addToBot(new DamageAction(m,
+				new DamageInfo(p, this.secondaryDamage, this.damageTypeForTurn),
+				AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
+		
+		this.addToBot(new WaitAction(0.15F));
+		
+		this.isMultiDamage = true;
+		this.calculateCardDamage(null);
+		for (int i = 0; i < this.magicNumber; i++)
+			this.addToBot(new DamageAllEnemiesAction(p, this.multiDamage, this.damageTypeForTurn,
+					AbstractGameAction.AttackEffect.SLASH_HORIZONTAL));
 	}
 	
 	@Override
 	public AbstractCard makeCopy() {
-		return new SunlightRay();
+		return new IllusoryMoon();
 	}
 	
 	@Override
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
-			this.upgradeMagicNumber(UPGRADE_PLUS_MAGIC);
+			this.upgradeDamage(UPGRADE_PLUS_DAMAGE);
 			this.initializeDescription();
 		}
 	}

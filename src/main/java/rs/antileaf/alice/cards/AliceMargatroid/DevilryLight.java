@@ -10,10 +10,10 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.VulnerablePower;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
-import rs.antileaf.alice.powers.unique.DevilryLightRayPower;
+import rs.antileaf.alice.powers.unique.DevilryLightPower;
 
-public class DevilryLightRay extends AbstractAliceCard {
-	public static final String SIMPLE_NAME = DevilryLightRay.class.getSimpleName();
+public class DevilryLight extends AbstractAliceCard {
+	public static final String SIMPLE_NAME = DevilryLight.class.getSimpleName();
 //	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
 	public static final String ID = SIMPLE_NAME;
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
@@ -22,7 +22,7 @@ public class DevilryLightRay extends AbstractAliceCard {
 	private static final int MAGIC = 2;
 	private static final int UPGRADE_PLUS_MAGIC = 1;
 	
-	public DevilryLightRay() {
+	public DevilryLight() {
 		super(
 				ID,
 				cardStrings.NAME,
@@ -48,12 +48,12 @@ public class DevilryLightRay extends AbstractAliceCard {
 						new VulnerablePower(monster, this.magicNumber, false),
 						this.magicNumber));
 		
-		this.addToBot(new ApplyPowerAction(p, p, new DevilryLightRayPower(this.magicNumber), this.magicNumber));
+		this.addToBot(new ApplyPowerAction(p, p, new DevilryLightPower(this.magicNumber), this.magicNumber));
 	}
 	
 	@Override
 	public AbstractCard makeCopy() {
-		return new DevilryLightRay();
+		return new DevilryLight();
 	}
 	
 	@Override

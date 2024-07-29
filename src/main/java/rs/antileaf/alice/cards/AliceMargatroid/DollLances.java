@@ -9,6 +9,8 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.action.doll.DollActAction;
+import rs.antileaf.alice.action.doll.SpawnDollAction;
+import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
@@ -23,7 +25,7 @@ public class DollLances extends AbstractAliceCard {
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
-	private static final int DAMAGE = 4;
+	private static final int DAMAGE = 3;
 	private static final int UPGRADE_PLUS_DAMAGE = 3;
 	
 	public DollLances() {
@@ -49,9 +51,14 @@ public class DollLances extends AbstractAliceCard {
 				new DamageInfo(p, this.damage, this.damageTypeForTurn),
 				AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
 		
-		for (AbstractDoll doll : DollManager.get().getDolls())
-			if (doll instanceof ShanghaiDoll)
-				this.addToBot(new DollActAction(doll));
+		this.addToBot(new SpawnDollAction(new ShanghaiDoll(), -1));
+		
+		this.addToBot(new AnonymousAction(() -> {
+			for (AbstractDoll doll : DollManager.get().getDolls())
+				if (doll instanceof ShanghaiDoll)
+					AliceSpireKit.addActionToBuffer(new DollActAction(doll));
+			AliceSpireKit.commitBuffer();
+		}));
 	}
 	
 	@Override

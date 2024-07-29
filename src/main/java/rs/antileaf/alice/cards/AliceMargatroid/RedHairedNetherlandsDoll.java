@@ -1,5 +1,6 @@
 package rs.antileaf.alice.cards.AliceMargatroid;
 
+import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -7,14 +8,12 @@ import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.action.doll.DollActAction;
 import rs.antileaf.alice.action.doll.SpawnDollAction;
+import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.doll.AbstractDoll;
-import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.NetherlandsDoll;
-import rs.antileaf.alice.doll.targeting.DollOrEmptySlotTargeting;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.CardTagEnum;
-import rs.antileaf.alice.patches.enums.CardTargetEnum;
 
 public class RedHairedNetherlandsDoll extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = RedHairedNetherlandsDoll.class.getSimpleName();
@@ -23,8 +22,8 @@ public class RedHairedNetherlandsDoll extends AbstractAliceCard {
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
-	private static final int MAGIC = 1;
-//	private static final int UPGRADE_PLUS_MAGIC = 1;
+	private static final int BLOCK = 2;
+	private static final int MAGIC = 2;
 	
 	public RedHairedNetherlandsDoll() {
 		super(
@@ -39,22 +38,23 @@ public class RedHairedNetherlandsDoll extends AbstractAliceCard {
 				CardTarget.NONE
 		);
 		
+		this.block = this.baseBlock = BLOCK;
 		this.magicNumber = this.baseMagicNumber = MAGIC;
-		this.tags.add(CardTagEnum.ALICE_DOLL_ACT);
 	}
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
-		int index = -1;
-		if (this.upgraded) {
-			AbstractDoll target = DollOrEmptySlotTargeting.getTarget(this);
-			index = DollManager.get().getDolls().indexOf(target);
-		}
+		AbstractDoll doll = new NetherlandsDoll();
+		this.addToBot(new SpawnDollAction(doll, -1));
 		
-		for (int i = 0; i < this.magicNumber; i++) {
-			AbstractDoll doll = new NetherlandsDoll();
-			this.addToBot(new SpawnDollAction(doll, index));
+		if (this.upgraded) {
 			this.addToBot(new DollActAction(doll));
+			
+			for (int i = 0; i < this.magicNumber; i++)
+				this.addToBot(new AnonymousAction(() -> {
+					this.applyPowers();
+					this.addToTop(new GainBlockAction(p, p, this.block));
+				}));
 		}
 	}
 	
@@ -67,8 +67,8 @@ public class RedHairedNetherlandsDoll extends AbstractAliceCard {
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
+			this.tags.add(CardTagEnum.ALICE_DOLL_ACT);
 			this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
-			this.target = CardTargetEnum.DOLL_OR_EMPTY_SLOT;
 			this.initializeDescription();
 		}
 	}

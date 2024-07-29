@@ -1,12 +1,8 @@
 package rs.antileaf.alice.relics;
 
 import basemod.abstracts.CustomRelic;
-import com.megacrit.cardcrawl.actions.common.RelicAboveCreatureAction;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
-import rs.antileaf.alice.action.doll.SpawnDollAction;
-import rs.antileaf.alice.doll.dolls.ShanghaiDoll;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class SuspiciousCard extends CustomRelic {
@@ -36,11 +32,11 @@ public class SuspiciousCard extends CustomRelic {
 	
 	@Override
 	public void atBattleStart() {
-		this.flash();
-		this.addToBot(new RelicAboveCreatureAction(AbstractDungeon.player, this));
-		
-//		for (int i = 0; i < 2; i++)
-		this.addToBot(new SpawnDollAction(new ShanghaiDoll(), -1));
+//		this.flash();
+//		this.addToBot(new RelicAboveCreatureAction(AbstractDungeon.player, this));
+//
+////		for (int i = 0; i < 2; i++)
+//		this.addToBot(new SpawnDollAction(new ShanghaiDoll(), -1));
 	}
 	
 	@Override

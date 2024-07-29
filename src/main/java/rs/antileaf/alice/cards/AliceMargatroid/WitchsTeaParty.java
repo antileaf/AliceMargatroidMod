@@ -1,7 +1,7 @@
 package rs.antileaf.alice.cards.AliceMargatroid;
 
 import ThMod.characters.Marisa;
-import com.evacipated.cardcrawl.mod.stslib.patches.FlavorText;
+import basemod.helpers.TooltipInfo;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -13,6 +13,7 @@ import rs.antileaf.alice.action.common.AliceDiscoverAction;
 import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
+import rs.antileaf.alice.strings.AliceCardNoteStrings;
 import rs.antileaf.alice.utils.AliceConfigHelper;
 import rs.antileaf.alice.utils.AliceSpireKit;
 import theLibrarian.characters.TheLibrarian;
@@ -24,6 +25,7 @@ public class WitchsTeaParty extends AbstractAliceCard {
 //	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
 	public static final String ID = SIMPLE_NAME;
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
+	private static final AliceCardNoteStrings cardNoteStrings = AliceCardNoteStrings.get(ID);
 	
 	private static final int COST = 0;
 	private static final int MAGIC = 3;
@@ -43,17 +45,15 @@ public class WitchsTeaParty extends AbstractAliceCard {
 		
 		this.magicNumber = this.baseMagicNumber = MAGIC;
 		this.exhaust = true;
-		
-//		if (AliceMargatroidMod.postInitialize)
-		this.updateFlavor();
 	}
 	
-	public void updateFlavor() {
-		FlavorText.AbstractCardFlavorFields.flavor.set(this,
-				String.format(FlavorText.CardStringsFlavorField.flavor.get(cardStrings),
-						cardStrings.EXTENDED_DESCRIPTION[AliceConfigHelper.enableWitchsTeaPartyFeature() ? 1 : 2]));
-		
-		this.initializeDescription();
+	@Override
+	public TooltipInfo getNote() {
+		String desc = String.format(cardNoteStrings.DESCRIPTION,
+				AliceConfigHelper.enableWitchsTeaPartyFeature() ?
+						cardNoteStrings.EXTENDED_DESCRIPTION[0] :
+						cardNoteStrings.EXTENDED_DESCRIPTION[1]);
+		return new TooltipInfo(cardNoteStrings.TITLE, desc);
 	}
 	
 	private AbstractCard getRandomSkill(CardColor color) {
@@ -126,7 +126,7 @@ public class WitchsTeaParty extends AbstractAliceCard {
 	
 	public static void updateAll() {
 		AbstractCard card = CardLibrary.cards.get(WitchsTeaParty.ID);
-		if (card instanceof WitchsTeaParty)
-			((WitchsTeaParty) card).updateFlavor();
+//		if (card instanceof WitchsTeaParty)
+//			((WitchsTeaParty) card).updateNote();
 	}
 }

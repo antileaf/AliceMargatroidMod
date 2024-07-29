@@ -20,7 +20,7 @@ public class FailedExperiment extends AbstractAliceCard {
 	
 	private static final int COST = 0;
 	private static final int DAMAGE = 10;
-	private static final int UPGRADE_PLUS_DMG = 3;
+	private static final int UPGRADE_PLUS_DMG = 4;
 	
 	public FailedExperiment() {
 		super(

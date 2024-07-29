@@ -7,7 +7,6 @@ import com.megacrit.cardcrawl.localization.PowerStrings;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.interfaces.OnDollOperateHook;
 import rs.antileaf.alice.powers.AbstractAlicePower;
-import rs.antileaf.alice.utils.AliceMiscKit;
 
 public class DollJudgePower extends AbstractAlicePower implements OnDollOperateHook {
 	public static final String POWER_ID = DollJudgePower.class.getSimpleName();
@@ -32,17 +31,15 @@ public class DollJudgePower extends AbstractAlicePower implements OnDollOperateH
 	
 	@Override
 	public void updateDescription() {
-		this.description = AliceMiscKit.join(
-				powerStrings.DESCRIPTIONS[0],
-				"#b" + this.amount + "%",
-				powerStrings.DESCRIPTIONS[1]
-		);
+		this.description = String.format(powerStrings.DESCRIPTIONS[0], this.amount);
 	}
 	
 	@Override
-	public void postDollGainedBlock(AbstractDoll doll, int block) {
-		int blockGain = (int) (block * this.amount / 100.0F);
-		if (blockGain > 0)
-			this.addToBot(new GainBlockAction(this.owner, this.owner, blockGain));
+	public void postRecycleDoll(AbstractDoll doll) {
+		int block = (int)(doll.block * (this.amount / 100.0F));
+		if (block > 0) {
+			this.addToTop(new GainBlockAction(AbstractDungeon.player, block));
+			this.flash();
+		}
 	}
 }

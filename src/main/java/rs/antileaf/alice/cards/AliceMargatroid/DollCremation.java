@@ -1,8 +1,9 @@
 package rs.antileaf.alice.cards.AliceMargatroid;
 
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
-import com.megacrit.cardcrawl.actions.common.DamageAllEnemiesAction;
+import com.megacrit.cardcrawl.actions.common.DamageRandomEnemyAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
@@ -23,8 +24,8 @@ public class DollCremation extends AbstractAliceCard {
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 2;
-	private static final int DAMAGE = 18;
-	private static final int UPGRADE_PLUS_DMG = 6;
+	private static final int DAMAGE = 20;
+	private static final int UPGRADE_PLUS_DMG = 5;
 	
 	public DollCremation() {
 		super(
@@ -40,7 +41,6 @@ public class DollCremation extends AbstractAliceCard {
 		);
 		
 		this.damage = this.baseDamage = DAMAGE;
-		this.isMultiDamage = true;
 		this.isEthereal = true;
 		
 		this.tags.add(CardTagEnum.ALICE_COMMAND);
@@ -53,10 +53,10 @@ public class DollCremation extends AbstractAliceCard {
 			return;
 		
 		this.addToBot(new RecycleDollAction(doll));
-		
-		this.calculateCardDamage(null);
-		this.addToBot(new DamageAllEnemiesAction(p, this.multiDamage, this.damageTypeForTurn,
-				AbstractGameAction.AttackEffect.BLUNT_HEAVY));
+		this.addToBot(new DamageRandomEnemyAction(
+				new DamageInfo(p, this.damage, this.damageTypeForTurn),
+				AbstractGameAction.AttackEffect.FIRE
+		));
 	}
 	
 	@Override

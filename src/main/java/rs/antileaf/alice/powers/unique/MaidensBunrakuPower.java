@@ -42,7 +42,7 @@ public class MaidensBunrakuPower extends AbstractAlicePower implements OnDollOpe
 	
 	@Override
 	public void postDollAct(AbstractDoll doll) {
-		this.flash();
-		this.addToBot(new DollGainBlockAction(doll, this.amount));
+		this.flashWithoutSound();
+		this.addToTop(new DollGainBlockAction(doll, this.amount));
 	}
 }

@@ -1,6 +1,7 @@
 package rs.antileaf.alice.utils;
 
 import basemod.BaseMod;
+import basemod.ReflectionHacks;
 import com.badlogic.gdx.Gdx;
 import com.evacipated.cardcrawl.modthespire.Loader;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
@@ -18,6 +19,7 @@ import com.megacrit.cardcrawl.vfx.cardManip.ShowCardAndAddToHandEffect;
 import org.jetbrains.annotations.Nullable;
 import rs.antileaf.alice.AliceMargatroidMod;
 import rs.antileaf.alice.cardmodifier.PhantomCardModifier;
+import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.strings.AliceLanguageStrings;
 
 import java.nio.charset.StandardCharsets;
@@ -250,6 +252,17 @@ public abstract class AliceSpireKit {
 				return true;
 		}
 		return false;
+	}
+	
+	public static void upgradeCardDamage(AbstractCard card, int amount) {
+		ReflectionHacks.privateMethod(AbstractCard.class, "upgradeDamage", int.class)
+				.invoke(card, amount);
+		
+		if (card instanceof AbstractAliceCard)
+			((AbstractAliceCard)card).upgradeSecondaryDamage(amount);
+		
+		card.applyPowers();
+		// TODO: May need to add some checks here to work with other mods
 	}
 	
 	public static String coloredNumber(int amount, int baseAmount) {

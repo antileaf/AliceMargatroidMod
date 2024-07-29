@@ -5,15 +5,15 @@ import com.megacrit.cardcrawl.actions.common.RemoveSpecificPowerAction;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.PowerStrings;
-import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import com.megacrit.cardcrawl.powers.WeakPower;
+import com.megacrit.cardcrawl.powers.LoseStrengthPower;
+import com.megacrit.cardcrawl.powers.StrengthPower;
 import rs.antileaf.alice.powers.AbstractAlicePower;
 
-public class DevilryLightRayPower extends AbstractAlicePower {
-	public static final String POWER_ID = DevilryLightRayPower.class.getSimpleName();
+public class MagicianRayPower extends AbstractAlicePower {
+	public static final String POWER_ID = MagicianRayPower.class.getSimpleName();
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
 	
-	public DevilryLightRayPower(int amount) {
+	public MagicianRayPower(int amount) {
 		this.name = powerStrings.NAME;
 		this.ID = POWER_ID;
 		this.owner = AbstractDungeon.player;
@@ -39,10 +39,9 @@ public class DevilryLightRayPower extends AbstractAlicePower {
 	@Override
 	public void atStartOfTurn() {
 		this.flash();
-		for (AbstractMonster m : AbstractDungeon.getMonsters().monsters)
-			if (!m.isDeadOrEscaped())
-				this.addToBot(new ApplyPowerAction(
-						m, this.owner, new WeakPower(m, this.amount, false), this.amount));
+		
+		this.addToBot(new ApplyPowerAction(this.owner, this.owner, new StrengthPower(this.owner, this.amount), this.amount));
+		this.addToBot(new ApplyPowerAction(this.owner, this.owner, new LoseStrengthPower(this.owner, this.amount), this.amount));
 		
 		this.addToBot(new RemoveSpecificPowerAction(this.owner, this.owner, this));
 	}

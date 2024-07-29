@@ -47,10 +47,10 @@ public class ReturningDolls extends AbstractAliceCard {
 	public void use(AbstractPlayer p, AbstractMonster m) {
 		AbstractDoll doll = DollTargeting.getTarget(this);
 		
-		if (doll != null)
+		if (doll != null) {
 			this.addToBot(new RecycleDollAction(doll));
-		
-		this.addToBot(new DrawCardAction(this.magicNumber));
+			this.addToBot(new DrawCardAction(this.magicNumber));
+		}
 	}
 	
 	@Override

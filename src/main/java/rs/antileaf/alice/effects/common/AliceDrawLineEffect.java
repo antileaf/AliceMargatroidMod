@@ -1,4 +1,4 @@
-package rs.antileaf.alice.cards.effects.common;
+package rs.antileaf.alice.effects.common;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;

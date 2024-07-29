@@ -274,11 +274,14 @@ public abstract class AbstractDoll extends CustomOrb {
 		this.damageAboutToTake = damage;
 		this.damageCount = count;
 		
-		this.overflowedDamage = this.onPlayerDamaged(this.damageAboutToTake * this.damageCount);
+		if (this.damageAboutToTake > 0)
+			this.overflowedDamage = this.onPlayerDamaged(this.damageAboutToTake * this.damageCount);
+		else
+			this.overflowedDamage = 0;
 	}
 	
 	public int calcTotalDamageAboutToTake() {
-		return this.damageAboutToTake * this.damageCount;
+		return this.damageAboutToTake != -1 ? this.damageAboutToTake * this.damageCount : -1;
 	}
 	
 	// Returns remaining damage.

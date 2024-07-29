@@ -24,12 +24,13 @@ public class WarFlag extends AbstractAliceCard {
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
+	private static final int MAGIC = 2;
 	
 	public WarFlag() {
 		super(
 				ID,
 				cardStrings.NAME,
-				null, // AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.SKILL,
@@ -38,6 +39,7 @@ public class WarFlag extends AbstractAliceCard {
 				CardTargetEnum.DOLL
 		);
 		
+		this.magicNumber = this.baseMagicNumber = MAGIC;
 		this.tags.add(CardTagEnum.ALICE_COMMAND);
 	}
 	
@@ -49,7 +51,8 @@ public class WarFlag extends AbstractAliceCard {
 			return;
 		
 		if (this.upgraded)
-			this.addToBot(new DollActAction(doll));
+			for (int i = 0; i < this.magicNumber; i++)
+				this.addToBot(new DollActAction(doll));
 		
 		this.addToBot(new AnonymousAction(() -> {
 			if (DollManager.get().contains(doll)) {
@@ -60,13 +63,6 @@ public class WarFlag extends AbstractAliceCard {
 						if (other != doll)
 							AliceSpireKit.addActionToBuffer(new DollGainBlockAction(other, block));
 					}
-//					int index = DollManager.get().getDolls().indexOf(doll);
-//					if (index > 0)
-//						AliceSpireKit.addActionToBuffer(new DollGainBlockAction(
-//								DollManager.get().getDolls().get(index - 1), block));
-//					if (index < DollManager.MAX_DOLL_SLOTS - 1)
-//						AliceSpireKit.addActionToBuffer(new DollGainBlockAction(
-//								DollManager.get().getDolls().get(index + 1), block));
 					
 					AliceSpireKit.commitBuffer();
 				}

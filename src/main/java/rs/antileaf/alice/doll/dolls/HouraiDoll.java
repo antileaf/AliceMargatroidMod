@@ -1,6 +1,8 @@
 package rs.antileaf.alice.doll.dolls;
 
+import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.OrbStrings;
 import com.megacrit.cardcrawl.orbs.AbstractOrb;
 import rs.antileaf.alice.action.doll.DollGainBlockAction;
@@ -95,6 +97,11 @@ public class HouraiDoll extends AbstractDoll {
 						AliceSpireKit.addActionToBuffer(new DollGainBlockAction(receivers.get(i), gain[i]));
 					
 					AliceSpireKit.commitBuffer();
+				}
+				else {
+					int amt = this.block;
+					this.block = 0;
+					this.addToTop(new GainBlockAction(AbstractDungeon.player, AbstractDungeon.player, amt));
 				}
 			}
 		}));

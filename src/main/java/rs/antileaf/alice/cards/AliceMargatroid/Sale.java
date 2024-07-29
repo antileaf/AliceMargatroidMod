@@ -53,6 +53,7 @@ public class Sale extends AbstractAliceCard {
 			this.addToBot(new RecycleDollAction(doll));
 			this.addToBot(new GainGoldAction(this.magicNumber));
 			AliceSpireKit.addEffect(new GainGoldTextEffect(this.magicNumber));
+			CardCrawlGame.sound.play("GOLD_JINGLE");
 		}
 	}
 	

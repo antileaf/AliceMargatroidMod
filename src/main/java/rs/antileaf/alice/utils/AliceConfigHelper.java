@@ -24,6 +24,7 @@ import java.util.Properties;
 
 public class AliceConfigHelper {
 	public static String SHOULD_OPEN_TUTORIAL = "shouldOpenTutorial";
+	public static String ENABLE_SPELL_CARD_SIGN_DISPLAY = "enableSpellCardSignDisplay";
 	public static String ENABLE_ALTERNATIVE_MARISA_CARD_IMAGE = "enableAlternativeMarisaCardImage";
 	public static String ENABLE_WITCHS_TEA_PARTY_FEATURE = "enableWitchsTeaPartyFeature";
 	
@@ -33,6 +34,7 @@ public class AliceConfigHelper {
 		try {
 			Properties defaults = new Properties();
 			defaults.setProperty(SHOULD_OPEN_TUTORIAL, "true");
+			defaults.setProperty(ENABLE_SPELL_CARD_SIGN_DISPLAY, "true");
 			defaults.setProperty(ENABLE_ALTERNATIVE_MARISA_CARD_IMAGE, "true");
 			defaults.setProperty(ENABLE_WITCHS_TEA_PARTY_FEATURE, "true");
 			
@@ -48,6 +50,14 @@ public class AliceConfigHelper {
 	
 	public static void setShouldOpenTutorial(boolean shouldOpenTutorial) {
 		conf.setBool(SHOULD_OPEN_TUTORIAL, shouldOpenTutorial);
+	}
+	
+	public static boolean enableSpellCardSignDisplay() {
+		return conf.getBool(ENABLE_SPELL_CARD_SIGN_DISPLAY);
+	}
+	
+	public static void setEnableSpellCardSignDisplay(boolean enableSpellCardSignDisplay) {
+		conf.setBool(ENABLE_SPELL_CARD_SIGN_DISPLAY, enableSpellCardSignDisplay);
 	}
 	
 	public static boolean enableAlternativeMarisaCardImage() {
@@ -118,6 +128,23 @@ public class AliceConfigHelper {
 		);
 		
 		y -= 50.0F;
+		
+		ModLabeledToggleButton spellCardButton = new ModLabeledToggleButton(
+				config.get(ENABLE_SPELL_CARD_SIGN_DISPLAY),
+				350.0F,
+				y,
+				Settings.CREAM_COLOR,
+				FontHelper.charDescFont,
+				enableSpellCardSignDisplay(),
+				panel,
+				(modLabel) -> {},
+				(button) -> {
+					setEnableSpellCardSignDisplay(button.enabled);
+					save();
+				}
+		);
+		
+		y -= 50.0F;
 
 		ModLabeledToggleButton useAlternativeMarisaCardImageButton = new ModLabeledToggleButton(
 				config.get(ENABLE_ALTERNATIVE_MARISA_CARD_IMAGE),
@@ -152,6 +179,7 @@ public class AliceConfigHelper {
 		);
 		
 		panel.addUIElement(tutorialButton);
+		panel.addUIElement(spellCardButton);
 		panel.addUIElement(useAlternativeMarisaCardImageButton);
 		panel.addUIElement(enableWitchsTeaPartyFeatureButton);
 		

@@ -1,0 +1,77 @@
+{
+  "MaidensBunraku": {
+    "SIGN": "操符"
+  },
+  
+  "CharitableFranceDoll": {
+    "SIGN": "苍符"
+  },
+  
+  "CharismaticOrleansDoll": {
+    "SIGN": "苍符"
+  },
+  
+  "RedHairedNetherlandsDoll": {
+      "SIGN": "红符"
+  },
+  
+  "MistyLondonDoll": {
+    "SIGN": "暗符"
+  },
+  
+  "SpringKyotoDoll": {
+    "SIGN": "雅符"
+  },
+  
+  "VivaciousShanghaiDoll": {
+    "SIGN": "枪符"
+  },
+  
+  "QuietHouraiDoll": {
+    "SIGN": "雅符"
+  },
+  
+  "LuminousShanghaiDoll": {
+    "SIGN": "诅咒"
+  },
+  
+  "LittleLegion": {
+    "SIGN": "战符"
+  },
+  
+  "DollWar": {
+    "SIGN": "战操"
+  },
+  
+  "ArtfulChanter": {
+    "SIGN": "符之一"
+  },
+  
+  "DollCrusader": {
+    "SIGN": "符之二"
+  },
+  
+  "DevilryLight": {
+    "SIGN": "魔光"
+  },
+  
+  "DollMiraCeti": {
+    "SIGN": "赤符"
+  },
+  
+  "SeekerDoll": {
+    "SIGN": "侦符"
+  },
+  
+  "Tripwire": {
+    "SIGN": "聚焦"
+  },
+  
+  "CutiePhalanx": {
+    "SIGN": "枪符"
+  },
+  
+  "DollOfRoundTable": {
+      "SIGN": "骑士"
+  }
+}

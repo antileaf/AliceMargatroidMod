@@ -8,11 +8,11 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.PowerStrings;
 import com.megacrit.cardcrawl.vfx.combat.PlasmaOrbPassiveEffect;
-import rs.antileaf.alice.cards.effects.common.AliceDrawLineEffect;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.doll.interfaces.OnDollOperateHook;
+import rs.antileaf.alice.effects.common.AliceDrawLineEffect;
 import rs.antileaf.alice.powers.AbstractAlicePower;
 
 public class MagicConduitPower extends AbstractAlicePower implements OnDollOperateHook {
@@ -85,7 +85,7 @@ public class MagicConduitPower extends AbstractAlicePower implements OnDollOpera
 							2.0F,
 							0.25F,
 							doll.getDrawCX(), doll.getDrawCY(),
-							AbstractDungeon.player.hb.cX, AbstractDungeon.player.hb.cY - AbstractDungeon.player.hb.height / 2.5F,
+							AbstractDungeon.player.hb.cX, AbstractDungeon.player.hb.cY - AbstractDungeon.player.hb.height / 4F,
 							true
 					));
 			}

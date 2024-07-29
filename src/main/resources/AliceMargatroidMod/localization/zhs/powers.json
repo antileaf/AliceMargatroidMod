@@ -30,7 +30,7 @@
   "DollJudgePower": {
     "NAME": "人偶裁判",
     "DESCRIPTIONS": [
-      "每当有 人偶 获得 格挡 时，爱丽丝也会获得", "的格挡。"
+      "人偶 被 回收 时，爱丽丝获得其拥有格挡的 #b%d%% 。"
     ]
   },
   
@@ -127,7 +127,7 @@
     ]
   },
   
-  "DevilryLightRayPower": {
+  "DevilryLightPower": {
     "NAME": "惨虐之光",
     "DESCRIPTIONS": [
       "下回合开始时，对所有敌人施加 #b%d 层 #y虚弱 。"
@@ -152,6 +152,27 @@
     "NAME": "光之封印",
     "DESCRIPTIONS": [
       "最大生命值降低 #b%d%% 。"
+    ]
+  },
+  
+  "MagicianRayPower": {
+    "NAME": "魔法使射线",
+    "DESCRIPTIONS": [
+      "下回合开始时，获得 #b%d 临时 力量 。"
+    ]
+  },
+  
+  "LuminousShanghaiDollPower": {
+    "NAME": "魔彩光的上海人偶",
+    "DESCRIPTIONS": [
+      "每当有即将受到攻击的 人偶 行动 时，使一个随机的 上海人偶 也 行动 #b%d 次。"
+    ]
+  },
+  
+  "ChantPower": {
+    "NAME": "咏唱",
+    "DESCRIPTIONS": [
+      "下回合开始时，所有 人偶 行动 #b%d 次。"
     ]
   }
 }

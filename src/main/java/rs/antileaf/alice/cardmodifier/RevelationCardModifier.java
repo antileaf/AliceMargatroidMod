@@ -2,150 +2,104 @@ package rs.antileaf.alice.cardmodifier;
 
 import basemod.abstracts.AbstractCardModifier;
 import basemod.helpers.CardModifierManager;
+import basemod.helpers.TooltipInfo;
 import com.badlogic.gdx.math.MathUtils;
-import com.evacipated.cardcrawl.mod.stslib.dynamicdynamic.DynamicDynamicVariable;
-import com.evacipated.cardcrawl.mod.stslib.dynamicdynamic.DynamicProvider;
-import com.megacrit.cardcrawl.actions.AbstractGameAction;
-import com.megacrit.cardcrawl.actions.common.DamageAction;
-import com.megacrit.cardcrawl.actions.common.DamageRandomEnemyAction;
 import com.megacrit.cardcrawl.actions.utility.UseCardAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
-import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import com.megacrit.cardcrawl.powers.AbstractPower;
-import com.megacrit.cardcrawl.relics.AbstractRelic;
+import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.strings.AliceCardModifierStrings;
+import rs.antileaf.alice.strings.AliceLanguageStrings;
+import rs.antileaf.alice.utils.AliceSpireKit;
 
-import java.util.UUID;
+import java.util.ArrayList;
+import java.util.List;
 
-public class RevelationCardModifier extends AbstractCardModifier implements DynamicProvider {
+public class RevelationCardModifier extends AbstractCardModifier {
 	private static final String SIMPLE_NAME = RevelationCardModifier.class.getSimpleName();
 	public static final String ID = SIMPLE_NAME;
 	private static final AliceCardModifierStrings cardModifierStrings = AliceCardModifierStrings.get(SIMPLE_NAME);
 	
-	private final UUID uuid;
-	private boolean isRandom = true;
-	private int baseAmount;
-	private int amount;
+	public static final int AMOUNT = 2;
 	
-	public RevelationCardModifier(int baseAmount) {
-		this.uuid = UUID.randomUUID();
-		this.amount = this.baseAmount = baseAmount;
+	private boolean upgraded;
+	
+	public RevelationCardModifier(boolean upgraded) {
+		this.upgraded = upgraded;
 		this.priority = 98;
 	}
 	
-	public void stackAmount(int stackAmount) {
-		this.baseAmount += stackAmount;
+	public boolean isUpgraded() {
+		return this.upgraded;
+	}
+	
+	public String getModifierName() {
+		return cardModifierStrings.NAME + (this.upgraded ? "+" : "");
 	}
 	
 	@Override
 	public String modifyDescription(String rawDescription, AbstractCard card) {
-		return rawDescription + " NL " +
-				(this.isRandom ? cardModifierStrings.EXTENDED_DESCRIPTION[0] : "") +
-				String.format(cardModifierStrings.DESCRIPTION,
-						DynamicProvider.generateKey(card, this, true)
-				);
+		return rawDescription + " NL *" + this.getModifierName() + " " + AliceLanguageStrings.PERIOD;
 	}
 	
 	@Override
-	public void onInitialApplication(AbstractCard card) {
-		if (card.target == AbstractCard.CardTarget.ENEMY)
-			this.isRandom = false;
-		
-		DynamicDynamicVariable.registerVariable(card, this);
+	public List<TooltipInfo> additionalTooltips(AbstractCard card) {
+		ArrayList<TooltipInfo> tips = new ArrayList<>();
+		int i = this.upgraded ? 1 : 0;
+		tips.add(new TooltipInfo(this.getModifierName(),
+				String.format(cardModifierStrings.DESCRIPTION,
+						cardModifierStrings.EXTENDED_DESCRIPTION[i],
+						AMOUNT,
+						this.getModifierName())));
+		return tips;
 	}
+	
+//	@Override
+//	public void onInitialApplication(AbstractCard card) {
+//
+//	}
 	
 	@Override
 	public void onUse(AbstractCard card, AbstractCreature target, UseCardAction action) {
-//		super.onUse(card, target, action);
+		ArrayList<AbstractCard> attacks = new ArrayList<>();
+		for (AbstractCard other : AbstractDungeon.player.hand.group)
+			if (other.type == AbstractCard.CardType.ATTACK && other != card)
+				attacks.add(other);
 		
-		if (!(target instanceof AbstractMonster) || this.isRandom)
-			this.addToBot(new DamageRandomEnemyAction(
-					new DamageInfo(AbstractDungeon.player, this.amount, card.damageTypeForTurn),
-					AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
-		else
-			this.addToBot(new DamageAction(
-					target,
-					new DamageInfo(AbstractDungeon.player, this.amount, card.damageTypeForTurn),
-					AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
-	}
-	
-	@Override
-	public void onApplyPowers(AbstractCard card) {
-		float tmp = this.baseAmount;
-		
-		for (AbstractRelic r : AbstractDungeon.player.relics)
-			tmp = r.atDamageModify(tmp, card);
-		
-		for (AbstractPower p : AbstractDungeon.player.powers)
-			tmp = p.atDamageGive(tmp, card.damageTypeForTurn, card);
-		
-//		for (AbstractCardModifier mod : CardModifierManager.modifiers(card))
-//			tmp = mod.modifyDamage(tmp, card.damageTypeForTurn, card, null);
-		
-		tmp = AbstractDungeon.player.stance.atDamageGive(tmp, card.damageTypeForTurn, card);
-		
-		for (AbstractPower p : AbstractDungeon.player.powers)
-			tmp = p.atDamageFinalGive(tmp, card.damageTypeForTurn, card);
-		
-		if (tmp < 0.0F)
-			tmp = 0.0F;
-		this.amount = MathUtils.floor(tmp);
-	}
-	
-	@Override
-	public void onCalculateCardDamage(AbstractCard card, AbstractMonster mo) {
-		float tmp = this.baseAmount;
-		
-		for (AbstractRelic r : AbstractDungeon.player.relics)
-			tmp = r.atDamageModify(tmp, card);
-		
-		for (AbstractPower p : AbstractDungeon.player.powers)
-			tmp = p.atDamageGive(tmp, card.damageTypeForTurn, card);
-		
-		tmp = AbstractDungeon.player.stance.atDamageGive(tmp, card.damageTypeForTurn, card);
-		
-		if (mo != null)
-			for (AbstractPower p : mo.powers)
-				tmp = p.atDamageReceive(tmp, card.damageTypeForTurn, card);
-		
-		for (AbstractPower p : AbstractDungeon.player.powers)
-			tmp = p.atDamageFinalGive(tmp, card.damageTypeForTurn, card);
-		
-		if (mo != null)
-			for (AbstractPower p : mo.powers)
-				tmp = p.atDamageFinalReceive(tmp, card.damageTypeForTurn, card);
-		
-		if (tmp < 0.0F)
-			tmp = 0.0F;
-		this.amount = MathUtils.floor(tmp);
-	}
+		if (!attacks.isEmpty()) {
+			ArrayList<AbstractCard> chosen;
+			if (!this.upgraded) {
+				chosen = new ArrayList<>();
+				chosen.add(attacks.get(MathUtils.random(attacks.size() - 1)));
+			}
+			else
+				chosen = attacks;
+			
+			this.addToBot(new AnonymousAction(() -> {
+				ArrayList<AbstractCard> failed = new ArrayList<>();
+				for (AbstractCard c : chosen) {
+					AliceSpireKit.upgradeCardDamage(c, AMOUNT);
+					
+					if (AbstractDungeon.player.hand.contains(c)) {
+						c.flash();
+						
+						if (this.shouldApply(c))
+							CardModifierManager.addModifier(c, new RevelationCardModifier(this.upgraded));
+					}
+					else
+						failed.add(c);
+				}
+				
+				if (!failed.isEmpty())
+					AliceSpireKit.log(SIMPLE_NAME + ": Chosen card(s) not in hand: " + failed);
+			}));
+		}
+ 	}
 	
 	@Override
 	public AbstractCardModifier makeCopy() {
-		return new RevelationCardModifier(this.baseAmount);
-	}
-	
-	@Override
-	public UUID getDynamicUUID() {
-		return this.uuid;
-	}
-	
-	@Override
-	public boolean isModified(AbstractCard card) {
-		return this.amount != this.baseAmount;
-	}
-	
-	@Override
-	public int value(AbstractCard card) {
-		return this.amount;
-	}
-	
-	@Override
-	public int baseValue(AbstractCard card) {
-		return this.baseAmount;
+		return new RevelationCardModifier(this.upgraded);
 	}
 	
 	@Override
@@ -155,6 +109,10 @@ public class RevelationCardModifier extends AbstractCardModifier implements Dyna
 	
 	@Override
 	public boolean shouldApply(AbstractCard card) {
-		return !CardModifierManager.hasModifier(card, ID);
+		if (!CardModifierManager.hasModifier(card, ID))
+			return true;
+		
+		RevelationCardModifier mod = (RevelationCardModifier) CardModifierManager.getModifiers(card, ID).get(0);
+		return !mod.upgraded && this.upgraded;
 	}
 }

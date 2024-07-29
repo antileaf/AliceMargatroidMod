@@ -3,6 +3,7 @@ package rs.antileaf.alice.cards.AliceMargatroid;
 import basemod.patches.com.megacrit.cardcrawl.cards.AbstractCard.MultiCardPreview;
 import com.evacipated.cardcrawl.mod.stslib.actions.common.DamageCallbackAction;
 import com.evacipated.cardcrawl.mod.stslib.actions.tempHp.AddTemporaryHPAction;
+import com.evacipated.cardcrawl.mod.stslib.patches.FlavorText;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
@@ -82,11 +83,18 @@ public class PokerTrick extends AbstractAliceCard {
 		this.suit = suit;
 		this.name = cardStrings.NAME;
 		
-		if (this.suit == 0)
+		if (this.suit == 0) {
 			this.rawDescription = cardStrings.DESCRIPTION;
+			
+			FlavorText.AbstractCardFlavorFields.flavor.set(this,
+					FlavorText.CardStringsFlavorField.flavor.get(cardStrings));
+		}
 		else {
 			this.name += "(" + cardStrings.EXTENDED_DESCRIPTION[(this.suit - 1) * 2] + ")";
 			this.rawDescription = cardStrings.EXTENDED_DESCRIPTION[(this.suit - 1) * 2 + 1];
+			
+			FlavorText.AbstractCardFlavorFields.flavor.set(this,
+					cardStrings.EXTENDED_DESCRIPTION[this.suit + 7]);
 		}
 		
 		this.initializeDescription();

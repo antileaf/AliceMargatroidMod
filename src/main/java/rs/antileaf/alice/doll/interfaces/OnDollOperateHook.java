@@ -18,4 +18,8 @@ public interface OnDollOperateHook {
 	default void postDestroyDoll(AbstractDoll doll) {}
 	
 	default void postRecycleOrDestroyDoll(AbstractDoll doll) {}
+	
+	default boolean canWorkOnSpecialAct() {
+		return true;
+	}
 }

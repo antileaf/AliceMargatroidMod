@@ -23,10 +23,11 @@ public class RecycleDollInternalAction extends AbstractGameAction {
 		if (this.duration == DURATION) {
 			if (!DollManager.get().contains(this.doll)) {
 				AliceSpireKit.log(this.getClass(),
-						"RecycleDollAction.update(): DollManager does not contain " +
+						"RecycleDollInternalAction.update(): DollManager does not contain " +
 								this.doll.getClass().getSimpleName() + "!");
 				
-				this.addToTop(new SpawnDollAction(this.newDoll, -1));
+				if (this.newDoll != null)
+					this.addToTop(new SpawnDollAction(this.newDoll, -1));
 				this.isDone = true;
 				return;
 			}

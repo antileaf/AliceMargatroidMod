@@ -1,7 +1,10 @@
 package rs.antileaf.alice.doll.dolls;
 
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
+import com.megacrit.cardcrawl.actions.common.DamageAllEnemiesAction;
+import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.OrbStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.action.doll.DollActAction;
@@ -10,6 +13,7 @@ import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollDamageInfo;
 import rs.antileaf.alice.doll.enums.DollAmountTime;
 import rs.antileaf.alice.doll.enums.DollAmountType;
+import rs.antileaf.alice.relics.SuspiciousCard;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class ShanghaiDoll extends AbstractDoll {
@@ -48,16 +52,33 @@ public class ShanghaiDoll extends AbstractDoll {
 	
 	@Override
 	public void onAct() {
-		AbstractMonster m = AliceSpireKit.getMonsterWithLeastHP();
-		
-		if (m != null) {
-			this.addToTop(new DollDamageAction(m,
-					new DollDamageInfo(this.actAmount, this,
-							DollAmountType.DAMAGE, DollAmountTime.ACT),
-					AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
-		}
-		
 		this.highlightActValue();
+		
+		if (!AbstractDungeon.player.hasRelic(SuspiciousCard.ID)) {
+			AbstractMonster m = AliceSpireKit.getMonsterWithLeastHP();
+			
+			if (m != null) {
+				this.addToTop(new DollDamageAction(m,
+						new DollDamageInfo(this.actAmount, this,
+								DollAmountType.DAMAGE, DollAmountTime.ACT),
+						AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
+			}
+		}
+		else {
+			AbstractDungeon.player.getRelic(SuspiciousCard.ID).flash();
+			
+			this.addToTop(new DamageAllEnemiesAction(
+					AbstractDungeon.player,
+					DollDamageInfo.createDamageMatrix(
+							this.actAmount,
+							this,
+							this.actAmountType,
+							DollAmountTime.ACT),
+					DamageInfo.DamageType.THORNS,
+					AbstractGameAction.AttackEffect.SLASH_DIAGONAL,
+					true
+			));
+		}
 	}
 	
 	public void postSpawn() {

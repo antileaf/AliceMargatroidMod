@@ -25,6 +25,7 @@ public class ScatterTheWeak extends AbstractAliceCard {
 	
 	private static final int COST = 1;
 	private static final int DAMAGE = 5;
+	private static final int UPGRADE_PLUS_DAMAGE = 3;
 	
 	public ScatterTheWeak() {
 		super(
@@ -36,11 +37,12 @@ public class ScatterTheWeak extends AbstractAliceCard {
 				CardType.ATTACK,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
 				CardRarity.RARE,
-				CardTarget.ENEMY
+				CardTarget.ALL_ENEMY
 		);
 		
 		this.damage = this.baseDamage = DAMAGE;
 		this.exhaust = true;
+		this.isMultiDamage = true;
 	}
 	
 	public static Consumer<Integer> getDamageCallback(AbstractMonster monster) {
@@ -56,27 +58,18 @@ public class ScatterTheWeak extends AbstractAliceCard {
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
-		if (!this.upgraded)
-			this.addToBot(new DamageCallbackAction(
-					m,
-					new DamageInfo(p, this.damage, this.damageTypeForTurn),
-					AbstractGameAction.AttackEffect.FIRE,
-					getDamageCallback(m)
-			));
-		else {
-			this.calculateCardDamage(null);
-			
-			for (AbstractMonster monster : AbstractDungeon.getMonsters().monsters) {
-				if (!monster.isDeadOrEscaped() && !monster.halfDead) {
-					int dmg = this.multiDamage[AbstractDungeon.getMonsters().monsters.indexOf(monster)];
-					
-					this.addToBot(new DamageCallbackAction(
-							monster,
-							new DamageInfo(p, dmg, this.damageTypeForTurn),
-							AbstractGameAction.AttackEffect.FIRE,
-							getDamageCallback(monster)
-					));
-				}
+		this.calculateCardDamage(null);
+		
+		for (AbstractMonster monster : AbstractDungeon.getMonsters().monsters) {
+			if (!monster.isDeadOrEscaped() && !monster.halfDead) {
+				int dmg = this.multiDamage[AbstractDungeon.getMonsters().monsters.indexOf(monster)];
+				
+				this.addToBot(new DamageCallbackAction(
+						monster,
+						new DamageInfo(p, dmg, this.damageTypeForTurn),
+						AbstractGameAction.AttackEffect.FIRE,
+						getDamageCallback(monster)
+				));
 			}
 		}
 	}
@@ -90,9 +83,7 @@ public class ScatterTheWeak extends AbstractAliceCard {
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
-			this.target = CardTarget.ALL_ENEMY;
-			this.isMultiDamage = true;
-			this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
+			this.upgradeDamage(UPGRADE_PLUS_DAMAGE);
 			this.initializeDescription();
 		}
 	}

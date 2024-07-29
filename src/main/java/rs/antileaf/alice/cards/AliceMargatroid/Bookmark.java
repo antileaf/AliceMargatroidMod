@@ -1,7 +1,7 @@
 package rs.antileaf.alice.cards.AliceMargatroid;
 
 import basemod.BaseMod;
-import com.evacipated.cardcrawl.mod.stslib.patches.FlavorText;
+import basemod.helpers.TooltipInfo;
 import com.megacrit.cardcrawl.actions.utility.WaitAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
@@ -13,6 +13,7 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
+import rs.antileaf.alice.strings.AliceCardNoteStrings;
 import rs.antileaf.alice.strings.AliceLanguageStrings;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
@@ -23,6 +24,7 @@ public class Bookmark extends AbstractAliceCard {
 //	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
 	public static final String ID = SIMPLE_NAME;
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
+	private static final AliceCardNoteStrings cardNoteStrings = AliceCardNoteStrings.get(ID);
 	
 	private static final int COST = 1;
 	private static final int UPGRADED_COST = 0;
@@ -58,26 +60,21 @@ public class Bookmark extends AbstractAliceCard {
 	}
 	
 	@Override
-	public void applyPowers() {
-		super.applyPowers();
+	public TooltipInfo getNote() {
+		if (!AliceSpireKit.isInBattle())
+			return new TooltipInfo(AliceCardNoteStrings.DEFAULT_TITLE, cardNoteStrings.DESCRIPTION);
 		
-		if (AliceSpireKit.isInBattle()) {
-//			String flavor = FlavorText.CardStringsFlavorField.flavor.get(cardStrings);
-			String flavor = "";
-			
-			if (cache.isEmpty())
-				flavor += cardStrings.EXTENDED_DESCRIPTION[0];
-			else {
-				flavor += String.format(cardStrings.EXTENDED_DESCRIPTION[1], cache.size());
-				flavor += " NL " + cache.stream()
-						.map(c -> c.name)
-						.reduce((a, b) -> a + AliceLanguageStrings.CAESURA_WITH_SPACE + b)
-						.orElse("")
-						+ AliceLanguageStrings.PERIOD;
-			}
-			
-			FlavorText.AbstractCardFlavorFields.flavor.set(this, flavor);
-		}
+		if (cache.isEmpty())
+			return new TooltipInfo(cardNoteStrings.TITLE, cardNoteStrings.EXTENDED_DESCRIPTION[0]);
+		
+		String desc = String.format(cardNoteStrings.EXTENDED_DESCRIPTION[1], cache.size());
+		desc += " NL " + cache.stream()
+				.map(c -> c.name)
+				.reduce((a, b) -> a + AliceLanguageStrings.CAESURA_WITH_SPACE + b)
+				.orElse("")
+				+ AliceLanguageStrings.PERIOD;
+		
+		return new TooltipInfo(cardNoteStrings.TITLE, desc);
 	}
 	
 	@Override

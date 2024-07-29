@@ -58,7 +58,7 @@ public class DollCrusader extends AbstractAliceCard {
 			for (int i = 0; i < DollManager.get().getDolls().size(); i++)
 				if (!(DollManager.get().getDolls().get(i) instanceof EmptyDollSlot)) {
 					AbstractDoll doll = DollManager.get().getDolls().get(i);
-					if (doll.calcTotalDamageAboutToTake() > 0) {
+					if (doll.calcTotalDamageAboutToTake() != -1) {
 						indices.add(i);
 						
 						if (!upg)
