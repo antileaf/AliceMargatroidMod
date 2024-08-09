@@ -36,6 +36,7 @@ public class Strike_AliceMargatroid extends AbstractAliceCard {
 		
 		this.damage = this.baseDamage = DAMAGE;
 		this.tags.add(CardTags.STARTER_STRIKE);
+		this.tags.add(CardTags.STRIKE);
 	}
 	
 	@Override

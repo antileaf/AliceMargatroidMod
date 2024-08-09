@@ -543,20 +543,28 @@ public abstract class AbstractDoll extends CustomOrb {
 		return highlight ? new Color(0.2F, 1.0F, 1.0F, this.c.a) : this.c;
 	}
 	
+	protected String getRenderPassiveValue() {
+		return Integer.toString(this.passiveAmount);
+	}
+	
 	private void renderPassiveValue(SpriteBatch sb, float x, float y) {
 		FontHelper.renderFontCentered(sb,
 				FontHelper.cardEnergyFont_L,
-				Integer.toString(this.passiveAmount),
+				this.getRenderPassiveValue(),
 				x,
 				y,
 				this.getFontColor(this.highlightPassiveValueTimer > 0.0F),
 				this.passiveFontScale);
 	}
 	
+	protected String getRenderActValue() {
+		return Integer.toString(this.actAmount);
+	}
+	
 	private void renderActValue(SpriteBatch sb, float x, float y) {
 		FontHelper.renderFontCentered(sb,
 				FontHelper.cardEnergyFont_L,
-				Integer.toString(this.actAmount),
+				this.getRenderActValue(),
 				x,
 				y,
 				this.getFontColor(this.highlightActValueTimer > 0.0F),
@@ -950,6 +958,9 @@ public abstract class AbstractDoll extends CustomOrb {
 		}
 		else if (clazz.equals(OrleansDoll.ID)) {
 			return new OrleansDoll();
+		}
+		else if (clazz.equals(Su_san.ID)) {
+			return new Su_san();
 		}
 		else {
 			AliceSpireKit.log(AbstractDoll.class, "Unknown class: " + clazz);

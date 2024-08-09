@@ -8,6 +8,7 @@ import rs.antileaf.alice.action.doll.DollActAction;
 import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
+import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.powers.AbstractAlicePower;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
@@ -46,7 +47,8 @@ public class ChantPower extends AbstractAlicePower {
 		this.addToBot(new AnonymousAction(() -> {
 			for (AbstractDoll doll : DollManager.get().getDolls())
 				for (int i = 0; i < amount; i++)
-					AliceSpireKit.addActionToBuffer(new DollActAction(doll));
+					if (!(doll instanceof EmptyDollSlot))
+						AliceSpireKit.addActionToBuffer(new DollActAction(doll));
 			AliceSpireKit.commitBuffer();
 		}));
 		

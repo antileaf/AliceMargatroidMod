@@ -8,8 +8,7 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.potions.AbstractPotion;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
-
-import static java.lang.Character.isUpperCase;
+import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class MarisasPotion extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = MarisasPotion.class.getSimpleName();
@@ -24,7 +23,7 @@ public class MarisasPotion extends AbstractAliceCard {
 		super(
 				ID,
 				potion == null ? cardStrings.NAME : potion.name,
-				null,
+				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				potion == null ? cardStrings.DESCRIPTION : potion.description,
 				CardType.SKILL,

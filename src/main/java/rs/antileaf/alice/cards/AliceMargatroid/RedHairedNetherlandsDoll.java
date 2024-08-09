@@ -11,9 +11,12 @@ import rs.antileaf.alice.action.doll.SpawnDollAction;
 import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.doll.AbstractDoll;
+import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.NetherlandsDoll;
+import rs.antileaf.alice.doll.targeting.DollOrEmptySlotTargeting;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.CardTagEnum;
+import rs.antileaf.alice.patches.enums.CardTargetEnum;
 
 public class RedHairedNetherlandsDoll extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = RedHairedNetherlandsDoll.class.getSimpleName();
@@ -22,8 +25,8 @@ public class RedHairedNetherlandsDoll extends AbstractAliceCard {
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
-	private static final int BLOCK = 2;
-	private static final int MAGIC = 2;
+	private static final int BLOCK = 4;
+//	private static final int MAGIC = 2;
 	
 	public RedHairedNetherlandsDoll() {
 		super(
@@ -35,26 +38,30 @@ public class RedHairedNetherlandsDoll extends AbstractAliceCard {
 				CardType.SKILL,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
 				CardRarity.UNCOMMON,
-				CardTarget.NONE
+				CardTargetEnum.DOLL_OR_EMPTY_SLOT
 		);
 		
 		this.block = this.baseBlock = BLOCK;
-		this.magicNumber = this.baseMagicNumber = MAGIC;
+//		this.magicNumber = this.baseMagicNumber = MAGIC;
+		
+		this.tags.add(CardTagEnum.ALICE_DOLL_ACT);
 	}
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
+		AbstractDoll target = DollOrEmptySlotTargeting.getTarget(this);
+		int index = DollManager.get().getDolls().indexOf(target);
+		
 		AbstractDoll doll = new NetherlandsDoll();
-		this.addToBot(new SpawnDollAction(doll, -1));
+		this.addToBot(new SpawnDollAction(doll, index));
 		
 		if (this.upgraded) {
 			this.addToBot(new DollActAction(doll));
 			
-			for (int i = 0; i < this.magicNumber; i++)
-				this.addToBot(new AnonymousAction(() -> {
-					this.applyPowers();
-					this.addToTop(new GainBlockAction(p, p, this.block));
-				}));
+			this.addToBot(new AnonymousAction(() -> {
+				this.applyPowers();
+				this.addToTop(new GainBlockAction(p, p, this.block));
+			}));
 		}
 	}
 	

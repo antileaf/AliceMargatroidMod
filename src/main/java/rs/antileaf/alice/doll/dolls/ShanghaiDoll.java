@@ -65,7 +65,10 @@ public class ShanghaiDoll extends AbstractDoll {
 			}
 		}
 		else {
-			AbstractDungeon.player.getRelic(SuspiciousCard.ID).flash();
+			if (AbstractDungeon.getMonsters().monsters.stream()
+					.filter(m -> !m.isDeadOrEscaped())
+					.count() > 1)
+				AbstractDungeon.player.getRelic(SuspiciousCard.ID).flash();
 			
 			this.addToTop(new DamageAllEnemiesAction(
 					AbstractDungeon.player,

@@ -49,7 +49,8 @@ public class ButterflyFlurry extends AbstractAliceCard {
 				(fatal) -> {
 					if (fatal)
 						AliceSpireKit.addToBot(new ApplyPowerAction(p, p, new AliceExtraTurnPower(1), 1));
-				}
+				},
+				true
 		));
 	}
 	

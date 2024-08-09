@@ -1,12 +1,18 @@
 package rs.antileaf.alice.powers.unique;
 
+import basemod.ReflectionHacks;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.PowerStrings;
+import com.megacrit.cardcrawl.powers.AbstractPower;
+import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
+import com.megacrit.cardcrawl.vfx.combat.GainPowerEffect;
 import rs.antileaf.alice.action.doll.DollGainBlockAction;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.interfaces.OnDollOperateHook;
 import rs.antileaf.alice.powers.AbstractAlicePower;
+
+import java.util.ArrayList;
 
 public class MaidensBunrakuPower extends AbstractAlicePower implements OnDollOperateHook {
 	public static final String POWER_ID = MaidensBunrakuPower.class.getSimpleName();
@@ -42,7 +48,9 @@ public class MaidensBunrakuPower extends AbstractAlicePower implements OnDollOpe
 	
 	@Override
 	public void postDollAct(AbstractDoll doll) {
-		this.flashWithoutSound();
+		Object effect = ReflectionHacks.getPrivate(this, AbstractPower.class, "effect");
+		if (effect instanceof ArrayList)
+			((ArrayList<AbstractGameEffect>) effect).add(new GainPowerEffect(this));
 		this.addToTop(new DollGainBlockAction(doll, this.amount));
 	}
 }

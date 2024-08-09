@@ -1,5 +1,6 @@
 package rs.antileaf.alice.powers.unique;
 
+import basemod.ReflectionHacks;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
@@ -7,6 +8,9 @@ import com.megacrit.cardcrawl.actions.common.GainEnergyAction;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.PowerStrings;
+import com.megacrit.cardcrawl.powers.AbstractPower;
+import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
+import com.megacrit.cardcrawl.vfx.combat.GainPowerEffect;
 import com.megacrit.cardcrawl.vfx.combat.PlasmaOrbPassiveEffect;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
@@ -15,11 +19,13 @@ import rs.antileaf.alice.doll.interfaces.OnDollOperateHook;
 import rs.antileaf.alice.effects.common.AliceDrawLineEffect;
 import rs.antileaf.alice.powers.AbstractAlicePower;
 
+import java.util.ArrayList;
+
 public class MagicConduitPower extends AbstractAlicePower implements OnDollOperateHook {
 	public static final String POWER_ID = MagicConduitPower.class.getSimpleName();
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
 	
-	private final float VFX_MIN = 0.1F, VFX_MAX = 0.4F;
+	private static final float VFX_MIN = 0.1F, VFX_MAX = 0.4F;
 	private float vfxTimer = 0.0F;
 	private float lineTimer = 0.0F;
 	
@@ -48,14 +54,29 @@ public class MagicConduitPower extends AbstractAlicePower implements OnDollOpera
 		);
 	}
 	
-	@Override
-	public void postDollAct(AbstractDoll doll) {
-		if (DollManager.get().getDolls().size() == DollManager.MAX_DOLL_SLOTS
-				&& DollManager.get().getDolls().get(DollManager.MAX_DOLL_SLOTS - 1) == doll) {
-			this.flash();
-			this.addToTop(new GainEnergyAction(this.amount));
-		}
+	public void triggerOnDollAct() {
+		Object effect = ReflectionHacks.getPrivate(this, AbstractPower.class, "effect");
+		if (effect instanceof ArrayList)
+			((ArrayList<AbstractGameEffect>) effect).add(new GainPowerEffect(this));
+		
+//		this.addToTop(new GainEnergyAction(this.amount));
+		this.addToTop(new GainEnergyAction(this.amount) {
+			@Override
+			public void update() {
+				super.update();
+				this.isDone = true;
+			}
+		});
 	}
+	
+//	@Override
+//	public void postDollAct(AbstractDoll doll) {
+//		if (DollManager.get().getDolls().size() == DollManager.MAX_DOLL_SLOTS
+//				&& DollManager.get().getDolls().get(DollManager.MAX_DOLL_SLOTS - 1) == doll) {
+//			this.flash();
+//			this.addToTop(new GainEnergyAction(this.amount));
+//		}
+//	}
 	
 	@Override
 	public void update(int slot) {
@@ -71,7 +92,7 @@ public class MagicConduitPower extends AbstractAlicePower implements OnDollOpera
 				}
 			}
 			
-			this.vfxTimer = MathUtils.random(this.VFX_MIN, this.VFX_MAX);
+			this.vfxTimer = MathUtils.random(VFX_MIN, VFX_MAX);
 		}
 		
 		this.lineTimer -= Gdx.graphics.getDeltaTime();
@@ -85,7 +106,7 @@ public class MagicConduitPower extends AbstractAlicePower implements OnDollOpera
 							2.0F,
 							0.25F,
 							doll.getDrawCX(), doll.getDrawCY(),
-							AbstractDungeon.player.hb.cX, AbstractDungeon.player.hb.cY - AbstractDungeon.player.hb.height / 4F,
+							AbstractDungeon.player.hb.cX, AbstractDungeon.player.hb.cY - AbstractDungeon.player.hb.height / 10F,
 							true
 					));
 			}

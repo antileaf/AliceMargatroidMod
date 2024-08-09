@@ -36,7 +36,9 @@ public class DollWarPower extends AbstractAlicePower implements OnDollOperateHoo
 	@Override
 	public void preSpawnDoll(AbstractDoll doll) {
 		this.flash();
-		doll.maxHP += doll.getBaseHP() * this.amount;
-		doll.HP += doll.getBaseHP() * this.amount;
+		
+		int diff = doll.maxHP * this.amount;
+		doll.maxHP += diff;
+		doll.HP += diff;
 	}
 }

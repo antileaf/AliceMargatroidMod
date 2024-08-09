@@ -35,7 +35,7 @@ public class Phantom extends AbstractAliceCard {
 				cardStrings.DESCRIPTION,
 				CardType.SKILL,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
-				CardRarity.UNCOMMON,
+				CardRarity.RARE,
 				CardTarget.NONE
 		);
 		

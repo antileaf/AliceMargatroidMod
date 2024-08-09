@@ -15,8 +15,8 @@ import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
-public class StarlightRay extends AbstractAliceCard {
-	public static final String SIMPLE_NAME = StarlightRay.class.getSimpleName();
+public class Hail extends AbstractAliceCard {
+	public static final String SIMPLE_NAME = Hail.class.getSimpleName();
 //	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
 	public static final String ID = SIMPLE_NAME;
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
@@ -25,7 +25,7 @@ public class StarlightRay extends AbstractAliceCard {
 	private static final int DAMAGE = 4;
 	private static final int UPGRADE_PLUS_DAMAGE = 2;
 	
-	public StarlightRay() {
+	public Hail() {
 		super(
 				ID,
 				cardStrings.NAME,
@@ -65,7 +65,7 @@ public class StarlightRay extends AbstractAliceCard {
 	
 	@Override
 	public AbstractCard makeCopy() {
-		return new StarlightRay();
+		return new Hail();
 	}
 	
 	@Override

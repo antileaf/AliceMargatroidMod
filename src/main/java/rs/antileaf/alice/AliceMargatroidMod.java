@@ -2,6 +2,8 @@ package rs.antileaf.alice;
 
 import basemod.BaseMod;
 import basemod.ModPanel;
+import basemod.eventUtil.AddEventParams;
+import basemod.eventUtil.EventUtils;
 import basemod.interfaces.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -24,12 +26,13 @@ import org.apache.logging.log4j.Logger;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.cards.AliceMargatroid.Thread;
 import rs.antileaf.alice.cards.AliceMargatroid.*;
+import rs.antileaf.alice.cards.Derivations.CreateSusan;
 import rs.antileaf.alice.cards.Derivations.MarisasPotion;
-import rs.antileaf.alice.cards.Derivations.dolls.*;
 import rs.antileaf.alice.cards.Marisa.Alice6A;
 import rs.antileaf.alice.cards.Marisa.AliceAsteroidBelt;
 import rs.antileaf.alice.cards.Marisa.AliceDoubleSpark;
 import rs.antileaf.alice.cards.Marisa.AliceSpark;
+import rs.antileaf.alice.cards.colorless.PoisonousSweet;
 import rs.antileaf.alice.characters.AliceMargatroid;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
@@ -38,6 +41,7 @@ import rs.antileaf.alice.doll.targeting.DollOrEmptySlotTargeting;
 import rs.antileaf.alice.doll.targeting.DollOrEnemyTargeting;
 import rs.antileaf.alice.doll.targeting.DollOrNoneTargeting;
 import rs.antileaf.alice.doll.targeting.DollTargeting;
+import rs.antileaf.alice.events.LilyOfTheValleyFlowerField;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.AliceMargatroidModClassEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
@@ -46,10 +50,8 @@ import rs.antileaf.alice.powers.unique.UsokaePower;
 import rs.antileaf.alice.relics.AlicesDarkGrimoire;
 import rs.antileaf.alice.relics.AlicesGrimoire;
 import rs.antileaf.alice.relics.SuspiciousCard;
-import rs.antileaf.alice.strings.AliceCardModifierStrings;
-import rs.antileaf.alice.strings.AliceCardNoteStrings;
-import rs.antileaf.alice.strings.AliceCardSignStrings;
-import rs.antileaf.alice.strings.AliceLanguageStrings;
+import rs.antileaf.alice.strings.*;
+import rs.antileaf.alice.ui.SkinSelectScreen;
 import rs.antileaf.alice.utils.*;
 import rs.antileaf.alice.variable.AliceSecondaryDamageVariable;
 import rs.antileaf.alice.variable.AliceSecondaryMagicNumberVariable;
@@ -111,7 +113,7 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 	public static final String CARD_ENERGY_ORB = "AliceMargatroidMod/img/UI/AliceMargatroid/energyOrb.png";
 	
 	private static final String CHARACTER_BUTTON = "AliceMargatroidMod/img/charSelect/AliceMargatroid/Button.png";
-	private static final String ALICE_PORTRAIT = "AliceMargatroidMod/img/charSelect/AliceMargatroid/Portrait.jpg";
+	private static final String ALICE_PORTRAIT = "AliceMargatroidMod/img/charSelect/AliceMargatroid/alice.png";
 	
 	private final ArrayList<AbstractCard> cardsToAdd = new ArrayList<>();
 	//private ArrayList<AbstractRelic> relicsToAdd = new ArrayList<>();
@@ -312,6 +314,12 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 				Gdx.files.internal(AliceSpireKit.getLocalizationFilePath("language"))
 						.readString(String.valueOf(StandardCharsets.UTF_8)),
 				(new TypeToken<Map<String, String>>() {}).getType()));
+		
+		logger.info("Loading skin strings...");
+		AliceSkinStrings.init((new Gson()).fromJson(
+				Gdx.files.internal(AliceSpireKit.getLocalizationFilePath("skin"))
+						.readString(String.valueOf(StandardCharsets.UTF_8)),
+				(new TypeToken<Map<String, AliceSkinStrings>>() {}).getType()));
 
 		logger.info("done editing strings");
 	}
@@ -319,13 +327,7 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 	@Override
 	public void receiveAddAudio() {
 		logger.info("Adding audio");
-		
-		BaseMod.addAudio("AliceMargatroidMod:CHAR_SELECT_1",
-				"AliceMargatroidMod/audio/charSelect/SELECT_ALICE1.wav");
-		BaseMod.addAudio("AliceMargatroidMod:CHAR_SELECT_2",
-				"AliceMargatroidMod/audio/charSelect/SELECT_ALICE2.wav");
-		BaseMod.addAudio("AliceMargatroidMod:CHAR_SELECT_3",
-				"AliceMargatroidMod/audio/charSelect/SELECT_ALICE3.wav");
+		AliceAudioMaster.init();
 	}
 	
 	@Override
@@ -338,6 +340,7 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		DollManager.get().clearPostBattle();
 		Bookmark.clearCache();
 		BaseMod.MAX_HAND_SIZE = BaseMod.DEFAULT_MAX_HAND_SIZE;
+//		SkinSelectScreen.inst.resetCurrentSkin();
 	}
 	
 	@Override
@@ -373,7 +376,7 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 	
 	@Override
 	public void receivePostDungeonInitialize() {
-		// Auto-generated method stub
+//		SkinSelectScreen.inst.resetCurrentSkin();
 	}
 	
 	@Override
@@ -403,6 +406,16 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		);
 		
 		AliceImageMaster.loadImages();
+		
+		BaseMod.addEvent(
+				new AddEventParams.Builder(LilyOfTheValleyFlowerField.ID, LilyOfTheValleyFlowerField.class)
+						.playerClass(AliceMargatroidModClassEnum.ALICE_MARGATROID)
+						.eventType(EventUtils.EventType.NORMAL)
+						.create()
+		);
+		
+		AliceSpireKit.log("Initializing skin select screen...");
+		SkinSelectScreen.init();
 		
 		WitchsTeaParty.updateAll();
 	}
@@ -506,7 +519,7 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 //		this.cardsToAdd.add(new SpiritualPower());
 //		this.cardsToAdd.add(new FrostRay());
 		this.cardsToAdd.add(new Perihelion());
-		this.cardsToAdd.add(new StarlightRay());
+		this.cardsToAdd.add(new Hail());
 		this.cardsToAdd.add(new DollCremation());
 		this.cardsToAdd.add(new SevenColoredPuppeteer());
 		this.cardsToAdd.add(new Collector());
@@ -540,7 +553,7 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		this.cardsToAdd.add(new DollActivation());
 //		this.cardsToAdd.add(new DEPRECATEDTheUnmovingGreatLibrary());
 		this.cardsToAdd.add(new VisitOfThreeFairies());
-		this.cardsToAdd.add(new ScatterTheWeak());
+//		this.cardsToAdd.add(new ScatterTheWeak());
 		this.cardsToAdd.add(new AliceInWonderland());
 		this.cardsToAdd.add(new Pause());
 		this.cardsToAdd.add(new SealOfLight());
@@ -549,7 +562,7 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		this.cardsToAdd.add(new Revelation());
 		this.cardsToAdd.add(new FailedExperiment());
 		this.cardsToAdd.add(new ButterflyFlurry());
-		this.cardsToAdd.add(new WitchsTeaParty());
+//		this.cardsToAdd.add(new WitchsTeaParty());
 //		this.cardsToAdd.add(new DollOrchestra());
 //		this.cardsToAdd.add(new ThePhantomOfTheGrandGuignol());
 		this.cardsToAdd.add(new Housework());
@@ -560,7 +573,7 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		this.cardsToAdd.add(new DevilryLight());
 		this.cardsToAdd.add(new RefreshingSpringWater());
 		this.cardsToAdd.add(new DollArmy());
-		this.cardsToAdd.add(new DollParade());
+		this.cardsToAdd.add(new AliceGame());
 		this.cardsToAdd.add(new MagicConduit());
 		this.cardsToAdd.add(new SeekerDoll());
 		this.cardsToAdd.add(new ArtfulChanter());
@@ -570,6 +583,7 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		this.cardsToAdd.add(new LuminousShanghaiDoll());
 		this.cardsToAdd.add(new IllusoryMoon());
 		this.cardsToAdd.add(new DollMagic());
+		this.cardsToAdd.add(new SeaOfSubconsciousness());
 		
 		this.cardsToAdd.add(new VivaciousShanghaiDoll());
 		this.cardsToAdd.add(new QuietHouraiDoll());
@@ -580,13 +594,16 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		this.cardsToAdd.add(new SpringKyotoDoll());
 		
 		this.cardsToAdd.add(new MarisasPotion());
-		this.cardsToAdd.add(new CreateShanghaiDoll());
-		this.cardsToAdd.add(new CreateNetherlandsDoll());
-		this.cardsToAdd.add(new CreateHouraiDoll());
-		this.cardsToAdd.add(new CreateFranceDoll());
-		this.cardsToAdd.add(new CreateLondonDoll());
-		this.cardsToAdd.add(new CreateKyotoDoll());
-		this.cardsToAdd.add(new CreateOrleansDoll());
+//		this.cardsToAdd.add(new CreateShanghaiDoll());
+//		this.cardsToAdd.add(new CreateNetherlandsDoll());
+//		this.cardsToAdd.add(new CreateHouraiDoll());
+//		this.cardsToAdd.add(new CreateFranceDoll());
+//		this.cardsToAdd.add(new CreateLondonDoll());
+//		this.cardsToAdd.add(new CreateKyotoDoll());
+//		this.cardsToAdd.add(new CreateOrleansDoll());
+		
+		this.cardsToAdd.add(new PoisonousSweet());
+		this.cardsToAdd.add(new CreateSusan());
 		
 		if (!AliceSpireKit.isMarisaModAvailable()) {
 			this.cardsToAdd.add(new AliceSpark());

@@ -5,8 +5,6 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.OrbStrings;
 import com.megacrit.cardcrawl.powers.DexterityPower;
-import com.megacrit.cardcrawl.powers.LoseDexterityPower;
-import com.megacrit.cardcrawl.powers.LoseStrengthPower;
 import com.megacrit.cardcrawl.powers.StrengthPower;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.enums.DollAmountType;
@@ -20,6 +18,8 @@ public class NetherlandsDoll extends AbstractDoll {
 	public static final int MAX_HP = 3;
 	public static final int PASSIVE_AMOUNT = 1;
 	public static final int ACT_AMOUNT = 1;
+	
+	public boolean dex = false;
 	
 	public NetherlandsDoll() {
 		super(
@@ -48,34 +48,33 @@ public class NetherlandsDoll extends AbstractDoll {
 	
 	@Override
 	public void onAct() {
-		AliceSpireKit.addActionToBuffer(new ApplyPowerAction(
-				AbstractDungeon.player,
-				AbstractDungeon.player,
-				new StrengthPower(AbstractDungeon.player, this.actAmount),
-				this.actAmount
-		));
-		AliceSpireKit.addActionToBuffer(new ApplyPowerAction(
-				AbstractDungeon.player,
-				AbstractDungeon.player,
-				new DexterityPower(AbstractDungeon.player, this.actAmount),
-				this.actAmount
-		));
-		
-		AliceSpireKit.addActionToBuffer(new ApplyPowerAction(
-				AbstractDungeon.player,
-				AbstractDungeon.player,
-				new LoseStrengthPower(AbstractDungeon.player, this.actAmount),
-				this.actAmount
-		));
-		AliceSpireKit.addActionToBuffer(new ApplyPowerAction(
-				AbstractDungeon.player,
-				AbstractDungeon.player,
-				new LoseDexterityPower(AbstractDungeon.player, this.actAmount),
-				this.actAmount
-		));
+		if (!this.dex) {
+			AliceSpireKit.addActionToBuffer(new ApplyPowerAction(
+					AbstractDungeon.player,
+					AbstractDungeon.player,
+					new StrengthPower(AbstractDungeon.player, 1),
+					1
+			));
+			
+			this.basePassiveAmount += 1;
+			this.passiveAmount += 1;
+			this.highlightPassiveValue();
+		}
+		else {
+			AliceSpireKit.addActionToBuffer(new ApplyPowerAction(
+					AbstractDungeon.player,
+					AbstractDungeon.player,
+					new DexterityPower(AbstractDungeon.player, 1),
+					1
+			));
+			
+			this.baseActAmount += 1;
+			this.actAmount += 1;
+			this.highlightActValue();
+		}
 		
 		AliceSpireKit.commitBuffer();
-		this.highlightActValue();
+		this.dex = !this.dex;
 	}
 	
 	@Override
@@ -89,12 +88,12 @@ public class NetherlandsDoll extends AbstractDoll {
 				new ApplyPowerAction(
 					AbstractDungeon.player,
 					AbstractDungeon.player,
-					new DexterityPower(AbstractDungeon.player, this.passiveAmount),
-					this.passiveAmount
+					new DexterityPower(AbstractDungeon.player, this.actAmount),
+					this.actAmount
 			)
 		);
 		
-		this.highlightPassiveValue();
+//		this.highlightPassiveValue();
 	}
 	
 	private void onDisappeared() {
@@ -107,8 +106,8 @@ public class NetherlandsDoll extends AbstractDoll {
 		AliceSpireKit.addActionToBuffer(new ApplyPowerAction(
 				AbstractDungeon.player,
 				AbstractDungeon.player,
-				new DexterityPower(AbstractDungeon.player, -this.passiveAmount),
-				-this.passiveAmount
+				new DexterityPower(AbstractDungeon.player, -this.actAmount),
+				-this.actAmount
 		));
 		
 		AliceSpireKit.commitBuffer();
@@ -130,63 +129,31 @@ public class NetherlandsDoll extends AbstractDoll {
 	}
 	
 	@Override
-	public void postOtherDollSpawn(AbstractDoll doll) {
-//		if (doll instanceof HouraiDoll) {
-//			this.addToBot(new ApplyPowerAction(
-//					AbstractDungeon.player,
-//					AbstractDungeon.player,
-//					new StrengthPower(AbstractDungeon.player, doll.passiveAmount),
-//					doll.passiveAmount
-//			));
-//
-//			this.addToBot(new ApplyPowerAction(
-//					AbstractDungeon.player,
-//					AbstractDungeon.player,
-//					new DexterityPower(AbstractDungeon.player, doll.passiveAmount),
-//					doll.passiveAmount
-//			));
-//		}
+	protected String getRenderPassiveValue() {
+		return (!this.dex ? "+" : "") + this.passiveAmount;
 	}
 	
 	@Override
-	public void postOtherDollAct(AbstractDoll doll) {
-//		if (doll instanceof HouraiDoll) {
-//			this.addToBot(new ApplyPowerAction(
-//					AbstractDungeon.player,
-//					AbstractDungeon.player,
-//					new StrengthPower(AbstractDungeon.player, doll.actAmount),
-//					doll.actAmount
-//			));
-//
-//			this.addToBot(new ApplyPowerAction(
-//					AbstractDungeon.player,
-//					AbstractDungeon.player,
-//					new DexterityPower(AbstractDungeon.player, doll.actAmount),
-//					doll.actAmount
-//			));
-//		}
+	protected String getRenderActValue() {
+		return (this.dex ? "+" : "") + this.actAmount;
 	}
 	
-//	public void onStartOfTurnUpdate(int diff) {
-//		this.addToBot(new ApplyPowerAction(
-//				AbstractDungeon.player,
-//				AbstractDungeon.player,
-//				new StrengthPower(AbstractDungeon.player, diff),
-//				diff
-//		));
-//		this.addToBot(new ApplyPowerAction(
-//				AbstractDungeon.player,
-//				AbstractDungeon.player,
-//				new DexterityPower(AbstractDungeon.player, diff),
-//				diff
-//		));
-//	}
+	@Override
+	protected String coloredPassiveAmount() {
+		return (this.passiveAmount > 1 ? "#g" : "") + this.passiveAmount;
+	}
+	
+	@Override
+	protected String coloredActAmount() {
+		return (this.actAmount > 1 ? "#g" : "") + this.actAmount;
+	}
 	
 	@Override
 	public void updateDescriptionImpl() {
-		this.passiveDescription = String.format(dollStrings.DESCRIPTION[0], this.coloredPassiveAmount());
+		this.passiveDescription = String.format(dollStrings.DESCRIPTION[0],
+				this.coloredPassiveAmount(), this.coloredActAmount());
 		
-		this.actDescription = String.format(dollStrings.DESCRIPTION[1], this.coloredActAmount());
+		this.actDescription = dollStrings.DESCRIPTION[1];
 	}
 	
 	@Override

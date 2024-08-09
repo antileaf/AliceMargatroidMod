@@ -6,7 +6,6 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.action.doll.DollActAction;
-import rs.antileaf.alice.action.doll.RecycleDollAction;
 import rs.antileaf.alice.action.doll.RemoveDollAction;
 import rs.antileaf.alice.action.doll.SpawnDollAction;
 import rs.antileaf.alice.action.utils.AnonymousAction;
@@ -27,7 +26,8 @@ public class DollCrusader extends AbstractAliceCard {
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 2;
-	private static final int MAGIC = 2;
+	private static final int MAGIC = 1;
+	private static final int UPGRADE_PLUS_MAGIC = 1;
 	
 	public DollCrusader() {
 		super(
@@ -49,30 +49,21 @@ public class DollCrusader extends AbstractAliceCard {
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
-		boolean upg = this.upgraded;
-		int count = this.magicNumber;
-		
 		this.addToBot(new AnonymousAction(() -> {
 			ArrayList<Integer> indices = new ArrayList<>();
 			
 			for (int i = 0; i < DollManager.get().getDolls().size(); i++)
 				if (!(DollManager.get().getDolls().get(i) instanceof EmptyDollSlot)) {
 					AbstractDoll doll = DollManager.get().getDolls().get(i);
-					if (doll.calcTotalDamageAboutToTake() != -1) {
-						indices.add(i);
-						
-						if (!upg)
-							AliceSpireKit.addActionToBuffer(new RemoveDollAction(doll));
-						else
-							AliceSpireKit.addActionToBuffer(new RecycleDollAction(doll));
-					}
+					indices.add(i);
+					AliceSpireKit.addActionToBuffer(new RemoveDollAction(doll));
 				}
 			
 			for (int i : indices) {
 				AbstractDoll doll = AbstractDoll.getRandomDoll();
 				AliceSpireKit.addActionToBuffer(new SpawnDollAction(doll, i));
 				
-				for (int k = 0; k < count; k++)
+				for (int k = 0; k < this.magicNumber; k++)
 					AliceSpireKit.addActionToBuffer(new DollActAction(doll));
 			}
 			
@@ -89,7 +80,7 @@ public class DollCrusader extends AbstractAliceCard {
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
-			this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
+			this.upgradeMagicNumber(UPGRADE_PLUS_MAGIC);
 			this.initializeDescription();
 		}
 	}

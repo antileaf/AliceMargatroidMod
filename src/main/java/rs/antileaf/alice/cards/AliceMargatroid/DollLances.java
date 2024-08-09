@@ -25,8 +25,9 @@ public class DollLances extends AbstractAliceCard {
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
-	private static final int DAMAGE = 3;
-	private static final int UPGRADE_PLUS_DAMAGE = 3;
+	private static final int DAMAGE = 7;
+	private static final int MAGIC = 0;
+	private static final int UPGRADE_PLUS_MAGIC = 1;
 	
 	public DollLances() {
 		super(
@@ -42,6 +43,7 @@ public class DollLances extends AbstractAliceCard {
 		);
 		
 		this.damage = this.baseDamage = DAMAGE;
+		this.magicNumber = this.baseMagicNumber = MAGIC;
 	}
 	
 	@Override
@@ -51,7 +53,9 @@ public class DollLances extends AbstractAliceCard {
 				new DamageInfo(p, this.damage, this.damageTypeForTurn),
 				AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
 		
-		this.addToBot(new SpawnDollAction(new ShanghaiDoll(), -1));
+		if (this.upgraded)
+			for (int i = 0; i < this.magicNumber; i++)
+				this.addToBot(new SpawnDollAction(new ShanghaiDoll(), -1));
 		
 		this.addToBot(new AnonymousAction(() -> {
 			for (AbstractDoll doll : DollManager.get().getDolls())
@@ -70,7 +74,8 @@ public class DollLances extends AbstractAliceCard {
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
-			this.upgradeDamage(UPGRADE_PLUS_DAMAGE);
+			this.upgradeMagicNumber(UPGRADE_PLUS_MAGIC);
+			this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
 			this.initializeDescription();
 		}
 	}

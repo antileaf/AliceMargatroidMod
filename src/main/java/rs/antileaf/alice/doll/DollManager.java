@@ -105,6 +105,10 @@ public class DollManager {
 		this.totalHouraiPassiveAmount = 0;
 	}
 	
+	public boolean isShown() {
+		return this.shown;
+	}
+	
 	private void activateInternal() {
 		this.shown = true;
 	}
@@ -153,26 +157,26 @@ public class DollManager {
 		if (this.dolls == null || this.dolls.isEmpty())
 			return;
 		
+		if (this.isDamageTargetLocked)
+			return;
+		
 		for (AbstractDoll doll : this.dolls)
 			doll.updateDamageAboutToTake(-1, 0);
 		
-		if (!this.isDamageTargetLocked) {
-			this.damageTarget.clear();
+		this.damageTarget.clear();
+		for (int i = 0; i < MAX_DOLL_SLOTS; i++) {
+			AbstractMonster monster = AliceSpireKit.getMonsterByIndex(i);
 			
-			for (int i = 0; i < MAX_DOLL_SLOTS; i++) {
-				AbstractMonster monster = AliceSpireKit.getMonsterByIndex(i);
-				
-				if (monster == null)
-					continue;
-				
-				int index = i;
-				if (monster instanceof SpireShield)
-					index = MAX_DOLL_SLOTS - 1;
-				else if (monster instanceof SpireSpear)
-					index = 0;
-				
-				this.damageTarget.put(monster, index);
-			}
+			if (monster == null)
+				continue;
+			
+			int index = i;
+			if (monster instanceof SpireShield)
+				index = MAX_DOLL_SLOTS - 1;
+			else if (monster instanceof SpireSpear)
+				index = 0;
+			
+			this.damageTarget.put(monster, index);
 		}
 		
 		if (!AliceSpireKit.isInBattle()) {
@@ -328,10 +332,6 @@ public class DollManager {
 		assert index >= 0 && index < MAX_DOLL_SLOTS;
 		assert this.dolls.get(index) == doll || this.dolls.get(index) instanceof EmptyDollSlot;
 		
-		int multiplier = this.getTotalHouraiPassiveAmount();
-		doll.maxHP += multiplier * doll.getBaseHP();
-		doll.HP += multiplier * doll.getBaseHP();
-		
 		for (AbstractRelic relic : this.owner.relics)
 			if (relic instanceof OnDollOperateHook)
 				((OnDollOperateHook) relic).preSpawnDoll(doll);
@@ -339,6 +339,10 @@ public class DollManager {
 		for (AbstractPower power : this.owner.powers)
 			if (power instanceof OnDollOperateHook)
 				((OnDollOperateHook) power).preSpawnDoll(doll);
+		
+		int multiplier = this.getTotalHouraiPassiveAmount();
+		doll.maxHP += multiplier * doll.getBaseHP();
+		doll.HP += multiplier * doll.getBaseHP();
 		
 		doll.showHealthBar();
 		
@@ -553,6 +557,8 @@ public class DollManager {
 			if (doll.hb.hovered)
 				return doll;
 		}
+		
+		
 		
 		return null;
 	}

@@ -49,6 +49,8 @@ public class DollMagic extends AbstractAliceCard {
 	
 	@Override
 	public void applyPowers() {
+		super.applyPowers();
+		
 		if (AliceSpireKit.isInBattle() &&
 				(AbstractDungeon.player.drawPile.contains(this) || AbstractDungeon.player.discardPile.contains(this)))
 			this.rawDescription = cardStrings.DESCRIPTION +

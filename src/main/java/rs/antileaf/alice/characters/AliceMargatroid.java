@@ -3,6 +3,7 @@ package rs.antileaf.alice.characters;
 import basemod.abstracts.CustomPlayer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
@@ -26,6 +27,7 @@ import rs.antileaf.alice.cards.AliceMargatroid.*;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.AliceMargatroidModClassEnum;
 import rs.antileaf.alice.relics.AlicesGrimoire;
+import rs.antileaf.alice.ui.SkinSelectScreen;
 
 import java.util.ArrayList;
 
@@ -34,7 +36,7 @@ public class AliceMargatroid extends CustomPlayer {
 	private static final int ENERGY_PER_TURN = 3; // how much energy you get every turn
 	private static final String ALICE_SHOULDER_2 = "AliceMargatroidMod/img/char/AliceMargatroid/shoulder2.png"; // shoulder2 / shoulder_1
 	private static final String ALICE_SHOULDER_1 = "AliceMargatroidMod/img/char/AliceMargatroid/shoulder1.png"; // shoulder1 / shoulder_2
-	private static final String ALICE_CORPSE = "AliceMargatroidMod/img/char/AliceMargatroid/fallen.png"; // dead corpse
+	private static final String ALICE_CORPSE = "AliceMargatroidMod/img/char/AliceMargatroid/corpse.png"; // dead corpse
 	public static final Logger logger = LogManager.getLogger(AliceMargatroidMod.class.getName());
 	//private static final float[] layerSpeeds = { 20.0F, 0.0F, -40.0F, 0.0F, 0.0F, 5.0F, 0.0F, -8.0F, 0.0F, 8.0F };
 //	private static final String ALICE_SKELETON_ATLAS = "img/char/Reiuji/MarisaModelv3.atlas";// Marisa_v0 / MarisaModel_v02 /MarisaModelv3
@@ -58,6 +60,8 @@ public class AliceMargatroid extends CustomPlayer {
 			{-40.0F, -32.0F, 20.0F, -20.0F, 0.0F, -10.0F, -8.0F, 5.0F, -5.0F, 0.0F};
 	//public static final String SPRITER_ANIM_FILEPATH = "img/char/MyCharacter/marisa_test.scml"; // spriter animation scml
 	
+	private SkinSelectScreen.Skin skin = null;
+	
 	public AliceMargatroid(String name) {
 		//super(name, setClass, null, null , null ,new SpriterAnimation(SPRITER_ANIM_FILEPATH));
 		super(name, AliceMargatroidModClassEnum.ALICE_MARGATROID, ORB_TEXTURES, ORB_VFX, LAYER_SPEED, null, null);
@@ -77,15 +81,6 @@ public class AliceMargatroid extends CustomPlayer {
 				20.0F, -10.0F, 220.0F, 290.0F,
 				new EnergyManager(ENERGY_PER_TURN)
 		);
-		
-//		loadAnimation(REIUJI_SKELETON_ATLAS, REIUJI_SKELETON_JSON, 2.0F);
-		// if you're using modified versions of base game animations or made animations in spine make sure to include this bit and the following lines
-		/*
-		AnimationState.TrackEntry e = this.state.setAnimation(0, REIUJI_ANIMATION, true);
-		e.setTime(e.getEndTime() * MathUtils.random());
-		this.stateData.setMix("Hit", "Idle", 0.1F);
-		e.setTimeScale(1.0F);
-		 */
 		
 //		this.maxOrbs = 0;
 		
@@ -158,8 +153,15 @@ public class AliceMargatroid extends CustomPlayer {
 	public String getTitle(PlayerClass playerClass) { // 称号
 		String title;
 		if (Settings.language == GameLanguage.ZHS ||
-				Settings.language == GameLanguage.ZHT)
+				Settings.language == GameLanguage.ZHT) {
 			title = "七色的人偶使";
+			
+			int easterEgg = MathUtils.random(1, 50); // 谁不喜欢彩蛋呢？
+			if (easterEgg == 1)
+				title = "布加勒斯特的人偶使";
+			else if (easterEgg == 2)
+				title = "七色的萝莉使";
+		}
 		else if (Settings.language == GameLanguage.JPN)
 			title = "七色の人形遣い";
 		else
@@ -252,6 +254,7 @@ public class AliceMargatroid extends CustomPlayer {
 		return CardCrawlGame.languagePack.getEventString("AliceSensoryStone").DESCRIPTIONS[0];
 	}
 	
+	@Override
 	public void damage(DamageInfo info) {
 //		if ((info.owner != null) && (info.type != DamageInfo.DamageType.THORNS)
 //				&& (info.output - this.currentBlock > 0)) {
@@ -262,8 +265,32 @@ public class AliceMargatroid extends CustomPlayer {
 		super.damage(info);
 	}
 	
+	@Override
 	public void applyPreCombatLogic() {
 		super.applyPreCombatLogic();
 	}
 	
+	public void render(SpriteBatch sb) {
+		if (this.skin != SkinSelectScreen.inst.getSkin()) {
+			this.skin = SkinSelectScreen.inst.getSkin();
+			this.updateSkin(this.skin.img, this.skin.shoulder, this.skin.corpse);
+		}
+		
+		super.render(sb);
+	}
+	
+//	public void setSkin(SkinSelectScreen.Skin skin) {
+//		this.shouldUpdateSkin = skin;
+//	}
+	
+	public void updateSkin(String img, String shoulder, String corpse) {
+		this.img = ImageMaster.loadImage(img);
+		
+		if (this.img != null)
+			this.atlas = null;
+		
+		this.shoulderImg = ImageMaster.loadImage(shoulder);
+		this.shoulder2Img = ImageMaster.loadImage(shoulder);
+		this.corpseImg = ImageMaster.loadImage(corpse);
+	}
 }

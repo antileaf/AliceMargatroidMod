@@ -2,5 +2,8 @@
   "shouldOpenTutorial": "重新观看教程",
   "enableSpellCardSignDisplay": "显示符卡前缀 (例如：战符、苍符)",
   "enableAlternativeMarisaCardImage": "启用魔理沙卡牌异画 (仅限通过 “友人之助” 获得的卡牌)",
-  "enableWitchsTeaPartyFeature": "启用 “魔女的茶话会” 特性"
+  "enableWitchsTeaPartyFeature": "启用 “魔女的茶话会” 特性",
+  "enableDebugging": "启用调试功能 (重启后生效)",
+  "skinSelectionUnlocked": "解锁皮肤选择",
+  "skinChosen": "当前皮肤："
 }

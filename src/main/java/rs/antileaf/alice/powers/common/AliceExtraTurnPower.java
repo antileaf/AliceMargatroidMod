@@ -6,7 +6,8 @@ import com.megacrit.cardcrawl.actions.watcher.SkipEnemiesTurnAction;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.PowerStrings;
-import com.megacrit.cardcrawl.vfx.combat.TimeWarpTurnEndEffect;
+import rs.antileaf.alice.action.utils.AnonymousAction;
+import rs.antileaf.alice.effects.unique.ResurgenceEffect;
 import rs.antileaf.alice.powers.AbstractAlicePower;
 
 public class AliceExtraTurnPower extends AbstractAlicePower {
@@ -54,14 +55,18 @@ public class AliceExtraTurnPower extends AbstractAlicePower {
 	public void atEndOfTurn(boolean isPlayer) {
 		if (isPlayer) {
 			this.flash();
-			CardCrawlGame.sound.play("POWER_TIME_WARP", 0.05F);
 			this.addToBot(new SkipEnemiesTurnAction());
-			AbstractDungeon.topLevelEffectsQueue.add(new TimeWarpTurnEndEffect());
+//			AbstractDungeon.topLevelEffectsQueue.add(new TimeWarpTurnEndEffect());
 			
 			if (this.amount > 1)
 				this.addToBot(new ReducePowerAction(this.owner, this.owner, this, 1));
 			else
 				this.addToBot(new RemoveSpecificPowerAction(this.owner, this.owner, this));
+			
+			this.addToBot(new AnonymousAction(() -> {
+				AbstractDungeon.effectList.add(new ResurgenceEffect());
+//				CardCrawlGame.sound.play(AliceAudioMaster.RESURGENCE);
+			}));
 		}
 	}
 }

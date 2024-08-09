@@ -41,6 +41,7 @@ public class VivaciousShanghaiDoll extends AbstractAliceCard {
 		);
 		
 		this.magicNumber = this.baseMagicNumber = MAGIC;
+		
 		this.tags.add(CardTagEnum.ALICE_DOLL_ACT);
 	}
 	

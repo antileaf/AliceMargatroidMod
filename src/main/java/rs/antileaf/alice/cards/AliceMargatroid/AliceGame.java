@@ -16,15 +16,15 @@ import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
-public class DollParade extends AbstractAliceCard {
-	public static final String SIMPLE_NAME = DollParade.class.getSimpleName();
+public class AliceGame extends AbstractAliceCard {
+	public static final String SIMPLE_NAME = AliceGame.class.getSimpleName();
 //	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
 	public static final String ID = SIMPLE_NAME;
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 0;
 	
-	public DollParade() {
+	public AliceGame() {
 		super(
 				ID,
 				cardStrings.NAME,
@@ -69,7 +69,7 @@ public class DollParade extends AbstractAliceCard {
 	
 	@Override
 	public AbstractCard makeCopy() {
-		return new DollParade();
+		return new AliceGame();
 	}
 	
 	@Override

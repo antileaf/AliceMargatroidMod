@@ -1,4 +1,10 @@
 {
+  "AliceSkinSelectionScreen": {
+    "TEXT": [
+      "皮肤选择"
+    ]
+  },
+  
   "AliceNoDollDialog": {
     "TEXT": [
       "我 #r没有 人偶。"
@@ -14,6 +20,12 @@
   "AliceExtraTurnButton": {
     "TEXT": [
       "额外回合"
+    ]
+  },
+  
+  "ResurgenceEffect": {
+    "TEXT": [
+      "再现"
     ]
   },
   

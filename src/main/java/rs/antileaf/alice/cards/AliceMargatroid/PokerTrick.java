@@ -1,6 +1,7 @@
 package rs.antileaf.alice.cards.AliceMargatroid;
 
 import basemod.patches.com.megacrit.cardcrawl.cards.AbstractCard.MultiCardPreview;
+import com.badlogic.gdx.math.MathUtils;
 import com.evacipated.cardcrawl.mod.stslib.actions.common.DamageCallbackAction;
 import com.evacipated.cardcrawl.mod.stslib.actions.tempHp.AddTemporaryHPAction;
 import com.evacipated.cardcrawl.mod.stslib.patches.FlavorText;
@@ -20,6 +21,8 @@ import com.megacrit.cardcrawl.powers.WeakPower;
 import com.megacrit.cardcrawl.vfx.GainPennyEffect;
 import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
+import rs.antileaf.alice.effects.common.AlicePokerCardsDroppingEffect;
+import rs.antileaf.alice.effects.utils.AlicePokerHelper;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
@@ -116,7 +119,7 @@ public class PokerTrick extends AbstractAliceCard {
 		return new DamageAction(
 				m,
 				new DamageInfo(AbstractDungeon.player, this.damage, this.damageTypeForTurn),
-				AbstractGameAction.AttackEffect.SLASH_DIAGONAL
+				AbstractGameAction.AttackEffect.BLUNT_LIGHT
 		);
 	}
 	
@@ -167,6 +170,36 @@ public class PokerTrick extends AbstractAliceCard {
 							this.addToTop(new AddTemporaryHPAction(p, p, amount));
 					}
 			));
+		}
+		
+		AlicePokerHelper.Suit poker = AlicePokerHelper.Suit.JOKER_SMALL;
+		if (this.suit != 0)
+			poker = AlicePokerHelper.Suit.values()[this.suit - 1];
+		else if (MathUtils.random(1, 50) == 1)
+			poker = AlicePokerHelper.Suit.JOKER_BIG;
+		
+		for (int i = (this.suit == 2 ? 0 : 1); i < 2; i++) {
+//			AbstractDungeon.effectList.add(new PokerTrickEffect(
+//					poker,
+//					p.drawX,
+//					p.drawY,
+//					m.drawX,
+//					m.drawY,
+//					0.6F
+//			));
+			
+			AlicePokerCardsDroppingEffect effect = new AlicePokerCardsDroppingEffect(0.6F,
+					2F, false, 1200.0F);
+			
+			for (int j = 0; j < 8; j++)
+				effect.add(poker,
+						m.drawX, m.drawY,
+						MathUtils.random(-300.0F, 300.0F),
+						MathUtils.random(100.0F, 600.0F),
+						MathUtils.random(0.0F, 360.0F),
+						MathUtils.random(-360.0F, 360.0F));
+			
+			AbstractDungeon.effectList.add(effect);
 		}
 	}
 	

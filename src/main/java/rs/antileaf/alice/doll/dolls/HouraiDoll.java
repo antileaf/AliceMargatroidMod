@@ -94,14 +94,21 @@ public class HouraiDoll extends AbstractDoll {
 					}
 					
 					for (int i = 0; i < receivers.size(); i++)
-						AliceSpireKit.addActionToBuffer(new DollGainBlockAction(receivers.get(i), gain[i]));
+						if (gain[i] > 0)
+							AliceSpireKit.addActionToBuffer(new DollGainBlockAction(receivers.get(i), gain[i]));
 					
 					AliceSpireKit.commitBuffer();
 				}
 				else {
 					int amt = this.block;
 					this.block = 0;
-					this.addToTop(new GainBlockAction(AbstractDungeon.player, AbstractDungeon.player, amt));
+					this.addToTop(new GainBlockAction(AbstractDungeon.player, AbstractDungeon.player, amt) {
+						@Override
+						public void update() {
+							super.update();
+							this.isDone = true;
+						}
+					});
 				}
 			}
 		}));

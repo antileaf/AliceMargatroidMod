@@ -1,5 +1,6 @@
 package rs.antileaf.alice.utils;
 
+import basemod.ModLabel;
 import basemod.ModLabeledToggleButton;
 import basemod.ModPanel;
 import basemod.abstracts.CustomCard;
@@ -27,8 +28,13 @@ public class AliceConfigHelper {
 	public static String ENABLE_SPELL_CARD_SIGN_DISPLAY = "enableSpellCardSignDisplay";
 	public static String ENABLE_ALTERNATIVE_MARISA_CARD_IMAGE = "enableAlternativeMarisaCardImage";
 	public static String ENABLE_WITCHS_TEA_PARTY_FEATURE = "enableWitchsTeaPartyFeature";
+	public static String ENABLE_DEBUGGING = "enableDebugging";
+	public static String SKIN_SELECTION_UNLOCKED = "skinSelectionUnlocked";
+	public static String SKIN_CHOSEN = "skinChosen";
 	
 	public static SpireConfig conf = null;
+	public static Map<String, String> strings;
+	public static ModLabel skinLabel;
 	
 	public static void loadConfig() {
 		try {
@@ -37,6 +43,9 @@ public class AliceConfigHelper {
 			defaults.setProperty(ENABLE_SPELL_CARD_SIGN_DISPLAY, "true");
 			defaults.setProperty(ENABLE_ALTERNATIVE_MARISA_CARD_IMAGE, "true");
 			defaults.setProperty(ENABLE_WITCHS_TEA_PARTY_FEATURE, "true");
+			defaults.setProperty(ENABLE_DEBUGGING, "false");
+			defaults.setProperty(SKIN_SELECTION_UNLOCKED, "false");
+			defaults.setProperty(SKIN_CHOSEN, "ORIGINAL");
 			
 			conf = new SpireConfig(AliceSpireKit.getModID(), "config", defaults);
 		} catch (IOException e) {
@@ -94,6 +103,31 @@ public class AliceConfigHelper {
 		WitchsTeaParty.updateAll();
 	}
 	
+	public static boolean enableDebugging() {
+		return conf.getBool(ENABLE_DEBUGGING);
+	}
+	
+	public static void setEnableDebugging(boolean enableDebugging) {
+		conf.setBool(ENABLE_DEBUGGING, enableDebugging);
+	}
+	
+	public static boolean isAliceSkinSelectionUnlocked() {
+		return conf.getBool(SKIN_SELECTION_UNLOCKED);
+	}
+	
+	public static void setAliceSkinSelectionUnlocked(boolean unlocked) {
+		conf.setBool(SKIN_SELECTION_UNLOCKED, unlocked);
+	}
+	
+	public static String getAliceSkinChosen() {
+		return conf.getString(SKIN_CHOSEN);
+	}
+	
+	public static void setAliceSkinChosen(String skin) {
+		conf.setString(SKIN_CHOSEN, skin);
+		skinLabel.text = strings.get(SKIN_CHOSEN) + skin;
+	}
+	
 	public static void save() {
 		try {
 			conf.save();
@@ -108,12 +142,12 @@ public class AliceConfigHelper {
 		Gson gson = new Gson();
 		String json = Gdx.files.internal(AliceSpireKit.getLocalizationFilePath("config"))
 				.readString(String.valueOf(StandardCharsets.UTF_8));
-		Map<String, String> config = gson.fromJson(json, (new TypeToken<Map<String, String>>() {}).getType());
+		strings = gson.fromJson(json, (new TypeToken<Map<String, String>>() {}).getType());
 		
 		float y = 700.0F;
 		
 		ModLabeledToggleButton tutorialButton = new ModLabeledToggleButton(
-				config.get(SHOULD_OPEN_TUTORIAL),
+				strings.get(SHOULD_OPEN_TUTORIAL),
 				350.0F,
 				y,
 				Settings.CREAM_COLOR,
@@ -130,7 +164,7 @@ public class AliceConfigHelper {
 		y -= 50.0F;
 		
 		ModLabeledToggleButton spellCardButton = new ModLabeledToggleButton(
-				config.get(ENABLE_SPELL_CARD_SIGN_DISPLAY),
+				strings.get(ENABLE_SPELL_CARD_SIGN_DISPLAY),
 				350.0F,
 				y,
 				Settings.CREAM_COLOR,
@@ -147,7 +181,7 @@ public class AliceConfigHelper {
 		y -= 50.0F;
 
 		ModLabeledToggleButton useAlternativeMarisaCardImageButton = new ModLabeledToggleButton(
-				config.get(ENABLE_ALTERNATIVE_MARISA_CARD_IMAGE),
+				strings.get(ENABLE_ALTERNATIVE_MARISA_CARD_IMAGE),
 				350.0F,
 				y,
 				Settings.CREAM_COLOR,
@@ -164,7 +198,7 @@ public class AliceConfigHelper {
 		y -= 50.0F;
 		
 		ModLabeledToggleButton enableWitchsTeaPartyFeatureButton = new ModLabeledToggleButton(
-				config.get(ENABLE_WITCHS_TEA_PARTY_FEATURE),
+				strings.get(ENABLE_WITCHS_TEA_PARTY_FEATURE),
 				350.0F,
 				y,
 				Settings.CREAM_COLOR,
@@ -178,10 +212,64 @@ public class AliceConfigHelper {
 				}
 		);
 		
+		y -= 50.0F;
+		
+		ModLabeledToggleButton enableDebuggingButton = new ModLabeledToggleButton(
+				strings.get(ENABLE_DEBUGGING),
+				350.0F,
+				y,
+				Settings.CREAM_COLOR,
+				FontHelper.charDescFont,
+				enableDebugging(),
+				panel,
+				(modLabel) -> {},
+				(button) -> {
+					setEnableDebugging(button.enabled);
+					save();
+				}
+		);
+		
 		panel.addUIElement(tutorialButton);
 		panel.addUIElement(spellCardButton);
 		panel.addUIElement(useAlternativeMarisaCardImageButton);
 		panel.addUIElement(enableWitchsTeaPartyFeatureButton);
+		panel.addUIElement(enableDebuggingButton);
+		
+		if (enableDebugging()) {
+			y -= 50.0F;
+			
+			ModLabeledToggleButton enableSkinSelectionButton = new ModLabeledToggleButton(
+					strings.get(SKIN_SELECTION_UNLOCKED),
+					350.0F,
+					y,
+					Settings.CREAM_COLOR,
+					FontHelper.charDescFont,
+					isAliceSkinSelectionUnlocked(),
+					panel,
+					(modLabel) -> {
+					},
+					(button) -> {
+						setAliceSkinSelectionUnlocked(button.enabled);
+						save();
+					}
+			);
+			
+			y -= 50.0F;
+			
+			skinLabel = new ModLabel(
+					strings.get(SKIN_CHOSEN) + getAliceSkinChosen(),
+					350.0F,
+					y,
+					Settings.CREAM_COLOR,
+					FontHelper.charDescFont,
+					panel,
+					(modLabel) -> {
+					}
+			);
+			
+			panel.addUIElement(enableSkinSelectionButton);
+			panel.addUIElement(skinLabel);
+		}
 		
 		return panel;
 	}

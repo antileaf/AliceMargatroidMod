@@ -13,14 +13,22 @@ import java.util.function.Consumer;
 public class AliceFatalAction extends AbstractGameAction {
 	private DamageInfo damageInfo;
 	Consumer<Boolean> callback;
+	boolean ignoreMinion = false;
 	
-	public AliceFatalAction(AbstractCreature target, DamageInfo damageInfo, AttackEffect effect, Consumer<Boolean> callback) {
+	public AliceFatalAction(AbstractCreature target, DamageInfo damageInfo, AttackEffect effect,
+	                        Consumer<Boolean> callback, boolean ignoreMinion) {
 		this.damageInfo = damageInfo;
 		this.setValues(target, damageInfo);
 		this.actionType = ActionType.DAMAGE;
 		this.attackEffect = effect;
 		this.duration = Settings.ACTION_DUR_XFAST;
 		this.callback = callback;
+		this.ignoreMinion = ignoreMinion;
+	}
+	
+	public AliceFatalAction(AbstractCreature target, DamageInfo damageInfo, AttackEffect effect,
+	                        Consumer<Boolean> callback) {
+		this(target, damageInfo, effect, callback, false);
 	}
 	
 	public void update() {
@@ -53,7 +61,7 @@ public class AliceFatalAction extends AbstractGameAction {
 				this.target.damage(this.damageInfo);
 				
 				if ((this.target.isDying || this.target.currentHealth <= 0) &&
-						!this.target.halfDead && !this.target.hasPower("Minion"))
+						!this.target.halfDead && (this.ignoreMinion || !this.target.hasPower("Minion")))
 					this.callback.accept(true);
 				else
 					this.callback.accept(false);

@@ -113,11 +113,8 @@ public class DollMechanicsPatch {
 			if (CardTargetEnum.isDollTarget(hoveredCard.target)) {
 				AbstractDoll doll = DollManager.get().getHoveredDoll();
 				if (doll != null) {
-					if (!(hoveredCard.target != CardTargetEnum.DOLL_OR_EMPTY_SLOT && (doll instanceof EmptyDollSlot))) {
+					if (hoveredCard.target == CardTargetEnum.DOLL_OR_EMPTY_SLOT || !(doll instanceof EmptyDollSlot))
 						doll.renderReticle(sb);
-//						if (!doll.hb.hovered)
-//							doll.renderGenericTip();
-					}
 				}
 			}
 		}

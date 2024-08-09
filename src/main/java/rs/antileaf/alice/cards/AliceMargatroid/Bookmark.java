@@ -29,18 +29,24 @@ public class Bookmark extends AbstractAliceCard {
 	private static final int COST = 1;
 	private static final int UPGRADED_COST = 0;
 	
-	static ArrayList<AbstractCard> cache = new ArrayList<>();
+	static ArrayList<AbstractCard> cache = new ArrayList<>(), newCache = new ArrayList<>();
 	
 	// The logic of calling this is implemented in patches.
 	public static void updateCache() {
-		if (AliceSpireKit.isInBattle())
-			cache = AbstractDungeon.player.hand.group.stream()
+		if (AliceSpireKit.isInBattle()) {
+			cache = newCache.stream()
+					.collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+			newCache = AbstractDungeon.player.hand.group.stream()
 					.filter(c -> !(c instanceof Bookmark))
 					.collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+			
+			AliceSpireKit.log("Bookmark cache updated: " + cache.size() + " -> " + newCache.size());
+		}
 	}
 	
 	public static void clearCache() {
 		cache = new ArrayList<>();
+		newCache = new ArrayList<>();
 	}
 	
 	public Bookmark() {

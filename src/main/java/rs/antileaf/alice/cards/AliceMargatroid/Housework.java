@@ -23,6 +23,7 @@ public class Housework extends AbstractAliceCard {
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
+	private static final int UPGRADED_COST = 0;
 	
 	public Housework() {
 		super(
@@ -66,8 +67,7 @@ public class Housework extends AbstractAliceCard {
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
-			this.retain = this.selfRetain = true;
-			this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
+			this.upgradeBaseCost(UPGRADED_COST);
 			this.initializeDescription();
 		}
 	}

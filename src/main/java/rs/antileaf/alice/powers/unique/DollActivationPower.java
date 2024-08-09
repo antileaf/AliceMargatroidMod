@@ -46,7 +46,10 @@ public class DollActivationPower extends AbstractAlicePower {
 	}
 	
 	@Override
-	public void atStartOfTurn() {
+	public void atEndOfTurn(boolean isPlayer) {
+		if (!isPlayer)
+			return;
+		
 		if (DollManager.get().hasDoll()) {
 			this.flash();
 			

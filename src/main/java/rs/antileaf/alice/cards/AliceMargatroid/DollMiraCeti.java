@@ -7,6 +7,7 @@ import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.relics.ChemicalX;
 import rs.antileaf.alice.action.doll.DollActAction;
+import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.targeting.DollTargeting;
@@ -33,7 +34,7 @@ public class DollMiraCeti extends AbstractAliceCard {
 				cardStrings.DESCRIPTION,
 				CardType.SKILL,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
-				CardRarity.UNCOMMON,
+				CardRarity.RARE,
 				CardTargetEnum.DOLL
 		);
 		
@@ -45,22 +46,23 @@ public class DollMiraCeti extends AbstractAliceCard {
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
-		int amount = this.energyOnUse;
-		if (this.upgraded)
-			amount++;
-		if (p.hasRelic(ChemicalX.ID))
-			amount += ChemicalX.BOOST;
-		
-		if (amount > 0) {
-			if (!this.freeToPlayOnce)
-				p.energy.use(this.energyOnUse);
+		this.addToBot(new AnonymousAction(() -> {
+			int amount = this.energyOnUse + (this.upgraded ? 1 : 0);
 			
-			AbstractDoll doll = DollTargeting.getTarget(this);
+			if (p.hasRelic(ChemicalX.ID))
+				amount += ChemicalX.BOOST;
 			
-			if (doll != null)
-				for (int i = 0; i < amount * this.magicNumber; i++)
-					this.addToBot(new DollActAction(doll));
-		}
+			if (amount > 0) {
+				if (!this.freeToPlayOnce)
+					p.energy.use(this.energyOnUse);
+				
+				AbstractDoll doll = DollTargeting.getTarget(this);
+				
+				if (doll != null)
+					for (int i = 0; i < amount * this.magicNumber; i++)
+						this.addToBot(new DollActAction(doll));
+			}
+		}));
 	}
 	
 	@Override
