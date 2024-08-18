@@ -45,11 +45,10 @@ import rs.antileaf.alice.events.LilyOfTheValleyFlowerField;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.AliceMargatroidModClassEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
-import rs.antileaf.alice.potions.DollPotion;
+import rs.antileaf.alice.potions.ConcentrationPotion;
+import rs.antileaf.alice.potions.WeavingPotion;
 import rs.antileaf.alice.powers.unique.UsokaePower;
-import rs.antileaf.alice.relics.AlicesDarkGrimoire;
-import rs.antileaf.alice.relics.AlicesGrimoire;
-import rs.antileaf.alice.relics.SuspiciousCard;
+import rs.antileaf.alice.relics.*;
 import rs.antileaf.alice.strings.*;
 import rs.antileaf.alice.ui.SkinSelectScreen;
 import rs.antileaf.alice.utils.*;
@@ -218,6 +217,14 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 				new AlicesDarkGrimoire(),
 				AbstractCardEnum.ALICE_MARGATROID_COLOR
 		);
+		BaseMod.addRelicToCustomPool(
+				new SwordOfLight_Supernova(),
+				AbstractCardEnum.ALICE_MARGATROID_COLOR
+		);
+		BaseMod.addRelicToCustomPool(
+				new StringRing(),
+				AbstractCardEnum.ALICE_MARGATROID_COLOR
+		);
 		
 		logger.info("Relics editing finished.");
 	}
@@ -280,7 +287,7 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 	public void receiveEditStrings() {
 		logger.info("start editing strings");
 		
-		String lang = AliceSpireKit.getLangShort();
+//		String lang = AliceSpireKit.getLangShort();
 		
 		AliceSpireKit.loadCustomStrings(RelicStrings.class, "relics");
 		AliceSpireKit.loadCustomStrings(CardStrings.class, "cards");
@@ -341,6 +348,7 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		Bookmark.clearCache();
 		BaseMod.MAX_HAND_SIZE = BaseMod.DEFAULT_MAX_HAND_SIZE;
 //		SkinSelectScreen.inst.resetCurrentSkin();
+//		AliceSpireKit.log("triggers receivePostBattle()");
 	}
 	
 	@Override
@@ -393,7 +401,9 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		CustomTargeting.registerCustomTargeting(CardTargetEnum.DOLL_OR_ENEMY, new DollOrEnemyTargeting());
 		CustomTargeting.registerCustomTargeting(CardTargetEnum.DOLL_OR_NONE, new DollOrNoneTargeting());
 		
-		BaseMod.addPotion(DollPotion.class, Color.YELLOW, Color.GOLD.cpy(), Color.CLEAR, DollPotion.ID,
+		BaseMod.addPotion(WeavingPotion.class, Color.YELLOW, Color.GOLD.cpy(), Color.CLEAR, WeavingPotion.ID,
+				AliceMargatroidModClassEnum.ALICE_MARGATROID);
+		BaseMod.addPotion(ConcentrationPotion.class, Color.ROYAL, Color.BLUE, Color.CLEAR, ConcentrationPotion.ID,
 				AliceMargatroidModClassEnum.ALICE_MARGATROID);
 		
 		ModPanel settingsPanel = AliceConfigHelper.createConfigPanel();
@@ -506,13 +516,13 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		this.cardsToAdd.add(new DollCrusader());
 		this.cardsToAdd.add(new LittleLegion());
 		this.cardsToAdd.add(new ProtectiveSpell());
-		this.cardsToAdd.add(new RainbowRay());
+		this.cardsToAdd.add(new Lantern());
 //		this.cardsToAdd.add(new DEPRECATEDEmeraldRay());
 //		this.cardsToAdd.add(new MoonlightRay());
 		this.cardsToAdd.add(new KirisameMagicShop());
 		this.cardsToAdd.add(new SurpriseSpring());
 		this.cardsToAdd.add(new WarFlag());
-		this.cardsToAdd.add(new Transfer());
+		this.cardsToAdd.add(new Relay());
 		this.cardsToAdd.add(new DollAmbush());
 		this.cardsToAdd.add(new DollWar());
 		this.cardsToAdd.add(new DollJudge());
@@ -542,7 +552,7 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		this.cardsToAdd.add(new Ultimatum());
 		this.cardsToAdd.add(new BlackTea());
 		this.cardsToAdd.add(new PokerTrick());
-		this.cardsToAdd.add(new MysteriousChallenger());
+//		this.cardsToAdd.add(new MysteriousChallenger());
 		this.cardsToAdd.add(new DollShield());
 		this.cardsToAdd.add(new DollOfRoundTable());
 //		this.cardsToAdd.add(new DEPRECATEDTyrant());
@@ -560,7 +570,7 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 //		this.cardsToAdd.add(new DEPRECATEDTripwire());
 		this.cardsToAdd.add(new DollMiraCeti());
 		this.cardsToAdd.add(new Revelation());
-		this.cardsToAdd.add(new FailedExperiment());
+		this.cardsToAdd.add(new ExperimentalArmor());
 		this.cardsToAdd.add(new ButterflyFlurry());
 //		this.cardsToAdd.add(new WitchsTeaParty());
 //		this.cardsToAdd.add(new DollOrchestra());

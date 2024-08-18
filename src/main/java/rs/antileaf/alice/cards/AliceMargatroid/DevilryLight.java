@@ -11,6 +11,7 @@ import com.megacrit.cardcrawl.powers.VulnerablePower;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.powers.unique.DevilryLightPower;
+import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class DevilryLight extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = DevilryLight.class.getSimpleName();
@@ -26,7 +27,7 @@ public class DevilryLight extends AbstractAliceCard {
 		super(
 				ID,
 				cardStrings.NAME,
-				null, // AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.SKILL,

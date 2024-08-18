@@ -24,6 +24,8 @@ public class ButterflyFlurry extends AbstractAliceCard {
 	private static final int DAMAGE = 16;
 	private static final int UPGRADED_COST = 1;
 	
+	public boolean shouldExhaust = false;
+	
 	public ButterflyFlurry() {
 		super(
 				ID,
@@ -49,6 +51,9 @@ public class ButterflyFlurry extends AbstractAliceCard {
 				(fatal) -> {
 					if (fatal)
 						AliceSpireKit.addToBot(new ApplyPowerAction(p, p, new AliceExtraTurnPower(1), 1));
+					
+					this.shouldExhaust = fatal;
+					// The logic of conditional exhaust is implemented in patches
 				},
 				true
 		));

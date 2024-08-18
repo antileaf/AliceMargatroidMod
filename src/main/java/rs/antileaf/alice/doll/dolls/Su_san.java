@@ -4,6 +4,7 @@ import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.unique.PoisonLoseHpAction;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.OrbStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
@@ -56,13 +57,13 @@ public class Su_san extends AbstractDoll {
 				));
 	}
 	
-	@Override
-	public void postSpawn() {
-		this.triggerPassiveEffect();
-	}
+//	@Override
+//	public void postSpawn() {
+//		this.triggerPassiveEffect();
+//	}
 	
 	@Override
-	public void onStartOfTurn() {
+	public void onEndOfTurn() {
 		this.triggerPassiveEffect();
 	}
 	
@@ -98,6 +99,11 @@ public class Su_san extends AbstractDoll {
 	
 	@Override
 	public void playChannelSFX() {}
+	
+	@Override
+	protected float getRenderYOffset() {
+		return this.bobEffect.y / 2.0F + NUM_Y_OFFSET - 16.0F * Settings.scale;
+	}
 	
 	public static String getDescription() {
 		return getHpDescription(MAX_HP) + " NL " + (new Su_san()).desc();

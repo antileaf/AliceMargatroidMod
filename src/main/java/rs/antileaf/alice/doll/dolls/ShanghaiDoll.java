@@ -4,6 +4,7 @@ import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.DamageAllEnemiesAction;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.OrbStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
@@ -32,7 +33,7 @@ public class ShanghaiDoll extends AbstractDoll {
 				MAX_HP,
 				-1,
 				ACT_AMOUNT,
-				AliceSpireKit.getOrbImgFilePath("red"),
+				AliceSpireKit.getOrbImgFilePath(SIMPLE_NAME),
 				RenderTextMode.ACT
 		);
 		
@@ -118,6 +119,11 @@ public class ShanghaiDoll extends AbstractDoll {
 	
 	@Override
 	public void playChannelSFX() {}
+	
+	@Override
+	protected float getRenderYOffset() {
+		return this.bobEffect.y / 2.0F + NUM_Y_OFFSET - 24.0F * Settings.scale;
+	}
 	
 	public static String getDescription() {
 		return getHpDescription(MAX_HP) + " NL " + (new ShanghaiDoll()).desc();

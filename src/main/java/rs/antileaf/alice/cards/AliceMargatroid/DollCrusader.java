@@ -6,6 +6,7 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.action.doll.DollActAction;
+import rs.antileaf.alice.action.doll.RecycleDollAction;
 import rs.antileaf.alice.action.doll.RemoveDollAction;
 import rs.antileaf.alice.action.doll.SpawnDollAction;
 import rs.antileaf.alice.action.utils.AnonymousAction;
@@ -27,7 +28,6 @@ public class DollCrusader extends AbstractAliceCard {
 	
 	private static final int COST = 2;
 	private static final int MAGIC = 1;
-	private static final int UPGRADE_PLUS_MAGIC = 1;
 	
 	public DollCrusader() {
 		super(
@@ -56,15 +56,17 @@ public class DollCrusader extends AbstractAliceCard {
 				if (!(DollManager.get().getDolls().get(i) instanceof EmptyDollSlot)) {
 					AbstractDoll doll = DollManager.get().getDolls().get(i);
 					indices.add(i);
-					AliceSpireKit.addActionToBuffer(new RemoveDollAction(doll));
+					
+					if (!this.upgraded)
+						AliceSpireKit.addActionToBuffer(new RemoveDollAction(doll));
+					else
+						AliceSpireKit.addActionToBuffer(new RecycleDollAction(doll));
 				}
 			
 			for (int i : indices) {
 				AbstractDoll doll = AbstractDoll.getRandomDoll();
 				AliceSpireKit.addActionToBuffer(new SpawnDollAction(doll, i));
-				
-				for (int k = 0; k < this.magicNumber; k++)
-					AliceSpireKit.addActionToBuffer(new DollActAction(doll));
+				AliceSpireKit.addActionToBuffer(new DollActAction(doll));
 			}
 			
 			AliceSpireKit.commitBuffer();
@@ -80,7 +82,7 @@ public class DollCrusader extends AbstractAliceCard {
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
-			this.upgradeMagicNumber(UPGRADE_PLUS_MAGIC);
+			this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
 			this.initializeDescription();
 		}
 	}

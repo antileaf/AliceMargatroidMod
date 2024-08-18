@@ -125,7 +125,8 @@ public class AliceConfigHelper {
 	
 	public static void setAliceSkinChosen(String skin) {
 		conf.setString(SKIN_CHOSEN, skin);
-		skinLabel.text = strings.get(SKIN_CHOSEN) + skin;
+		if (skinLabel != null)
+			skinLabel.text = strings.get(SKIN_CHOSEN) + skin;
 	}
 	
 	public static void save() {

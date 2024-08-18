@@ -26,7 +26,6 @@ public class RedHairedNetherlandsDoll extends AbstractAliceCard {
 	
 	private static final int COST = 1;
 	private static final int BLOCK = 4;
-//	private static final int MAGIC = 2;
 	
 	public RedHairedNetherlandsDoll() {
 		super(
@@ -42,9 +41,6 @@ public class RedHairedNetherlandsDoll extends AbstractAliceCard {
 		);
 		
 		this.block = this.baseBlock = BLOCK;
-//		this.magicNumber = this.baseMagicNumber = MAGIC;
-		
-		this.tags.add(CardTagEnum.ALICE_DOLL_ACT);
 	}
 	
 	@Override
@@ -63,6 +59,8 @@ public class RedHairedNetherlandsDoll extends AbstractAliceCard {
 				this.addToTop(new GainBlockAction(p, p, this.block));
 			}));
 		}
+		
+		DollManager.get().triggerArtfulChanter(doll, target);
 	}
 	
 	@Override

@@ -17,8 +17,8 @@ import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
-public class Transfer extends AbstractAliceCard {
-	public static final String SIMPLE_NAME = Transfer.class.getSimpleName();
+public class Relay extends AbstractAliceCard {
+	public static final String SIMPLE_NAME = Relay.class.getSimpleName();
 //	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
 	public static final String ID = SIMPLE_NAME;
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
@@ -27,7 +27,7 @@ public class Transfer extends AbstractAliceCard {
 	private static final int UPGRADED_COST = 0;
 	private static final int MAGIC = 1;
 	
-	public Transfer() {
+	public Relay() {
 		super(
 				ID,
 				cardStrings.NAME,
@@ -65,7 +65,7 @@ public class Transfer extends AbstractAliceCard {
 	
 	@Override
 	public AbstractCard makeCopy() {
-		return new Transfer();
+		return new Relay();
 	}
 	
 	@Override

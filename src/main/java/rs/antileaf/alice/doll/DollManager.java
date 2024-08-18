@@ -13,6 +13,7 @@ import com.megacrit.cardcrawl.monsters.ending.SpireShield;
 import com.megacrit.cardcrawl.monsters.ending.SpireSpear;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
+import rs.antileaf.alice.action.doll.DollActAction;
 import rs.antileaf.alice.action.doll.MoveDollAction;
 import rs.antileaf.alice.action.doll.RecycleDollAction;
 import rs.antileaf.alice.action.doll.SpawnDollInternalAction;
@@ -23,6 +24,7 @@ import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.doll.dolls.FranceDoll;
 import rs.antileaf.alice.doll.dolls.HouraiDoll;
 import rs.antileaf.alice.doll.interfaces.OnDollOperateHook;
+import rs.antileaf.alice.powers.unique.ArtfulChanterPower;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 import java.util.ArrayList;
@@ -348,6 +350,7 @@ public class DollManager {
 		
 		this.dolls.set(index, doll);
 		doll.applyPower();
+		
 		doll.postSpawn();
 		
 		this.applyPowers();
@@ -572,6 +575,17 @@ public class DollManager {
 	
 	public int getTotalHouraiPassiveAmount() {
 		return this.totalHouraiPassiveAmount;
+	}
+	
+	public void triggerArtfulChanter(AbstractDoll doll, AbstractDoll target) {
+		if (this.owner.hasPower(ArtfulChanterPower.POWER_ID) &&
+				!(target instanceof EmptyDollSlot)) {
+			ArtfulChanterPower power = (ArtfulChanterPower) AbstractDungeon.player.getPower(ArtfulChanterPower.POWER_ID);
+			power.flashLater();
+			
+			for (int i = 0; i < power.amount; i++)
+				AliceSpireKit.addToBot(new DollActAction(doll));
+		}
 	}
 	
 //	public Formation getFormation() {

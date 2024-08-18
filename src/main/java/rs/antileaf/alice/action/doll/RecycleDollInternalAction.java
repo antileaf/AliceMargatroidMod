@@ -34,7 +34,7 @@ public class RecycleDollInternalAction extends AbstractGameAction {
 		}
 		
 		this.tickDuration();
-			
+		
 		if (this.isDone) {
 			if (DollManager.get().contains(this.doll))
 				DollManager.get().recycleDoll(this.doll, this.newDoll);

@@ -7,8 +7,8 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.PowerStrings;
 import rs.antileaf.alice.action.utils.AnonymousAction;
-import rs.antileaf.alice.effects.unique.ResurgenceEffect;
 import rs.antileaf.alice.powers.AbstractAlicePower;
+import rs.antileaf.alice.utils.AliceAudioMaster;
 
 public class AliceExtraTurnPower extends AbstractAlicePower {
 	public static final String POWER_ID = AliceExtraTurnPower.class.getSimpleName();
@@ -64,8 +64,8 @@ public class AliceExtraTurnPower extends AbstractAlicePower {
 				this.addToBot(new RemoveSpecificPowerAction(this.owner, this.owner, this));
 			
 			this.addToBot(new AnonymousAction(() -> {
-				AbstractDungeon.effectList.add(new ResurgenceEffect());
-//				CardCrawlGame.sound.play(AliceAudioMaster.RESURGENCE);
+//				AbstractDungeon.effectList.add(new ResurgenceEffect());
+				CardCrawlGame.sound.play(AliceAudioMaster.RESURGENCE);
 			}));
 		}
 	}

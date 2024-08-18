@@ -1,6 +1,6 @@
 {
   "AbstractAliceCard": {
-    "NAME": "(抽象类)",
+    "NAME": "（抽象类）",
     "DESCRIPTION": "你为什么会看到这个？",
     "EXTENDED_DESCRIPTION": ["我没有 #r人偶 。"]
   },
@@ -32,7 +32,8 @@
   
   "DollCrusader": {
     "NAME": "人偶十字军",
-    "DESCRIPTION": "移除所有 alicemargatroidmod:人偶 ，然后在原位置 alicemargatroidmod:生成 一个随机 alicemargatroidmod:人偶 ，并使它们 alicemargatroidmod:行动 !M! 次。"
+    "DESCRIPTION": "移除所有 alicemargatroidmod:人偶 ，然后在原位置 alicemargatroidmod:生成 一个随机 alicemargatroidmod:人偶 ，并使它们 alicemargatroidmod:行动 !M! 次。",
+    "UPGRADE_DESCRIPTION": "alicemargatroidmod:回收 所有 alicemargatroidmod:人偶 ，然后在原位置 alicemargatroidmod:生成 一个随机 alicemargatroidmod:人偶 ，并使它们 alicemargatroidmod:行动 !M! 次。"
   },
   
   "Thread": {
@@ -45,13 +46,13 @@
     "DESCRIPTION": "如果你的 格挡 不足 !B! 点，将其补至相应值。 NL alicemargatroidmod:指令 ：改为对目标 alicemargatroidmod:人偶 使用。"
   },
   
-  "Transfer": {
+  "Relay": {
     "NAME": "传递",
     "DESCRIPTION": "alicemargatroidmod:指令 ：将所有其它 alicemargatroidmod:人偶 的 格挡 转移给目标 alicemargatroidmod:人偶 。 NL 抽一张牌。"
   },
   
-  "RainbowRay": {
-    "NAME": "七彩射线",
+  "Lantern": {
+    "NAME": "提灯",
     "DESCRIPTION": "造成 !D! 点伤害。 NL 从抽牌堆中 alicemargatroidmod:发现 一张攻击牌，将其加入手牌，并且在本回合内耗能减少 [E] 。",
     "EXTENDED_DESCRIPTION": ["选择一张牌"]
   },
@@ -93,7 +94,7 @@
   
   "DollJudge": {
     "NAME": "人偶裁判",
-    "DESCRIPTION": "alicemargatroidmod:人偶 被 alicemargatroidmod:回收 时，爱丽丝获得其拥有 格挡 的 50%。"
+    "DESCRIPTION": "alicemargatroidmod:人偶 被 alicemargatroidmod:回收 时，爱丽丝获得其拥有 格挡 的 50% 。"
   },
   
   "SpiritualPower": {
@@ -130,7 +131,7 @@
   "Collector": {
     "NAME": "收集家",
     "DESCRIPTION": "每拥有 !M! 个遗物，获得 !aliceM2! 点 格挡 。",
-    "EXTENDED_DESCRIPTION": [" NL (获得 !B! 点 格挡。)"]
+    "EXTENDED_DESCRIPTION": [" NL （获得 !B! 点 格挡。）"]
   },
   
   "Punishment": {
@@ -162,7 +163,7 @@
   
   "Phantom": {
     "NAME": "幻影",
-    "DESCRIPTION": "只有你的手牌中没有相同的牌（包括这张牌）时才能打出。 NL 选择一张手牌，获得 !M! 张具有 alicemargatroidmod:幻影 的复制。",
+    "DESCRIPTION": "只有你的手牌中没有相同的牌（包括这张牌）时才能打出。 NL 选择一张手牌，获得 !M! 张具有 alicemargatroidmod:幻影 的复制。 NL 消耗 。",
     "EXTENDED_DESCRIPTION": ["复制", "份"]
   },
   
@@ -217,7 +218,7 @@
   "DollShield": {
     "NAME": "人偶盾",
     "DESCRIPTION": "alicemargatroidmod:指令 ： 目标 alicemargatroidmod:人偶 获得 !B! 点 格挡 ，然后 alicemargatroidmod:行动 一次。",
-    "UPGRADE_DESCRIPTION": "alicemargatroidmod:指令 ： 目标 alicemargatroidmod:人偶 获得 !B! 点 格挡 ，然后 alicemargatroidmod:行动 一次。 NL 在一回合内使用 !stslib:persist! 次后，才会进入弃牌堆。"
+    "UPGRADE_DESCRIPTION": "alicemargatroidmod:指令 ： 目标 alicemargatroidmod:人偶 获得 !B! 点 格挡 ，然后 alicemargatroidmod:行动 一次。 NL 使用 !stslib:persist! 次后，才会进入弃牌堆。"
   },
   
   "DollOfRoundTable": {
@@ -288,14 +289,14 @@
     "UPGRADE_DESCRIPTION": "使手牌中所有攻击牌的基础伤害提高 !M! 点，并获得与这张牌相同的效果。 NL 消耗 。"
   },
   
-  "FailedExperiment": {
-    "NAME": "失败的试验品",
-    "DESCRIPTION": "造成 !D! 点伤害。 NL 本场战斗中，每被打出一次，耗能增加 [E] 。"
+  "ExperimentalArmor": {
+    "NAME": "试做型装甲",
+    "DESCRIPTION": "造成 !D! 点伤害。 NL 每次打出时，有 50% 概率在本场战斗中耗能增加 [E] 。"
   },
   
   "ButterflyFlurry": {
     "NAME": "乱蝶",
-    "DESCRIPTION": "造成 !D! 点伤害。 NL 如果杀死目标敌人，在本回合结束后，获得一个额外回合。",
+    "DESCRIPTION": "造成 !D! 点伤害。 NL 如果杀死目标敌人，在本回合结束后获得一个额外回合，然后 消耗 。",
     "FLAVOR": "“早点给你个痛快！”"
   },
   
@@ -324,7 +325,7 @@
   
   "Bookmark": {
     "NAME": "书签",
-    "DESCRIPTION": "将上回合开始时的所有手牌移回手牌（不包括“书签”）。 NL 消耗 。"
+    "DESCRIPTION": "将上回合开始时的所有手牌移回手牌（不包括 *书签 ）。 NL 消耗 。"
   },
   
   "MaidensBunraku": {
@@ -357,7 +358,7 @@
   
   "DollArmy": {
     "NAME": "人偶军团",
-    "DESCRIPTION": "alicemargatroidmod:指令 ：在所有空栏位中 alicemargatroidmod:生成 一个与目标 alicemargatroidmod:人偶 类别相同的 alicemargatroidmod:人偶 。"
+    "DESCRIPTION": "alicemargatroidmod:指令 ：在所有空栏位中 alicemargatroidmod:生成 一个与目标 alicemargatroidmod:人偶 类别相同的 alicemargatroidmod:人偶 。 NL 消耗 。"
   },
   
   "AliceGame": {
@@ -368,17 +369,17 @@
   
   "SeekerDoll": {
     "NAME": "探索人偶",
-    "DESCRIPTION": "alicemargatroidmod:指令 ：目标 alicemargatroidmod:人偶 alicemargatroidmod:行动 !aliceM2! 次。 NL 如果是本回合首次打出“探索人偶”，额外 alicemargatroidmod:行动 !M! 次。"
+    "DESCRIPTION": "alicemargatroidmod:指令 ：目标 alicemargatroidmod:人偶 alicemargatroidmod:行动 !aliceM2! 次。 NL 如果是本回合首次打出 *探索人偶 ，额外 alicemargatroidmod:行动 !M! 次。"
   },
   
   "MagicConduit": {
     "NAME": "魔力传导线",
-    "DESCRIPTION": "如果最左侧栏位中有 alicemargatroidmod:人偶 ，每当它 alicemargatroidmod:行动 时，改为获得 [E] 。"
+    "DESCRIPTION": "如果最左侧栏位中有 alicemargatroidmod:人偶 ，当其 alicemargatroidmod:行动 后，将其 alicemargatroidmod:回收 ，并获得 [E] ，抽一张牌。"
   },
   
   "ArtfulChanter": {
     "NAME": "狡猾的吟诵者",
-    "DESCRIPTION": "每 alicemargatroidmod:回收 一个 alicemargatroidmod:人偶 ，获得 !M! 点临时 力量 和 敏捷 。"
+    "DESCRIPTION": "alicemargatroidmod:可指向生成 时，如果目标位置上已有 alicemargatroidmod:人偶 ，新 alicemargatroidmod:生成 的 alicemargatroidmod:人偶 alicemargatroidmod:行动 !M! 次。"
   },
   
   "Masterpiece": {
@@ -417,7 +418,7 @@
   "DollMagic": {
     "NAME": "人偶魔术",
     "DESCRIPTION": "获得 !B! 点 格挡 。 NL 每当任意 alicemargatroidmod:人偶 累计 alicemargatroidmod:行动 !M! 次后，将这张牌从抽牌堆或弃牌堆返回手牌。",
-    "EXTENDED_DESCRIPTION": [" NL (还剩 %d 次。)"]
+    "EXTENDED_DESCRIPTION": [" NL （还剩 %d 次。）"]
   },
   
   "SeaOfSubconsciousness": {
@@ -478,8 +479,8 @@
   
   "SpringKyotoDoll": {
     "NAME": "春之京都人偶",
-    "DESCRIPTION": "在随机空栏位中 alicemargatroidmod:生成 一个 alicemargatroidmod:京都人偶 。 NL 消耗 。",
-    "UPGRADE_DESCRIPTION": "在至多 !M! 个随机空栏位中各 alicemargatroidmod:生成 一个 alicemargatroidmod:京都人偶 。 NL 消耗 。"
+    "DESCRIPTION": "在随机空栏位中 alicemargatroidmod:生成 一个 alicemargatroidmod:京都人偶 。",
+    "UPGRADE_DESCRIPTION": "在至多 !M! 个随机空栏位中各 alicemargatroidmod:生成 一个 alicemargatroidmod:京都人偶 。"
   },
   
   

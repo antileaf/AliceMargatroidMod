@@ -23,8 +23,8 @@ public class SevenColoredPuppeteer extends AbstractAliceCard {
 	private static final int DAMAGE = 7;
 	private static final int MAGIC = 7;
 	
-	private int costBackup;
-	private int costForTurnBackup;
+//	private int costBackup;
+//	private int costForTurnBackup;
 	
 	public SevenColoredPuppeteer() {
 		super(
@@ -41,45 +41,45 @@ public class SevenColoredPuppeteer extends AbstractAliceCard {
 		
 		this.damage = this.baseDamage = DAMAGE;
 		this.magicNumber = this.baseMagicNumber = MAGIC;
-		this.costBackup = this.costForTurnBackup = this.cost;
+//		this.costBackup = this.costForTurnBackup = this.cost;
 	}
 	
-	private void wrap(Runnable func) {
-		int tmpCost = this.cost, tmpCostForTurn = this.costForTurn;
-		this.cost = this.costBackup;
-		this.costForTurn = this.costForTurnBackup;
-		
-		func.run();
-		
-		this.costBackup = this.cost;
-		this.costForTurnBackup = this.costForTurn;
-		
-		this.cost = tmpCost;
-		this.costForTurn = tmpCostForTurn;
-		
-		func.run();
-	}
-	
-	@Override
-	public void updateCost(int amt) {
-		this.wrap(() -> super.updateCost(amt));
-	}
-	
-	@Override
-	public void setCostForTurn(int amt) {
-		this.wrap(() -> super.setCostForTurn(amt));
-	}
-	
-	@Override
-	public void modifyCostForCombat(int amt) {
-		this.wrap(() -> super.modifyCostForCombat(amt));
-	}
-	
-	@Override
-	public void resetAttributes() {
-		super.resetAttributes();
-		this.costForTurnBackup = this.costBackup;
-	}
+//	private void wrap(Runnable func) {
+//		int tmpCost = this.cost, tmpCostForTurn = this.costForTurn;
+//		this.cost = this.costBackup;
+//		this.costForTurn = this.costForTurnBackup;
+//
+//		func.run();
+//
+//		this.costBackup = this.cost;
+//		this.costForTurnBackup = this.costForTurn;
+//
+//		this.cost = tmpCost;
+//		this.costForTurn = tmpCostForTurn;
+//
+//		func.run();
+//	}
+//
+//	@Override
+//	public void updateCost(int amt) {
+//		this.wrap(() -> super.updateCost(amt));
+//	}
+//
+//	@Override
+//	public void setCostForTurn(int amt) {
+//		this.wrap(() -> super.setCostForTurn(amt));
+//	}
+//
+//	@Override
+//	public void modifyCostForCombat(int amt) {
+//		this.wrap(() -> super.modifyCostForCombat(amt));
+//	}
+//
+//	@Override
+//	public void resetAttributes() {
+//		super.resetAttributes();
+//		this.costForTurnBackup = this.costBackup;
+//	}
 	
 	@Override
 	public void triggerOnGlowCheck() {
@@ -99,13 +99,15 @@ public class SevenColoredPuppeteer extends AbstractAliceCard {
 		
 		if (AliceSpireKit.isInBattle()) {
 			if (AbstractDungeon.player.hand.size() >= BaseMod.MAX_HAND_SIZE) {
-				this.costForTurn = this.cost = 0;
+				this.costForTurn = 0;
+//				this.freeToPlayOnce = true;
 				this.isCostModifiedForTurn = true;
 			}
 			else {
-				this.cost = this.costBackup;
-				this.costForTurn = this.costForTurnBackup;
-				this.isCostModifiedForTurn = (this.costForTurn != this.cost);
+//				this.cost = this.costBackup;
+				this.costForTurn = this.cost;
+//				this.freeToPlayOnce = false;
+				this.isCostModifiedForTurn = false;
 			}
 		}
 	}
@@ -114,14 +116,16 @@ public class SevenColoredPuppeteer extends AbstractAliceCard {
 	public void use(AbstractPlayer p, AbstractMonster m) {
 		this.calculateCardDamage(null);
 		
-		for (int i = 0; i < this.magicNumber; i++)
-			this.addToBot(new DamageAllEnemiesAction(
-					p,
-					this.multiDamage,
-					this.damageTypeForTurn,
-					AbstractGameAction.AttackEffect.SLASH_DIAGONAL,
-					true
-			));
+		if (!AliceSpireKit.hasDuplicateCards(AbstractDungeon.player.hand.group, null)) {
+			for (int i = 0; i < this.magicNumber; i++)
+				this.addToBot(new DamageAllEnemiesAction(
+						p,
+						this.multiDamage,
+						this.damageTypeForTurn,
+						AbstractGameAction.AttackEffect.SLASH_DIAGONAL,
+						true
+				));
+		}
 	}
 	
 	@Override

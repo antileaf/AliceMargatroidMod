@@ -11,6 +11,7 @@ import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
+import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class RefreshingSpringWater extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = RefreshingSpringWater.class.getSimpleName();
@@ -20,13 +21,14 @@ public class RefreshingSpringWater extends AbstractAliceCard {
 	
 	private static final int COST = 0;
 	private static final int MAGIC = 1;
+	private static final int MAGIC2 = 1;
 	private static final int UPGRADE_PLUS_MAGIC = 1;
 	
 	public RefreshingSpringWater() {
 		super(
 				ID,
 				cardStrings.NAME,
-				null, // AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.SKILL,
@@ -36,6 +38,7 @@ public class RefreshingSpringWater extends AbstractAliceCard {
 		);
 		
 		this.magicNumber = this.baseMagicNumber = MAGIC;
+		this.secondaryMagicNumber = this.baseSecondaryMagicNumber = MAGIC2;
 	}
 	
 	@Override
@@ -58,7 +61,7 @@ public class RefreshingSpringWater extends AbstractAliceCard {
 		
 		if (dollCount >= 5) {
 			this.addToBot(new GainEnergyAction(this.magicNumber));
-			this.addToBot(new DrawCardAction(1));
+			this.addToBot(new DrawCardAction(this.secondaryMagicNumber));
 		}
 	}
 	

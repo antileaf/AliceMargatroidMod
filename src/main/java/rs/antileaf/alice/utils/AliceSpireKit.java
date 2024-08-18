@@ -16,6 +16,7 @@ import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
 import com.megacrit.cardcrawl.vfx.cardManip.ShowCardAndAddToDiscardEffect;
 import com.megacrit.cardcrawl.vfx.cardManip.ShowCardAndAddToHandEffect;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
 import rs.antileaf.alice.AliceMargatroidMod;
 import rs.antileaf.alice.cardmodifier.PhantomCardModifier;
@@ -300,4 +301,6 @@ public abstract class AliceSpireKit {
 	public static void log(Object who, Object what) {
 		AliceMargatroidMod.logger.info("{} : {}", who.getClass().getSimpleName(), what);
 	}
+	
+	public static final Logger logger = AliceMargatroidMod.logger;
 }

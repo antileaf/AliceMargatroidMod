@@ -38,13 +38,17 @@ public class AliceInWonderland extends AbstractAliceCard {
 				CardRarity.RARE,
 				CardTarget.NONE
 		);
+		
+		this.exhaust = true;
 	}
 	
 	private AbstractCard getCard() {
 		AbstractCard card = AbstractDungeon.returnTrulyRandomCardInCombat().makeCopy();
 		if (this.upgraded)
 			card.upgrade();
-		card.updateCost(-1);
+		
+		if (card.cost != -1 && card.cost != -2)
+			card.updateCost(-1);
 		return card;
 	}
 	

@@ -20,6 +20,21 @@ public class DollLoseBlockAction extends AbstractGameAction {
 	
 	@Override
 	public void update() {
+		if (this.duration == DURATION) {
+			if (!DollManager.get().contains(this.doll)) {
+				AliceSpireKit.log(this.getClass(),
+						"DollLoseBlockAction.update(): DollManager does not contain " +
+								this.doll.getClass().getSimpleName() + "!");
+				this.isDone = true;
+				return;
+			}
+			
+			if (this.doll.block == 0) {
+				this.isDone = true;
+				return;
+			}
+		}
+		
 		this.tickDuration();
 		
 		if (this.isDone) {

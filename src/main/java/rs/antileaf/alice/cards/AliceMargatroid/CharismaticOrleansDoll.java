@@ -40,7 +40,6 @@ public class CharismaticOrleansDoll extends AbstractAliceCard {
 		);
 		
 		this.magicNumber = this.baseMagicNumber = MAGIC;
-//		this.exhaust = true;
 		this.tags.add(CardTagEnum.ALICE_DOLL_ACT);
 	}
 	
@@ -54,6 +53,8 @@ public class CharismaticOrleansDoll extends AbstractAliceCard {
 		
 		for (int i = 0; i < this.magicNumber; i++)
 			this.addToBot(new DollActAction(doll));
+		
+		DollManager.get().triggerArtfulChanter(doll, target);
 	}
 	
 	@Override
@@ -66,8 +67,6 @@ public class CharismaticOrleansDoll extends AbstractAliceCard {
 		if (!this.upgraded) {
 			this.upgradeName();
 			this.upgradeMagicNumber(UPGRADE_PLUS_MAGIC);
-//			this.exhaust = false;
-//			this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
 			this.initializeDescription();
 		}
 	}

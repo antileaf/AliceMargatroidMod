@@ -1,6 +1,7 @@
 package rs.antileaf.alice.doll.dolls;
 
 import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.localization.OrbStrings;
 import rs.antileaf.alice.action.doll.DollGainBlockAction;
 import rs.antileaf.alice.action.doll.MoveDollAction;
@@ -26,7 +27,7 @@ public class FranceDoll extends AbstractDoll {
 				MAX_HP,
 				-1,
 				ACT_AMOUNT,
-				AliceSpireKit.getOrbImgFilePath("blue"),
+				AliceSpireKit.getOrbImgFilePath(SIMPLE_NAME),
 				RenderTextMode.ACT
 		);
 		
@@ -104,6 +105,11 @@ public class FranceDoll extends AbstractDoll {
 	
 	@Override
 	public void playChannelSFX() {}
+	
+	@Override
+	protected float getRenderYOffset() {
+		return this.bobEffect.y / 2.0F + NUM_Y_OFFSET - 24.0F * Settings.scale;
+	}
 	
 	public static String getDescription() {
 		return getHpDescription(MAX_HP) + " NL " + (new FranceDoll()).desc();

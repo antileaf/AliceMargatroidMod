@@ -1,8 +1,15 @@
 {
-  "DollPotion": {
-    "NAME": "人偶药水",
+  "WeavingPotion": {
+    "NAME": "编织药水",
     "DESCRIPTIONS": [
       "生成 #b%d 个随机 #y人偶 。"
+    ]
+  },
+  
+  "ConcentrationPotion": {
+    "NAME": "专注药水",
+    "DESCRIPTIONS": [
+      "所有 #y人偶 #y行动 一次。"
     ]
   }
 }

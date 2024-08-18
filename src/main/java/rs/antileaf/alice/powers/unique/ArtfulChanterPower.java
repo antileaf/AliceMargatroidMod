@@ -1,19 +1,12 @@
 package rs.antileaf.alice.powers.unique;
 
-import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.PowerStrings;
-import com.megacrit.cardcrawl.powers.DexterityPower;
-import com.megacrit.cardcrawl.powers.LoseDexterityPower;
-import com.megacrit.cardcrawl.powers.LoseStrengthPower;
-import com.megacrit.cardcrawl.powers.StrengthPower;
-import rs.antileaf.alice.doll.AbstractDoll;
-import rs.antileaf.alice.doll.interfaces.OnDollOperateHook;
+import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.powers.AbstractAlicePower;
-import rs.antileaf.alice.utils.AliceSpireKit;
 
-public class ArtfulChanterPower extends AbstractAlicePower implements OnDollOperateHook {
+public class ArtfulChanterPower extends AbstractAlicePower {
 	public static final String POWER_ID = ArtfulChanterPower.class.getSimpleName();
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
 	
@@ -42,36 +35,7 @@ public class ArtfulChanterPower extends AbstractAlicePower implements OnDollOper
 		);
 	}
 	
-	@Override
-	public void postRecycleDoll(AbstractDoll doll) {
-		this.flash();
-		
-		AliceSpireKit.addActionToBuffer(new ApplyPowerAction(
-				this.owner,
-				this.owner,
-				new StrengthPower(this.owner, this.amount),
-				this.amount
-		));
-		AliceSpireKit.addActionToBuffer(new ApplyPowerAction(
-				this.owner,
-				this.owner,
-				new DexterityPower(this.owner, this.amount),
-				this.amount
-		));
-		
-		AliceSpireKit.addActionToBuffer(new ApplyPowerAction(
-				this.owner,
-				this.owner,
-				new LoseStrengthPower(this.owner, this.amount),
-				this.amount
-		));
-		AliceSpireKit.addActionToBuffer(new ApplyPowerAction(
-				this.owner,
-				this.owner,
-				new LoseDexterityPower(this.owner, this.amount),
-				this.amount
-		));
-		
-		AliceSpireKit.commitBuffer();
+	public void flashLater() {
+		this.addToBot(new AnonymousAction(this::flash));
 	}
 }

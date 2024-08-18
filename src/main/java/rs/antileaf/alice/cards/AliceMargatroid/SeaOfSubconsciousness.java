@@ -17,7 +17,7 @@ public class SeaOfSubconsciousness extends AbstractAliceCard {
 	public static final String ID = SIMPLE_NAME;
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
-	private static final int COST = 2;
+	private static final int COST = 3;
 	private static final int MAGIC = 1;
 	public SeaOfSubconsciousness() {
 		super(

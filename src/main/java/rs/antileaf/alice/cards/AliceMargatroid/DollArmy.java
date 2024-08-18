@@ -39,6 +39,8 @@ public class DollArmy extends AbstractAliceCard {
 				CardTargetEnum.DOLL
 		);
 		
+		this.exhaust = true;
+		
 		this.tags.add(CardTagEnum.ALICE_COMMAND);
 	}
 	

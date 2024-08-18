@@ -52,7 +52,11 @@ public class QuietHouraiDoll extends AbstractAliceCard {
 		}
 		
 		int index = DollManager.get().getDolls().indexOf(target);
-		this.addToBot(new SpawnDollAction(new HouraiDoll(), index));
+		
+		AbstractDoll doll = new HouraiDoll();
+		this.addToBot(new SpawnDollAction(doll, index));
+		
+		DollManager.get().triggerArtfulChanter(doll, target);
 	}
 	
 	@Override

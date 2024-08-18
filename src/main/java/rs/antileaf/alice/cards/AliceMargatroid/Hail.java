@@ -23,13 +23,14 @@ public class Hail extends AbstractAliceCard {
 	
 	private static final int COST = 0;
 	private static final int DAMAGE = 4;
+	private static final int MAGIC = 1;
 	private static final int UPGRADE_PLUS_DAMAGE = 2;
 	
 	public Hail() {
 		super(
 				ID,
 				cardStrings.NAME,
-				null, // AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.ATTACK,
@@ -39,6 +40,8 @@ public class Hail extends AbstractAliceCard {
 		);
 		
 		this.damage = this.baseDamage = DAMAGE;
+		this.magicNumber = this.baseMagicNumber = MAGIC;
+		
 		this.tags.add(CardTagEnum.ALICE_RAY);
 	}
 	
@@ -60,7 +63,7 @@ public class Hail extends AbstractAliceCard {
 				AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
 		
 		if (!AliceSpireKit.hasDuplicateCards(AbstractDungeon.player.hand.group, null))
-			this.addToBot(new DrawCardAction(1));
+			this.addToBot(new DrawCardAction(this.magicNumber));
 	}
 	
 	@Override

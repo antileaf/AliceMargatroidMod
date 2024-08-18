@@ -22,8 +22,8 @@ public class Thread extends AbstractAliceCard {
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
-//	private static final int UPGRADED_COST = 0;
 	private static final int DAMAGE = 5;
+	private static final int MAGIC = 1;
 	private static final int UPGRADE_PLUS_DAMAGE = 3;
 	
 	public Thread() {
@@ -40,6 +40,7 @@ public class Thread extends AbstractAliceCard {
 		);
 		
 		this.damage = this.baseDamage = DAMAGE;
+		this.magicNumber = this.baseMagicNumber = MAGIC;
 	}
 	
 	@Override
@@ -49,7 +50,7 @@ public class Thread extends AbstractAliceCard {
 			AliceSpireKit.log(this.getClass(), "Thread damage callback " + amount);
 			
 			if (amount > 0) {
-				this.addActionsToTop(new DrawCardAction(1),
+				this.addActionsToTop(new DrawCardAction(this.magicNumber),
 						new SpawnDollAction(AbstractDoll.getRandomDoll(), -1));
 			}
 		}));
@@ -64,7 +65,6 @@ public class Thread extends AbstractAliceCard {
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
-//			this.upgradeBaseCost(UPGRADED_COST);
 			this.upgradeDamage(UPGRADE_PLUS_DAMAGE);
 			this.initializeDescription();
 		}

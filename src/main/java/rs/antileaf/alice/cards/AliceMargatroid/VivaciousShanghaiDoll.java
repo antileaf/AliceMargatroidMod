@@ -54,6 +54,8 @@ public class VivaciousShanghaiDoll extends AbstractAliceCard {
 		this.addToBot(new SpawnDollAction(doll, index));
 		for (int i = 0; i < this.magicNumber; i++)
 			this.addToBot(new DollActAction(doll));
+		
+		DollManager.get().triggerArtfulChanter(doll, target);
 	}
 	
 	@Override

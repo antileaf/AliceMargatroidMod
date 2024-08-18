@@ -22,8 +22,9 @@ public class TheSouthernCross extends AbstractAliceCard {
 	
 	private static final int COST = 0;
 	private static final int DAMAGE = 2;
-	private static final int MAGIC = 2;
+	private static final int MAGIC = 1;
 	private static final int UPGRADE_PLUS_DMG = 2;
+	private static final int UPGRADE_PLUS_MAGIC = 1;
 	
 	public TheSouthernCross() {
 		super(
@@ -71,6 +72,7 @@ public class TheSouthernCross extends AbstractAliceCard {
 		if (!this.upgraded) {
 			this.upgradeName();
 			this.upgradeDamage(UPGRADE_PLUS_DMG);
+			this.upgradeMagicNumber(UPGRADE_PLUS_MAGIC);
 			this.initializeDescription();
 		}
 	}

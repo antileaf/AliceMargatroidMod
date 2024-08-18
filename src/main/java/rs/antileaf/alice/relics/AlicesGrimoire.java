@@ -38,7 +38,7 @@ public class AlicesGrimoire extends CustomRelic implements ClickableRelic {
 	
 	@Override
 	public String getUpdatedDescription() {
-		return this.DESCRIPTIONS[0] + " NL (" + this.DESCRIPTIONS[1] + ")";
+		return this.DESCRIPTIONS[0] + " NL " + this.DESCRIPTIONS[1];
 	}
 	
 	@Override
@@ -57,13 +57,13 @@ public class AlicesGrimoire extends CustomRelic implements ClickableRelic {
 	}
 	
 	@Override
-	public AbstractRelic makeCopy() {
-		return new AlicesGrimoire();
-	}
-	
-	@Override
 	public void onRightClick() {
 		if (AliceSpireKit.isInBattle())
 			AliceTutorialHelper.openTutorial();
+	}
+	
+	@Override
+	public AbstractRelic makeCopy() {
+		return new AlicesGrimoire();
 	}
 }

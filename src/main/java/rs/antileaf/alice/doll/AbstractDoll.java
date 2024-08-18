@@ -571,6 +571,10 @@ public abstract class AbstractDoll extends CustomOrb {
 				this.actFontScale);
 	}
 	
+	protected float getRenderYOffset() {
+		return this.bobEffect.y / 2.0F + NUM_Y_OFFSET - 4.0F * Settings.scale;
+	}
+	
 	@Override
 	public void renderText(SpriteBatch sb) {
 		assert this.renderTextMode != null: "AbstractDoll.renderTextMode should not be null!";
@@ -581,21 +585,21 @@ public abstract class AbstractDoll extends CustomOrb {
 		if (this.renderTextMode == RenderTextMode.PASSIVE) {
 			this.renderPassiveValue(sb,
 					this.cX + NUM_X_OFFSET,
-					this.cY + this.bobEffect.y / 2.0F + NUM_Y_OFFSET - 4.0F * Settings.scale);
+					this.cY + this.getRenderYOffset());
 		}
 		else if (this.renderTextMode == RenderTextMode.ACT) {
 			this.renderActValue(sb,
 					this.cX + NUM_X_OFFSET,
-					this.cY + this.bobEffect.y / 2.0F + NUM_Y_OFFSET - 4.0F * Settings.scale);
+					this.cY + this.getRenderYOffset());
 		}
 		else if (this.renderTextMode == RenderTextMode.BOTH) {
 			this.renderPassiveValue(sb,
 					this.cX + NUM_X_OFFSET,
-					this.cY + this.bobEffect.y / 2.0F + NUM_Y_OFFSET + 20.0F * Settings.scale);
+					this.cY + this.getRenderYOffset() + 24.0F * Settings.scale);
 			
 			this.renderActValue(sb,
 					this.cX + NUM_X_OFFSET,
-					this.cY + this.bobEffect.y / 2.0F + NUM_Y_OFFSET - 4.0F * Settings.scale);
+					this.cY + this.getRenderYOffset());
 		}
 		
 		if (AbstractDungeon.player != null && !AbstractDungeon.player.hasRelic(RunicDome.ID)) {
@@ -924,6 +928,32 @@ public abstract class AbstractDoll extends CustomOrb {
 	public static String getHpDescription(int maxHP) {
 		UIStrings uiStrings = CardCrawlGame.languagePack.getUIString("DollHPDescription");
 		return String.format(uiStrings.TEXT[0], maxHP);
+	}
+	
+	public static String getName(String clazz) {
+		if (clazz == null) {
+			AliceSpireKit.log(AbstractDoll.class, "getName() called with null.");
+			return "Error";
+		}
+		
+		if (clazz.equals(ShanghaiDoll.ID))
+			return ShanghaiDoll.dollStrings.NAME;
+		else if (clazz.equals(NetherlandsDoll.ID))
+			return NetherlandsDoll.dollStrings.NAME;
+		else if (clazz.equals(HouraiDoll.ID))
+			return HouraiDoll.dollStrings.NAME;
+		else if (clazz.equals(FranceDoll.ID))
+			return FranceDoll.dollStrings.NAME;
+		else if (clazz.equals(LondonDoll.ID))
+			return LondonDoll.dollStrings.NAME;
+		else if (clazz.equals(KyotoDoll.ID))
+			return KyotoDoll.dollStrings.NAME;
+		else if (clazz.equals(OrleansDoll.ID))
+			return OrleansDoll.dollStrings.NAME;
+		else if (clazz.equals(Su_san.ID))
+			return Su_san.dollStrings.NAME;
+		else
+			return "Unknown";
 	}
 	
 	public static AbstractDoll newInst(String clazz) {

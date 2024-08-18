@@ -39,7 +39,6 @@ public class SpringKyotoDoll extends AbstractAliceCard {
 		);
 		
 		this.magicNumber = this.baseMagicNumber = MAGIC;
-		this.exhaust = true;
 	}
 	
 	@Override

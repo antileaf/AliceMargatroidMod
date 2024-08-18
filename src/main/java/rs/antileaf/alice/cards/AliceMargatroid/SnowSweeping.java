@@ -67,6 +67,8 @@ public class SnowSweeping extends AbstractAliceCard {
 		if (!this.upgraded) {
 			this.upgradeName();
 			this.upgradeMagicNumber(UPGRADE_PLUS_MAGIC);
+			if (cardStrings.UPGRADE_DESCRIPTION != null)
+				this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
 			this.initializeDescription();
 		}
 	}

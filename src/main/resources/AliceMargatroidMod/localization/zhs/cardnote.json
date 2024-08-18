@@ -3,7 +3,7 @@
     "TITLE": "注释"
   },
   
-  "SevenColoredPuppeteer": {
+  "FIXEDSevenColoredPuppeteer": {
     "DESCRIPTION": "目前存在一个 bug，会导致这张牌 #r无法 与异蛇之眼互动。 NL 稍后会修复。"
   },
   
@@ -39,5 +39,9 @@
   "AliceInWonderland": {
     "TITLE": "变化",
     "DESCRIPTION": "变化不视为消耗，也不视为临时增加牌。"
+  },
+  
+  "MagicConduit": {
+    "DESCRIPTION": "因为第一次行动后就会被 #y回收 ，所以最多只能行动一次。"
   }
 }

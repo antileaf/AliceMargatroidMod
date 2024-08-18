@@ -2,6 +2,7 @@ package rs.antileaf.alice.doll.dolls;
 
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.OrbStrings;
 import com.megacrit.cardcrawl.orbs.AbstractOrb;
@@ -32,22 +33,12 @@ public class HouraiDoll extends AbstractDoll {
 				MAX_HP,
 				PASSIVE_AMOUNT,
 				ACT_AMOUNT,
-				AliceSpireKit.getOrbImgFilePath("white"),
+				AliceSpireKit.getOrbImgFilePath(SIMPLE_NAME),
 				RenderTextMode.ACT
 		);
 		
 		this.passiveAmountType = DollAmountType.MAGIC;
 		this.actAmountType = DollAmountType.BLOCK;
-	}
-	
-	@Override
-	public AbstractOrb makeCopy() {
-		return new HouraiDoll();
-	}
-	
-	@Override
-	public void playChannelSFX() {
-		// TODO
 	}
 	
 	@Override
@@ -149,6 +140,21 @@ public class HouraiDoll extends AbstractDoll {
 	@Override
 	public void triggerActAnimation() {
 		// TODO
+	}
+	
+	@Override
+	public AbstractOrb makeCopy() {
+		return new HouraiDoll();
+	}
+	
+	@Override
+	public void playChannelSFX() {
+		// TODO
+	}
+	
+	@Override
+	protected float getRenderYOffset() {
+		return this.bobEffect.y / 2.0F + NUM_Y_OFFSET - 24.0F * Settings.scale;
 	}
 	
 	public static String getDescription() {

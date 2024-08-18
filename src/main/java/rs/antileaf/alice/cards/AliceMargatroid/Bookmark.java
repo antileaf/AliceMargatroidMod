@@ -75,6 +75,10 @@ public class Bookmark extends AbstractAliceCard {
 		
 		String desc = String.format(cardNoteStrings.EXTENDED_DESCRIPTION[1], cache.size());
 		desc += " NL " + cache.stream()
+				.filter(c -> AbstractDungeon.player.hand.contains(c) ||
+						AbstractDungeon.player.drawPile.contains(c) ||
+						AbstractDungeon.player.discardPile.contains(c) ||
+						AbstractDungeon.player.exhaustPile.contains(c))
 				.map(c -> c.name)
 				.reduce((a, b) -> a + AliceLanguageStrings.CAESURA_WITH_SPACE + b)
 				.orElse("")

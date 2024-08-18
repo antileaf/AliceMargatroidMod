@@ -15,6 +15,7 @@ import rs.antileaf.alice.doll.targeting.DollOrEmptySlotTargeting;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
+import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class CharitableFranceDoll extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = CharitableFranceDoll.class.getSimpleName();
@@ -30,7 +31,7 @@ public class CharitableFranceDoll extends AbstractAliceCard {
 		super(
 				ID,
 				cardStrings.NAME,
-				null, // AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.SKILL,
@@ -52,7 +53,10 @@ public class CharitableFranceDoll extends AbstractAliceCard {
 		}
 		else {
 			int index = DollManager.get().getDolls().indexOf(target);
-			this.addToBot(new SpawnDollAction(new FranceDoll(), index));
+			AbstractDoll doll = new FranceDoll();
+			this.addToBot(new SpawnDollAction(doll, index));
+			
+			DollManager.get().triggerArtfulChanter(doll, target);
 		}
 	}
 	

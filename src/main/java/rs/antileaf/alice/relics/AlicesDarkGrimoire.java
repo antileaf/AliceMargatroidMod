@@ -37,7 +37,7 @@ public class AlicesDarkGrimoire extends CustomRelic implements ClickableRelic, O
 	
 	@Override
 	public String getUpdatedDescription() {
-		return this.DESCRIPTIONS[0] + " NL (" + this.DESCRIPTIONS[1] + ")";
+		return this.DESCRIPTIONS[0] + " NL " + this.DESCRIPTIONS[1];
 	}
 	
 	@Override

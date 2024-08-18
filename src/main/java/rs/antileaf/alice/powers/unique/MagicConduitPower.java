@@ -1,25 +1,22 @@
 package rs.antileaf.alice.powers.unique;
 
-import basemod.ReflectionHacks;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
+import com.megacrit.cardcrawl.actions.common.DrawCardAction;
 import com.megacrit.cardcrawl.actions.common.GainEnergyAction;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.PowerStrings;
-import com.megacrit.cardcrawl.powers.AbstractPower;
-import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
-import com.megacrit.cardcrawl.vfx.combat.GainPowerEffect;
 import com.megacrit.cardcrawl.vfx.combat.PlasmaOrbPassiveEffect;
+import rs.antileaf.alice.action.doll.RecycleDollAction;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.doll.interfaces.OnDollOperateHook;
 import rs.antileaf.alice.effects.common.AliceDrawLineEffect;
 import rs.antileaf.alice.powers.AbstractAlicePower;
-
-import java.util.ArrayList;
+import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class MagicConduitPower extends AbstractAlicePower implements OnDollOperateHook {
 	public static final String POWER_ID = MagicConduitPower.class.getSimpleName();
@@ -50,33 +47,36 @@ public class MagicConduitPower extends AbstractAlicePower implements OnDollOpera
 	public void updateDescription() {
 		this.description = String.format(
 				powerStrings.DESCRIPTIONS[0],
+				this.amount,
 				this.amount
 		);
 	}
 	
-	public void triggerOnDollAct() {
-		Object effect = ReflectionHacks.getPrivate(this, AbstractPower.class, "effect");
-		if (effect instanceof ArrayList)
-			((ArrayList<AbstractGameEffect>) effect).add(new GainPowerEffect(this));
-		
-//		this.addToTop(new GainEnergyAction(this.amount));
-		this.addToTop(new GainEnergyAction(this.amount) {
-			@Override
-			public void update() {
-				super.update();
-				this.isDone = true;
-			}
-		});
-	}
-	
-//	@Override
-//	public void postDollAct(AbstractDoll doll) {
-//		if (DollManager.get().getDolls().size() == DollManager.MAX_DOLL_SLOTS
-//				&& DollManager.get().getDolls().get(DollManager.MAX_DOLL_SLOTS - 1) == doll) {
-//			this.flash();
-//			this.addToTop(new GainEnergyAction(this.amount));
-//		}
+//	public void triggerOnDollAct() {
+//		Object effect = ReflectionHacks.getPrivate(this, AbstractPower.class, "effect");
+//		if (effect instanceof ArrayList)
+//			((ArrayList<AbstractGameEffect>) effect).add(new GainPowerEffect(this));
+//
 //	}
+	
+	@Override
+	public void postDollAct(AbstractDoll doll) {
+		if (DollManager.get().getDolls().size() == DollManager.MAX_DOLL_SLOTS
+				&& DollManager.get().getDolls().get(DollManager.MAX_DOLL_SLOTS - 1) == doll) {
+			this.flash();
+			AliceSpireKit.addActionsToTop(
+					new RecycleDollAction(doll, null, true),
+					new GainEnergyAction(this.amount) {
+						@Override
+						public void update() {
+							super.update();
+							this.isDone = true;
+						}
+					},
+					new DrawCardAction(this.amount)
+			);
+		}
+	}
 	
 	@Override
 	public void update(int slot) {

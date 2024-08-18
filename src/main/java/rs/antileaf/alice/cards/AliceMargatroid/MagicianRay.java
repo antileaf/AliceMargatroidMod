@@ -21,8 +21,8 @@ public class MagicianRay extends AbstractAliceCard {
 	
 	private static final int COST = 1;
 	private static final int DAMAGE = 6;
-	private static final int MAGIC = 5;
-	private static final int UPGRADE_PLUS_DAMAGE = 3;
+	private static final int MAGIC = 3;
+	private static final int UPGRADE_PLUS_MAGIC = 2;
 	
 	public MagicianRay() {
 		super(
@@ -57,7 +57,7 @@ public class MagicianRay extends AbstractAliceCard {
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
-			this.upgradeDamage(UPGRADE_PLUS_DAMAGE);
+			this.upgradeMagicNumber(UPGRADE_PLUS_MAGIC);
 			this.initializeDescription();
 		}
 	}

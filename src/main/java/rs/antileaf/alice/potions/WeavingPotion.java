@@ -10,14 +10,14 @@ import com.megacrit.cardcrawl.potions.AbstractPotion;
 import rs.antileaf.alice.action.doll.SpawnDollAction;
 import rs.antileaf.alice.doll.AbstractDoll;
 
-public class DollPotion extends CustomPotion {
-	public static final String SIMPLE_NAME = DollPotion.class.getSimpleName();
+public class WeavingPotion extends CustomPotion {
+	public static final String SIMPLE_NAME = WeavingPotion.class.getSimpleName();
 	public static final String ID = SIMPLE_NAME;
 	public static final PotionStrings potionStrings = CardCrawlGame.languagePack.getPotionString(ID);
 	
 	private static final int POTENCY = 2;
 	
-	public DollPotion() {
+	public WeavingPotion() {
 		super(
 				potionStrings.NAME,
 				ID,
@@ -48,6 +48,6 @@ public class DollPotion extends CustomPotion {
 	
 	@Override
 	public AbstractPotion makeCopy() {
-		return new DollPotion();
+		return new WeavingPotion();
 	}
 }
