@@ -25,6 +25,8 @@ import rs.antileaf.alice.doll.dolls.*;
 import rs.antileaf.alice.doll.enums.DollAmountTime;
 import rs.antileaf.alice.doll.enums.DollAmountType;
 import rs.antileaf.alice.doll.interfaces.PlayerOrEnemyDollAmountModHook;
+import rs.antileaf.alice.strings.AliceDollStrings;
+import rs.antileaf.alice.strings.AliceLanguageStrings;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 import java.util.Arrays;
@@ -45,8 +47,10 @@ public abstract class AbstractDoll extends CustomOrb {
 	
 	private static final float RETICLE_OFFSET_DIST = 15.0F * Settings.scale;
 	
-	public int actAmount = 0;
-	protected int baseActAmount = 0;
+//	protected final AliceDollStrings dollStrings;
+	
+	public int actAmount;
+	protected int baseActAmount;
 	
 	protected String actDescription;
 	
@@ -57,9 +61,9 @@ public abstract class AbstractDoll extends CustomOrb {
 	protected DollAmountType passiveAmountType = DollAmountType.MAGIC;
 	protected DollAmountType actAmountType = DollAmountType.MAGIC;
 	
-	private int damageAboutToTake = 0;
-	private int damageCount = 0;
-	private int overflowedDamage = 0;
+	protected int damageAboutToTake = 0;
+	protected int damageCount = 0;
+	protected int overflowedDamage = 0;
 	private float vfxTimer = 1.0F;
 	protected float animX, animY;
 	protected float animSpeed;
@@ -104,14 +108,19 @@ public abstract class AbstractDoll extends CustomOrb {
 	
 	public boolean dontShowHPDescription = false;
 	
-	public AbstractDoll(String ID, String name, int maxHP, int basePassiveAmount, int baseActAmount, String imgPath, RenderTextMode renderTextMode) {
-		super(ID, name, basePassiveAmount, -1, "", "", imgPath);
+	public AbstractDoll(String ID, String NAME, int maxHP, int basePassiveAmount, int baseActAmount, String imgPath, RenderTextMode renderTextMode) {
+		super(ID, NAME, basePassiveAmount, -1, "", "", imgPath);
+		
+//		if (this.dollStrings == null)
+//			throw new IllegalArgumentException("DollStrings for " + ID + " is null.");
+		
+		this.angle = 0.0F;
 		
 		this.hb = new Hitbox(
 				AbstractDungeon.player.hb.cX,
 				AbstractDungeon.player.hb.cY,
-				120.0F * Settings.scale,
-				120.0F * Settings.scale
+				150.0F * Settings.scale,
+				150.0F * Settings.scale
 		);
 		
 		this.healthHb = new Hitbox(this.hb.width, 72.0F * Settings.scale);
@@ -123,7 +132,7 @@ public abstract class AbstractDoll extends CustomOrb {
 		this.maxHP = this.HP = maxHP;
 		this.block = 0;
 		
-		this.hbYOffset = HB_Y_OFFSET_DIST * 5.0F;
+		this.hbYOffset = HB_Y_OFFSET_DIST * 1.5F;
 		this.hbBgColor = new Color(0.0F, 0.0F, 0.0F, 0.0F);
 		this.hbShadowColor = new Color(0.0F, 0.0F, 0.0F, 0.0F);
 		this.blockColor = new Color(0.6F, 0.93F, 0.98F, 0.0F);
@@ -144,14 +153,14 @@ public abstract class AbstractDoll extends CustomOrb {
 //		this.initPosition(AbstractDungeon.player.animX, AbstractDungeon.player.animY);
 	}
 	
+	protected abstract AliceDollStrings getDollStrings();
+	
 	protected void initPosition(float cx, float cy) {
 		this.cX = this.tX = this.animX = cx;
 		this.cY = this.tY = this.animY = cy;
 		
 		this.hb.move(this.cX, this.cY);
 		this.healthHb.move(this.hb.cX, this.hb.cY - this.hb.height / 2.0F - this.healthHb.height / 2.0F);
-		
-		this.angle = 0.0F; // TODO: Randomize?
 	}
 	
 	public void transAnim(Vector2 target) {
@@ -178,6 +187,13 @@ public abstract class AbstractDoll extends CustomOrb {
 //
 //		return false;
 //	}
+	
+	public float getTargetScale() {
+		if (this.img == null || this.img.getWidth() == 96)
+			return 1.0F;
+		
+		return 0.5F * 1.2F;
+	}
 	
 	public void renderGenericTip() {
 		if (this.hb.hovered) {
@@ -220,17 +236,19 @@ public abstract class AbstractDoll extends CustomOrb {
 		}
 //
 		this.c.a = Interpolation.pow2In.apply(1.0F, 0.01F, this.channelAnimTimer / 0.5F);
-		this.scale = Interpolation.swingIn.apply(Settings.scale, 0.01F, this.channelAnimTimer / 0.5F);
+		this.scale = Interpolation.swingIn.apply(Settings.scale * this.getTargetScale(), 0.01F, this.channelAnimTimer / 0.5F);
 //		this.angle += Gdx.graphics.getDeltaTime() * 45.0F;
 //		this.vfxTimer -= Gdx.graphics.getDeltaTime();
 //		if (this.vfxTimer < 0.0F) {
 //			this.vfxTimer = 0.0F; // TODO
 //		}
-//
-//		this.c.a = Interpolation.pow2In.apply(1.0F, 0.01F, this.channelAnimTimer / 0.5F);
-//		this.scale = Interpolation.swingIn.apply(Settings.scale, 0.01F, this.channelAnimTimer / 0.5F);
 		
 		this.updateAnimation();
+		
+		// Why this must be here? I don't quite understand.
+		if (this.hb.hovered) {
+			this.renderGenericTip();
+		}
 	}
 	
 	public void updateAnimation() {
@@ -250,7 +268,7 @@ public abstract class AbstractDoll extends CustomOrb {
 		}
 		
 		this.c.a = Interpolation.pow2In.apply(1.0F, 0.01F, this.channelAnimTimer / 0.5F);
-		this.scale = Interpolation.swingIn.apply(Settings.scale, 0.01F, this.channelAnimTimer / 0.5F);
+		this.scale = Interpolation.swingIn.apply(Settings.scale * this.getTargetScale(), 0.01F, this.channelAnimTimer / 0.5F);
 	}
 	
 	private void updateSelfAnimation() { // TODO: What is this?
@@ -270,18 +288,26 @@ public abstract class AbstractDoll extends CustomOrb {
 		}
 	}
 	
-	public void updateDamageAboutToTake(int damage, int count) {
-		this.damageAboutToTake = damage;
-		this.damageCount = count;
-		
+	public void updateOverflowedDamage() {
 		if (this.damageAboutToTake > 0)
 			this.overflowedDamage = this.onPlayerDamaged(this.damageAboutToTake * this.damageCount);
 		else
 			this.overflowedDamage = 0;
 	}
 	
+	public void updateDamageAboutToTake(int damage, int count) {
+		this.damageAboutToTake = damage;
+		this.damageCount = count;
+		
+		this.updateOverflowedDamage();
+	}
+	
 	public int calcTotalDamageAboutToTake() {
 		return this.damageAboutToTake != -1 ? this.damageAboutToTake * this.damageCount : -1;
+	}
+	
+	public int getOverflowedDamage() {
+		return this.overflowedDamage;
 	}
 	
 	// Returns remaining damage.
@@ -403,6 +429,8 @@ public abstract class AbstractDoll extends CustomOrb {
 	
 	public abstract int getBaseHP();
 	
+	// All actions added by onAct() should call addActionToBuffer.
+	// The buffer will be committed in DollManager.dollAct().
 	public abstract void onAct();
 	
 	public void postSpawn() {}
@@ -421,6 +449,11 @@ public abstract class AbstractDoll extends CustomOrb {
 	
 	@Override
 	public void onEndOfTurn() {}
+	
+	// Returning true will cancel this spawn.
+	public boolean preOtherDollSpawn(AbstractDoll doll) {
+		return false;
+	}
 	
 	public void postOtherDollSpawn(AbstractDoll doll) {}
 	
@@ -487,23 +520,31 @@ public abstract class AbstractDoll extends CustomOrb {
 	public void updateDescription() {
 		this.updateDescriptionImpl();
 		
-		this.description = "";
+		AliceDollStrings dollStrings = this.getDollStrings();
+		
+		this.description = dollStrings.TYPE + " - " + dollStrings.TAG;
 		if (!this.dontShowHPDescription) {
-			this.description += this.HP + "/" + this.maxHP;
+			this.description += " - " + this.HP + "/" + this.maxHP;
 			if (this.block > 0)
 				this.description += " (+" + this.block + ")";
-			this.description += " NL ";
 		}
+		this.description += " NL ";
 		
 		UIStrings uiStrings = CardCrawlGame.languagePack.getUIString("DollDescription");
 		String passiveString = uiStrings.TEXT[0];
 		String actString = uiStrings.TEXT[1];
 		
-		this.description += "#y" + passiveString + " ：" + this.passiveDescription +
-				" NL #y" + actString + " ：" + this.actDescription;
+		this.description += "#y" + passiveString + " #y- " + "#y" + dollStrings.PASSIVE_NAME +
+				" " + AliceLanguageStrings.COLON + this.passiveDescription +
+				" NL #y" + actString + " " + AliceLanguageStrings.COLON + this.actDescription;
 	}
 	
-	public abstract void updateDescriptionImpl();
+	public void updateDescriptionImpl() {
+		AliceDollStrings dollStrings = this.getDollStrings();
+		
+		this.passiveDescription = String.format(dollStrings.PASSIVE_DESCRIPTION, this.coloredPassiveAmount());
+		this.actDescription = String.format(dollStrings.ACT_DESCRIPTION, this.coloredActAmount());
+	}
 	
 	@Override
 	public final void applyFocus() { // Dolls should not be affected by focus.
@@ -524,19 +565,36 @@ public abstract class AbstractDoll extends CustomOrb {
 		return this.hb.cY - this.img.getHeight() / 2.0F + this.bobEffect.y / 2.0F;
 	}
 	
+	public void renderImage(SpriteBatch sb) {
+		sb.draw(
+				this.img,
+				this.cX - (float)this.img.getWidth() / 2.0F + this.bobEffect.y / 8.0F,
+				this.cY - (float)this.img.getHeight() / 2.0F + this.bobEffect.y / 8.0F,
+				(float)this.img.getWidth() / 2.0F,
+				(float)this.img.getHeight() / 2.0F,
+				(float)this.img.getWidth(),
+				(float)this.img.getHeight(),
+				this.scale,
+				this.scale,
+				this.angle,
+				0,
+				0,
+				this.img.getWidth(),
+				this.img.getHeight(),
+				false,
+				false);
+	}
+	
 	@Override
 	public void render(SpriteBatch sb) {
 		this.updateSelfAnimation();
 		
-		super.render(sb);
+		sb.setColor(this.c);
+		this.renderImage(sb);
 		
 		this.renderHealth(sb);
-		
 		this.renderText(sb);
-		
-		if (this.hb.hovered) {
-			this.renderGenericTip();
-		}
+		this.hb.render(sb);
 	}
 	
 	private Color getFontColor(boolean highlight) {
@@ -571,6 +629,10 @@ public abstract class AbstractDoll extends CustomOrb {
 				this.actFontScale);
 	}
 	
+	protected float getRenderXOffset() {
+		return NUM_X_OFFSET;
+	}
+	
 	protected float getRenderYOffset() {
 		return this.bobEffect.y / 2.0F + NUM_Y_OFFSET - 4.0F * Settings.scale;
 	}
@@ -584,21 +646,21 @@ public abstract class AbstractDoll extends CustomOrb {
 		
 		if (this.renderTextMode == RenderTextMode.PASSIVE) {
 			this.renderPassiveValue(sb,
-					this.cX + NUM_X_OFFSET,
+					this.cX + this.getRenderXOffset(),
 					this.cY + this.getRenderYOffset());
 		}
 		else if (this.renderTextMode == RenderTextMode.ACT) {
 			this.renderActValue(sb,
-					this.cX + NUM_X_OFFSET,
+					this.cX + this.getRenderXOffset(),
 					this.cY + this.getRenderYOffset());
 		}
 		else if (this.renderTextMode == RenderTextMode.BOTH) {
 			this.renderPassiveValue(sb,
-					this.cX + NUM_X_OFFSET,
+					this.cX + this.getRenderXOffset(),
 					this.cY + this.getRenderYOffset() + 24.0F * Settings.scale);
 			
 			this.renderActValue(sb,
-					this.cX + NUM_X_OFFSET,
+					this.cX + this.getRenderXOffset(),
 					this.cY + this.getRenderYOffset());
 		}
 		
@@ -907,7 +969,7 @@ public abstract class AbstractDoll extends CustomOrb {
 		return AliceSpireKit.coloredNumber(this.actAmount, this.baseActAmount);
 	}
 	
-	protected enum RenderTextMode {
+	public enum RenderTextMode {
 		NONE, PASSIVE, ACT, BOTH
 	}
 	
@@ -937,21 +999,21 @@ public abstract class AbstractDoll extends CustomOrb {
 		}
 		
 		if (clazz.equals(ShanghaiDoll.ID))
-			return ShanghaiDoll.dollStrings.NAME;
+			return AliceDollStrings.get(ShanghaiDoll.ID).NAME;
 		else if (clazz.equals(NetherlandsDoll.ID))
-			return NetherlandsDoll.dollStrings.NAME;
+			return AliceDollStrings.get(NetherlandsDoll.ID).NAME;
 		else if (clazz.equals(HouraiDoll.ID))
-			return HouraiDoll.dollStrings.NAME;
+			return AliceDollStrings.get(HouraiDoll.ID).NAME;
 		else if (clazz.equals(FranceDoll.ID))
-			return FranceDoll.dollStrings.NAME;
+			return AliceDollStrings.get(FranceDoll.ID).NAME;
 		else if (clazz.equals(LondonDoll.ID))
-			return LondonDoll.dollStrings.NAME;
+			return AliceDollStrings.get(LondonDoll.ID).NAME;
 		else if (clazz.equals(KyotoDoll.ID))
-			return KyotoDoll.dollStrings.NAME;
+			return AliceDollStrings.get(KyotoDoll.ID).NAME;
 		else if (clazz.equals(OrleansDoll.ID))
-			return OrleansDoll.dollStrings.NAME;
+			return AliceDollStrings.get(OrleansDoll.ID).NAME;
 		else if (clazz.equals(Su_san.ID))
-			return Su_san.dollStrings.NAME;
+			return AliceDollStrings.get(Su_san.ID).NAME;
 		else
 			return "Unknown";
 	}
@@ -1092,26 +1154,5 @@ public abstract class AbstractDoll extends CustomOrb {
 		
 		descriptions.put(dollID, res);
 		return res;
-	}
-	
-	public static String getFlavor(String dollID) {
-		if (dollID.equals(ShanghaiDoll.ID))
-			return ShanghaiDoll.getFlavor();
-		else if (dollID.equals(NetherlandsDoll.ID))
-			return NetherlandsDoll.getFlavor();
-		else if (dollID.equals(HouraiDoll.ID))
-			return HouraiDoll.getFlavor();
-		else if (dollID.equals(FranceDoll.ID))
-			return FranceDoll.getFlavor();
-		else if (dollID.equals(LondonDoll.ID))
-			return LondonDoll.getFlavor();
-		else if (dollID.equals(KyotoDoll.ID))
-			return KyotoDoll.getFlavor();
-		else if (dollID.equals(OrleansDoll.ID))
-			return OrleansDoll.getFlavor();
-		else
-			AliceSpireKit.log(AbstractDoll.class, "getFlavor() Unknown doll ID: " + dollID);
-		
-		return "";
 	}
 }

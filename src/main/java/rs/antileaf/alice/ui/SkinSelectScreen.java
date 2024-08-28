@@ -206,7 +206,7 @@ public class SkinSelectScreen {
 				original.DESCRIPTION,
 				AliceSpireKit.getImgFilePath("charSelect/AliceMargatroid", "original"),
 				AliceSpireKit.getImgFilePath("char/AliceMargatroid", "alice"),
-				AliceSpireKit.getImgFilePath("char/AliceMargatroid", "shoulder1"),
+				AliceSpireKit.getImgFilePath("char/AliceMargatroid", "shoulder"),
 				AliceSpireKit.getImgFilePath("char/AliceMargatroid", "corpse")
 		));
 		
@@ -217,8 +217,8 @@ public class SkinSelectScreen {
 				ms.DESCRIPTION,
 				AliceSpireKit.getImgFilePath("charSelect/AliceMargatroid", "ms"),
 				AliceSpireKit.getImgFilePath("char/AliceMargatroid", "alice_ms"),
-				AliceSpireKit.getImgFilePath("char/AliceMargatroid", "shoulder1"),
-				AliceSpireKit.getImgFilePath("char/AliceMargatroid", "corpse")
+				AliceSpireKit.getImgFilePath("char/AliceMargatroid", "shoulder"),
+				AliceSpireKit.getImgFilePath("char/AliceMargatroid", "corpse_ms")
 		));
 		
 		inst.unlocked = AliceConfigHelper.isAliceSkinSelectionUnlocked();
@@ -232,7 +232,8 @@ public class SkinSelectScreen {
 	
 	public enum SkinEnum {
 		ORIGINAL,
-		MS; // MS = Mystic Square
+		MS; // Mystic Square
+//		BA; // Blue Archive
 		
 		public static SkinEnum prev(SkinEnum skin) {
 			if (skin.ordinal() == 0)

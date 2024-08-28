@@ -1,24 +1,24 @@
 package rs.antileaf.alice.doll.dolls;
 
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
-import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.localization.OrbStrings;
 import com.megacrit.cardcrawl.orbs.AbstractOrb;
 import rs.antileaf.alice.action.doll.DollGainBlockAction;
 import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.enums.DollAmountType;
+import rs.antileaf.alice.strings.AliceDollStrings;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class HouraiDoll extends AbstractDoll {
 	public static final String SIMPLE_NAME = HouraiDoll.class.getSimpleName();
 	public static final String ID = SIMPLE_NAME;
-	public static final OrbStrings dollStrings = CardCrawlGame.languagePack.getOrbString(ID);
+	private static final AliceDollStrings dollStrings = AliceDollStrings.get(ID);
 	
 	public static final int MAX_HP = 2;
 	public static final int PASSIVE_AMOUNT = 1;
@@ -42,6 +42,11 @@ public class HouraiDoll extends AbstractDoll {
 	}
 	
 	@Override
+	public AliceDollStrings getDollStrings() {
+		return dollStrings;
+	}
+	
+	@Override
 	public String getID() {
 		return ID;
 	}
@@ -55,56 +60,93 @@ public class HouraiDoll extends AbstractDoll {
 	public void onAct() {
 		AliceSpireKit.addActionToBuffer(new DollGainBlockAction(this, this.actAmount));
 		AliceSpireKit.addActionToBuffer(new AnonymousAction(() -> {
-			if (this.block > 0) {
-				ArrayList<AbstractDoll> receivers = new ArrayList<>();
-				for (AbstractDoll doll : DollManager.get().getDolls())
-					if (!(doll instanceof EmptyDollSlot) && doll.calcTotalDamageAboutToTake() > 0)
-						receivers.add(doll);
-				
-				if (!receivers.isEmpty()) {
-					int amount = this.block;
-					this.block = 0;
-					
-					int[] gain = new int[receivers.size()];
-					for (int i = 0; i < receivers.size(); i++) {
-						AbstractDoll doll = receivers.get(i);
-						if (doll.block < doll.calcTotalDamageAboutToTake()) {
-							int amt = Math.min(amount, doll.calcTotalDamageAboutToTake() - doll.block);
-							gain[i] = amt;
-							amount -= amt;
-						}
-					}
-					
-					if (amount > 0) {
-						int avg = amount / receivers.size();
-						for (int i = 0; i < receivers.size(); i++) {
-							gain[i] += avg;
-							if (i < amount % receivers.size())
-								gain[i]++;
-						}
-					}
-					
-					for (int i = 0; i < receivers.size(); i++)
-						if (gain[i] > 0)
-							AliceSpireKit.addActionToBuffer(new DollGainBlockAction(receivers.get(i), gain[i]));
-					
-					AliceSpireKit.commitBuffer();
+			int total = 0;
+			for (AbstractDoll doll : DollManager.get().getDolls())
+				if (!(doll instanceof EmptyDollSlot)) {
+					total += doll.block;
+					doll.block = 0;
 				}
-				else {
-					int amt = this.block;
-					this.block = 0;
-					this.addToTop(new GainBlockAction(AbstractDungeon.player, AbstractDungeon.player, amt) {
-						@Override
-						public void update() {
-							super.update();
-							this.isDone = true;
-						}
-					});
+			
+			AliceSpireKit.logger.info("HouraiDoll: total = {}", total);
+			
+			int slot_count = DollManager.get().getDolls().size();
+			ArrayList<AbstractDoll> dolls = DollManager.get().getDolls();
+			
+			int[] need = new int[slot_count], received = new int[slot_count];
+			ArrayList<Integer> ids = new ArrayList<>();
+			
+			for (int i = 0; i < slot_count; i++) {
+				AbstractDoll doll = dolls.get(i);
+				need[i] = doll.calcTotalDamageAboutToTake();
+				if (!(doll instanceof EmptyDollSlot) && need[i] > 0)
+					ids.add(i);
+			}
+			
+			ids.sort(Comparator.comparingInt(id -> need[id]));
+			
+			for (int i = 0, last = 0; i < ids.size(); i++) {
+				int cur = need[ids.get(i)];
+				
+				if (total < (cur - last) * (ids.size() - i)) {
+					int div = total / (ids.size() - i), mod = total % (ids.size() - i);
+					for (int j = i; j < ids.size(); j++)
+						received[ids.get(j)] += div;
+					
+					ids.subList(i, ids.size()).stream()
+							.sorted()
+							.limit(mod)
+							.forEach(id -> received[id]++);
+					
+					total = 0;
+					break;
+				}
+				
+				received[ids.get(i)] = cur;
+				total -= (cur - last) * (ids.size() - i);
+				last = cur;
+			}
+			
+			AliceSpireKit.logger.info("HouraiDoll: total = {}", total);
+			
+			int aliceReceived = 0;
+			if (total > 0) {
+				int alice = dolls.stream()
+						.mapToInt(AbstractDoll::getOverflowedDamage)
+						.sum();
+				
+				aliceReceived = Math.min(total, alice);
+				total -= aliceReceived;
+			}
+			
+			AliceSpireKit.logger.info("HouraiDoll: aliceReceived = {}", aliceReceived);
+			
+			if (total > 0) {
+				AbstractDoll[] nonEmptyDolls = dolls.stream()
+						.filter(doll -> !(doll instanceof EmptyDollSlot))
+						.toArray(AbstractDoll[]::new);
+				
+				if (nonEmptyDolls.length > 0) {
+					int div = total / nonEmptyDolls.length, mod = total % nonEmptyDolls.length;
+					for (AbstractDoll doll : nonEmptyDolls)
+						received[dolls.indexOf(doll)] += div;
+					
+					for (int i = 0; i < mod; i++)
+						received[dolls.indexOf(nonEmptyDolls[i])]++;
 				}
 			}
+			
+			
+			for (int i = 0; i < slot_count; i++)
+				if (received[i] > 0)
+					AliceSpireKit.addActionToBuffer(new DollGainBlockAction(dolls.get(i), received[i]));
+			
+			if (aliceReceived > 0)
+				AliceSpireKit.addActionToBuffer(new GainBlockAction(AbstractDungeon.player, aliceReceived));
+			
+			AliceSpireKit.commitBuffer();
 		}));
 		
-		AliceSpireKit.commitBuffer();
+//		AliceSpireKit.commitBuffer();
 		
 		this.highlightActValue();
 //		this.applyPower();
@@ -120,21 +162,14 @@ public class HouraiDoll extends AbstractDoll {
 	
 	@Override
 	public void updateDescriptionImpl() {
-		if (this.dontShowHPDescription)
-			this.passiveDescription = String.format(dollStrings.DESCRIPTION[0], this.coloredPassiveAmount());
-		else {
-//			this.passiveDescription = AliceMiscKit.join(
-//					dollStrings.DESCRIPTION[1],
-//					this.coloredPassiveAmount(),
-//					dollStrings.DESCRIPTION[2],
-//					"" + DollManager.get().getTotalHouraiPassiveAmount(),
-//					dollStrings.DESCRIPTION[3]
-//			);
-			this.passiveDescription = String.format(dollStrings.DESCRIPTION[1],
-					this.coloredPassiveAmount(), DollManager.get().getTotalHouraiPassiveAmount());
-		}
+		this.passiveDescription = String.format(dollStrings.PASSIVE_DESCRIPTION,
+				this.coloredPassiveAmount());
 		
-		this.actDescription = String.format(dollStrings.DESCRIPTION[2], this.coloredActAmount());
+		if (!this.dontShowHPDescription)
+			this.passiveDescription += String.format(dollStrings.EXTENDED_DESCRIPTION[0],
+					DollManager.get().getTotalHouraiPassiveAmount());
+		
+		this.actDescription = String.format(dollStrings.ACT_DESCRIPTION, this.coloredActAmount());
 	}
 	
 	@Override
@@ -153,15 +188,16 @@ public class HouraiDoll extends AbstractDoll {
 	}
 	
 	@Override
+	protected float getRenderXOffset() {
+		return NUM_X_OFFSET + 10.0F * Settings.scale;
+	}
+	
+	@Override
 	protected float getRenderYOffset() {
-		return this.bobEffect.y / 2.0F + NUM_Y_OFFSET - 24.0F * Settings.scale;
+		return this.bobEffect.y / 2.0F + NUM_Y_OFFSET - 28.0F * Settings.scale;
 	}
 	
 	public static String getDescription() {
 		return getHpDescription(MAX_HP) + " NL " + (new HouraiDoll()).desc();
-	}
-	
-	public static String getFlavor() {
-		return dollStrings.DESCRIPTION[dollStrings.DESCRIPTION.length - 1];
 	}
 }

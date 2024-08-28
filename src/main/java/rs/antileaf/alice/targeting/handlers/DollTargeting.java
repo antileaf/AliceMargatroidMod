@@ -1,17 +1,25 @@
-package rs.antileaf.alice.doll.targeting;
+package rs.antileaf.alice.targeting.handlers;
 
 import com.evacipated.cardcrawl.mod.stslib.cards.targeting.TargetingHandler;
 import com.evacipated.cardcrawl.mod.stslib.patches.CustomTargeting;
 import com.megacrit.cardcrawl.cards.AbstractCard;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 
-public class DollOrNoneTargeting extends TargetingHandler<AbstractDoll> {
+public class DollTargeting extends TargetingHandler<AbstractDoll> {
 	public static AbstractDoll getTarget(AbstractCard card) {
-		return CustomTargeting.getCardTarget(card);
+		AbstractDoll target = CustomTargeting.getCardTarget(card);
+		if (target == null) {
+			for (AbstractDoll doll : DollManager.get().getDolls()) {
+				if (!(doll instanceof EmptyDollSlot)) {
+					target = doll;
+					break;
+				}
+			}
+		}
+		
+		return target;
 	}
 	
 	protected AbstractDoll hovered = null;
@@ -36,7 +44,7 @@ public class DollOrNoneTargeting extends TargetingHandler<AbstractDoll> {
 	
 	@Override
 	public boolean hasTarget() {
-		return !(this.hovered instanceof EmptyDollSlot);
+		return this.hovered != null && !(this.hovered instanceof EmptyDollSlot);
 	}
 	
 	@Override

@@ -80,7 +80,7 @@ public class AlicesDarkGrimoire extends CustomRelic implements ClickableRelic, O
 	
 	@Override
 	public void onRightClick() {
-		if (AliceSpireKit.isInBattle())
+		if (AliceSpireKit.isInBattle() && !AbstractDungeon.actionManager.turnHasEnded)
 			AliceTutorialHelper.openTutorial();
 	}
 }

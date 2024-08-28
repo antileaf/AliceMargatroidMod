@@ -37,10 +37,6 @@ import rs.antileaf.alice.characters.AliceMargatroid;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
-import rs.antileaf.alice.doll.targeting.DollOrEmptySlotTargeting;
-import rs.antileaf.alice.doll.targeting.DollOrEnemyTargeting;
-import rs.antileaf.alice.doll.targeting.DollOrNoneTargeting;
-import rs.antileaf.alice.doll.targeting.DollTargeting;
 import rs.antileaf.alice.events.LilyOfTheValleyFlowerField;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.AliceMargatroidModClassEnum;
@@ -50,6 +46,7 @@ import rs.antileaf.alice.potions.WeavingPotion;
 import rs.antileaf.alice.powers.unique.UsokaePower;
 import rs.antileaf.alice.relics.*;
 import rs.antileaf.alice.strings.*;
+import rs.antileaf.alice.targeting.handlers.*;
 import rs.antileaf.alice.ui.SkinSelectScreen;
 import rs.antileaf.alice.utils.*;
 import rs.antileaf.alice.variable.AliceSecondaryDamageVariable;
@@ -225,6 +222,14 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 				new StringRing(),
 				AbstractCardEnum.ALICE_MARGATROID_COLOR
 		);
+		BaseMod.addRelicToCustomPool(
+				new ColorContacts(),
+				AbstractCardEnum.ALICE_MARGATROID_COLOR
+		);
+		BaseMod.addRelicToCustomPool(
+				new SacrificialDoll(),
+				AbstractCardEnum.ALICE_MARGATROID_COLOR
+		);
 		
 		logger.info("Relics editing finished.");
 	}
@@ -287,16 +292,20 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 	public void receiveEditStrings() {
 		logger.info("start editing strings");
 		
-//		String lang = AliceSpireKit.getLangShort();
-		
 		AliceSpireKit.loadCustomStrings(RelicStrings.class, "relics");
 		AliceSpireKit.loadCustomStrings(CardStrings.class, "cards");
 		AliceSpireKit.loadCustomStrings(PowerStrings.class, "powers");
 		AliceSpireKit.loadCustomStrings(PotionStrings.class, "potions");
-		AliceSpireKit.loadCustomStrings(OrbStrings.class, "dolls");
+//		AliceSpireKit.loadCustomStrings(OrbStrings.class, "dolls");
 		AliceSpireKit.loadCustomStrings(EventStrings.class, "events");
 		AliceSpireKit.loadCustomStrings(UIStrings.class, "ui");
 		AliceSpireKit.loadCustomStrings(TutorialStrings.class, "tutorial");
+		
+		logger.info("Loading doll strings...");
+		AliceDollStrings.init((new Gson()).fromJson(
+				Gdx.files.internal(AliceSpireKit.getLocalizationFilePath("dolls"))
+						.readString(String.valueOf(StandardCharsets.UTF_8)),
+				(new TypeToken<Map<String, AliceDollStrings>>() {}).getType()));
 		
 		logger.info("Loading card modifier strings...");
 		AliceCardModifierStrings.init((new Gson()).fromJson(
@@ -398,7 +407,9 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		
 		CustomTargeting.registerCustomTargeting(CardTargetEnum.DOLL, new DollTargeting());
 		CustomTargeting.registerCustomTargeting(CardTargetEnum.DOLL_OR_EMPTY_SLOT, new DollOrEmptySlotTargeting());
+		CustomTargeting.registerCustomTargeting(CardTargetEnum.DOLL_OR_EMPTY_SLOT_OR_NONE, new DollOrEmptySlotOrNoneTargeting());
 		CustomTargeting.registerCustomTargeting(CardTargetEnum.DOLL_OR_ENEMY, new DollOrEnemyTargeting());
+		CustomTargeting.registerCustomTargeting(CardTargetEnum.DOLL_OR_EMPTY_SLOT_OR_ENEMY, new DollOrEmptySlotOrEnemyTargeting());
 		CustomTargeting.registerCustomTargeting(CardTargetEnum.DOLL_OR_NONE, new DollOrNoneTargeting());
 		
 		BaseMod.addPotion(WeavingPotion.class, Color.YELLOW, Color.GOLD.cpy(), Color.CLEAR, WeavingPotion.ID,
@@ -492,6 +503,7 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 	
 	public int receiveOnPlayerLoseBlock(int amount) {
 //		DollManager.get().updatePreservedBlock();
+		logger.info("AliceMargatroidMod.receiveOnPlayerLoseBlock: amount = {}", amount);
 		DollManager.get().startOfTurnClearBlock(amount);
 		int preserve = DollManager.get().getPreservedBlock();
 		
@@ -531,7 +543,7 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		this.cardsToAdd.add(new Perihelion());
 		this.cardsToAdd.add(new Hail());
 		this.cardsToAdd.add(new DollCremation());
-		this.cardsToAdd.add(new SevenColoredPuppeteer());
+//		this.cardsToAdd.add(new SevenColoredPuppeteer());
 		this.cardsToAdd.add(new Collector());
 //		this.cardsToAdd.add(new Punishment());
 		this.cardsToAdd.add(new MaliceSpark());
@@ -557,7 +569,7 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		this.cardsToAdd.add(new DollOfRoundTable());
 //		this.cardsToAdd.add(new DEPRECATEDTyrant());
 		this.cardsToAdd.add(new Dessert());
-		this.cardsToAdd.add(new ConcealmentRay());
+		this.cardsToAdd.add(new TheSetup());
 		this.cardsToAdd.add(new Sale());
 //		this.cardsToAdd.add(new DEPRECATEDThrow());
 		this.cardsToAdd.add(new DollActivation());
@@ -594,6 +606,7 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		this.cardsToAdd.add(new IllusoryMoon());
 		this.cardsToAdd.add(new DollMagic());
 		this.cardsToAdd.add(new SeaOfSubconsciousness());
+		this.cardsToAdd.add(new ReturnInanimateness());
 		
 		this.cardsToAdd.add(new VivaciousShanghaiDoll());
 		this.cardsToAdd.add(new QuietHouraiDoll());

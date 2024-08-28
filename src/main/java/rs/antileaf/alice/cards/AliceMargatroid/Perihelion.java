@@ -93,26 +93,24 @@ public class Perihelion extends AbstractAliceCard {
 			this.baseDamage *= this.magicNumber;
 			super.applyPowers();
 			this.baseDamage = originalBaseDamage;
-			
 			this.isDamageModified = this.damage != this.baseDamage;
 		}
 		else
 			super.applyPowers();
 	}
 	
-//	@Override
-//	public void calculateCardDamage(AbstractMonster mo) {
-//		if (this.shouldTriggerEffect()) {
-//			int originalBaseDamage = this.baseDamage;
-//			this.baseDamage *= this.magicNumber;
-//			super.calculateCardDamage(mo);
-//			this.baseDamage = originalBaseDamage;
-//
-//			this.isDamageModified = this.damage != this.baseDamage;
-//		}
-//		else
-//			super.calculateCardDamage(mo);
-//	}
+	@Override
+	public void calculateCardDamage(AbstractMonster mo) {
+		if (this.shouldTriggerEffect()) {
+			int originalBaseDamage = this.baseDamage;
+			this.baseDamage *= this.magicNumber;
+			super.calculateCardDamage(mo);
+			this.baseDamage = originalBaseDamage;
+			this.isDamageModified = this.damage != this.baseDamage;
+		}
+		else
+			super.calculateCardDamage(mo);
+	}
 	
 	@Override
 	public void triggerOnGlowCheck() {

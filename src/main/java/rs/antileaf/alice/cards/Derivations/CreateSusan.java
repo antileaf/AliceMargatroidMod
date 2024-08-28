@@ -10,7 +10,6 @@ import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.Su_san;
-import rs.antileaf.alice.doll.targeting.DollOrEmptySlotTargeting;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
 import rs.antileaf.alice.utils.AliceSpireKit;
@@ -33,7 +32,7 @@ public class CreateSusan extends AbstractAliceCard {
 				CardType.SKILL,
 				AbstractCardEnum.ALICE_MARGATROID_DERIVATION_COLOR,
 				CardRarity.SPECIAL,
-				CardTargetEnum.DOLL_OR_EMPTY_SLOT
+				CardTargetEnum.DOLL_OR_EMPTY_SLOT_OR_NONE
 		);
 		
 		this.exhaust = true;
@@ -41,8 +40,8 @@ public class CreateSusan extends AbstractAliceCard {
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
-		AbstractDoll target = DollOrEmptySlotTargeting.getTarget(this);
-		int index = DollManager.get().getDolls().indexOf(target);
+		AbstractDoll slot = this.getTargetedSlot();
+		int index = DollManager.get().getDolls().indexOf(slot);
 		
 		this.addToBot(new SpawnDollAction(new Su_san(), index));
 	}

@@ -1,25 +1,25 @@
 package rs.antileaf.alice.doll.dolls;
 
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
-import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.localization.OrbStrings;
 import com.megacrit.cardcrawl.powers.DexterityPower;
 import com.megacrit.cardcrawl.powers.StrengthPower;
+import rs.antileaf.alice.action.doll.DollActAction;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.enums.DollAmountType;
+import rs.antileaf.alice.strings.AliceDollStrings;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class NetherlandsDoll extends AbstractDoll {
 	public static final String SIMPLE_NAME = NetherlandsDoll.class.getSimpleName();
 	public static final String ID = SIMPLE_NAME;
-	public static final OrbStrings dollStrings = CardCrawlGame.languagePack.getOrbString(ID);
+	private static final AliceDollStrings dollStrings = AliceDollStrings.get(ID);
 	
 	public static final int MAX_HP = 3;
 	public static final int PASSIVE_AMOUNT = 1;
 	public static final int ACT_AMOUNT = 1;
 	
-	public boolean dex = false;
+	public boolean shouldAddDex = false;
 	
 	public NetherlandsDoll() {
 		super(
@@ -37,6 +37,11 @@ public class NetherlandsDoll extends AbstractDoll {
 	}
 	
 	@Override
+	public AliceDollStrings getDollStrings() {
+		return dollStrings;
+	}
+	
+	@Override
 	public String getID() {
 		return ID;
 	}
@@ -48,7 +53,7 @@ public class NetherlandsDoll extends AbstractDoll {
 	
 	@Override
 	public void onAct() {
-		if (!this.dex) {
+		if (!this.shouldAddDex) {
 			AliceSpireKit.addActionToBuffer(new ApplyPowerAction(
 					AbstractDungeon.player,
 					AbstractDungeon.player,
@@ -73,25 +78,27 @@ public class NetherlandsDoll extends AbstractDoll {
 			this.highlightActValue();
 		}
 		
-		AliceSpireKit.commitBuffer();
-		this.dex = !this.dex;
+//		AliceSpireKit.commitBuffer();
+		this.shouldAddDex = !this.shouldAddDex;
 	}
 	
 	@Override
 	public void postSpawn() {
-		this.addActionsToTop(new ApplyPowerAction(
-					AbstractDungeon.player,
-					AbstractDungeon.player,
-					new StrengthPower(AbstractDungeon.player, this.passiveAmount),
-					this.passiveAmount
-			),
-				new ApplyPowerAction(
-					AbstractDungeon.player,
-					AbstractDungeon.player,
-					new DexterityPower(AbstractDungeon.player, this.actAmount),
-					this.actAmount
-			)
-		);
+//		this.addActionsToTop(new ApplyPowerAction(
+//					AbstractDungeon.player,
+//					AbstractDungeon.player,
+//					new StrengthPower(AbstractDungeon.player, this.passiveAmount),
+//					this.passiveAmount
+//			),
+//				new ApplyPowerAction(
+//					AbstractDungeon.player,
+//					AbstractDungeon.player,
+//					new DexterityPower(AbstractDungeon.player, this.actAmount),
+//					this.actAmount
+//			)
+//		);
+		for (int i = 0; i < 2; i++)
+			AliceSpireKit.addActionToBuffer(new DollActAction(this));
 		
 //		this.highlightPassiveValue();
 	}
@@ -114,6 +121,17 @@ public class NetherlandsDoll extends AbstractDoll {
 	}
 	
 	@Override
+	public boolean preOtherDollSpawn(AbstractDoll doll) {
+		if (doll instanceof NetherlandsDoll) {
+			for (int i = 0; i < 2; i++)
+				this.addToTop(new DollActAction(this));
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	@Override
 	public void onRecycle() {
 		this.onDisappeared();
 	}
@@ -130,12 +148,12 @@ public class NetherlandsDoll extends AbstractDoll {
 	
 	@Override
 	protected String getRenderPassiveValue() {
-		return (!this.dex ? "+" : "") + this.passiveAmount;
+		return (!this.shouldAddDex ? "+" : "") + this.passiveAmount;
 	}
 	
 	@Override
 	protected String getRenderActValue() {
-		return (this.dex ? "+" : "") + this.actAmount;
+		return (this.shouldAddDex ? "+" : "") + this.actAmount;
 	}
 	
 	@Override
@@ -150,10 +168,8 @@ public class NetherlandsDoll extends AbstractDoll {
 	
 	@Override
 	public void updateDescriptionImpl() {
-		this.passiveDescription = String.format(dollStrings.DESCRIPTION[0],
-				this.coloredPassiveAmount(), this.coloredActAmount());
-		
-		this.actDescription = dollStrings.DESCRIPTION[1];
+		this.passiveDescription = dollStrings.PASSIVE_DESCRIPTION;
+		this.actDescription = dollStrings.ACT_DESCRIPTION;
 	}
 	
 	@Override
@@ -171,9 +187,5 @@ public class NetherlandsDoll extends AbstractDoll {
 	
 	public static String getDescription() {
 		return getHpDescription(MAX_HP) + " NL " + (new NetherlandsDoll()).desc();
-	}
-	
-	public static String getFlavor() {
-		return dollStrings.DESCRIPTION[dollStrings.DESCRIPTION.length - 1];
 	}
 }

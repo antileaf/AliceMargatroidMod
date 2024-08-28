@@ -8,12 +8,13 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.action.doll.DollActAction;
-import rs.antileaf.alice.action.utils.AnonymousAction;
+import rs.antileaf.alice.action.doll.DollGainBlockAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.doll.AbstractDoll;
-import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
+import rs.antileaf.alice.patches.enums.CardTargetEnum;
+import rs.antileaf.alice.targeting.AliceHoveredTargets;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class SnowSweeping extends AbstractAliceCard {
@@ -37,7 +38,7 @@ public class SnowSweeping extends AbstractAliceCard {
 				CardType.SKILL,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
 				CardRarity.COMMON,
-				CardTarget.NONE
+				CardTargetEnum.DOLL_OR_NONE
 		);
 		
 		this.block = this.baseBlock = BLOCK;
@@ -45,16 +46,26 @@ public class SnowSweeping extends AbstractAliceCard {
 	}
 	
 	@Override
+	public AliceHoveredTargets getHoveredTargets(AbstractMonster mon, AbstractDoll slot) {
+		if (slot == null || slot instanceof EmptyDollSlot)
+			return AliceHoveredTargets.PLAYER;
+		
+		return AliceHoveredTargets.NONE;
+	}
+	
+	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
-		this.addToBot(new GainBlockAction(p, p, this.block));
+		AbstractDoll doll = this.getTargetedDoll();
+		
+		if (doll != null)
+			this.addToBot(new DollGainBlockAction(doll, this.block));
+		else
+			this.addToBot(new GainBlockAction(p, p, this.block));
+		
 		this.addToBot(new DrawCardAction(this.magicNumber));
-		this.addToBot(new AnonymousAction(() -> {
-			for (AbstractDoll doll : DollManager.get().getDolls())
-				if (!(doll instanceof EmptyDollSlot)) {
-					this.addToTop(new DollActAction(doll));
-					break;
-				}
-		}));
+		
+		if (doll != null)
+			this.addToBot(new DollActAction(doll));
 	}
 	
 	@Override

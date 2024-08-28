@@ -3,21 +3,21 @@ package rs.antileaf.alice.doll.dolls;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.DamageAllEnemiesAction;
 import com.megacrit.cardcrawl.cards.DamageInfo;
-import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.localization.OrbStrings;
 import com.megacrit.cardcrawl.vfx.combat.HealEffect;
 import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollDamageInfo;
 import rs.antileaf.alice.doll.enums.DollAmountTime;
 import rs.antileaf.alice.doll.enums.DollAmountType;
+import rs.antileaf.alice.strings.AliceDollStrings;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class KyotoDoll extends AbstractDoll {
 	public static final String SIMPLE_NAME = KyotoDoll.class.getSimpleName();
 	public static final String ID = SIMPLE_NAME;
-	public static final OrbStrings dollStrings = CardCrawlGame.languagePack.getOrbString(ID);
+	private static final AliceDollStrings dollStrings = AliceDollStrings.get(ID);
 	
 	public static final int MAX_HP = 6;
 //	public static final int ACT_AMOUNT = 3;
@@ -27,14 +27,19 @@ public class KyotoDoll extends AbstractDoll {
 				ID,
 				dollStrings.NAME,
 				MAX_HP,
-				MAX_HP,
 				-1,
-				AliceSpireKit.getOrbImgFilePath("green"),
-				RenderTextMode.PASSIVE
+				-1,
+				AliceSpireKit.getOrbImgFilePath(SIMPLE_NAME),
+				RenderTextMode.NONE
 		);
 		
 		this.passiveAmountType = DollAmountType.MAGIC;
-		this.actAmountType = DollAmountType.OTHERS;
+		this.actAmountType = DollAmountType.MAGIC;
+	}
+	
+	@Override
+	public AliceDollStrings getDollStrings() {
+		return dollStrings;
 	}
 	
 	@Override
@@ -49,8 +54,7 @@ public class KyotoDoll extends AbstractDoll {
 	
 	@Override
 	public void onAct() {
-//		AliceSpireKit.addToTop(new DollGainBlockAction(this, this.actAmount));
-		AliceSpireKit.addToTop(new DamageAllEnemiesAction(
+		AliceSpireKit.addActionToBuffer(new DamageAllEnemiesAction(
 				AbstractDungeon.player,
 				DollDamageInfo.createDamageMatrix(
 						this.HP / 2,
@@ -67,15 +71,14 @@ public class KyotoDoll extends AbstractDoll {
 	
 	@Override
 	public void onEndOfTurn() {
-		if (this.HP < this.passiveAmount) {
-			int diff = this.passiveAmount - this.HP;
-			if (diff > 0) {
-				AliceSpireKit.addToTop(new AnonymousAction(() -> {
-					this.HP = Math.min(this.maxHP, this.HP + diff);
-					AbstractDungeon.effectsQueue.add(new HealEffect(this.hb.cX - this.animX, this.hb.cY, diff));
-					this.updateDescription();
-				}));
-			}
+		int amount = (this.maxHP - this.HP) / 2;
+		
+		if (amount > 0) {
+			AliceSpireKit.addActionToBuffer(new AnonymousAction(() -> {
+				this.HP = Math.min(this.maxHP, this.HP + amount);
+				AbstractDungeon.effectsQueue.add(new HealEffect(this.hb.cX - this.animX, this.hb.cY, amount));
+				this.updateDescription();
+			}));
 		}
 	}
 	
@@ -89,9 +92,8 @@ public class KyotoDoll extends AbstractDoll {
 	
 	@Override
 	public void updateDescriptionImpl() {
-		this.passiveDescription = String.format(dollStrings.DESCRIPTION[0], this.coloredPassiveAmount());
-		
-		this.actDescription = dollStrings.DESCRIPTION[1];
+		this.passiveDescription = String.format(dollStrings.PASSIVE_DESCRIPTION, this.coloredPassiveAmount());
+		this.actDescription = dollStrings.ACT_DESCRIPTION;
 	}
 	
 	@Override
@@ -107,11 +109,17 @@ public class KyotoDoll extends AbstractDoll {
 	@Override
 	public void playChannelSFX() {}
 	
-	public static String getDescription() {
-		return getHpDescription(MAX_HP) + " NL " + (new KyotoDoll()).desc();
+	@Override
+	protected float getRenderXOffset() {
+		return NUM_X_OFFSET + 8.0F * Settings.scale;
 	}
 	
-	public static String getFlavor() {
-		return dollStrings.DESCRIPTION[dollStrings.DESCRIPTION.length - 1];
+	@Override
+	protected float getRenderYOffset() {
+		return this.bobEffect.y / 2.0F + NUM_Y_OFFSET - 28.0F * Settings.scale;
+	}
+	
+	public static String getDescription() {
+		return getHpDescription(MAX_HP) + " NL " + (new KyotoDoll()).desc();
 	}
 }

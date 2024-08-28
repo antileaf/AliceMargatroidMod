@@ -10,11 +10,14 @@ import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
-import rs.antileaf.alice.doll.targeting.DollOrEmptySlotTargeting;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
+import rs.antileaf.alice.targeting.AliceHoveredTargets;
+import rs.antileaf.alice.targeting.handlers.DollOrEmptySlotTargeting;
 import rs.antileaf.alice.utils.AliceSpireKit;
+
+import java.util.ArrayList;
 
 public class Housework extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = Housework.class.getSimpleName();
@@ -40,6 +43,23 @@ public class Housework extends AbstractAliceCard {
 		
 		this.tags.add(CardTagEnum.ALICE_COMMAND);
 		this.tags.add(CardTagEnum.ALICE_DOLL_ACT);
+	}
+	
+	@Override
+	public AliceHoveredTargets getHoveredTargets(AbstractMonster mon, AbstractDoll slot) {
+		if (slot != null) {
+			int index = DollManager.get().getDolls().indexOf(slot);
+			
+			ArrayList<AbstractDoll> targets = new ArrayList<>();
+			if (index > 0)
+				targets.add(DollManager.get().getDolls().get(index - 1));
+			if (index < DollManager.get().getDolls().size() - 1)
+				targets.add(DollManager.get().getDolls().get(index + 1));
+			
+			return AliceHoveredTargets.fromDolls(targets.toArray(new AbstractDoll[0]));
+		}
+		
+		return AliceHoveredTargets.NONE;
 	}
 	
 	@Override

@@ -29,6 +29,7 @@ import rs.antileaf.alice.utils.AliceSpireKit;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class DollManager {
 	public static final int MAX_DOLL_SLOTS = 7;
@@ -91,7 +92,7 @@ public class DollManager {
 	}
 	
 	public void debug() {
-		AliceSpireKit.log(this.getClass(), "Dolls: " +
+		AliceSpireKit.logger.info("DollManager.Dolls: {}",
 				this.dolls.stream().map(doll -> doll.getClass().getSimpleName())
 						.reduce((a, b) -> a + ", " + b).orElse("None"));
 	}
@@ -151,7 +152,7 @@ public class DollManager {
 			doll.clearBlock(this.preservedBlock);
 			
 			if (doll instanceof FranceDoll)
-				((FranceDoll) doll).passiveEffect(playerBlock);
+				((FranceDoll) doll).triggerPassiveEffect(playerBlock);
 		}
 	}
 	
@@ -159,8 +160,12 @@ public class DollManager {
 		if (this.dolls == null || this.dolls.isEmpty())
 			return;
 		
-		if (this.isDamageTargetLocked)
+		if (this.isDamageTargetLocked) {
+			for (AbstractDoll doll : this.dolls)
+				doll.updateOverflowedDamage();
+			
 			return;
+		}
 		
 		for (AbstractDoll doll : this.dolls)
 			doll.updateDamageAboutToTake(-1, 0);
@@ -250,6 +255,7 @@ public class DollManager {
 		}));
 	}
 	
+	// Deprecated
 	public void postEnergyRecharge() {
 		for (AbstractDoll doll : this.dolls)
 			doll.postEnergyRecharge();
@@ -263,6 +269,10 @@ public class DollManager {
 	public void onEndOfTurn() {
 		for (AbstractDoll doll : this.dolls)
 			doll.onEndOfTurn();
+		
+		AliceSpireKit.commitBuffer();
+		
+//		AliceSpireKit.addToBot(new AnonymousAction(this::onEndOfTurnLockDamageTarget));
 	}
 	
 	public void applyPowers() {
@@ -307,6 +317,8 @@ public class DollManager {
 		
 		AliceSpireKit.log(this.getClass(), "index = " + index);
 		
+		boolean artfulChanter = false;
+		
 		if (index == -1) {
 			AliceSpireKit.addActionToBuffer(new RecycleDollAction(this.dolls.get(MAX_DOLL_SLOTS - 1)));
 			AliceSpireKit.addActionToBuffer(new AnonymousAction(() -> {
@@ -321,18 +333,32 @@ public class DollManager {
 //				this.dolls.set(i, this.dolls.get(i - 1));
 			index = 0;
 		}
-		else if (!(this.dolls.get(index) instanceof EmptyDollSlot))
+		else if (!(this.dolls.get(index) instanceof EmptyDollSlot)) {
 			AliceSpireKit.addActionToBuffer(new RecycleDollAction(this.dolls.get(index), doll));
+			artfulChanter = true;
+		}
 		
 		assert index >= 0 && index < MAX_DOLL_SLOTS;
 		
 		AliceSpireKit.addActionToBuffer(new SpawnDollInternalAction(doll, index));
+		if (artfulChanter)
+			AliceSpireKit.addActionToBuffer(new AnonymousAction(() -> {
+				this.triggerArtfulChanter(doll);
+			}));
 		AliceSpireKit.commitBuffer();
 	}
 	
 	public void spawnDollInternal(AbstractDoll doll, int index) {
 		assert index >= 0 && index < MAX_DOLL_SLOTS;
 		assert this.dolls.get(index) == doll || this.dolls.get(index) instanceof EmptyDollSlot;
+		
+		boolean cancelled = false;
+		for (AbstractDoll other : this.dolls)
+			if (other.preOtherDollSpawn(doll))
+				cancelled = true;
+		
+		if (cancelled)
+			return;
 		
 		for (AbstractRelic relic : this.owner.relics)
 			if (relic instanceof OnDollOperateHook)
@@ -367,6 +393,8 @@ public class DollManager {
 			if (other != doll)
 				other.postOtherDollSpawn(doll);
 		
+		AliceSpireKit.commitBuffer();
+		
 		this.update();
 	}
 	
@@ -398,6 +426,9 @@ public class DollManager {
 		for (AbstractCard card : this.owner.discardPile.group)
 			if (card instanceof DollMagic)
 				((DollMagic) card).postDollAct();
+		
+		AliceSpireKit.commitBuffer();
+		AliceSpireKit.logger.info("Commited buffer here!");
 		
 		this.update();
 	}
@@ -438,6 +469,8 @@ public class DollManager {
 				other.postOtherDollRecycled(doll);
 			}
 		
+		AliceSpireKit.commitBuffer();
+		
 		this.update();
 	}
 	
@@ -468,6 +501,8 @@ public class DollManager {
 				other.postOtherDollDestroyed(doll);
 			}
 		
+		AliceSpireKit.commitBuffer();
+		
 		this.update();
 	}
 	
@@ -479,6 +514,8 @@ public class DollManager {
 		
 		this.dolls.set(this.dolls.indexOf(doll), new EmptyDollSlot());
 		this.applyPowers();
+		
+		AliceSpireKit.commitBuffer();
 		this.update();
 	}
 	
@@ -561,8 +598,6 @@ public class DollManager {
 				return doll;
 		}
 		
-		
-		
 		return null;
 	}
 	
@@ -577,14 +612,21 @@ public class DollManager {
 		return this.totalHouraiPassiveAmount;
 	}
 	
-	public void triggerArtfulChanter(AbstractDoll doll, AbstractDoll target) {
-		if (this.owner.hasPower(ArtfulChanterPower.POWER_ID) &&
-				!(target instanceof EmptyDollSlot)) {
+	public int getDollTypeCount() {
+		HashSet<String> types = new HashSet<>();
+		for (AbstractDoll doll : DollManager.get().getDolls())
+			if (!(doll instanceof EmptyDollSlot))
+				types.add(doll.getID());
+		return types.size();
+	}
+	
+	public void triggerArtfulChanter(AbstractDoll doll) {
+		if (this.owner.hasPower(ArtfulChanterPower.POWER_ID)) {
 			ArtfulChanterPower power = (ArtfulChanterPower) AbstractDungeon.player.getPower(ArtfulChanterPower.POWER_ID);
-			power.flashLater();
+			power.flash();
 			
 			for (int i = 0; i < power.amount; i++)
-				AliceSpireKit.addToBot(new DollActAction(doll));
+				AliceSpireKit.addToTop(new DollActAction(doll));
 		}
 	}
 	
@@ -597,11 +639,11 @@ public class DollManager {
 //	}
 	
 	public Vector2 calcDollPosition(int index) {
-		float dist = 225.0F * Settings.scale;
+		float dist = 260.0F * Settings.scale;
 		float degree = 90 + 40 * (index - 3); // 0 on the right
 		
 		float x = this.owner.drawX + dist * MathUtils.cosDeg(degree);
-		float y = this.owner.drawY + this.owner.hb.height / 2.0F + dist * MathUtils.sinDeg(degree);
+		float y = this.owner.drawY + this.owner.hb.height * 0.6F + dist * MathUtils.sinDeg(degree);
 		return new Vector2(x, y);
 	}
 }

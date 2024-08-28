@@ -6,6 +6,7 @@ public class AliceImageMaster {
 	public static Texture GOLD_END_TURN_BUTTON_GLOW;
 	public static Texture ALICE_ARROW;
 	public static Texture[] POKERS;
+	public static Texture DESSERT_ICON;
 	
 	public static void loadImages() {
 		GOLD_END_TURN_BUTTON_GLOW = new Texture(AliceSpireKit.getImgFilePath("UI", "goldEndTurnButtonGlow"));
@@ -18,5 +19,6 @@ public class AliceImageMaster {
 				new Texture(AliceSpireKit.getImgFilePath("vfx", "poker/joker_small")),
 				new Texture(AliceSpireKit.getImgFilePath("vfx", "poker/joker_big"))
 		};
+		DESSERT_ICON = new Texture(AliceSpireKit.getImgFilePath("vfx", "Dessert"));
 	}
 }

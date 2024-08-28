@@ -11,10 +11,10 @@ import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.ShanghaiDoll;
-import rs.antileaf.alice.doll.targeting.DollOrEmptySlotTargeting;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
+import rs.antileaf.alice.targeting.handlers.DollOrEmptySlotTargeting;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class VivaciousShanghaiDoll extends AbstractAliceCard {
@@ -37,7 +37,7 @@ public class VivaciousShanghaiDoll extends AbstractAliceCard {
 				CardType.SKILL,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
 				CardRarity.COMMON,
-				CardTargetEnum.DOLL_OR_EMPTY_SLOT
+				CardTargetEnum.DOLL_OR_EMPTY_SLOT_OR_NONE
 		);
 		
 		this.magicNumber = this.baseMagicNumber = MAGIC;
@@ -47,15 +47,13 @@ public class VivaciousShanghaiDoll extends AbstractAliceCard {
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
-		AbstractDoll target = DollOrEmptySlotTargeting.getTarget(this);
-		int index = DollManager.get().getDolls().indexOf(target);
+		AbstractDoll slot = DollOrEmptySlotTargeting.getTarget(this);
+		int index = DollManager.get().getDolls().indexOf(slot);
 		
 		AbstractDoll doll = new ShanghaiDoll();
 		this.addToBot(new SpawnDollAction(doll, index));
 		for (int i = 0; i < this.magicNumber; i++)
 			this.addToBot(new DollActAction(doll));
-		
-		DollManager.get().triggerArtfulChanter(doll, target);
 	}
 	
 	@Override

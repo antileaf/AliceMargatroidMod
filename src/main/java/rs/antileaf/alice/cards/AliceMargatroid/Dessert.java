@@ -1,15 +1,21 @@
 package rs.antileaf.alice.cards.AliceMargatroid;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.actions.common.DiscardSpecificCardAction;
 import com.megacrit.cardcrawl.actions.common.GainEnergyAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
+import rs.antileaf.alice.utils.AliceImageMaster;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class Dessert extends AbstractAliceCard {
@@ -21,6 +27,9 @@ public class Dessert extends AbstractAliceCard {
 	private static final int COST = 1;
 	private static final int MAGIC = 1;
 	private static final int UPGRADE_PLUS_MAGIC = 1;
+	
+	public float FADE_DUR = 0.25F;
+	private float iconTransparency = 0.0F;
 	
 	public Dessert() {
 		super(
@@ -43,12 +52,12 @@ public class Dessert extends AbstractAliceCard {
 //		AliceSpireKit.log("Dessert.triggerOnOtherCardPlayed: Triggered.");
 		
 		if (!AbstractDungeon.player.hand.contains(this)) {
-			AliceSpireKit.log("Dessert.triggerOnOtherCardPlayed: This card is not in player's hand.");
+			AliceSpireKit.logger.info("Dessert.triggerOnOtherCardPlayed: This card is not in player's hand.");
 			return;
 		}
 		
 		if (!AbstractDungeon.player.hand.contains(c)) {
-			AliceSpireKit.log("Dessert.triggerOnOtherCardPlayed: The other card is not in player's hand.");
+			AliceSpireKit.logger.info("Dessert.triggerOnOtherCardPlayed: The other card is not in player's hand.");
 			return;
 		}
 		
@@ -77,6 +86,79 @@ public class Dessert extends AbstractAliceCard {
 			this.upgradeMagicNumber(UPGRADE_PLUS_MAGIC);
 			this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
 			this.initializeDescription();
+		}
+	}
+	
+	public void renderDessertIcon(SpriteBatch sb) {
+		if (AliceSpireKit.isInBattle()) {
+			boolean shouldShowIcon = false;
+			
+			if (AbstractDungeon.player.hand.contains(this)) {
+				AbstractCard rightmost = AbstractDungeon.player.hand.getTopCard(); // 显然不可能是空的
+				
+				AbstractCard selected = AbstractDungeon.player.hoveredCard;
+				if (selected == null && rightmost.isHoveredInHand(0.1F))
+					selected = rightmost;
+				
+				if (selected == rightmost)
+					shouldShowIcon = true;
+			}
+			
+			if (shouldShowIcon) {
+				this.iconTransparency += Gdx.graphics.getDeltaTime() / this.FADE_DUR;
+				if (this.iconTransparency > 1.0F)
+					this.iconTransparency = 1.0F;
+			}
+			else {
+				this.iconTransparency -= Gdx.graphics.getDeltaTime() / this.FADE_DUR;
+				if (this.iconTransparency < 0.0F)
+					this.iconTransparency = 0.0F;
+			}
+			
+			if (this.iconTransparency > 0.0F && this.iconTransparency < 1.0F) {
+				AliceSpireKit.logger.info("Dessert.render: iconTransparency = {}", this.iconTransparency);
+			}
+			
+			if (this.iconTransparency > 0.0F && AbstractDungeon.player.hand.contains(this)) {
+				Texture icon = AliceImageMaster.DESSERT_ICON;
+				float scale = 1 / 2.4F * Settings.scale;
+				
+//				Color renderColor = ReflectionHacks.getPrivate(this, AbstractCard.class, "renderColor");
+//
+//				ReflectionHacks.privateMethod(AbstractCard.class, "renderHelper",
+//						SpriteBatch.class, Color.class, TextureAtlas.AtlasRegion.class,
+//						float.class, float.class, float.class)
+//								.invoke(this, sb,
+//										new Color(1.0F, 1.0F, 1.0F,
+//												this.iconTransparency * renderColor.a * 0.9F),
+//										new TextureAtlas.AtlasRegion(icon, 0, 0, icon.getWidth(), icon.getHeight()),
+//										this.current_x,
+//										this.current_y + 350.0F,
+//										scale
+//								);
+				
+				sb.setColor(new Color(1.0F, 1.0F, 1.0F, this.iconTransparency));
+				float width = AbstractCard.IMG_WIDTH * this.drawScale / 2.0F;
+				float height = AbstractCard.IMG_HEIGHT * this.drawScale / 2.0F;
+				float topOfCard = this.current_y + height;
+				float spacing = 50.0F * Settings.scale;
+				float centerY = topOfCard + spacing;
+				float sin = (float) Math.sin((double) (this.angle / 180.0F * Math.PI));
+				float xOffset = sin * width;
+				sb.draw(
+						icon,
+						this.current_x - xOffset - icon.getWidth() / 2.0F,
+						centerY - icon.getHeight() / 2.0F,
+						icon.getWidth() / 2.0F, icon.getHeight() / 2.0F,
+						icon.getWidth(), icon.getHeight(),
+						scale, scale,
+						0.0F,
+						0, 0, icon.getWidth(), icon.getHeight(),
+						false, false
+				);
+
+//				sb.setColor(originalColor);
+			}
 		}
 	}
 }

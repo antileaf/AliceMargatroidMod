@@ -10,10 +10,10 @@ import rs.antileaf.alice.action.doll.DollActAction;
 import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.doll.AbstractDoll;
-import rs.antileaf.alice.doll.targeting.DollTargeting;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
+import rs.antileaf.alice.targeting.handlers.DollTargeting;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class DollMiraCeti extends AbstractAliceCard {

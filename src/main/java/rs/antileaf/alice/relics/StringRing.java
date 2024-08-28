@@ -69,7 +69,7 @@ public class StringRing extends CustomRelic implements ClickableRelic, CustomSav
 	
 	@Override
 	public void onRightClick() {
-		if (AliceSpireKit.isInBattle() && this.dollClazz != null) {
+		if (AliceSpireKit.isInBattle() && !AbstractDungeon.actionManager.turnHasEnded && this.dollClazz != null) {
 			this.addToBot(new RelicAboveCreatureAction(AbstractDungeon.player, this));
 			this.addToBot(new SpawnDollAction(AbstractDoll.newInst(this.dollClazz), -1));
 			this.dollClazz = null;

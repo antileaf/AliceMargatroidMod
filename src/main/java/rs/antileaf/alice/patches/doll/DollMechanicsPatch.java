@@ -1,21 +1,19 @@
 package rs.antileaf.alice.patches.doll;
 
-import basemod.abstracts.CustomPlayer;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePatches;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePostfixPatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePrefixPatch;
+import com.evacipated.cardcrawl.modthespire.lib.*;
+import com.evacipated.cardcrawl.modthespire.patcher.PatchingException;
 import com.megacrit.cardcrawl.actions.GameActionManager;
-import com.megacrit.cardcrawl.cards.AbstractCard;
-import com.megacrit.cardcrawl.characters.*;
+import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.AbstractCreature;
+import com.megacrit.cardcrawl.rooms.RestRoom;
+import javassist.CannotCompileException;
+import javassist.CtBehavior;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
-import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
-import rs.antileaf.alice.patches.enums.CardTargetEnum;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
+@SuppressWarnings("unused")
 public class DollMechanicsPatch {
 //	@SpirePatch(clz = AbstractPlayer.class, method = SpirePatch.CONSTRUCTOR)
 //	public static class InitDollManagerPatch {
@@ -33,26 +31,49 @@ public class DollMechanicsPatch {
 //		}
 //	}
 	
-	@SpirePatches({
-			@SpirePatch(clz = Ironclad.class, method = "renderOrb"),
-			@SpirePatch(clz = TheSilent.class, method = "renderOrb"),
-			@SpirePatch(clz = Defect.class, method = "renderOrb"),
-			@SpirePatch(clz = Watcher.class, method = "renderOrb")
-	})
-	public static class RenderOriginalPlayerDollPatch {
-		@SpirePostfixPatch
-		public static void Postfix(AbstractCreature _inst, SpriteBatch sb,
-		                           boolean enabled, float current_x, float current_y) {
-			DollManager.getInstance((AbstractPlayer) _inst).render(sb);
+//	@SpirePatches({
+//			@SpirePatch(clz = Ironclad.class, method = "renderOrb"),
+//			@SpirePatch(clz = TheSilent.class, method = "renderOrb"),
+//			@SpirePatch(clz = Defect.class, method = "renderOrb"),
+//			@SpirePatch(clz = Watcher.class, method = "renderOrb")
+//	})
+//	public static class RenderOriginalPlayerDollPatch {
+//		@SpirePostfixPatch
+//		public static void Postfix(AbstractCreature _inst, SpriteBatch sb,
+//		                           boolean enabled, float current_x, float current_y) {
+//			DollManager.getInstance((AbstractPlayer) _inst).render(sb);
+//		}
+//	}
+//
+//	@SpirePatch(clz = CustomPlayer.class, method = "renderOrb")
+//	public static class RenderModPlayerDollPatch {
+//		@SpirePostfixPatch
+//		public static void Postfix(AbstractCreature _inst, SpriteBatch sb,
+//		                           boolean enabled, float current_x, float current_y) {
+//			DollManager.getInstance((AbstractPlayer) _inst).render(sb);
+//		}
+//	}
+	
+	@SpirePatch(clz = AbstractPlayer.class, method = "render", paramtypez = {SpriteBatch.class})
+	public static class RenderPatch {
+		private static class Locator extends SpireInsertLocator {
+			@Override
+			public int[] Locate(CtBehavior ctBehavior) throws CannotCompileException, PatchingException {
+				int[] orbs = LineFinder.findAllInOrder(ctBehavior,
+						new Matcher.FieldAccessMatcher(AbstractPlayer.class, "orbs"));
+				int[] inst = LineFinder.findAllInOrder(ctBehavior,
+						new Matcher.InstanceOfMatcher(RestRoom.class));
+				for (int line : inst)
+					if (line > orbs[orbs.length - 1])
+						return new int[] {line};
+				
+				throw new PatchingException("DollMechanicsPatch.RenderPatch.Locator failed to find insertion point.");
+			}
 		}
-	}
-
-	@SpirePatch(clz = CustomPlayer.class, method = "renderOrb")
-	public static class RenderModPlayerDollPatch {
-		@SpirePostfixPatch
-		public static void Postfix(AbstractCreature _inst, SpriteBatch sb,
-		                           boolean enabled, float current_x, float current_y) {
-			DollManager.getInstance((AbstractPlayer) _inst).render(sb);
+		
+		@SpireInsertPatch(locator = Locator.class)
+		public static void Insert(AbstractPlayer _inst, SpriteBatch sb) {
+			DollManager.getInstance(_inst).render(sb);
 		}
 	}
 	
@@ -99,22 +120,6 @@ public class DollMechanicsPatch {
 				AliceSpireKit.log("Hide health bar!");
 				for (AbstractDoll doll : DollManager.getInstance((AbstractPlayer) _inst).getDolls()) {
 					doll.hideHealthBar();
-				}
-			}
-		}
-	}
-	
-	@SpirePatch(clz = AbstractPlayer.class, method = "renderHoverReticle")
-	public static class RenderHoverReticleOfDollsPatch {
-		@SpirePostfixPatch
-		public static void Postfix(AbstractPlayer _inst, SpriteBatch sb) {
-			AbstractCard hoveredCard = _inst.hoveredCard;
-			
-			if (CardTargetEnum.isDollTarget(hoveredCard.target)) {
-				AbstractDoll doll = DollManager.get().getHoveredDoll();
-				if (doll != null) {
-					if (hoveredCard.target == CardTargetEnum.DOLL_OR_EMPTY_SLOT || !(doll instanceof EmptyDollSlot))
-						doll.renderReticle(sb);
 				}
 			}
 		}

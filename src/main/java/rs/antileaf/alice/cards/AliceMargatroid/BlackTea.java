@@ -48,6 +48,7 @@ public class BlackTea extends AbstractAliceCard {
 	@Override
 	public void applyPowers() {
 		this.magicNumber = this.baseMagicNumber - this.count;
+		this.isMagicNumberModified = this.magicNumber != this.baseMagicNumber;
 	}
 	
 	@Override
@@ -61,7 +62,7 @@ public class BlackTea extends AbstractAliceCard {
 		
 		this.addToBot(new GainEnergyAction(1));
 		
-		this.applyPowers();
+//		this.applyPowers();
 		this.count++;
 		this.applyPowers();
 		if (this.magicNumber <= 0) {
@@ -69,6 +70,13 @@ public class BlackTea extends AbstractAliceCard {
 					this, AbstractDungeon.player.hand));
 		}
 		
+		this.initializeDescription();
+	}
+	
+	@Override
+	public void triggerOnExhaust() {
+		this.count = 0;
+		this.applyPowers();
 		this.initializeDescription();
 	}
 	

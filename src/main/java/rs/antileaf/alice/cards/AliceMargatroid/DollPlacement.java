@@ -9,8 +9,12 @@ import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.action.doll.SpawnDollAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
+import rs.antileaf.alice.doll.AbstractDoll;
+import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.ShanghaiDoll;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
+import rs.antileaf.alice.patches.enums.CardTargetEnum;
+import rs.antileaf.alice.targeting.AliceHoveredTargets;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class DollPlacement extends AbstractAliceCard {
@@ -33,11 +37,16 @@ public class DollPlacement extends AbstractAliceCard {
 				CardType.ATTACK,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
 				CardRarity.BASIC,
-				CardTarget.ALL_ENEMY
+				CardTargetEnum.DOLL_OR_EMPTY_SLOT_OR_NONE
 		);
 		
 		this.damage = this.baseDamage = DAMAGE;
 		this.isMultiDamage = true;
+	}
+	
+	@Override
+	public AliceHoveredTargets getHoveredTargets(AbstractMonster mon, AbstractDoll slot) {
+		return AliceHoveredTargets.allMonsters();
 	}
 	
 	@Override
@@ -46,7 +55,10 @@ public class DollPlacement extends AbstractAliceCard {
 		this.addToBot(new DamageAllEnemiesAction(p, this.multiDamage, this.damageTypeForTurn,
 				AbstractGameAction.AttackEffect.SLASH_HORIZONTAL));
 		
-		this.addToBot(new SpawnDollAction(new ShanghaiDoll(), -1));
+		AbstractDoll slot = this.getTargetedSlot();
+		int index = DollManager.get().getDolls().indexOf(slot);
+		
+		this.addToBot(new SpawnDollAction(new ShanghaiDoll(), index));
 	}
 	
 	@Override

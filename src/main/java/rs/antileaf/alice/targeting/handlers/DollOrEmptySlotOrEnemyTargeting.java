@@ -1,4 +1,4 @@
-package rs.antileaf.alice.doll.targeting;
+package rs.antileaf.alice.targeting.handlers;
 
 import com.evacipated.cardcrawl.mod.stslib.cards.targeting.TargetingHandler;
 import com.evacipated.cardcrawl.mod.stslib.patches.CustomTargeting;
@@ -7,9 +7,8 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
-import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 
-public class DollOrEnemyTargeting extends TargetingHandler<Object> {
+public class DollOrEmptySlotOrEnemyTargeting extends TargetingHandler<Object> {
 	public static Object getTarget(AbstractCard card) {
 		Object target = CustomTargeting.getCardTarget(card);
 		if (target == null)
@@ -22,11 +21,7 @@ public class DollOrEnemyTargeting extends TargetingHandler<Object> {
 	@Override
 	public void updateHovered() {
 		this.hovered = DollManager.get().getHoveredDoll();
-		if (this.hovered != null) {
-			if (this.hovered instanceof EmptyDollSlot)
-				this.hovered = null;
-		}
-		else {
+		if (this.hovered == null) {
 			for (AbstractMonster m : AbstractDungeon.getMonsters().monsters) {
 				if (m.isDeadOrEscaped())
 					continue;
@@ -52,13 +47,13 @@ public class DollOrEnemyTargeting extends TargetingHandler<Object> {
 	
 	@Override
 	public boolean hasTarget() {
-		return this.hovered != null && !(this.hovered instanceof EmptyDollSlot);
+		return this.hovered != null;
 	}
 	
 	@Override
 	public boolean isValidTarget(Object target) {
 		if (target instanceof AbstractDoll)
-			return !(target instanceof EmptyDollSlot) && DollManager.get().contains((AbstractDoll) target);
+			return DollManager.get().contains((AbstractDoll) target);
 		else if (target instanceof AbstractMonster)
 			return !((AbstractMonster) target).isDeadOrEscaped();
 		else

@@ -196,9 +196,10 @@
     "UPGRADE_DESCRIPTION": "Gain [E] [E] . NL After you play the rightmost card in your hand, automatically trigger and discard this card NL (not considered played)."
   },
   
-  "ConcealmentRay": {
-    "NAME": "Concealment Ray",
-    "DESCRIPTION": "Deal !D! damage. NL alicemargatroidmod:Dolls about to be attacked gain Block equal to unblocked damage dealt."
+  "TheSetup": {
+    "NAME": "The Setup",
+    "DESCRIPTION": "Deal !D! damage. NL alicemargatroidmod:Dolls about to be attacked gain Block equal to unblocked damage dealt.",
+    "FLAVOR": "\"Hypocrisy, Alice. Civilization's greatest virtue.\""
   },
   
   "Sale": {

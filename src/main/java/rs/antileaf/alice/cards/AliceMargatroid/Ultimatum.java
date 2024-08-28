@@ -13,7 +13,9 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.VulnerablePower;
 import com.megacrit.cardcrawl.powers.WeakPower;
 import rs.antileaf.alice.cards.AbstractAliceCard;
+import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
+import rs.antileaf.alice.targeting.AliceHoveredTargets;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 import java.util.HashSet;
@@ -45,6 +47,20 @@ public class Ultimatum extends AbstractAliceCard {
 		this.damage = this.baseDamage = DAMAGE;
 		this.magicNumber = this.baseMagicNumber = MAGIC;
 		this.exhaust = true;
+	}
+	
+	@Override
+	public AliceHoveredTargets getHoveredTargets(AbstractMonster mon, AbstractDoll slot) {
+		if (mon != null)
+			return new AliceHoveredTargets() {{
+				this.monsters = AbstractDungeon.getMonsters().monsters.stream()
+						.filter(m -> !m.isDeadOrEscaped())
+						.filter(m -> m != mon)
+						.filter(m -> m.name.equals(mon.name))
+						.toArray(AbstractMonster[]::new);
+			}};
+		
+		return AliceHoveredTargets.NONE;
 	}
 	
 	@Override

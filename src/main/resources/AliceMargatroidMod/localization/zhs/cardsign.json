@@ -76,6 +76,10 @@
   },
   
   "DollOfRoundTable": {
-      "SIGN": "骑士"
+    "SIGN": "骑士"
+  },
+  
+  "ReturnInanimateness": {
+    "SIGN": "魔操"
   }
 }

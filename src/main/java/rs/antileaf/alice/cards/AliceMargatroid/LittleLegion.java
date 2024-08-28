@@ -11,10 +11,11 @@ import rs.antileaf.alice.action.doll.DollActAction;
 import rs.antileaf.alice.action.doll.MoveDollAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.doll.AbstractDoll;
-import rs.antileaf.alice.doll.targeting.DollOrNoneTargeting;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
+import rs.antileaf.alice.targeting.AliceHoveredTargets;
+import rs.antileaf.alice.targeting.handlers.DollOrNoneTargeting;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class LittleLegion extends AbstractAliceCard {
@@ -45,6 +46,11 @@ public class LittleLegion extends AbstractAliceCard {
 		
 		this.tags.add(CardTagEnum.ALICE_COMMAND);
 		this.tags.add(CardTagEnum.ALICE_DOLL_ACT);
+	}
+	
+	@Override
+	public AliceHoveredTargets getHoveredTargets(AbstractMonster mon, AbstractDoll slot) {
+		return AliceHoveredTargets.allMonsters();
 	}
 	
 	@Override

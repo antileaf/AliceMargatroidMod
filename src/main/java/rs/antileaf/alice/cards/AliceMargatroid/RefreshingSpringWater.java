@@ -1,6 +1,5 @@
 package rs.antileaf.alice.cards.AliceMargatroid;
 
-import com.megacrit.cardcrawl.actions.common.DrawCardAction;
 import com.megacrit.cardcrawl.actions.common.GainEnergyAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
@@ -21,7 +20,7 @@ public class RefreshingSpringWater extends AbstractAliceCard {
 	
 	private static final int COST = 0;
 	private static final int MAGIC = 1;
-	private static final int MAGIC2 = 1;
+//	private static final int MAGIC2 = 1;
 	private static final int UPGRADE_PLUS_MAGIC = 1;
 	
 	public RefreshingSpringWater() {
@@ -38,7 +37,7 @@ public class RefreshingSpringWater extends AbstractAliceCard {
 		);
 		
 		this.magicNumber = this.baseMagicNumber = MAGIC;
-		this.secondaryMagicNumber = this.baseSecondaryMagicNumber = MAGIC2;
+//		this.secondaryMagicNumber = this.baseSecondaryMagicNumber = MAGIC2;
 	}
 	
 	@Override
@@ -61,7 +60,7 @@ public class RefreshingSpringWater extends AbstractAliceCard {
 		
 		if (dollCount >= 5) {
 			this.addToBot(new GainEnergyAction(this.magicNumber));
-			this.addToBot(new DrawCardAction(this.secondaryMagicNumber));
+//			this.addToBot(new DrawCardAction(this.secondaryMagicNumber));
 		}
 	}
 	

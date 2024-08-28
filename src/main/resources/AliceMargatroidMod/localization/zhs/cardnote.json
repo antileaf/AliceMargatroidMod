@@ -43,5 +43,14 @@
   
   "MagicConduit": {
     "DESCRIPTION": "因为第一次行动后就会被 #y回收 ，所以最多只能行动一次。"
+  },
+  
+  "DollCremation": {
+    "DESCRIPTION": "如果指向敌人打出，则会 回收 最右侧的 人偶 。"
+  },
+  
+  "DEPRECATEDMaliceSpark": {
+    "TITLE": "手牌上限减少",
+    "DESCRIPTION": "如果当前手牌数超过上限，则需要弃掉超出数量的手牌。"
   }
 }

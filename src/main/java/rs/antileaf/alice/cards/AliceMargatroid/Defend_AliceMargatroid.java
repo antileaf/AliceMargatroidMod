@@ -6,8 +6,13 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import rs.antileaf.alice.action.doll.DollGainBlockAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
+import rs.antileaf.alice.doll.AbstractDoll;
+import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
+import rs.antileaf.alice.patches.enums.CardTargetEnum;
+import rs.antileaf.alice.targeting.AliceHoveredTargets;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class Defend_AliceMargatroid extends AbstractAliceCard {
@@ -30,7 +35,7 @@ public class Defend_AliceMargatroid extends AbstractAliceCard {
 				CardType.SKILL,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
 				CardRarity.BASIC,
-				CardTarget.SELF
+				CardTargetEnum.DOLL_OR_NONE
 		);
 		
 		this.block = this.baseBlock = BLOCK;
@@ -38,8 +43,21 @@ public class Defend_AliceMargatroid extends AbstractAliceCard {
 	}
 	
 	@Override
+	public AliceHoveredTargets getHoveredTargets(AbstractMonster mon, AbstractDoll slot) {
+		if (slot == null || slot instanceof EmptyDollSlot)
+			return AliceHoveredTargets.PLAYER;
+		
+		return AliceHoveredTargets.NONE;
+	}
+	
+	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
-		this.addToBot(new GainBlockAction(p, this.block));
+		AbstractDoll doll = this.getTargetedDoll();
+		
+		if (doll != null)
+			this.addToBot(new DollGainBlockAction(doll, this.block));
+		else
+			this.addToBot(new GainBlockAction(p, this.block));
 	}
 	
 	@Override

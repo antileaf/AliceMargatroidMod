@@ -15,10 +15,11 @@ import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.CardTagEnum;
+import rs.antileaf.alice.targeting.AliceHoveredTargets;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
-public class ConcealmentRay extends AbstractAliceCard {
-	public static final String SIMPLE_NAME = ConcealmentRay.class.getSimpleName();
+public class TheSetup extends AbstractAliceCard {
+	public static final String SIMPLE_NAME = TheSetup.class.getSimpleName();
 //	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
 	public static final String ID = SIMPLE_NAME;
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
@@ -27,7 +28,7 @@ public class ConcealmentRay extends AbstractAliceCard {
 	private static final int DAMAGE = 5;
 	private static final int UPGRADE_PLUS_DAMAGE = 2;
 	
-	public ConcealmentRay() {
+	public TheSetup() {
 		super(
 				ID,
 				cardStrings.NAME,
@@ -42,6 +43,15 @@ public class ConcealmentRay extends AbstractAliceCard {
 		
 		this.damage = this.baseDamage = DAMAGE;
 		this.tags.add(CardTagEnum.ALICE_RAY);
+	}
+	
+	@Override
+	public AliceHoveredTargets getHoveredTargets(AbstractMonster mon, AbstractDoll slot) {
+		return AliceHoveredTargets.fromDolls(DollManager.get().getDolls().stream()
+				.filter(doll -> doll != slot)
+				.filter(doll -> !(doll instanceof EmptyDollSlot))
+				.filter(doll -> doll.calcTotalDamageAboutToTake() != -1)
+				.toArray(AbstractDoll[]::new));
 	}
 	
 	@Override
@@ -64,7 +74,7 @@ public class ConcealmentRay extends AbstractAliceCard {
 	
 	@Override
 	public AbstractCard makeCopy() {
-		return new ConcealmentRay();
+		return new TheSetup();
 	}
 	
 	@Override

@@ -18,8 +18,9 @@ public class DollWar extends AbstractAliceCard {
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
+	private static final int UPGRADED_COST = 0;
 	private static final int MAGIC = 1;
-	private static final int UPGRADE_PLUS_MAGIC = 1;
+	
 	public DollWar() {
 		super(
 				ID,
@@ -50,7 +51,7 @@ public class DollWar extends AbstractAliceCard {
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
-			this.upgradeMagicNumber(UPGRADE_PLUS_MAGIC);
+			this.upgradeBaseCost(UPGRADED_COST);
 			this.initializeDescription();
 		}
 	}

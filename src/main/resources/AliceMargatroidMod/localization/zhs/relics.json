@@ -27,7 +27,7 @@
   
   "SwordOfLight_Supernova": {
     "NAME": "光之剑：超新星",
-    "FLAVOR": "邦邦卡邦~",
+    "FLAVOR": "似乎是另一位爱丽丝的武器。",
     "DESCRIPTIONS": [
       "每回合打出的第一张 #y攻击牌 造成 #b50% 额外伤害。"
     ]
@@ -39,6 +39,22 @@
     "DESCRIPTIONS": [
       "战斗胜利时，如果没有已储存的人偶，将你最右侧的人偶储存起来。 NL #yalicemargatroidmod:激活 ：取出并 #yalicemargatroidmod:生成 一个对应种类的人偶。",
       "当前已储存： #g%s 。", "当前 #r没有 已储存的人偶。"
+    ]
+  },
+  
+  "ColorContacts": {
+    "NAME": "美瞳",
+    "FLAVOR": "“我会永不厌腻地注视你的眼睛，即使它们已不会再射出一缕确认我的光芒。”",
+    "DESCRIPTIONS": [
+      "每场战斗的前 #b2 个回合，获得 [E] ，并抽一张牌。"
+    ]
+  },
+  
+  "SacrificialDoll": {
+    "NAME": "替身人偶",
+    "FLAVOR": "可以承担持有者受到的一部分伤害的稀有人偶。",
+    "DESCRIPTIONS": [
+      "你的回合结束时，如果有即将受到攻击的空的 #yalicemargatroidmod:人偶 栏位，获得 #b3 点 #y格挡 。"
     ]
   }
 }

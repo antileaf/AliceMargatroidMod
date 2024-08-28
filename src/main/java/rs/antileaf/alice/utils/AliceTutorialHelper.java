@@ -36,10 +36,10 @@ public class AliceTutorialHelper {
 			
 			for (String dollClass : dollClasses) {
 				String dollName = CardCrawlGame.languagePack.getOrbString(dollClass).NAME;
-				String flavor = AbstractDoll.getFlavor(dollClass);
+//				String flavor = AbstractDoll.getFlavor(dollClass);
 				String desc = AbstractDoll.getDescription(dollClass);
 				
-				s = s.replace("{" + dollClass + "}", dollName + " (" + flavor + ") NL " + desc);
+				s = s.replace("{" + dollClass + "}", dollName + " (" + /*flavor +*/ ") NL " + desc);
 			}
 			
 			res.add(s);

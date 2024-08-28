@@ -13,6 +13,7 @@ import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
+import rs.antileaf.alice.targeting.AliceHoveredTargets;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class DollOfRoundTable extends AbstractAliceCard {
@@ -35,11 +36,18 @@ public class DollOfRoundTable extends AbstractAliceCard {
 				CardType.SKILL,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
 				CardRarity.UNCOMMON,
-				CardTarget.SELF
+				CardTarget.NONE
 		);
 		
 		this.block = this.baseBlock = BLOCK;
 		this.exhaust = true;
+	}
+	
+	@Override
+	public AliceHoveredTargets getHoveredTargets(AbstractMonster mon, AbstractDoll slot) {
+		return AliceHoveredTargets.fromDolls(DollManager.get().getDolls().stream()
+				.filter(doll -> !(doll instanceof EmptyDollSlot))
+				.toArray(AbstractDoll[]::new));
 	}
 	
 	@Override

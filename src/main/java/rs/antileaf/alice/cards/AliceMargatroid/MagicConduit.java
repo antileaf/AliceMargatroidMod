@@ -7,8 +7,11 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.cards.AbstractAliceCard;
+import rs.antileaf.alice.doll.AbstractDoll;
+import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.powers.unique.MagicConduitPower;
+import rs.antileaf.alice.targeting.AliceHoveredTargets;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class MagicConduit extends AbstractAliceCard {
@@ -32,6 +35,11 @@ public class MagicConduit extends AbstractAliceCard {
 				CardRarity.UNCOMMON,
 				CardTarget.NONE
 		);
+	}
+	
+	@Override
+	public AliceHoveredTargets getHoveredTargets(AbstractMonster mon, AbstractDoll slot) {
+		return AliceHoveredTargets.fromDolls(DollManager.get().getDolls().get(DollManager.MAX_DOLL_SLOTS - 1));
 	}
 	
 	@Override

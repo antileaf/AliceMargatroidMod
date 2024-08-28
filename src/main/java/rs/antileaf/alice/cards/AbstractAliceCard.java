@@ -14,11 +14,14 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.screens.SingleCardViewPopup;
+import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
-import rs.antileaf.alice.doll.targeting.DollTargeting;
+import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
 import rs.antileaf.alice.strings.AliceCardNoteStrings;
 import rs.antileaf.alice.strings.AliceCardSignStrings;
+import rs.antileaf.alice.targeting.AliceHoveredTargets;
+import rs.antileaf.alice.targeting.handlers.*;
 import rs.antileaf.alice.utils.AliceConfigHelper;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
@@ -179,6 +182,49 @@ public abstract class AbstractAliceCard extends CustomCard
 			this.secondaryDamage = this.baseSecondaryDamage;
 			this.isSecondaryDamageModified = true;
 		}
+	}
+	
+	public AbstractDoll getTargetedSlot() {
+		if (this.target == CardTargetEnum.DOLL)
+			return DollTargeting.getTarget(this);
+		else if (this.target == CardTargetEnum.DOLL_OR_EMPTY_SLOT)
+			return DollOrEmptySlotTargeting.getTarget(this);
+		else if (this.target == CardTargetEnum.DOLL_OR_EMPTY_SLOT_OR_NONE)
+			return DollOrEmptySlotOrNoneTargeting.getTarget(this);
+		else if (this.target == CardTargetEnum.DOLL_OR_NONE)
+			return DollOrNoneTargeting.getTarget(this);
+		else if (this.target == CardTargetEnum.DOLL_OR_ENEMY) {
+			Object target = DollOrEnemyTargeting.getTarget(this);
+			return target instanceof AbstractDoll ? (AbstractDoll) target : null;
+		}
+		else if (this.target == CardTargetEnum.DOLL_OR_EMPTY_SLOT_OR_ENEMY) {
+			Object target = DollOrEmptySlotOrEnemyTargeting.getTarget(this);
+			return target instanceof AbstractDoll ? (AbstractDoll) target : null;
+		}
+		else
+			return null; // Not a doll card.
+	}
+	
+	public AbstractDoll getTargetedDoll() {
+		AbstractDoll slot = this.getTargetedSlot();
+		return slot instanceof EmptyDollSlot ? null : slot;
+	}
+	
+	public AbstractMonster getTargetedEnemy() {
+		if (this.target == CardTargetEnum.DOLL_OR_ENEMY) {
+			Object target = DollOrEnemyTargeting.getTarget(this);
+			return target instanceof AbstractMonster ? (AbstractMonster) target : null;
+		}
+		else if (this.target == CardTargetEnum.DOLL_OR_EMPTY_SLOT_OR_ENEMY) {
+			Object target = DollOrEmptySlotOrEnemyTargeting.getTarget(this);
+			return target instanceof AbstractMonster ? (AbstractMonster) target : null;
+		}
+		else
+			return null; // Not a doll-or-enemy card.
+	}
+	
+	public AliceHoveredTargets getHoveredTargets(AbstractMonster hoveredMonster, AbstractDoll hoveredSlot) {
+		return AliceHoveredTargets.NONE;
 	}
 
 	@Override

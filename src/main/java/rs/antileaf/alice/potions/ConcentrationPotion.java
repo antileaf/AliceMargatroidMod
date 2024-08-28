@@ -29,7 +29,10 @@ public class ConcentrationPotion extends CustomPotion {
 		);
 		
 		this.labOutlineColor = CardHelper.getColor(255,215,0);
-		
+	}
+	
+	@Override
+	public void initializeData() {
 		this.potency = this.getPotency();
 		this.description = String.format(potionStrings.DESCRIPTIONS[0], this.potency);
 		
@@ -46,7 +49,7 @@ public class ConcentrationPotion extends CustomPotion {
 	}
 	
 	@Override
-	public int getPotency(int i) {
+	public int getPotency(int ascensionLevel) {
 		return POTENCY;
 	}
 	

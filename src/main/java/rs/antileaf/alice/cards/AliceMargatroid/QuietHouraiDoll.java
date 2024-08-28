@@ -11,7 +11,6 @@ import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.HouraiDoll;
-import rs.antileaf.alice.doll.targeting.DollOrEmptySlotTargeting;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
@@ -36,7 +35,7 @@ public class QuietHouraiDoll extends AbstractAliceCard {
 				CardType.SKILL,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
 				CardRarity.COMMON,
-				CardTargetEnum.DOLL_OR_EMPTY_SLOT
+				CardTargetEnum.DOLL_OR_EMPTY_SLOT_OR_NONE
 		);
 		
 		this.magicNumber = this.baseMagicNumber = MAGIC;
@@ -45,18 +44,16 @@ public class QuietHouraiDoll extends AbstractAliceCard {
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
-		AbstractDoll target = DollOrEmptySlotTargeting.getTarget(this);
-		if (this.upgraded && target instanceof HouraiDoll) {
+		AbstractDoll slot = this.getTargetedSlot();
+		if (this.upgraded && slot instanceof HouraiDoll) {
 			for (int i = 0; i < this.magicNumber; i++)
-				this.addToBot(new DollActAction(target));
+				this.addToBot(new DollActAction(slot));
 		}
 		
-		int index = DollManager.get().getDolls().indexOf(target);
+		int index = DollManager.get().getDolls().indexOf(slot);
 		
 		AbstractDoll doll = new HouraiDoll();
 		this.addToBot(new SpawnDollAction(doll, index));
-		
-		DollManager.get().triggerArtfulChanter(doll, target);
 	}
 	
 	@Override

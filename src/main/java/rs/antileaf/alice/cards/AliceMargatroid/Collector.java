@@ -4,11 +4,16 @@ import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import rs.antileaf.alice.action.doll.DollGainBlockAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
+import rs.antileaf.alice.doll.AbstractDoll;
+import rs.antileaf.alice.doll.DollManager;
+import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
+import rs.antileaf.alice.patches.enums.CardTargetEnum;
+import rs.antileaf.alice.targeting.AliceHoveredTargets;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class Collector extends AbstractAliceCard {
@@ -19,8 +24,7 @@ public class Collector extends AbstractAliceCard {
 	
 	private static final int COST = 1;
 	private static final int MAGIC = 3;
-	private static final int MAGIC2 = 4;
-	private static final int UPGRADE_PLUS_MAGIC2 = 1;
+	private static final int UPGRADE_PLUS_MAGIC = 1;
 	
 	public Collector() {
 		super(
@@ -32,20 +36,26 @@ public class Collector extends AbstractAliceCard {
 				CardType.SKILL,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
 				CardRarity.COMMON,
-				CardTarget.SELF
+				CardTargetEnum.DOLL_OR_NONE
 		);
 		
 		this.magicNumber = this.baseMagicNumber = MAGIC;
-		this.secondaryMagicNumber = this.baseSecondaryMagicNumber = MAGIC2;
 		
 		if (AliceSpireKit.isInBattle())
 			this.applyPowers();
 	}
 	
 	@Override
-	public void applyPowers() {
-		this.baseBlock = AbstractDungeon.player.relics.size() / this.magicNumber * this.secondaryMagicNumber;
+	public AliceHoveredTargets getHoveredTargets(AbstractMonster mon, AbstractDoll slot) {
+		if (slot == null || slot instanceof EmptyDollSlot)
+			return AliceHoveredTargets.PLAYER;
 		
+		return AliceHoveredTargets.NONE;
+	}
+	
+	@Override
+	public void applyPowers() {
+		this.baseBlock = DollManager.get().getDollTypeCount() * this.magicNumber;
 		super.applyPowers();
 //		this.initializeDescription();
 	}
@@ -55,14 +65,19 @@ public class Collector extends AbstractAliceCard {
 		this.rawDescription = cardStrings.DESCRIPTION;
 		
 		if (AliceSpireKit.isInBattle())
-			this.rawDescription += cardStrings.EXTENDED_DESCRIPTION[0];
+			this.rawDescription += " NL " + cardStrings.EXTENDED_DESCRIPTION[0];
 		
 		super.initializeDescription();
 	}
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
-		this.addToBot(new GainBlockAction(p, p, this.block));
+		AbstractDoll doll = this.getTargetedDoll();
+		
+		if (doll != null)
+			this.addToBot(new DollGainBlockAction(doll, this.block));
+		else
+			this.addToBot(new GainBlockAction(p, p, this.block));
 	}
 	
 	@Override
@@ -74,7 +89,7 @@ public class Collector extends AbstractAliceCard {
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
-			this.upgradeSecondaryMagicNumber(UPGRADE_PLUS_MAGIC2);
+			this.upgradeMagicNumber(UPGRADE_PLUS_MAGIC);
 			if (AliceSpireKit.isInBattle())
 				this.applyPowers();
 			this.initializeDescription();

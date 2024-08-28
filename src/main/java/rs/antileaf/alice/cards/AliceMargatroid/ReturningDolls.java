@@ -9,9 +9,7 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.action.doll.RecycleDollAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.doll.AbstractDoll;
-import rs.antileaf.alice.doll.targeting.DollTargeting;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
-import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
@@ -35,22 +33,19 @@ public class ReturningDolls extends AbstractAliceCard {
 				CardType.SKILL,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
 				CardRarity.UNCOMMON,
-				CardTargetEnum.DOLL
+				CardTargetEnum.DOLL_OR_NONE
 		);
 		
 		this.magicNumber = this.baseMagicNumber = DRAW;
-		
-		this.tags.add(CardTagEnum.ALICE_COMMAND);
 	}
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
-		AbstractDoll doll = DollTargeting.getTarget(this);
+		this.addToBot(new DrawCardAction(this.magicNumber));
 		
-		if (doll != null) {
+		AbstractDoll doll = this.getTargetedDoll();
+		if (doll != null)
 			this.addToBot(new RecycleDollAction(doll));
-			this.addToBot(new DrawCardAction(this.magicNumber));
-		}
 	}
 	
 	@Override

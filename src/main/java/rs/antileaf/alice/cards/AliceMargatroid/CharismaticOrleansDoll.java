@@ -11,10 +11,10 @@ import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.OrleansDoll;
-import rs.antileaf.alice.doll.targeting.DollOrEmptySlotTargeting;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
+import rs.antileaf.alice.targeting.handlers.DollOrEmptySlotTargeting;
 
 public class CharismaticOrleansDoll extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = CharismaticOrleansDoll.class.getSimpleName();
@@ -53,8 +53,6 @@ public class CharismaticOrleansDoll extends AbstractAliceCard {
 		
 		for (int i = 0; i < this.magicNumber; i++)
 			this.addToBot(new DollActAction(doll));
-		
-		DollManager.get().triggerArtfulChanter(doll, target);
 	}
 	
 	@Override

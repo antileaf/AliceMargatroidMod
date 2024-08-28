@@ -3,27 +3,25 @@ package rs.antileaf.alice.doll.dolls;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.DamageAllEnemiesAction;
 import com.megacrit.cardcrawl.cards.DamageInfo;
-import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.localization.OrbStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import rs.antileaf.alice.action.doll.DollActAction;
 import rs.antileaf.alice.action.doll.DollDamageAction;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollDamageInfo;
 import rs.antileaf.alice.doll.enums.DollAmountTime;
 import rs.antileaf.alice.doll.enums.DollAmountType;
 import rs.antileaf.alice.relics.SuspiciousCard;
+import rs.antileaf.alice.strings.AliceDollStrings;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class ShanghaiDoll extends AbstractDoll {
 	public static final String SIMPLE_NAME = ShanghaiDoll.class.getSimpleName();
 	public static final String ID = SIMPLE_NAME;
-	public static final OrbStrings dollStrings = CardCrawlGame.languagePack.getOrbString(ID);
+	private static final AliceDollStrings dollStrings = AliceDollStrings.get(ID);
 	
 	public static final int MAX_HP = 3;
-//	public static final int PASSIVE_AMOUNT = 5;
+	public static final int PASSIVE_AMOUNT = 2;
 	public static final int ACT_AMOUNT = 4;
 	
 	public ShanghaiDoll() {
@@ -31,14 +29,19 @@ public class ShanghaiDoll extends AbstractDoll {
 				ID,
 				dollStrings.NAME,
 				MAX_HP,
-				-1,
+				PASSIVE_AMOUNT,
 				ACT_AMOUNT,
 				AliceSpireKit.getOrbImgFilePath(SIMPLE_NAME),
 				RenderTextMode.ACT
 		);
 		
-//		this.passiveAmountType = DollAmountType.DAMAGE;
+		this.passiveAmountType = DollAmountType.MAGIC;
 		this.actAmountType = DollAmountType.DAMAGE;
+	}
+	
+	@Override
+	public AliceDollStrings getDollStrings() {
+		return dollStrings;
 	}
 	
 	@Override
@@ -59,7 +62,7 @@ public class ShanghaiDoll extends AbstractDoll {
 			AbstractMonster m = AliceSpireKit.getMonsterWithLeastHP();
 			
 			if (m != null) {
-				this.addToTop(new DollDamageAction(m,
+				AliceSpireKit.addActionToBuffer(new DollDamageAction(m,
 						new DollDamageInfo(this.actAmount, this,
 								DollAmountType.DAMAGE, DollAmountTime.ACT),
 						AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
@@ -71,7 +74,7 @@ public class ShanghaiDoll extends AbstractDoll {
 					.count() > 1)
 				AbstractDungeon.player.getRelic(SuspiciousCard.ID).flash();
 			
-			this.addToTop(new DamageAllEnemiesAction(
+			AliceSpireKit.addActionToBuffer(new DamageAllEnemiesAction(
 					AbstractDungeon.player,
 					DollDamageInfo.createDamageMatrix(
 							this.actAmount,
@@ -85,27 +88,14 @@ public class ShanghaiDoll extends AbstractDoll {
 		}
 	}
 	
-	public void postSpawn() {
-		this.addToTop(new DollActAction(this));
-//		AbstractMonster m = AbstractDungeon.getRandomMonster();
-//
-//		if (m != null)
-//			this.addToTop(new DollDamageAction(m,
-//					new DollDamageInfo(this.passiveAmount, this,
-//							DollAmountType.DAMAGE, DollAmountTime.PASSIVE),
-//							AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
-//
-//		this.highlightPassiveValue();
+	@Override
+	public void onStartOfTurn() {
+		this.baseActAmount += this.passiveAmount;
+		this.applyPower();
+//		this.highlightActValue();
 	}
 	
 	// The logic of Strength is implemented in AbstractDoll.applyPowers().
-	
-	@Override
-	public void updateDescriptionImpl() {
-		this.passiveDescription = String.format(dollStrings.DESCRIPTION[0], this.coloredPassiveAmount());
-		
-		this.actDescription = String.format(dollStrings.DESCRIPTION[1], this.coloredActAmount());
-	}
 	
 	@Override
 	public void triggerActAnimation() {
@@ -121,15 +111,16 @@ public class ShanghaiDoll extends AbstractDoll {
 	public void playChannelSFX() {}
 	
 	@Override
+	protected float getRenderXOffset() {
+		return NUM_X_OFFSET + 6.0F * Settings.scale;
+	}
+	
+	@Override
 	protected float getRenderYOffset() {
-		return this.bobEffect.y / 2.0F + NUM_Y_OFFSET - 24.0F * Settings.scale;
+		return this.bobEffect.y / 2.0F + NUM_Y_OFFSET - 26.0F * Settings.scale;
 	}
 	
 	public static String getDescription() {
 		return getHpDescription(MAX_HP) + " NL " + (new ShanghaiDoll()).desc();
-	}
-	
-	public static String getFlavor() {
-		return dollStrings.DESCRIPTION[dollStrings.DESCRIPTION.length - 1];
 	}
 }
