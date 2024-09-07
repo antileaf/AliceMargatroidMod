@@ -25,6 +25,7 @@ public class DollArmy extends AbstractAliceCard {
 	
 	private static final int COST = 2;
 	private static final int UPGRADED_COST = 1;
+	private static final int MAGIC = 2;
 	
 	public DollArmy() {
 		super(
@@ -39,6 +40,7 @@ public class DollArmy extends AbstractAliceCard {
 				CardTargetEnum.DOLL
 		);
 		
+		this.magicNumber = this.baseMagicNumber = MAGIC;
 		this.exhaust = true;
 		
 		this.tags.add(CardTagEnum.ALICE_COMMAND);
@@ -50,6 +52,7 @@ public class DollArmy extends AbstractAliceCard {
 		
 		if (doll != null && !(doll instanceof EmptyDollSlot)) {
 			String id = doll.getID();
+			int count = this.magicNumber;
 			
 			for (int i = 0; i < DollManager.get().getDolls().size(); i++)
 				if (DollManager.get().getDolls().get(i) != doll
@@ -59,6 +62,9 @@ public class DollArmy extends AbstractAliceCard {
 						if (DollManager.get().getDolls().get(pos) instanceof EmptyDollSlot)
 							this.addToTop(new SpawnDollAction(AbstractDoll.newInst(id), pos));
 					}));
+					
+					if (--count <= 0)
+						break;
 				}
 		}
 	}

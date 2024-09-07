@@ -26,9 +26,9 @@ public class Chant extends AbstractAliceCard {
 	
 	private static final int COST = 2;
 	private static final int BLOCK = 10;
-	private static final int UPGRADE_PLUS_BLOCK = 3;
+	private static final int UPGRADE_PLUS_BLOCK = 4;
 	private static final int MAGIC = 1;
-	private static final int UPGRADE_PLUS_MAGIC = 1;
+//	private static final int UPGRADE_PLUS_MAGIC = 1;
 	
 	public Chant() {
 		super(
@@ -79,7 +79,7 @@ public class Chant extends AbstractAliceCard {
 		if (!this.upgraded) {
 			this.upgradeName();
 			this.upgradeBlock(UPGRADE_PLUS_BLOCK);
-			this.upgradeMagicNumber(UPGRADE_PLUS_MAGIC);
+//			this.upgradeMagicNumber(UPGRADE_PLUS_MAGIC);
 			this.initializeDescription();
 		}
 	}

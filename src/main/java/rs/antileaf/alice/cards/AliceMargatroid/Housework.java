@@ -14,7 +14,6 @@ import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
 import rs.antileaf.alice.targeting.AliceHoveredTargets;
-import rs.antileaf.alice.targeting.handlers.DollOrEmptySlotTargeting;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 import java.util.ArrayList;
@@ -60,17 +59,17 @@ public class Housework extends AbstractAliceCard {
 		}
 		
 		return AliceHoveredTargets.NONE;
-	}
+	} //  (del AliceMargatroid.jar) -xor (jar -cvf AliceMargatroid.jar .) -xor (cp AliceMargatroid.jar D:\steam\steamapps\common\SlayTheSpire\mods\)
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
-		AbstractDoll doll = DollOrEmptySlotTargeting.getTarget(this);
+		AbstractDoll slot = getTargetedSlot();
 		
-		if (doll != null) {
-			if (!(doll instanceof EmptyDollSlot))
-				this.addToBot(new DollActAction(doll));
+		if (slot != null) {
+			if (!(slot instanceof EmptyDollSlot))
+				this.addToBot(new DollActAction(slot));
 			
-			int index = DollManager.get().getDolls().indexOf(doll);
+			int index = DollManager.get().getDolls().indexOf(slot);
 			if (index > 0)
 				this.addToBot(new DollActAction(DollManager.get().getDolls().get(index - 1)));
 			if (index < DollManager.get().getDolls().size() - 1)

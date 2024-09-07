@@ -103,6 +103,7 @@ public abstract class AbstractAliceCard extends CustomCard
 		
 		ArrayList<TooltipInfo> result = new ArrayList<>();
 		result.add(note);
+		
 		return result;
 	}
 

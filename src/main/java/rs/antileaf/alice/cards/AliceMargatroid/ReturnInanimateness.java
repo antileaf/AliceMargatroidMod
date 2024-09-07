@@ -77,16 +77,19 @@ public class ReturnInanimateness extends AbstractAliceCard {
 			if (!(doll instanceof EmptyDollSlot))
 				this.addToBot(new RemoveDollAction(doll));
 		
-		int tmpBaseDamage = this.baseDamage;
-		this.baseDamage *= this.getMultiplier();
-		this.calculateCardDamage(null);
-		
-		int[] tmpMultiDamage = this.multiDamage.clone();
-		this.addToBot(new DamageAllEnemiesAction(p, tmpMultiDamage, this.damageTypeForTurn,
+		this.addToBot(new DamageAllEnemiesAction(p, this.multiDamage, this.damageTypeForTurn,
 				AbstractGameAction.AttackEffect.FIRE));
 		
-		this.baseDamage = tmpBaseDamage;
-		this.calculateCardDamage(null);
+//		int tmpBaseDamage = this.baseDamage;
+//		this.baseDamage *= this.getMultiplier();
+//		this.calculateCardDamage(null);
+//
+//		int[] tmpMultiDamage = this.multiDamage.clone();
+//		this.addToBot(new DamageAllEnemiesAction(p, tmpMultiDamage, this.damageTypeForTurn,
+//				AbstractGameAction.AttackEffect.FIRE));
+//
+//		this.baseDamage = tmpBaseDamage;
+//		this.calculateCardDamage(null);
 	}
 	
 	@Override

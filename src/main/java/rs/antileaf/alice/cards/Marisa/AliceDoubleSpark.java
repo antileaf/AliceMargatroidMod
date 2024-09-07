@@ -1,6 +1,5 @@
 package rs.antileaf.alice.cards.Marisa;
 
-import basemod.abstracts.CustomCard;
 import com.evacipated.cardcrawl.mod.stslib.cards.interfaces.SpawnModificationCard;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
@@ -12,12 +11,11 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
-import rs.antileaf.alice.utils.AliceConfigHelper;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 import java.util.ArrayList;
 
-public class AliceDoubleSpark extends CustomCard implements SpawnModificationCard {
+public class AliceDoubleSpark extends AbstractAliceMarisaCard implements SpawnModificationCard {
 	public static final String SIMPLE_NAME = AliceDoubleSpark.class.getSimpleName();
 	public static final String ID = SIMPLE_NAME;
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
@@ -42,10 +40,7 @@ public class AliceDoubleSpark extends CustomCard implements SpawnModificationCar
 		this.damage = this.baseDamage = DAMAGE;
 		this.cardsToPreview = new AliceSpark();
 		
-		if (!AliceConfigHelper.enableAlternativeMarisaCardImage()) {
-			this.textureImg = AliceSpireKit.getImgFilePath("Marisa/cards", SIMPLE_NAME + "_original");
-			this.loadCardImage(this.textureImg);
-		}
+		this.setImages(SIMPLE_NAME);
 	}
 	
 	@Override

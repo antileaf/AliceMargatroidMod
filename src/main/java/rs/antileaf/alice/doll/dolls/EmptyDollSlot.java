@@ -97,6 +97,9 @@ public class EmptyDollSlot extends AbstractDoll {
 	public void loseBlock(int amount) {}
 	
 	@Override
+	public void heal(int amount) {}
+	
+	@Override
 	public boolean takeDamage(int amount) {
 		if (amount > 0)
 			AliceSpireKit.log(EmptyDollSlot.class, "EmptyDollSlot.takeDamage() called!");

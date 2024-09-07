@@ -49,6 +49,12 @@
     "DESCRIPTION": "如果指向敌人打出，则会 回收 最右侧的 人偶 。"
   },
   
+  "SevenColoredPuppeteer": {
+    "TITLE": "状态追踪",
+    "DESCRIPTION": "在战斗中，这里会显示人偶的生成和行动情况。",
+    "EXTENDED_DESCRIPTION": ["本场战斗中，已 生成 过 #b%d 种 人偶", " ，每种 人偶 的 行动 次数如下：", "次", "次"]
+  },
+  
   "DEPRECATEDMaliceSpark": {
     "TITLE": "手牌上限减少",
     "DESCRIPTION": "如果当前手牌数超过上限，则需要弃掉超出数量的手牌。"

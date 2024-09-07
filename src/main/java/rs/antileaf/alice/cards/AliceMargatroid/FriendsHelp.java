@@ -13,11 +13,12 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.action.common.AliceDiscoverAction;
 import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
+import rs.antileaf.alice.cards.Marisa.AbstractAliceMarisaCard;
 import rs.antileaf.alice.cards.Marisa.Alice6A;
 import rs.antileaf.alice.cards.Marisa.AliceAsteroidBelt;
 import rs.antileaf.alice.cards.Marisa.AliceDoubleSpark;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
-import rs.antileaf.alice.utils.AliceConfigHelper;
+import rs.antileaf.alice.patches.marisa.MarisaAlternativeImagePatch;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 import java.util.ArrayList;
@@ -58,15 +59,11 @@ public class FriendsHelp extends AbstractAliceCard {
 	public static void setAlternativeImg(CustomCard card) {
 		if (AliceSpireKit.isMarisaModAvailable()) {
 			if (card instanceof DoubleSpark)
-				card.textureImg = AliceSpireKit.getImgFilePath("Marisa/cards", AliceDoubleSpark.class.getSimpleName());
+				AbstractAliceMarisaCard.setImages(card, AliceDoubleSpark.SIMPLE_NAME);
 			else if (card instanceof AsteroidBelt)
-				card.textureImg = AliceSpireKit.getImgFilePath("Marisa/cards", AliceAsteroidBelt.class.getSimpleName());
+				AbstractAliceMarisaCard.setImages(card, AliceAsteroidBelt.SIMPLE_NAME);
 			else if (card instanceof _6A)
-				card.textureImg = AliceSpireKit.getImgFilePath("Marisa/cards", Alice6A.class.getSimpleName());
-			else
-				return;
-			
-			card.loadCardImage(card.textureImg);
+				AbstractAliceMarisaCard.setImages(card, Alice6A.SIMPLE_NAME);
 		}
 	}
 	
@@ -76,8 +73,9 @@ public class FriendsHelp extends AbstractAliceCard {
 		
 		if (AliceSpireKit.isMarisaModAvailable()) {
 			for (CustomCard card : new CustomCard[]{new DoubleSpark(), new AsteroidBelt(), new _6A()}) {
-				if (AliceConfigHelper.enableAlternativeMarisaCardImage())
-					setAlternativeImg(card);
+				setAlternativeImg(card);
+				if (card instanceof DoubleSpark)
+					MarisaAlternativeImagePatch.AliceMarisaCardFields.isAliceMarisaCard.set(card, true);
 				choices.add(card);
 			}
 		}

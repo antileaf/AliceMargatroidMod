@@ -5,8 +5,7 @@ import com.megacrit.cardcrawl.actions.common.DamageAllEnemiesAction;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.vfx.combat.HealEffect;
-import rs.antileaf.alice.action.utils.AnonymousAction;
+import rs.antileaf.alice.action.doll.HealDollAction;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollDamageInfo;
 import rs.antileaf.alice.doll.enums.DollAmountTime;
@@ -73,13 +72,8 @@ public class KyotoDoll extends AbstractDoll {
 	public void onEndOfTurn() {
 		int amount = (this.maxHP - this.HP) / 2;
 		
-		if (amount > 0) {
-			AliceSpireKit.addActionToBuffer(new AnonymousAction(() -> {
-				this.HP = Math.min(this.maxHP, this.HP + amount);
-				AbstractDungeon.effectsQueue.add(new HealEffect(this.hb.cX - this.animX, this.hb.cY, amount));
-				this.updateDescription();
-			}));
-		}
+		if (amount > 0)
+			AliceSpireKit.addActionToBuffer(new HealDollAction(this, amount));
 	}
 	
 //	@Override

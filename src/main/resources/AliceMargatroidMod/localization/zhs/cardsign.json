@@ -16,7 +16,7 @@
   },
   
   "RedHairedNetherlandsDoll": {
-      "SIGN": "红符"
+    "SIGN": "红符"
   },
   
   "MistyLondonDoll": {
@@ -81,5 +81,9 @@
   
   "ReturnInanimateness": {
     "SIGN": "魔操"
+  },
+  
+  "DollInSea": {
+    "SIGN": "操符"
   }
 }

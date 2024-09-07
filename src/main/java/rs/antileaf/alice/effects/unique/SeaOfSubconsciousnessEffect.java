@@ -3,6 +3,7 @@ package rs.antileaf.alice.effects.unique;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
@@ -31,7 +32,7 @@ public class SeaOfSubconsciousnessEffect extends AbstractGameEffect {
 		
 //		this.rotation = 40 * (slot - 3); // 0 on the right
 		
-		this.scale = 0.5F;
+		this.scale = 0.5F / 1.28F * Settings.scale;
 		this.color = Color.WHITE.cpy();
 		this.color.a = 0.0F;
 	}
@@ -68,7 +69,7 @@ public class SeaOfSubconsciousnessEffect extends AbstractGameEffect {
 		AbstractDoll doll = DollManager.get().getDolls().get(this.slot);
 		
 		float startX = doll.getDrawCX() - 128.0F;
-		float startY = doll.getDrawCY() + 20.0F;
+		float startY = doll.getDrawCY() + 20.0F + (doll.getImgSize() > 96.0F ? 10.0F : 0.0F);
 		
 		sb.draw(
 				AliceImageMaster.ALICE_ARROW,

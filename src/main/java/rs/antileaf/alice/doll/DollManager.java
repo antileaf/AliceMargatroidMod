@@ -19,6 +19,7 @@ import rs.antileaf.alice.action.doll.RecycleDollAction;
 import rs.antileaf.alice.action.doll.SpawnDollInternalAction;
 import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.cards.AliceMargatroid.DollMagic;
+import rs.antileaf.alice.cards.AliceMargatroid.SevenColoredPuppeteer;
 import rs.antileaf.alice.characters.AliceMargatroid;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.doll.dolls.FranceDoll;
@@ -57,6 +58,37 @@ public class DollManager {
 //	private static final UIStrings uiStrings = AliceSpireKit.getUIString(DollManager.ID);
 //	public static final String[] TEXT = uiStrings.TEXT;
 	
+	public static class Stats {
+		public HashSet<String> placedThisCombat = new HashSet<>();
+		public HashMap<String, Integer> actCountThisCombat = new HashMap<>();
+		
+		void clear() {
+			this.placedThisCombat = new HashSet<>();
+			this.actCountThisCombat = new HashMap<>();
+		}
+		
+		void onDollPlaced(AbstractDoll doll) {
+			boolean needToUpdate = !this.placedThisCombat.contains(doll.getID());
+			this.placedThisCombat.add(doll.getID());
+			
+			if (needToUpdate)
+				SevenColoredPuppeteer.updateAll();
+		}
+		
+		void onDollAct(AbstractDoll doll) {
+			this.actCountThisCombat.put(doll.getID(),
+					this.actCountThisCombat.getOrDefault(doll.getID(), 0) + 1);
+		}
+		
+		int getMaxActCount() {
+			return this.actCountThisCombat.values().stream()
+					.max(Integer::compareTo)
+					.orElse(0);
+		}
+	}
+	
+	private Stats stats = new Stats();
+	
 	private final AbstractPlayer owner;
 	private final ArrayList<AbstractDoll> dolls;
 	
@@ -85,6 +117,8 @@ public class DollManager {
 		for (int i = 0; i < MAX_DOLL_SLOTS; i++)
 			this.dolls.add(new EmptyDollSlot());
 		
+		this.stats.clear();
+		
 //		this.formation = Formation.NORMAL;
 		
 		AliceSpireKit.log(this.getClass(), "DollManager.initPreBattle done");
@@ -106,6 +140,8 @@ public class DollManager {
 		
 		this.preservedBlock = 0;
 		this.totalHouraiPassiveAmount = 0;
+		
+		this.stats.clear();
 	}
 	
 	public boolean isShown() {
@@ -114,6 +150,10 @@ public class DollManager {
 	
 	private void activateInternal() {
 		this.shown = true;
+	}
+	
+	public Stats getStats() {
+		return this.stats;
 	}
 	
 	public void addBlock(AbstractDoll doll, int block) {
@@ -130,6 +170,10 @@ public class DollManager {
 	
 	public void loseBlock(AbstractDoll doll, int block) {
 		doll.loseBlock(block);
+	}
+	
+	public void heal(AbstractDoll doll, int amount) {
+		doll.heal(amount);
 	}
 	
 	public void updatePreservedBlock() {
@@ -187,7 +231,7 @@ public class DollManager {
 		}
 		
 		if (!AliceSpireKit.isInBattle()) {
-			AliceSpireKit.log(this.getClass(), "Not in battle. Maybe you used some debugging tools?");
+			AliceSpireKit.logger.info("DollManager: Not in battle. Maybe you used some debugging tools?");
 			return;
 		}
 		
@@ -369,8 +413,8 @@ public class DollManager {
 				((OnDollOperateHook) power).preSpawnDoll(doll);
 		
 		int multiplier = this.getTotalHouraiPassiveAmount();
-		doll.maxHP += multiplier * doll.getBaseHP();
-		doll.HP += multiplier * doll.getBaseHP();
+		doll.maxHP += multiplier * doll.getDarkGrimoireBaseHP();
+		doll.HP += multiplier * doll.getDarkGrimoireBaseHP();
 		
 		doll.showHealthBar();
 		
@@ -394,6 +438,8 @@ public class DollManager {
 				other.postOtherDollSpawn(doll);
 		
 		AliceSpireKit.commitBuffer();
+		
+		this.stats.onDollPlaced(doll);
 		
 		this.update();
 	}
@@ -428,7 +474,9 @@ public class DollManager {
 				((DollMagic) card).postDollAct();
 		
 		AliceSpireKit.commitBuffer();
-		AliceSpireKit.logger.info("Commited buffer here!");
+		AliceSpireKit.logger.info("DollManager.dollAct(): Commited buffer here!");
+		
+		this.stats.onDollAct(doll);
 		
 		this.update();
 	}

@@ -27,7 +27,7 @@ public class DollCremation extends AbstractAliceCard {
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 2;
-	private static final int DAMAGE = 20;
+	private static final int DAMAGE = 22;
 	private static final int UPGRADE_PLUS_DMG = 8;
 	
 	public DollCremation() {

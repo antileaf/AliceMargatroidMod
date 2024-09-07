@@ -11,13 +11,19 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import javassist.CannotCompileException;
 import javassist.CtBehavior;
-import rs.antileaf.alice.AliceMargatroidMod;
 import rs.antileaf.alice.action.utils.AnonymousAction;
+import rs.antileaf.alice.cards.Marisa.AbstractAliceMarisaCard;
 import rs.antileaf.alice.cards.Marisa.AliceSpark;
-import rs.antileaf.alice.utils.AliceConfigHelper;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class MarisaAlternativeImagePatch {
+	@SpirePatch(clz = DoubleSpark.class, method = SpirePatch.CLASS, requiredModId = "TS05_Marisa")
+	public static class AliceMarisaCardFields {
+		public static SpireField<Boolean> isAliceMarisaCard = new SpireField<>(() -> false);
+//		public static SpireField<AbstractAliceMarisaCard.ImgPaths> imgPaths = new SpireField<>(() -> null);
+//		public static SpireField<AbstractAliceMarisaCard.BackgroundPaths> backgroundPaths = new SpireField<>(() -> null);
+	}
+	
 	@SpirePatch(clz = DoubleSpark.class, method = "use", requiredModId = "TS05_Marisa",
 			paramtypez = {AbstractPlayer.class, AbstractMonster.class})
 	public static class AliceSparkAlternativeImagePatch {
@@ -34,11 +40,8 @@ public class MarisaAlternativeImagePatch {
 		
 		@SpireInsertPatch(locator = Locator.class, localvars = {"c"})
 		public static SpireReturn<Void> Insert(DoubleSpark _inst, AbstractPlayer p, AbstractMonster m, AbstractCard c) {
-			if ((c instanceof Spark) && _inst.textureImg.contains(AliceMargatroidMod.SIMPLE_NAME)) {
-				if (AliceConfigHelper.enableAlternativeMarisaCardImage()) {
-					((CustomCard) c).textureImg = AliceSpark.IMG;
-					((CustomCard) c).loadCardImage(((CustomCard) c).textureImg);
-				}
+			if ((c instanceof Spark) && AliceMarisaCardFields.isAliceMarisaCard.get(_inst)) {
+				AbstractAliceMarisaCard.setImages((CustomCard) c, AliceSpark.ID);
 				
 				AliceSpireKit.addToBot(new AnonymousAction(() -> {
 					AliceSpireKit.addCardToHand(c);

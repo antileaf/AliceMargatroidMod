@@ -24,8 +24,9 @@ public class SeekerDoll extends AbstractAliceCard {
 	
 	private static final int COST = 1;
 	private static final int MAGIC = 1;
-	private static final int UPGRADE_PLUS_MAGIC = 1;
+//	private static final int UPGRADE_PLUS_MAGIC = 1;
 	private static final int MAGIC2 = 2;
+	private static final int UPGRADE_PLUS_MAGIC2 = 1;
 	
 	public SeekerDoll() {
 		super(
@@ -97,7 +98,7 @@ public class SeekerDoll extends AbstractAliceCard {
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
-			this.upgradeMagicNumber(UPGRADE_PLUS_MAGIC);
+			this.upgradeSecondaryMagicNumber(UPGRADE_PLUS_MAGIC2);
 			this.initializeDescription();
 		}
 	}

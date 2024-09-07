@@ -24,7 +24,7 @@ public class OrleansDoll extends AbstractDoll {
 				MAX_HP,
 				2,
 				1,
-				AliceSpireKit.getOrbImgFilePath("black"),
+				AliceSpireKit.getOrbImgFilePath(SIMPLE_NAME),
 				RenderTextMode.NONE
 		);
 		

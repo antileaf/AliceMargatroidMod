@@ -122,22 +122,8 @@ public class Perihelion extends AbstractAliceCard {
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
-		if (this.shouldTriggerEffect()) {
-			int tmp = this.baseDamage;
-			this.baseDamage *= this.magicNumber;
-			this.calculateCardDamage(null);
-			
-			int[] tmpMultiDamage = this.multiDamage.clone();
-			this.addToBot(new DamageAllEnemiesAction(p, tmpMultiDamage, this.damageTypeForTurn,
-					AbstractGameAction.AttackEffect.FIRE));
-			
-			this.baseDamage = tmp;
-			this.calculateCardDamage(null);
-		}
-		else {
-			this.addToBot(new DamageAllEnemiesAction(p, this.multiDamage, this.damageTypeForTurn,
-					AbstractGameAction.AttackEffect.FIRE));
-		}
+		this.addToBot(new DamageAllEnemiesAction(p, this.multiDamage, this.damageTypeForTurn,
+				AbstractGameAction.AttackEffect.FIRE));
 	}
 	
 	@Override

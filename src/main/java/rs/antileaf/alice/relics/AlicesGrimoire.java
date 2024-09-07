@@ -3,6 +3,7 @@ package rs.antileaf.alice.relics;
 import basemod.abstracts.CustomRelic;
 import com.evacipated.cardcrawl.mod.stslib.relics.ClickableRelic;
 import com.megacrit.cardcrawl.actions.common.RelicAboveCreatureAction;
+import com.megacrit.cardcrawl.actions.utility.HandCheckAction;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
@@ -54,6 +55,8 @@ public class AlicesGrimoire extends CustomRelic implements ClickableRelic {
 					break;
 				}
 		}));
+		
+		this.addToBot(new HandCheckAction());
 	}
 	
 	@Override

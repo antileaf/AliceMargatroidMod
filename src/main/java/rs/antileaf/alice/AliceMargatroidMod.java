@@ -173,15 +173,15 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 					starlight,
 					starlight,
 					starlight,
-					"AliceMargatroidMod/img/Marisa/512/bg_attack_MRS_s.png",
-					"AliceMargatroidMod/img/Marisa/512/bg_skill_MRS_s.png",
-					"AliceMargatroidMod/img/Marisa/512/bg_power_MRS_s.png",
-					"AliceMargatroidMod/img/Marisa/512/cardOrb.png",
-					"AliceMargatroidMod/img/Marisa/1024/bg_attack_MRS.png",
-					"AliceMargatroidMod/img/Marisa/1024/bg_skill_MRS.png",
-					"AliceMargatroidMod/img/Marisa/1024/bg_power_MRS.png",
-					"AliceMargatroidMod/img/Marisa/1024/cardOrb.png",
-					"AliceMargatroidMod/img/Marisa/UI/energyOrb.png"
+					"AliceMargatroidMod/img/Marisa_PackMaster/512/attack.png",
+					"AliceMargatroidMod/img/Marisa_PackMaster/512/skill.png",
+					"AliceMargatroidMod/img/Marisa_PackMaster/512/power.png",
+					"AliceMargatroidMod/img/Marisa_PackMaster/512/orb.png",
+					"AliceMargatroidMod/img/Marisa_PackMaster/1024/attack.png",
+					"AliceMargatroidMod/img/Marisa_PackMaster/1024/skill.png",
+					"AliceMargatroidMod/img/Marisa_PackMaster/1024/power.png",
+					"AliceMargatroidMod/img/Marisa_PackMaster/1024/orb.png",
+					"AliceMargatroidMod/img/Marisa_PackMaster/512/orbIcon.png"
 			);
 		}
 	}
@@ -543,7 +543,7 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		this.cardsToAdd.add(new Perihelion());
 		this.cardsToAdd.add(new Hail());
 		this.cardsToAdd.add(new DollCremation());
-//		this.cardsToAdd.add(new SevenColoredPuppeteer());
+		this.cardsToAdd.add(new SevenColoredPuppeteer());
 		this.cardsToAdd.add(new Collector());
 //		this.cardsToAdd.add(new Punishment());
 		this.cardsToAdd.add(new MaliceSpark());
@@ -578,7 +578,7 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 //		this.cardsToAdd.add(new ScatterTheWeak());
 		this.cardsToAdd.add(new AliceInWonderland());
 		this.cardsToAdd.add(new Pause());
-		this.cardsToAdd.add(new SealOfLight());
+//		this.cardsToAdd.add(new SealOfLight());
 //		this.cardsToAdd.add(new DEPRECATEDTripwire());
 		this.cardsToAdd.add(new DollMiraCeti());
 		this.cardsToAdd.add(new Revelation());
@@ -607,6 +607,8 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		this.cardsToAdd.add(new DollMagic());
 		this.cardsToAdd.add(new SeaOfSubconsciousness());
 		this.cardsToAdd.add(new ReturnInanimateness());
+		this.cardsToAdd.add(new SpectreMystery());
+		this.cardsToAdd.add(new DollInSea());
 		
 		this.cardsToAdd.add(new VivaciousShanghaiDoll());
 		this.cardsToAdd.add(new QuietHouraiDoll());

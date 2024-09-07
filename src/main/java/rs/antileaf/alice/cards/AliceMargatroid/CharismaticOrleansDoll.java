@@ -14,7 +14,6 @@ import rs.antileaf.alice.doll.dolls.OrleansDoll;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
-import rs.antileaf.alice.targeting.handlers.DollOrEmptySlotTargeting;
 
 public class CharismaticOrleansDoll extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = CharismaticOrleansDoll.class.getSimpleName();
@@ -36,7 +35,7 @@ public class CharismaticOrleansDoll extends AbstractAliceCard {
 				CardType.SKILL,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
 				CardRarity.UNCOMMON,
-				CardTargetEnum.DOLL_OR_EMPTY_SLOT
+				CardTargetEnum.DOLL_OR_EMPTY_SLOT_OR_NONE
 		);
 		
 		this.magicNumber = this.baseMagicNumber = MAGIC;
@@ -45,8 +44,8 @@ public class CharismaticOrleansDoll extends AbstractAliceCard {
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
-		AbstractDoll target = DollOrEmptySlotTargeting.getTarget(this);
-		int index = DollManager.get().getDolls().indexOf(target);
+		AbstractDoll slot = this.getTargetedSlot();
+		int index = DollManager.get().getDolls().indexOf(slot);
 		
 		AbstractDoll doll = new OrleansDoll();
 		this.addToBot(new SpawnDollAction(doll, index));

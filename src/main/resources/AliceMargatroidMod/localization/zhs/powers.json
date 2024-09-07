@@ -188,5 +188,12 @@
     "DESCRIPTIONS": [
       "每回合打出的第一张 #y攻击牌 造成 #b50% 额外伤害。"
     ]
+  },
+  
+  "PerfectCherryBlossomPower": {
+    "NAME": "樱花盛开",
+    "DESCRIPTIONS": [
+      "下回开始时，所有 京都人偶 行动 #b%d 次。"
+    ]
   }
 }

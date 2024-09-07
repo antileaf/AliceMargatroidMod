@@ -14,7 +14,6 @@ import rs.antileaf.alice.doll.dolls.ShanghaiDoll;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
-import rs.antileaf.alice.targeting.handlers.DollOrEmptySlotTargeting;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class VivaciousShanghaiDoll extends AbstractAliceCard {
@@ -47,7 +46,7 @@ public class VivaciousShanghaiDoll extends AbstractAliceCard {
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
-		AbstractDoll slot = DollOrEmptySlotTargeting.getTarget(this);
+		AbstractDoll slot = this.getTargetedSlot();
 		int index = DollManager.get().getDolls().indexOf(slot);
 		
 		AbstractDoll doll = new ShanghaiDoll();

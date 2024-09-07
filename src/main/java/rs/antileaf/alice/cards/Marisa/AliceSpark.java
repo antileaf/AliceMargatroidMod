@@ -1,6 +1,5 @@
 package rs.antileaf.alice.cards.Marisa;
 
-import basemod.abstracts.CustomCard;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -10,10 +9,9 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
-import rs.antileaf.alice.utils.AliceConfigHelper;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
-public class AliceSpark extends CustomCard {
+public class AliceSpark extends AbstractAliceMarisaCard {
 	public static final String SIMPLE_NAME = AliceSpark.class.getSimpleName();
 	public static final String ID = SIMPLE_NAME;
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
@@ -39,10 +37,7 @@ public class AliceSpark extends CustomCard {
 		this.exhaust = true;
 		this.damage = this.baseDamage = DAMAGE;
 		
-		if (!AliceConfigHelper.enableAlternativeMarisaCardImage()) {
-			this.textureImg = AliceSpireKit.getImgFilePath("Marisa/cards", SIMPLE_NAME + "_original");
-			this.loadCardImage(this.textureImg);
-		}
+		this.setImages(SIMPLE_NAME);
 	}
 	
 	@Override

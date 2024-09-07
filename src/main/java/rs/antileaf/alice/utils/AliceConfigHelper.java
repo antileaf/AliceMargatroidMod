@@ -3,7 +3,6 @@ package rs.antileaf.alice.utils;
 import basemod.ModLabel;
 import basemod.ModLabeledToggleButton;
 import basemod.ModPanel;
-import basemod.abstracts.CustomCard;
 import com.badlogic.gdx.Gdx;
 import com.evacipated.cardcrawl.modthespire.lib.SpireConfig;
 import com.google.gson.Gson;
@@ -13,10 +12,7 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.CardLibrary;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import rs.antileaf.alice.cards.AliceMargatroid.WitchsTeaParty;
-import rs.antileaf.alice.cards.Marisa.Alice6A;
-import rs.antileaf.alice.cards.Marisa.AliceAsteroidBelt;
-import rs.antileaf.alice.cards.Marisa.AliceDoubleSpark;
-import rs.antileaf.alice.cards.Marisa.AliceSpark;
+import rs.antileaf.alice.cards.Marisa.*;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -27,6 +23,7 @@ public class AliceConfigHelper {
 	public static String SHOULD_OPEN_TUTORIAL = "shouldOpenTutorial";
 	public static String ENABLE_SPELL_CARD_SIGN_DISPLAY = "enableSpellCardSignDisplay";
 	public static String ENABLE_ALTERNATIVE_MARISA_CARD_IMAGE = "enableAlternativeMarisaCardImage";
+	public static String USE_PACK_MASTER_STYLE_MARISA_CARDS = "usePackMasterStyleMarisaCards";
 	public static String ENABLE_WITCHS_TEA_PARTY_FEATURE = "enableWitchsTeaPartyFeature";
 	public static String ENABLE_DEBUGGING = "enableDebugging";
 	public static String SKIN_SELECTION_UNLOCKED = "skinSelectionUnlocked";
@@ -42,6 +39,7 @@ public class AliceConfigHelper {
 			defaults.setProperty(SHOULD_OPEN_TUTORIAL, "true");
 			defaults.setProperty(ENABLE_SPELL_CARD_SIGN_DISPLAY, "true");
 			defaults.setProperty(ENABLE_ALTERNATIVE_MARISA_CARD_IMAGE, "true");
+			defaults.setProperty(USE_PACK_MASTER_STYLE_MARISA_CARDS, "true");
 			defaults.setProperty(ENABLE_WITCHS_TEA_PARTY_FEATURE, "true");
 			defaults.setProperty(ENABLE_DEBUGGING, "false");
 			defaults.setProperty(SKIN_SELECTION_UNLOCKED, "false");
@@ -69,6 +67,16 @@ public class AliceConfigHelper {
 		conf.setBool(ENABLE_SPELL_CARD_SIGN_DISPLAY, enableSpellCardSignDisplay);
 	}
 	
+	private static void updateAllMarisaCards() {
+		for (String id : new String[]{Alice6A.ID, AliceAsteroidBelt.ID, AliceDoubleSpark.ID, AliceSpark.ID}) {
+			AbstractCard card = CardLibrary.getCard(id);
+			if (card instanceof AbstractAliceMarisaCard)
+				((AbstractAliceMarisaCard) card).setImages(id);
+			else
+				AliceSpireKit.logger.info("AliceConfigHelper.updateAllMarisaCards: Card {} is not an instance of AbstractAliceMarisaCard.", id);
+		}
+	}
+	
 	public static boolean enableAlternativeMarisaCardImage() {
 		return conf.getBool(ENABLE_ALTERNATIVE_MARISA_CARD_IMAGE);
 	}
@@ -76,21 +84,19 @@ public class AliceConfigHelper {
 	public static void setEnableAlternativeMarisaCardImage(boolean enableAlternativeMarisaCardImage) {
 		conf.setBool(ENABLE_ALTERNATIVE_MARISA_CARD_IMAGE, enableAlternativeMarisaCardImage);
 		
-		if (!AliceSpireKit.isMarisaModAvailable()) {
-			for (String id : new String[]{Alice6A.ID, AliceAsteroidBelt.ID, AliceDoubleSpark.ID, AliceSpark.ID}) {
-				AbstractCard card = CardLibrary.getCard(id);
-				if (card instanceof CustomCard) {
-					if (enableAlternativeMarisaCardImage)
-						((CustomCard) card).textureImg = AliceSpireKit.getImgFilePath("Marisa/cards",
-								card.getClass().getSimpleName() + "_original");
-					else
-						((CustomCard) card).textureImg = AliceSpireKit.getImgFilePath("Marisa/cards",
-																card.getClass().getSimpleName());
-					
-					((CustomCard) card).loadCardImage(((CustomCard) card).textureImg);
-				}
-			}
-		}
+		if (!AliceSpireKit.isMarisaModAvailable())
+			updateAllMarisaCards();
+	}
+	
+	public static boolean usePackMasterStyleMarisaCards() {
+		return conf.getBool(USE_PACK_MASTER_STYLE_MARISA_CARDS);
+	}
+	
+	public static void setUsePackMasterStyleMarisaCards(boolean usePackMasterStyleMarisaCards) {
+		conf.setBool(USE_PACK_MASTER_STYLE_MARISA_CARDS, usePackMasterStyleMarisaCards);
+		
+		if (AliceSpireKit.isMarisaModAvailable())
+			updateAllMarisaCards();
 	}
 	
 	public static boolean enableWitchsTeaPartyFeature() {
@@ -198,22 +204,39 @@ public class AliceConfigHelper {
 		
 		y -= 50.0F;
 		
-		ModLabeledToggleButton enableWitchsTeaPartyFeatureButton = new ModLabeledToggleButton(
-				strings.get(ENABLE_WITCHS_TEA_PARTY_FEATURE),
+		ModLabeledToggleButton usePackMasterStyleMarisaCardsButton = new ModLabeledToggleButton(
+				strings.get(USE_PACK_MASTER_STYLE_MARISA_CARDS),
 				350.0F,
 				y,
 				Settings.CREAM_COLOR,
 				FontHelper.charDescFont,
-				enableWitchsTeaPartyFeature(),
+				usePackMasterStyleMarisaCards(),
 				panel,
 				(modLabel) -> {},
 				(button) -> {
-					setEnableWitchsTeaPartyFeature(button.enabled);
+					setUsePackMasterStyleMarisaCards(button.enabled);
 					save();
 				}
 		);
 		
 		y -= 50.0F;
+		
+//		ModLabeledToggleButton enableWitchsTeaPartyFeatureButton = new ModLabeledToggleButton(
+//				strings.get(ENABLE_WITCHS_TEA_PARTY_FEATURE),
+//				350.0F,
+//				y,
+//				Settings.CREAM_COLOR,
+//				FontHelper.charDescFont,
+//				enableWitchsTeaPartyFeature(),
+//				panel,
+//				(modLabel) -> {},
+//				(button) -> {
+//					setEnableWitchsTeaPartyFeature(button.enabled);
+//					save();
+//				}
+//		);
+//
+//		y -= 50.0F;
 		
 		ModLabeledToggleButton enableDebuggingButton = new ModLabeledToggleButton(
 				strings.get(ENABLE_DEBUGGING),
@@ -233,7 +256,8 @@ public class AliceConfigHelper {
 		panel.addUIElement(tutorialButton);
 		panel.addUIElement(spellCardButton);
 		panel.addUIElement(useAlternativeMarisaCardImageButton);
-		panel.addUIElement(enableWitchsTeaPartyFeatureButton);
+		panel.addUIElement(usePackMasterStyleMarisaCardsButton);
+//		panel.addUIElement(enableWitchsTeaPartyFeatureButton);
 		panel.addUIElement(enableDebuggingButton);
 		
 		if (enableDebugging()) {

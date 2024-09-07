@@ -7,7 +7,7 @@ public class AliceDollStrings {
 	
 	public String NAME;
 	public String TYPE;
-	public String TAG;
+	public String TAG, TAG_COLOR;
 	public String PASSIVE_NAME, ACT_NAME = null;
 	public String PASSIVE_DESCRIPTION, ACT_DESCRIPTION;
 	public String[] EXTENDED_DESCRIPTION = null;

@@ -4,6 +4,7 @@ import basemod.abstracts.CustomRelic;
 import basemod.abstracts.CustomSavable;
 import com.evacipated.cardcrawl.mod.stslib.relics.ClickableRelic;
 import com.megacrit.cardcrawl.actions.common.RelicAboveCreatureAction;
+import com.megacrit.cardcrawl.actions.utility.HandCheckAction;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
@@ -75,6 +76,8 @@ public class StringRing extends CustomRelic implements ClickableRelic, CustomSav
 			this.dollClazz = null;
 			this.stopPulse();
 			this.updateDesc();
+			
+			this.addToBot(new HandCheckAction());
 		}
 	}
 	

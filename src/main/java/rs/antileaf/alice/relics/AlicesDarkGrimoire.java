@@ -20,7 +20,7 @@ public class AlicesDarkGrimoire extends CustomRelic implements ClickableRelic, O
 	private static final String IMG_OTL = AliceSpireKit.getRelicOutlineImgFilePath(SIMPLE_NAME);
 	private static final String IMG_LARGE = AliceSpireKit.getRelicLargeImgFilePath(SIMPLE_NAME);
 	
-	private static final int MULTIPLIER = 3;
+	public static final int MULTIPLIER = 3;
 
 	public AlicesDarkGrimoire() {
 		super(

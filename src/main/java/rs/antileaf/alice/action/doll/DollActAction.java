@@ -32,6 +32,20 @@ public class DollActAction extends AbstractGameAction {
 			return;
 		}
 		
+//		if (this.duration == DURATION) {
+//			if (this.doll instanceof ShanghaiDoll && ((ShanghaiDoll) this.doll).charge > 0) {
+//				ShanghaiDoll shanghai = (ShanghaiDoll) this.doll;
+//
+//				for (int i = 0; i < shanghai.charge; i++)
+//					this.addToTop(new DollActAction(this.doll, false));
+//
+//				shanghai.charge = 0;
+//
+//				AliceSpireKit.logger.info("DollActAction triggered ShanghaiDoll charge for {} times.",
+//						shanghai.charge);
+//			}
+//		}
+		
 		this.tickDuration();
 		
 		if (this.isDone) {

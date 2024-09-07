@@ -1,10 +1,13 @@
 package rs.antileaf.alice.doll.dolls;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.DamageAllEnemiesAction;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.action.doll.DollDamageAction;
 import rs.antileaf.alice.doll.AbstractDoll;
@@ -13,6 +16,7 @@ import rs.antileaf.alice.doll.enums.DollAmountTime;
 import rs.antileaf.alice.doll.enums.DollAmountType;
 import rs.antileaf.alice.relics.SuspiciousCard;
 import rs.antileaf.alice.strings.AliceDollStrings;
+import rs.antileaf.alice.utils.AliceImageMaster;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class ShanghaiDoll extends AbstractDoll {
@@ -23,6 +27,10 @@ public class ShanghaiDoll extends AbstractDoll {
 	public static final int MAX_HP = 3;
 	public static final int PASSIVE_AMOUNT = 2;
 	public static final int ACT_AMOUNT = 4;
+	
+	public static final float CHARGE_WIDTH = 18.0F * Settings.scale;
+	
+	public int charge = 0;
 	
 	public ShanghaiDoll() {
 		super(
@@ -54,9 +62,70 @@ public class ShanghaiDoll extends AbstractDoll {
 		return MAX_HP;
 	}
 	
+	private void drawCharge(SpriteBatch sb, float x, float y) {
+		Texture img = AliceImageMaster.SHANGHAI_DOLL_CHARGE;
+		
+		float scale = CHARGE_WIDTH / img.getWidth();
+		
+		sb.draw(
+				img,
+				x - img.getWidth() / 2.0F,
+				y - img.getHeight() / 2.0F,
+				img.getWidth() / 2.0F,
+				img.getHeight() / 2.0F,
+				(float) img.getWidth(),
+				(float) img.getHeight(),
+				scale,
+				scale,
+				0.0F,
+				0,
+				0,
+				img.getWidth(),
+				img.getHeight(),
+				false,
+				false
+		);
+	}
+	
+	@Override
+	public void renderImage(SpriteBatch sb) {
+		super.renderImage(sb);
+		
+		if (this.charge > 0) {
+			float w = CHARGE_WIDTH;
+			float y = this.cY + this.getRenderYOffset() - 26.0F * Settings.scale;
+			
+			if (this.charge <= 5) {
+				float x = this.getDrawCX() - w * (this.charge - 1) / 2.0F;
+				
+				for (int i = 0; i < this.charge; i++)
+					this.drawCharge(sb, x + i * w, y);
+			}
+			else {
+				String text = Integer.toString(this.charge);
+				
+				FontHelper.renderFontCentered(sb,
+						FontHelper.cardEnergyFont_L,
+						text,
+						this.getDrawCX() - w / 2.0F,
+						y,
+						Settings.CREAM_COLOR,
+						this.passiveFontScale
+				);
+				
+				this.drawCharge(sb, this.getDrawCX() + w * text.length() / 2.0F, y);
+			}
+		}
+	}
+	
 	@Override
 	public void onAct() {
 		this.highlightActValue();
+		
+		int tmpBase = this.baseActAmount;
+		this.baseActAmount += this.charge * this.passiveAmount;
+		this.applyPower();
+		this.charge = 0;
 		
 		if (!AbstractDungeon.player.hasRelic(SuspiciousCard.ID)) {
 			AbstractMonster m = AliceSpireKit.getMonsterWithLeastHP();
@@ -86,11 +155,15 @@ public class ShanghaiDoll extends AbstractDoll {
 					true
 			));
 		}
+		
+		this.baseActAmount = tmpBase;
+		this.applyPower();
 	}
 	
 	@Override
 	public void onStartOfTurn() {
-		this.baseActAmount += this.passiveAmount;
+//		this.baseActAmount += this.passiveAmount;
+		this.charge += 1;
 		this.applyPower();
 //		this.highlightActValue();
 	}
@@ -109,6 +182,15 @@ public class ShanghaiDoll extends AbstractDoll {
 	
 	@Override
 	public void playChannelSFX() {}
+	
+	@Override
+	public void updateDescriptionImpl() {
+		this.passiveDescription = String.format(dollStrings.PASSIVE_DESCRIPTION, this.coloredPassiveAmount());
+		if (this.charge > 0)
+			this.passiveDescription += String.format(dollStrings.EXTENDED_DESCRIPTION[0], this.charge);
+		
+		this.actDescription = String.format(dollStrings.ACT_DESCRIPTION, this.coloredActAmount());
+	}
 	
 	@Override
 	protected float getRenderXOffset() {

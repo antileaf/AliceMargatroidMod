@@ -77,7 +77,8 @@ public class LondonDoll extends AbstractDoll {
 			}));
 		}
 		else {
-			AliceSpireKit.addActionToBuffer(new RecycleDollAction(this));
+			// Do not trigger Doll Ambush please
+			AliceSpireKit.addActionToBuffer(new RecycleDollAction(this, null, true));
 			
 //			AbstractMonster m = AbstractDungeon.getRandomMonster();
 //			if (m != null) {
@@ -97,11 +98,11 @@ public class LondonDoll extends AbstractDoll {
 	}
 	
 	private void triggerPassiveEffect() {
+		int index = DollManager.get().getIndex(this);
+		AbstractDoll prev = index > 0 ? DollManager.get().getDolls().get(index - 1) : null;
+		AbstractDoll next = index < DollManager.MAX_DOLL_SLOTS - 1 ? DollManager.get().getDolls().get(index + 1) : null;
+		
 		if (this.block > 0) {
-			int index = DollManager.get().getIndex(this);
-			AbstractDoll prev = index > 0 ? DollManager.get().getDolls().get(index - 1) : null;
-			AbstractDoll next = index < DollManager.MAX_DOLL_SLOTS - 1 ? DollManager.get().getDolls().get(index + 1) : null;
-			
 			if (prev != null && next != null) {
 				if (!(prev instanceof EmptyDollSlot))
 					AliceSpireKit.addActionToBuffer(new DollGainBlockAction(prev, this.block - this.block / 2));
@@ -118,11 +119,19 @@ public class LondonDoll extends AbstractDoll {
 			}
 			
 			this.block = 0;
-			
-			if (prev != null && !(prev instanceof EmptyDollSlot))
+		}
+		
+		if (prev != null && !(prev instanceof EmptyDollSlot)) {
+			if (prev != this)
 				AliceSpireKit.addActionToBuffer(new DollActAction(prev));
-			if (next != null && !(next instanceof EmptyDollSlot))
+			else
+				AliceSpireKit.logger.info("LondonDoll: prev == this");
+		}
+		if (next != null && !(next instanceof EmptyDollSlot)) {
+			if (next != this)
 				AliceSpireKit.addActionToBuffer(new DollActAction(next));
+			else
+				AliceSpireKit.logger.info("LondonDoll: next == this");
 		}
 	}
 	

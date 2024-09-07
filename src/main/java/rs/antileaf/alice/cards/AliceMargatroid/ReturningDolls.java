@@ -9,9 +9,14 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.action.doll.RecycleDollAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.doll.AbstractDoll;
+import rs.antileaf.alice.doll.DollManager;
+import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
+import rs.antileaf.alice.targeting.AliceHoveredTargets;
 import rs.antileaf.alice.utils.AliceSpireKit;
+
+import java.util.ArrayList;
 
 public class ReturningDolls extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = ReturningDolls.class.getSimpleName();
@@ -20,7 +25,7 @@ public class ReturningDolls extends AbstractAliceCard {
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
-	private static final int DRAW = 3;
+	private static final int DRAW = 1;
 	private static final int UPGRADE_PLUS_DRAW = 1;
 	
 	public ReturningDolls() {
@@ -33,19 +38,64 @@ public class ReturningDolls extends AbstractAliceCard {
 				CardType.SKILL,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
 				CardRarity.UNCOMMON,
-				CardTargetEnum.DOLL_OR_NONE
+				CardTargetEnum.DOLL_OR_EMPTY_SLOT
 		);
 		
 		this.magicNumber = this.baseMagicNumber = DRAW;
 	}
 	
 	@Override
-	public void use(AbstractPlayer p, AbstractMonster m) {
-		this.addToBot(new DrawCardAction(this.magicNumber));
+	public AliceHoveredTargets getHoveredTargets(AbstractMonster mon, AbstractDoll slot) {
+		if (slot != null) {
+			int index = DollManager.get().getDolls().indexOf(slot);
+			
+			ArrayList<AbstractDoll> targets = new ArrayList<>();
+			if (index > 0)
+				targets.add(DollManager.get().getDolls().get(index - 1));
+			if (index < DollManager.get().getDolls().size() - 1)
+				targets.add(DollManager.get().getDolls().get(index + 1));
+			
+			return AliceHoveredTargets.fromDolls(targets.stream()
+					.filter(doll -> !(doll instanceof EmptyDollSlot))
+					.toArray(AbstractDoll[]::new));
+		}
 		
-		AbstractDoll doll = this.getTargetedDoll();
-		if (doll != null)
-			this.addToBot(new RecycleDollAction(doll));
+		return AliceHoveredTargets.NONE; // 正常情况下没有目标就不会调用
+	}
+	
+	@Override
+	public void use(AbstractPlayer p, AbstractMonster m) {
+		AbstractDoll slot = getTargetedSlot();
+		
+		if (slot != null) {
+			int draw = 0;
+			if (!(slot instanceof EmptyDollSlot)) {
+				draw += this.magicNumber;
+				this.addToBot(new RecycleDollAction(slot));
+			}
+			
+			int index = DollManager.get().getDolls().indexOf(slot);
+			
+			if (index > 0) {
+				AbstractDoll left = DollManager.get().getDolls().get(index - 1);
+				if (!(left instanceof EmptyDollSlot)) {
+					draw += this.magicNumber;
+					this.addToBot(new RecycleDollAction(left));
+				}
+			}
+			if (index < DollManager.get().getDolls().size() - 1) {
+				AbstractDoll right = DollManager.get().getDolls().get(index + 1);
+				if (!(right instanceof EmptyDollSlot)) {
+					draw += this.magicNumber;
+					this.addToBot(new RecycleDollAction(right));
+				}
+			}
+			
+			if (draw > 0)
+				this.addToBot(new DrawCardAction(draw));
+		}
+		else
+			AliceSpireKit.logger.info("ReturningDolls.use(): slot is null!");
 	}
 	
 	@Override

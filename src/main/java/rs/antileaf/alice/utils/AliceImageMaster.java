@@ -3,12 +3,14 @@ package rs.antileaf.alice.utils;
 import com.badlogic.gdx.graphics.Texture;
 
 public class AliceImageMaster {
+	public static Texture SHANGHAI_DOLL_CHARGE;
 	public static Texture GOLD_END_TURN_BUTTON_GLOW;
 	public static Texture ALICE_ARROW;
 	public static Texture[] POKERS;
 	public static Texture DESSERT_ICON;
 	
 	public static void loadImages() {
+		SHANGHAI_DOLL_CHARGE = new Texture(AliceSpireKit.getImgFilePath("orbs", "Sparkle"));
 		GOLD_END_TURN_BUTTON_GLOW = new Texture(AliceSpireKit.getImgFilePath("UI", "goldEndTurnButtonGlow"));
 		ALICE_ARROW = new Texture(AliceSpireKit.getImgFilePath("UI", "AliceArrow"));
 		POKERS = new Texture[] {

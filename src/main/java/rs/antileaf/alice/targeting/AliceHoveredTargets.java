@@ -13,8 +13,11 @@ public class AliceHoveredTargets {
 	public static AliceHoveredTargets NONE = new AliceHoveredTargets();
 	public static AliceHoveredTargets PLAYER = new AliceHoveredTargets() {{ player = true; }};
 	public static AliceHoveredTargets allMonsters() {
-		return new AliceHoveredTargets() {{ monsters = AbstractDungeon.getMonsters().monsters
-				.toArray(new AbstractMonster[0]); }};
+		return new AliceHoveredTargets() {{
+			monsters = AbstractDungeon.getMonsters().monsters.stream()
+				.filter(m -> !m.isDeadOrEscaped())
+				.toArray(AbstractMonster[]::new);
+		}};
 	}
 	public static AliceHoveredTargets fromDolls(AbstractDoll... froms) {
 		return new AliceHoveredTargets() {{ this.dolls = froms; }};

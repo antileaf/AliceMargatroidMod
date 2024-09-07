@@ -16,8 +16,6 @@ public class NetherlandsDoll extends AbstractDoll {
 	private static final AliceDollStrings dollStrings = AliceDollStrings.get(ID);
 	
 	public static final int MAX_HP = 3;
-	public static final int PASSIVE_AMOUNT = 1;
-	public static final int ACT_AMOUNT = 1;
 	
 	public boolean shouldAddDex = false;
 	
@@ -26,8 +24,8 @@ public class NetherlandsDoll extends AbstractDoll {
 				ID,
 				dollStrings.NAME,
 				MAX_HP,
-				PASSIVE_AMOUNT,
-				ACT_AMOUNT,
+				0,
+				0,
 				AliceSpireKit.getOrbImgFilePath("yellow"),
 				RenderTextMode.BOTH
 		);

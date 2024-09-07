@@ -15,16 +15,19 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.*;
 import com.megacrit.cardcrawl.localization.UIStrings;
 import com.megacrit.cardcrawl.powers.AbstractPower;
+import com.megacrit.cardcrawl.powers.StrengthPower;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.relics.RunicDome;
 import com.megacrit.cardcrawl.vfx.combat.BlockedNumberEffect;
 import com.megacrit.cardcrawl.vfx.combat.FlashAtkImgEffect;
 import com.megacrit.cardcrawl.vfx.combat.HbBlockBrokenEffect;
+import com.megacrit.cardcrawl.vfx.combat.HealEffect;
 import org.jetbrains.annotations.Nullable;
 import rs.antileaf.alice.doll.dolls.*;
 import rs.antileaf.alice.doll.enums.DollAmountTime;
 import rs.antileaf.alice.doll.enums.DollAmountType;
 import rs.antileaf.alice.doll.interfaces.PlayerOrEnemyDollAmountModHook;
+import rs.antileaf.alice.relics.AlicesDarkGrimoire;
 import rs.antileaf.alice.strings.AliceDollStrings;
 import rs.antileaf.alice.strings.AliceLanguageStrings;
 import rs.antileaf.alice.utils.AliceSpireKit;
@@ -411,6 +414,14 @@ public abstract class AbstractDoll extends CustomOrb {
 		return ret;
 	}
 	
+	public void heal(int amount) {
+		this.HP = Math.min(this.HP + amount, this.maxHP);
+		this.updateDescription();
+		AbstractDungeon.effectsQueue.add(new HealEffect(this.getDrawCX(), this.getDrawCY() +
+				(this.img == null ? 96.0F : this.img.getHeight()), amount));
+		this.healthBarUpdatedEvent();
+	}
+	
 	public void showHealthBar() {
 		this.hbShowTimer = 0.7F;
 		this.hbAlpha = 0.0F;
@@ -428,6 +439,19 @@ public abstract class AbstractDoll extends CustomOrb {
 	public abstract String getID();
 	
 	public abstract int getBaseHP();
+	
+	public int getDarkGrimoireBaseHP() {
+		if (!AliceSpireKit.isInBattle())
+			return this.getBaseHP();
+		
+		if (AbstractDungeon.player.hasRelic(AlicesDarkGrimoire.ID))
+			return this.getBaseHP() +
+					(int)DollManager.get().getDolls().stream()
+							.filter(doll -> doll != this && !(doll instanceof EmptyDollSlot))
+							.count() * AlicesDarkGrimoire.MULTIPLIER;
+		
+		return this.getBaseHP();
+	}
 	
 	// All actions added by onAct() should call addActionToBuffer.
 	// The buffer will be committed in DollManager.dollAct().
@@ -480,13 +504,9 @@ public abstract class AbstractDoll extends CustomOrb {
 //		}
 		
 		if (this instanceof ShanghaiDoll) {
-			if (player.hasPower("Strength")) {
-				int bonus = Integer.max(player.getPower("Strength").amount, 0);
-				
-				if (this.passiveAmountType != DollAmountType.MAGIC)
-					this.passiveAmount += bonus;
-				if (this.actAmountType != DollAmountType.MAGIC)
-					this.actAmount += bonus;
+			if (player.hasPower(StrengthPower.POWER_ID)) {
+				int bonus = Integer.max(player.getPower(StrengthPower.POWER_ID).amount, 0);
+				this.actAmount += bonus;
 			}
 		}
 		
@@ -522,9 +542,9 @@ public abstract class AbstractDoll extends CustomOrb {
 		
 		AliceDollStrings dollStrings = this.getDollStrings();
 		
-		this.description = dollStrings.TYPE + " - " + dollStrings.TAG;
+		this.description = dollStrings.TYPE + " - " + dollStrings.TAG_COLOR + dollStrings.TAG;
 		if (!this.dontShowHPDescription) {
-			this.description += " - " + this.HP + "/" + this.maxHP;
+			this.description += " NL " + this.HP + "/" + this.maxHP;
 			if (this.block > 0)
 				this.description += " (+" + this.block + ")";
 		}
@@ -561,14 +581,20 @@ public abstract class AbstractDoll extends CustomOrb {
 		return this.hb.cX;
 	}
 	
-	public float getDrawCY() {
-		return this.hb.cY - this.img.getHeight() / 2.0F + this.bobEffect.y / 2.0F;
+	public float getDrawCY() { // 卡图的底边中点
+		return this.hb.cY -
+				(this.img != null ? this.img.getHeight() / 2.0F : 96.0F / 2.0F) +
+				this.bobEffect.y / 4.0F;
+	}
+	
+	public float getImgSize() {
+		return this.img != null ? this.img.getWidth() : 96.0F;
 	}
 	
 	public void renderImage(SpriteBatch sb) {
 		sb.draw(
 				this.img,
-				this.cX - (float)this.img.getWidth() / 2.0F + this.bobEffect.y / 8.0F,
+				this.cX - (float)this.img.getWidth() / 2.0F,
 				this.cY - (float)this.img.getHeight() / 2.0F + this.bobEffect.y / 8.0F,
 				(float)this.img.getWidth() / 2.0F,
 				(float)this.img.getHeight() / 2.0F,
