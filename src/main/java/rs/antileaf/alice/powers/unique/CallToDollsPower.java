@@ -13,7 +13,8 @@ import rs.antileaf.alice.powers.AbstractAlicePower;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class CallToDollsPower extends AbstractAlicePower implements PlayerOrEnemyDollAmountModHook {
-	public static final String POWER_ID = CallToDollsPower.class.getSimpleName();
+	public static final String SIMPLE_NAME = CallToDollsPower.class.getSimpleName();
+	public static final String POWER_ID = SIMPLE_NAME;
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
 	
 	public CallToDollsPower(AbstractMonster owner, int amount) {
@@ -24,7 +25,7 @@ public class CallToDollsPower extends AbstractAlicePower implements PlayerOrEnem
 		
 		this.type = PowerType.DEBUFF;
 		this.updateDescription();
-		this.initializeImage(null);
+		this.initializeImage(SIMPLE_NAME);
 	}
 	
 	@Override

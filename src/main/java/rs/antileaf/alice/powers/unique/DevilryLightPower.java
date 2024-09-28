@@ -10,7 +10,8 @@ import com.megacrit.cardcrawl.powers.WeakPower;
 import rs.antileaf.alice.powers.AbstractAlicePower;
 
 public class DevilryLightPower extends AbstractAlicePower {
-	public static final String POWER_ID = DevilryLightPower.class.getSimpleName();
+	public static final String SIMPLE_NAME = DevilryLightPower.class.getSimpleName();
+	public static final String POWER_ID = SIMPLE_NAME;
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
 	
 	public DevilryLightPower(int amount) {
@@ -22,7 +23,7 @@ public class DevilryLightPower extends AbstractAlicePower {
 		
 		this.type = PowerType.BUFF;
 		this.updateDescription();
-		this.initializeImage(null);
+		this.initializeImage(SIMPLE_NAME);
 	}
 	
 	@Override

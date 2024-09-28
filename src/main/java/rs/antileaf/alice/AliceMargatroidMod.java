@@ -2,12 +2,15 @@ package rs.antileaf.alice;
 
 import basemod.BaseMod;
 import basemod.ModPanel;
+import basemod.abstracts.CustomSavable;
 import basemod.eventUtil.AddEventParams;
 import basemod.eventUtil.EventUtils;
+import basemod.helpers.RelicType;
 import basemod.interfaces.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.evacipated.cardcrawl.mod.stslib.icons.CustomIconHelper;
 import com.evacipated.cardcrawl.mod.stslib.patches.CustomTargeting;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
 import com.google.gson.Gson;
@@ -15,6 +18,7 @@ import com.google.gson.reflect.TypeToken;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.dungeons.TheCity;
 import com.megacrit.cardcrawl.helpers.CardHelper;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.localization.*;
@@ -24,26 +28,30 @@ import com.megacrit.cardcrawl.unlock.UnlockTracker;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import rs.antileaf.alice.cards.AbstractAliceCard;
-import rs.antileaf.alice.cards.AliceMargatroid.Thread;
-import rs.antileaf.alice.cards.AliceMargatroid.*;
-import rs.antileaf.alice.cards.Derivations.CreateSusan;
-import rs.antileaf.alice.cards.Derivations.MarisasPotion;
 import rs.antileaf.alice.cards.Marisa.Alice6A;
 import rs.antileaf.alice.cards.Marisa.AliceAsteroidBelt;
 import rs.antileaf.alice.cards.Marisa.AliceDoubleSpark;
 import rs.antileaf.alice.cards.Marisa.AliceSpark;
+import rs.antileaf.alice.cards.alice.Thread;
+import rs.antileaf.alice.cards.alice.*;
 import rs.antileaf.alice.cards.colorless.PoisonousSweet;
+import rs.antileaf.alice.cards.derivations.CreateDoll;
+import rs.antileaf.alice.cards.derivations.CreateSusan;
+import rs.antileaf.alice.cards.derivations.Retrace;
+import rs.antileaf.alice.cards.loli.*;
 import rs.antileaf.alice.characters.AliceMargatroid;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.events.LilyOfTheValleyFlowerField;
+import rs.antileaf.alice.events.PuppeteersHouse;
+import rs.antileaf.alice.icon.AliceCustomIcon;
+import rs.antileaf.alice.loli.AliceLoliManager;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
-import rs.antileaf.alice.patches.enums.AliceMargatroidModClassEnum;
+import rs.antileaf.alice.patches.enums.AbstractPlayerEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
 import rs.antileaf.alice.potions.ConcentrationPotion;
 import rs.antileaf.alice.potions.WeavingPotion;
-import rs.antileaf.alice.powers.unique.UsokaePower;
 import rs.antileaf.alice.relics.*;
 import rs.antileaf.alice.strings.*;
 import rs.antileaf.alice.targeting.handlers.*;
@@ -57,9 +65,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 
-@SuppressWarnings("Duplicates")
 @SpireInitializer
-public class AliceMargatroidMod implements PostExhaustSubscriber,
+public class AliceMargatroidMod implements
+		PostExhaustSubscriber,
 		PostBattleSubscriber,
 		PostDungeonInitializeSubscriber,
 		EditCharactersSubscriber,
@@ -78,7 +86,8 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		OnPlayerTurnStartSubscriber,
 		PostPlayerUpdateSubscriber,
 		RenderSubscriber,
-		AddAudioSubscriber {
+		AddAudioSubscriber,
+		CustomSavable<AliceSaveData> {
 	public static final String SIMPLE_NAME = AliceMargatroidMod.class.getSimpleName();
 	
 	public static final Logger logger = LogManager.getLogger(AliceMargatroidMod.class.getName());
@@ -117,9 +126,13 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 	private final ArrayList<Keyword> dollKeywords = new ArrayList<>();
 	
 //	public static boolean postInitialize = false;
+
+	private static AliceSaveData saveData = new AliceSaveData();
 	
 	public AliceMargatroidMod() {
 		BaseMod.subscribe(this);
+		BaseMod.addSaveField(AliceMargatroidMod.SIMPLE_NAME + ":SaveData", this);
+
 		logger.info("creating the color : ALICE_COLOR and ALICE_DERIVATION_COLOR");
 		BaseMod.addColor(
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
@@ -142,6 +155,25 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		);
 		BaseMod.addColor(
 				AbstractCardEnum.ALICE_MARGATROID_DERIVATION_COLOR,
+				ALICE_PUPPETEER,
+				ALICE_PUPPETEER,
+				ALICE_PUPPETEER,
+				ALICE_PUPPETEER,
+				ALICE_PUPPETEER,
+				ALICE_PUPPETEER,
+				ALICE_PUPPETEER,
+				ATTACK_CC,
+				SKILL_CC,
+				POWER_CC,
+				ENERGY_ORB_CC,
+				ATTACK_CC_PORTRAIT,
+				SKILL_CC_PORTRAIT,
+				POWER_CC_PORTRAIT,
+				ENERGY_ORB_CC_PORTRAIT,
+				CARD_ENERGY_ORB
+		);
+		BaseMod.addColor( // TODO: 给它们换一套风格
+				AbstractCardEnum.ALICE_LOLI_COLOR,
 				ALICE_PUPPETEER,
 				ALICE_PUPPETEER,
 				ALICE_PUPPETEER,
@@ -188,13 +220,13 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 	
 	public void receiveEditCharacters() {
 		logger.info("begin editing characters");
-		
-		logger.info("add " + AliceMargatroidModClassEnum.ALICE_MARGATROID.toString());
+
+        logger.info("add {}", AbstractPlayerEnum.ALICE_MARGATROID.toString());
 		BaseMod.addCharacter(
 				new AliceMargatroid("Alice Margatroid"),
 				CHARACTER_BUTTON,
 				ALICE_PORTRAIT,
-				AliceMargatroidModClassEnum.ALICE_MARGATROID
+				AbstractPlayerEnum.ALICE_MARGATROID
 		);
 		logger.info("done editing characters");
 	}
@@ -230,21 +262,31 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 				new SacrificialDoll(),
 				AbstractCardEnum.ALICE_MARGATROID_COLOR
 		);
+		BaseMod.addRelic(
+				new ShanghaiDollRelic(),
+				RelicType.SHARED
+		);
+		BaseMod.addRelic(
+				new BlackTeaRelic(),
+				RelicType.SHARED
+		);
 		
 		logger.info("Relics editing finished.");
 	}
 	
 	public void receiveEditCards() {
+		this.loadCustomIcons();
+
 		this.loadVariables();
 		
 		logger.info("starting editing cards");
 		
-		loadCardsToAdd();
+		this.loadCardsToAdd();
 		
 		logger.info("adding cards for ALICE_MARGATROID");
 		
 		for (AbstractCard card : cardsToAdd) {
-			logger.info("Adding card : " + card.name);
+            logger.info("Adding card : {}", card.name);
 			BaseMod.addCard(card);
 			
 			UnlockTracker.unlockCard(card.cardID);
@@ -277,8 +319,8 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 				this.dollKeywords.add(key);
 				continue;
 			}
-			
-			logger.info("Loading keyword : " + key.NAMES[0]);
+
+            logger.info("Loading keyword : {}", key.NAMES[0]);
 			BaseMod.addKeyword(AliceMargatroidMod.SIMPLE_NAME.toLowerCase(), key.NAMES[0], key.NAMES, key.DESCRIPTION);
 		}
 		
@@ -297,9 +339,13 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		AliceSpireKit.loadCustomStrings(PowerStrings.class, "powers");
 		AliceSpireKit.loadCustomStrings(PotionStrings.class, "potions");
 //		AliceSpireKit.loadCustomStrings(OrbStrings.class, "dolls");
+		AliceSpireKit.loadCustomStrings(MonsterStrings.class, "monsters");
 		AliceSpireKit.loadCustomStrings(EventStrings.class, "events");
 		AliceSpireKit.loadCustomStrings(UIStrings.class, "ui");
 		AliceSpireKit.loadCustomStrings(TutorialStrings.class, "tutorial");
+		AliceSpireKit.loadCustomStrings(ScoreBonusStrings.class, "score");
+
+		AliceSpireKit.loadCustomStrings(CardStrings.class, "cards_loli");
 		
 		logger.info("Loading doll strings...");
 		AliceDollStrings.init((new Gson()).fromJson(
@@ -312,6 +358,12 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 				Gdx.files.internal(AliceSpireKit.getLocalizationFilePath("cardmodifier"))
 						.readString(String.valueOf(StandardCharsets.UTF_8)),
 				(new TypeToken<Map<String, AliceCardModifierStrings>>() {}).getType()));
+
+		logger.info("Loading card target strings...");
+		AliceTargetIconStrings.init((new Gson()).fromJson(
+				Gdx.files.internal(AliceSpireKit.getLocalizationFilePath("target"))
+						.readString(String.valueOf(StandardCharsets.UTF_8)),
+				(new TypeToken<Map<String, String>>() {}).getType()));
 		
 		logger.info("Loading card cardnote strings...");
 		AliceCardNoteStrings.init((new Gson()).fromJson(
@@ -413,9 +465,11 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		CustomTargeting.registerCustomTargeting(CardTargetEnum.DOLL_OR_NONE, new DollOrNoneTargeting());
 		
 		BaseMod.addPotion(WeavingPotion.class, Color.YELLOW, Color.GOLD.cpy(), Color.CLEAR, WeavingPotion.ID,
-				AliceMargatroidModClassEnum.ALICE_MARGATROID);
+				AbstractPlayerEnum.ALICE_MARGATROID);
 		BaseMod.addPotion(ConcentrationPotion.class, Color.ROYAL, Color.BLUE, Color.CLEAR, ConcentrationPotion.ID,
-				AliceMargatroidModClassEnum.ALICE_MARGATROID);
+				AbstractPlayerEnum.ALICE_MARGATROID);
+//		BaseMod.addPotion(BottledDoll.class, Color.GOLD, Color.GOLDENROD, Color.CLEAR, "BottledDoll",
+//				AliceMargatroidModClassEnum.ALICE_MARGATROID);
 		
 		ModPanel settingsPanel = AliceConfigHelper.createConfigPanel();
 		BaseMod.registerModBadge(
@@ -430,15 +484,43 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		
 		BaseMod.addEvent(
 				new AddEventParams.Builder(LilyOfTheValleyFlowerField.ID, LilyOfTheValleyFlowerField.class)
-						.playerClass(AliceMargatroidModClassEnum.ALICE_MARGATROID)
+						.playerClass(AbstractPlayerEnum.ALICE_MARGATROID)
+						.eventType(EventUtils.EventType.NORMAL)
+						.create()
+		);
+
+		BaseMod.addEvent(
+				new AddEventParams.Builder(PuppeteersHouse.ID, PuppeteersHouse.class)
+						.dungeonID(TheCity.ID)
+						.bonusCondition(() -> AbstractDungeon.player.hasRelic(ShanghaiDollRelic.ID))
 						.eventType(EventUtils.EventType.NORMAL)
 						.create()
 		);
 		
 		AliceSpireKit.log("Initializing skin select screen...");
 		SkinSelectScreen.init();
+
+//		registerLoliCards();
+		// TODO: 还没写好，后面如果真的要做萝莉形态的话再写
+
+//		PuppeteersHouse.AliceCardReward.loadIcon();
+//		BaseMod.registerCustomReward(
+//				PuppeteersHouse.AliceCardReward.Enums.ALICE_CARD_REWARD,
+//				(rewardSave) -> null,
+//				(rewardSave) -> null
+//		);
+
+//		AliceSpireKit.logger.info("Adding ShanghaiDoll (as monster) to the game...");
+//		BaseMod.addMonster(
+//				"ShanghaiDoll",
+//				ShanghaiDollAsMonster.monsterStrings.NAME,
+//				() -> new ShanghaiDollAsMonster()
+//		);
 		
 		WitchsTeaParty.updateAll();
+
+		DollWorkshop.registerLoopPreview();
+		CreateDoll.registerLoopPreview();
 	}
 	
 	@Override
@@ -479,24 +561,24 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 			return remaining;
 		}
 		
-		else if (AbstractDungeon.player.hasPower(UsokaePower.POWER_ID)) {
-			int remaining = amount;
-			for (int i = DollManager.MAX_DOLL_SLOTS - 1; i >= 0; i--) {
-				AbstractDoll doll = DollManager.get().getDolls().get(i);
-				if (!(doll instanceof EmptyDollSlot)) {
-					int tmp = Math.min(remaining, doll.block);
-					remaining -= tmp;
-					doll.block -= tmp;
-				}
-				
-				if (remaining == 0)
-					break;
-			}
-			
-			if (remaining < amount)
-				AbstractDungeon.player.getPower(UsokaePower.POWER_ID).flash();
-			return remaining;
-		}
+//		else if (AbstractDungeon.player.hasPower(UsokaePower.POWER_ID)) {
+//			int remaining = amount;
+//			for (int i = DollManager.MAX_DOLL_SLOTS - 1; i >= 0; i--) {
+//				AbstractDoll doll = DollManager.get().getDolls().get(i);
+//				if (!(doll instanceof EmptyDollSlot)) {
+//					int tmp = Math.min(remaining, doll.block);
+//					remaining -= tmp;
+//					doll.block -= tmp;
+//				}
+//
+//				if (remaining == 0)
+//					break;
+//			}
+//
+//			if (remaining < amount)
+//				AbstractDungeon.player.getPower(UsokaePower.POWER_ID).flash();
+//			return remaining;
+//		}
 		
 		return amount;
 	}
@@ -516,6 +598,21 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 //		DollManager.get().render(sb);
 	}
 
+	private void loadCustomIcons() {
+		CustomIconHelper.addCustomIcon(new AliceCustomIcon("Alice", "alice_icon"));
+		CustomIconHelper.addCustomIcon(new AliceCustomIcon("Doll", "doll_icon"));
+		CustomIconHelper.addCustomIcon(new AliceCustomIcon("Slot", "slot_icon"));
+		CustomIconHelper.addCustomIcon(new AliceCustomIcon("Enemy", "enemy_icon"));
+		CustomIconHelper.addCustomIcon(new AliceCustomIcon("None", "none_icon"));
+		CustomIconHelper.addCustomIcon(new AliceCustomIcon("Info", "info"));
+	}
+
+	private void loadVariables() {
+//		BaseMod.addDynamicVariable(new TempHPVariable());
+		BaseMod.addDynamicVariable(new AliceSecondaryMagicNumberVariable());
+		BaseMod.addDynamicVariable(new AliceSecondaryDamageVariable());
+	}
+
 	private void loadCardsToAdd() {
 		this.cardsToAdd.clear();
 		
@@ -531,13 +628,13 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		this.cardsToAdd.add(new Lantern());
 //		this.cardsToAdd.add(new DEPRECATEDEmeraldRay());
 //		this.cardsToAdd.add(new MoonlightRay());
-		this.cardsToAdd.add(new KirisameMagicShop());
+//		this.cardsToAdd.add(new KirisameMagicShop());
 		this.cardsToAdd.add(new SurpriseSpring());
 		this.cardsToAdd.add(new WarFlag());
 		this.cardsToAdd.add(new Relay());
 		this.cardsToAdd.add(new DollAmbush());
 		this.cardsToAdd.add(new DollWar());
-		this.cardsToAdd.add(new DollJudge());
+//		this.cardsToAdd.add(new DollJudge());
 //		this.cardsToAdd.add(new SpiritualPower());
 //		this.cardsToAdd.add(new FrostRay());
 		this.cardsToAdd.add(new Perihelion());
@@ -550,7 +647,7 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		this.cardsToAdd.add(new CallToDolls());
 		this.cardsToAdd.add(new SnowSweeping());
 		this.cardsToAdd.add(new FriendsHelp());
-		this.cardsToAdd.add(new Phantom());
+		this.cardsToAdd.add(new WillOWisp());
 //		this.cardsToAdd.add(new MysteriousMirror());
 		this.cardsToAdd.add(new ReturningDolls());
 		this.cardsToAdd.add(new SPDoll());
@@ -560,12 +657,12 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 //		this.cardsToAdd.add(new DEPRECATEDGuidingRay());
 //		this.cardsToAdd.add(new DEPRECATEDRefraction());
 		this.cardsToAdd.add(new DollLances());
-		this.cardsToAdd.add(new CutiePhalanx());
+//		this.cardsToAdd.add(new CutiePhalanx());
 		this.cardsToAdd.add(new Ultimatum());
 		this.cardsToAdd.add(new BlackTea());
-		this.cardsToAdd.add(new PokerTrick());
+//		this.cardsToAdd.add(new PokerTrick());
 //		this.cardsToAdd.add(new MysteriousChallenger());
-		this.cardsToAdd.add(new DollShield());
+		this.cardsToAdd.add(new Barrier());
 		this.cardsToAdd.add(new DollOfRoundTable());
 //		this.cardsToAdd.add(new DEPRECATEDTyrant());
 		this.cardsToAdd.add(new Dessert());
@@ -574,7 +671,7 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 //		this.cardsToAdd.add(new DEPRECATEDThrow());
 		this.cardsToAdd.add(new DollActivation());
 //		this.cardsToAdd.add(new DEPRECATEDTheUnmovingGreatLibrary());
-		this.cardsToAdd.add(new VisitOfThreeFairies());
+//		this.cardsToAdd.add(new VisitOfThreeFairies());
 //		this.cardsToAdd.add(new ScatterTheWeak());
 		this.cardsToAdd.add(new AliceInWonderland());
 		this.cardsToAdd.add(new Pause());
@@ -582,7 +679,7 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 //		this.cardsToAdd.add(new DEPRECATEDTripwire());
 		this.cardsToAdd.add(new DollMiraCeti());
 		this.cardsToAdd.add(new Revelation());
-		this.cardsToAdd.add(new ExperimentalArmor());
+//		this.cardsToAdd.add(new ExperimentalArmor());
 		this.cardsToAdd.add(new ButterflyFlurry());
 //		this.cardsToAdd.add(new WitchsTeaParty());
 //		this.cardsToAdd.add(new DollOrchestra());
@@ -609,6 +706,8 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		this.cardsToAdd.add(new ReturnInanimateness());
 		this.cardsToAdd.add(new SpectreMystery());
 		this.cardsToAdd.add(new DollInSea());
+		this.cardsToAdd.add(new ClawMachine());
+		this.cardsToAdd.add(new DollWorkshop());
 		
 		this.cardsToAdd.add(new VivaciousShanghaiDoll());
 		this.cardsToAdd.add(new QuietHouraiDoll());
@@ -617,8 +716,14 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 		this.cardsToAdd.add(new RedHairedNetherlandsDoll());
 		this.cardsToAdd.add(new CharismaticOrleansDoll());
 		this.cardsToAdd.add(new SpringKyotoDoll());
+
+		this.cardsToAdd.add(new Retrace());
+//		this.cardsToAdd.add(new MarisasPotion());
+		this.cardsToAdd.add(new CreateSusan());
+		this.cardsToAdd.add(new CreateDoll());
 		
-		this.cardsToAdd.add(new MarisasPotion());
+		this.cardsToAdd.add(new PoisonousSweet());
+		
 //		this.cardsToAdd.add(new CreateShanghaiDoll());
 //		this.cardsToAdd.add(new CreateNetherlandsDoll());
 //		this.cardsToAdd.add(new CreateHouraiDoll());
@@ -627,20 +732,52 @@ public class AliceMargatroidMod implements PostExhaustSubscriber,
 //		this.cardsToAdd.add(new CreateKyotoDoll());
 //		this.cardsToAdd.add(new CreateOrleansDoll());
 		
-		this.cardsToAdd.add(new PoisonousSweet());
-		this.cardsToAdd.add(new CreateSusan());
-		
 		if (!AliceSpireKit.isMarisaModAvailable()) {
 			this.cardsToAdd.add(new AliceSpark());
 			this.cardsToAdd.add(new AliceDoubleSpark());
 			this.cardsToAdd.add(new AliceAsteroidBelt());
 			this.cardsToAdd.add(new Alice6A());
 		}
+
+//		this.cardsToAdd.add(new Pause_Loli());
+		this.cardsToAdd.add(new VivaciousShanghaiDoll_Loli());
+		this.cardsToAdd.add(new QuietHouraiDoll_Loli());
+		this.cardsToAdd.add(new SpringKyotoDoll_Loli());
+		this.cardsToAdd.add(new RedHairedNetherlandsDoll_Loli());
+		this.cardsToAdd.add(new CharitableFranceDoll_Loli());
+		this.cardsToAdd.add(new MistyLondonDoll_Loli());
+		this.cardsToAdd.add(new CharismaticOrleansDoll_Loli());
 	}
-	
-	private void loadVariables() {
-//		BaseMod.addDynamicVariable(new TempHPVariable());
-		BaseMod.addDynamicVariable(new AliceSecondaryMagicNumberVariable());
-		BaseMod.addDynamicVariable(new AliceSecondaryDamageVariable());
+
+	private void registerLoliCards() {
+		AliceLoliManager.register(Pause_Loli.class);
+		AliceLoliManager.register(VivaciousShanghaiDoll_Loli.class);
+		AliceLoliManager.register(QuietHouraiDoll_Loli.class);
+		AliceLoliManager.register(SpringKyotoDoll_Loli.class);
+		AliceLoliManager.register(RedHairedNetherlandsDoll_Loli.class);
+		AliceLoliManager.register(CharitableFranceDoll_Loli.class);
+		AliceLoliManager.register(MistyLondonDoll_Loli.class);
+		AliceLoliManager.register(CharismaticOrleansDoll_Loli.class);
+	}
+
+	private static String serialize(AliceSaveData saveData) {
+		return saveData == null ? "null" : "Shanghai: " + saveData.getHasTriggeredShanghaiDollEvent();
+	}
+
+	@Override
+	public AliceSaveData onSave() {
+		logger.info("AliceMargatroidMod.onSave(): {}", serialize(saveData));
+		return saveData;
+	}
+
+	@Override
+	public void onLoad(AliceSaveData saveData) {
+		logger.info("AliceMargatroidMod.onLoad(): {}", serialize(saveData));
+		if (saveData != null)
+			AliceMargatroidMod.saveData = saveData;
+	}
+
+	public static AliceSaveData getSaveData() {
+		return saveData;
 	}
 }

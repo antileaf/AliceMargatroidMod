@@ -3,10 +3,6 @@
     "TITLE": "注释"
   },
   
-  "FIXEDSevenColoredPuppeteer": {
-    "DESCRIPTION": "目前存在一个 bug，会导致这张牌 #r无法 与异蛇之眼互动。 NL 稍后会修复。"
-  },
-  
   "Revelation": {
     "DESCRIPTION": "伤害提高效果可以叠加，但 #y启示 效果不会叠加。"
   },
@@ -21,10 +17,6 @@
     "TITLE": "状态追踪",
     "DESCRIPTION": "仅作用于弃牌堆、抽牌堆或消耗堆中的牌。 NL 如果在第一回合打出此牌，则 #r不会 产生任何效果。",
     "EXTENDED_DESCRIPTION": ["上回合开始时 #r没有 手牌。", "上回合开始时，共有 #b%d 张手牌（不包括“书签”）："]
-  },
-  
-  "Usokae": {
-    "DESCRIPTION": "按照 #y从左至右 的顺序，依次承担伤害。 NL 如果没有足够的 格挡 ，则仍然会由爱丽丝承担。"
   },
   
   "LuminousShanghaiDoll": {
@@ -54,9 +46,9 @@
     "DESCRIPTION": "在战斗中，这里会显示人偶的生成和行动情况。",
     "EXTENDED_DESCRIPTION": ["本场战斗中，已 生成 过 #b%d 种 人偶", " ，每种 人偶 的 行动 次数如下：", "次", "次"]
   },
-  
-  "DEPRECATEDMaliceSpark": {
-    "TITLE": "手牌上限减少",
-    "DESCRIPTION": "如果当前手牌数超过上限，则需要弃掉超出数量的手牌。"
+
+  "DollWorkshop": {
+    "TITLE": "更强的",
+    "DESCRIPTION": "可获得的衍生卡牌的效果可在大图预览界面或卡牌收藏中查看。"
   }
 }

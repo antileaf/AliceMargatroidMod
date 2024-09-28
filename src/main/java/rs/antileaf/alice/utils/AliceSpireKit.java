@@ -273,6 +273,10 @@ public abstract class AliceSpireKit {
 		else
 			return FontHelper.colorString("" + amount, "b");
 	}
+
+	public static AliceSaveData getSaveData() {
+		return AliceMargatroidMod.getSaveData();
+	}
 	
 	static String MARISA_MOD_ID = "TS05_Marisa";
 	static String PATCHOULI_MOD_ID = "PatchouliMod";

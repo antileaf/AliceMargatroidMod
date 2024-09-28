@@ -10,5 +10,9 @@
   "SEMICOLON": "；",
   "SEMICOLON_WITH_SPACE": "；",
   "EXCLAMATION_MARK": "！",
-  "EXCLAMATION_MARK_WITH_SPACE": "！"
+  "EXCLAMATION_MARK_WITH_SPACE": "！",
+  "QUESTION_MARK": "？",
+    "QUESTION_MARK_WITH_SPACE": "？",
+  "OR": "或",
+  "AND": "和"
 }

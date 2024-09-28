@@ -1,6 +1,7 @@
 package rs.antileaf.alice.strings;
 
 import org.jetbrains.annotations.Nullable;
+import rs.antileaf.alice.AliceMargatroidMod;
 
 import java.util.Map;
 
@@ -15,7 +16,7 @@ public class AliceCardNoteStrings {
 	
 	public static void init(Map<String, AliceCardNoteStrings> strings) {
 		AliceCardNoteStrings.strings = strings;
-		DEFAULT_TITLE = strings.get("DEFAULT").TITLE;
+		DEFAULT_TITLE = strings.get("DEFAULT").TITLE + " [" + AliceMargatroidMod.SIMPLE_NAME.toLowerCase() + ":InfoIcon]";
 		
 		for (AliceCardNoteStrings note : strings.values()) {
 			if (note.TITLE == null)

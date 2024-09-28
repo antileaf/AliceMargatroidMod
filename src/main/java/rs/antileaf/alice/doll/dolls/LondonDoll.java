@@ -3,8 +3,6 @@ package rs.antileaf.alice.doll.dolls;
 import com.megacrit.cardcrawl.core.Settings;
 import rs.antileaf.alice.action.doll.DollActAction;
 import rs.antileaf.alice.action.doll.DollGainBlockAction;
-import rs.antileaf.alice.action.doll.RecycleDollAction;
-import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.enums.DollAmountType;
@@ -16,7 +14,7 @@ public class LondonDoll extends AbstractDoll {
 	public static final String ID = SIMPLE_NAME;
 	private static final AliceDollStrings dollStrings = AliceDollStrings.get(ID);
 	
-	public static final int MAX_HP = 1;
+	public static final int MAX_HP = 2;
 	
 	public LondonDoll() {
 		super(
@@ -50,35 +48,35 @@ public class LondonDoll extends AbstractDoll {
 	
 	@Override
 	public void onAct() {
-		int pos = -1;
-		for (int i = 0; i < DollManager.get().getDolls().size(); i++) {
-			AbstractDoll doll = DollManager.get().getDolls().get(i);
-			
-			if (doll == this)
-				break;
-			
-			if (!(doll instanceof EmptyDollSlot)) {
-				pos = i;
-				break;
-			}
-		}
-		
-		if (pos != -1) {
-			int nowpos = DollManager.get().getIndex(this), finalPos = pos;
-			AliceSpireKit.addActionToBuffer(new AnonymousAction(() -> {
-				AbstractDoll other = DollManager.get().getDolls().get(finalPos);
-				DollManager.get().getDolls().set(finalPos, this);
-				DollManager.get().getDolls().set(nowpos, other);
-				
-				int temp1 = this.block, temp2 = other.block;
-				this.block = other.block = 0;
-				this.addBlock(temp2);
-				other.addBlock(temp1);
-			}));
-		}
-		else {
-			// Do not trigger Doll Ambush please
-			AliceSpireKit.addActionToBuffer(new RecycleDollAction(this, null, true));
+//		int pos = -1;
+//		for (int i = 0; i < DollManager.get().getDolls().size(); i++) {
+//			AbstractDoll doll = DollManager.get().getDolls().get(i);
+//
+//			if (doll == this)
+//				break;
+//
+//			if (!(doll instanceof EmptyDollSlot)) {
+//				pos = i;
+//				break;
+//			}
+//		}
+//
+//		if (pos != -1) {
+//			int nowpos = DollManager.get().getIndex(this), finalPos = pos;
+//			AliceSpireKit.addActionToBuffer(new AnonymousAction(() -> {
+//				AbstractDoll other = DollManager.get().getDolls().get(finalPos);
+//				DollManager.get().getDolls().set(finalPos, this);
+//				DollManager.get().getDolls().set(nowpos, other);
+//
+//				int temp1 = this.block, temp2 = other.block;
+//				this.block = other.block = 0;
+//				this.addBlock(temp2);
+//				other.addBlock(temp1);
+//			}));
+//		}
+//		else {
+//			// Do not trigger Doll Ambush please
+//			AliceSpireKit.addActionToBuffer(new RecycleDollAction(this, null, true));
 			
 //			AbstractMonster m = AbstractDungeon.getRandomMonster();
 //			if (m != null) {
@@ -94,91 +92,51 @@ public class LondonDoll extends AbstractDoll {
 //				));
 //				this.highlightActValue();
 //			}
-		}
-	}
-	
-	private void triggerPassiveEffect() {
+//		}
+
 		int index = DollManager.get().getIndex(this);
 		AbstractDoll prev = index > 0 ? DollManager.get().getDolls().get(index - 1) : null;
 		AbstractDoll next = index < DollManager.MAX_DOLL_SLOTS - 1 ? DollManager.get().getDolls().get(index + 1) : null;
-		
+
+//		AliceSpireKit.logger.info("prev: {}, next: {}",
+//				prev != null ? prev.name : "null",
+//				next != null ? next.name : "null");
+
 		if (this.block > 0) {
-			if (prev != null && next != null) {
-				if (!(prev instanceof EmptyDollSlot))
-					AliceSpireKit.addActionToBuffer(new DollGainBlockAction(prev, this.block - this.block / 2));
-				if (!(next instanceof EmptyDollSlot))
-					AliceSpireKit.addActionToBuffer(new DollGainBlockAction(next, this.block / 2));
+			if (prev != null && !(prev instanceof EmptyDollSlot) && next != null && !(next instanceof EmptyDollSlot)) {
+				AliceSpireKit.addActionToBuffer(new DollGainBlockAction(prev, this.block - this.block / 2));
+				AliceSpireKit.addActionToBuffer(new DollGainBlockAction(next, this.block / 2));
 			}
-			else if (prev != null) {
-				if (!(prev instanceof EmptyDollSlot))
-					AliceSpireKit.addActionToBuffer(new DollGainBlockAction(prev, this.block));
+			else if (prev != null && !(prev instanceof EmptyDollSlot)) {
+				AliceSpireKit.addActionToBuffer(new DollGainBlockAction(prev, this.block));
 			}
-			else if (next != null) {
-				if (!(next instanceof EmptyDollSlot))
-					AliceSpireKit.addActionToBuffer(new DollGainBlockAction(next, this.block));
+			else if (next != null && !(next instanceof EmptyDollSlot)) {
+				AliceSpireKit.addActionToBuffer(new DollGainBlockAction(next, this.block));
 			}
-			
-			this.block = 0;
+
+			if ((prev != null && !(prev instanceof EmptyDollSlot)) ||
+					(next != null && !(next instanceof EmptyDollSlot)))
+				this.block = 0;
 		}
-		
-		if (prev != null && !(prev instanceof EmptyDollSlot)) {
-			if (prev != this)
-				AliceSpireKit.addActionToBuffer(new DollActAction(prev));
-			else
-				AliceSpireKit.logger.info("LondonDoll: prev == this");
+
+		if (prev != null && !(prev instanceof EmptyDollSlot) && !(prev instanceof LondonDoll)) {
+			AliceSpireKit.addActionToBuffer(new DollActAction(prev));
 		}
-		if (next != null && !(next instanceof EmptyDollSlot)) {
-			if (next != this)
-				AliceSpireKit.addActionToBuffer(new DollActAction(next));
-			else
-				AliceSpireKit.logger.info("LondonDoll: next == this");
+		if (next != null && !(next instanceof EmptyDollSlot) && !(next instanceof LondonDoll)) {
+			AliceSpireKit.addActionToBuffer(new DollActAction(next));
 		}
 	}
 	
-	@Override
-	public void postSpawn() {
-		this.triggerPassiveEffect();
-		
-//		this.addToBot(new AnonymousAction(() -> {
-//			int index = -1;
-//			for (int i = DollManager.MAX_DOLL_SLOTS - 1; i >= 0; i--) {
-//				AbstractDoll doll = DollManager.get().getDolls().get(i);
+//	private void triggerPassiveEffect() {
+//	}
+	
+//	@Override
+//	public void postSpawn() {
 //
-//				if (doll instanceof EmptyDollSlot) {
-//					index = i;
-//					break;
-//				}
-//			}
-//
-//			if (index == -1)
-//				AliceSpireKit.log(this.getClass(), "No empty doll slot found");
-//
-//			// Here addToTop() is necessary, because this block is wrapped in an AnonymousAction.
-//			// Using addActionToBuffer() will cause the new doll to be spawned at an unexpected time.
-//			this.addToTop(new SpawnDollAction(AbstractDoll.getRandomDollExcept(LondonDoll.ID), index));
-//		}));
-	}
+//	}
 	
 	private void onRecycleOrDestroyed() {
-		this.triggerPassiveEffect();
-		
-//		this.addToBot(new AnonymousAction(() -> {
-//			int index = -1;
-//			for (int i = DollManager.MAX_DOLL_SLOTS - 1; i >= 0; i--) {
-//				AbstractDoll doll = DollManager.get().getDolls().get(i);
-//
-//				if ((doll instanceof EmptyDollSlot) || doll == this) {
-//					index = i;
-//					break;
-//				}
-//			}
-//
-//			if (index == -1)
-//				AliceSpireKit.log(this.getClass(), "No empty doll slot found");
-//
-//			// Here addToTop() is necessary, because of the same reason as in postSpawn().
-//			this.addToTop(new SpawnDollAction(AbstractDoll.getRandomDollExcept(LondonDoll.ID), index));
-//		}));
+		this.onAct();
 	}
 	
 	@Override

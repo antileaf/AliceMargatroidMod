@@ -16,14 +16,16 @@ public class OrleansDoll extends AbstractDoll {
 	private static final AliceDollStrings dollStrings = AliceDollStrings.get(ID);
 	
 	public static final int MAX_HP = 4;
+	private static final int PASSIVE_AMOUNT = 1;
+	private static final int ACT_AMOUNT = 1;
 	
 	public OrleansDoll() {
 		super(
 				ID,
 				dollStrings.NAME,
 				MAX_HP,
-				2,
-				1,
+				PASSIVE_AMOUNT,
+				ACT_AMOUNT,
 				AliceSpireKit.getOrbImgFilePath(SIMPLE_NAME),
 				RenderTextMode.NONE
 		);

@@ -8,10 +8,6 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import rs.antileaf.alice.action.doll.SpawnDollAction;
-import rs.antileaf.alice.action.utils.AnonymousAction;
-import rs.antileaf.alice.doll.DollManager;
-import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
-import rs.antileaf.alice.doll.dolls.HouraiDoll;
 import rs.antileaf.alice.doll.dolls.ShanghaiDoll;
 import rs.antileaf.alice.utils.AliceSpireKit;
 import rs.antileaf.alice.utils.AliceTutorialHelper;
@@ -48,13 +44,13 @@ public class AlicesGrimoire extends CustomRelic implements ClickableRelic {
 		this.addToBot(new RelicAboveCreatureAction(AbstractDungeon.player, this));
 		
 		this.addToBot(new SpawnDollAction(new ShanghaiDoll(), -1));
-		this.addToBot(new AnonymousAction(() -> {
-			for (int i = DollManager.MAX_DOLL_SLOTS - 1; i >= 0; i--)
-				if (DollManager.get().getDolls().get(i) instanceof EmptyDollSlot) {
-					this.addToTop(new SpawnDollAction(new HouraiDoll(), i));
-					break;
-				}
-		}));
+//		this.addToBot(new AnonymousAction(() -> {
+//			for (int i = DollManager.MAX_DOLL_SLOTS - 1; i >= 0; i--)
+//				if (DollManager.get().getDolls().get(i) instanceof EmptyDollSlot) {
+//					this.addToTop(new SpawnDollAction(new HouraiDoll(), i));
+//					break;
+//				}
+//		}));
 		
 		this.addToBot(new HandCheckAction());
 	}

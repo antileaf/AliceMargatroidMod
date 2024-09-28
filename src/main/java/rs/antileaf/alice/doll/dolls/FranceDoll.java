@@ -14,7 +14,7 @@ public class FranceDoll extends AbstractDoll {
 	public static final String ID = SIMPLE_NAME;
 	private static final AliceDollStrings dollStrings = AliceDollStrings.get(ID);
 	
-	public static final int MAX_HP = 5;
+	public static final int MAX_HP = 7;
 	public static final int ACT_AMOUNT = 5;
 	
 	public FranceDoll() {

@@ -22,10 +22,12 @@ import com.megacrit.cardcrawl.unlock.UnlockTracker;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import rs.antileaf.alice.AliceMargatroidMod;
-import rs.antileaf.alice.cards.AliceMargatroid.Thread;
-import rs.antileaf.alice.cards.AliceMargatroid.*;
+import rs.antileaf.alice.cards.alice.Chant;
+import rs.antileaf.alice.cards.alice.Defend_AliceMargatroid;
+import rs.antileaf.alice.cards.alice.DollPlacement;
+import rs.antileaf.alice.cards.alice.Strike_AliceMargatroid;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
-import rs.antileaf.alice.patches.enums.AliceMargatroidModClassEnum;
+import rs.antileaf.alice.patches.enums.AbstractPlayerEnum;
 import rs.antileaf.alice.relics.AlicesGrimoire;
 import rs.antileaf.alice.ui.SkinSelectScreen;
 
@@ -64,7 +66,7 @@ public class AliceMargatroid extends CustomPlayer {
 	
 	public AliceMargatroid(String name) {
 		//super(name, setClass, null, null , null ,new SpriterAnimation(SPRITER_ANIM_FILEPATH));
-		super(name, AliceMargatroidModClassEnum.ALICE_MARGATROID, ORB_TEXTURES, ORB_VFX, LAYER_SPEED, null, null);
+		super(name, AbstractPlayerEnum.ALICE_MARGATROID, ORB_TEXTURES, ORB_VFX, LAYER_SPEED, null, null);
 		//super(name, setClass, null, null, (String) null, null);
 		
 		this.dialogX = (this.drawX + 0.0F * Settings.scale); // set location for text bubbles
@@ -145,7 +147,7 @@ public class AliceMargatroid extends CustomPlayer {
 	}
 	
 	public AbstractCard getStartCardForEvent() {
-		return new Thread();
+		return new DollPlacement();
 	}
 	
 	public String getTitle(PlayerClass playerClass) { // 称号

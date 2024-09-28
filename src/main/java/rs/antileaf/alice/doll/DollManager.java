@@ -18,12 +18,13 @@ import rs.antileaf.alice.action.doll.MoveDollAction;
 import rs.antileaf.alice.action.doll.RecycleDollAction;
 import rs.antileaf.alice.action.doll.SpawnDollInternalAction;
 import rs.antileaf.alice.action.utils.AnonymousAction;
-import rs.antileaf.alice.cards.AliceMargatroid.DollMagic;
-import rs.antileaf.alice.cards.AliceMargatroid.SevenColoredPuppeteer;
+import rs.antileaf.alice.cards.alice.DollMagic;
+import rs.antileaf.alice.cards.alice.SevenColoredPuppeteer;
 import rs.antileaf.alice.characters.AliceMargatroid;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.doll.dolls.FranceDoll;
 import rs.antileaf.alice.doll.dolls.HouraiDoll;
+import rs.antileaf.alice.doll.dolls.NetherlandsDoll;
 import rs.antileaf.alice.doll.interfaces.OnDollOperateHook;
 import rs.antileaf.alice.powers.unique.ArtfulChanterPower;
 import rs.antileaf.alice.utils.AliceSpireKit;
@@ -350,6 +351,16 @@ public class DollManager {
 	
 	public void spawnDoll(AbstractDoll doll, int index) {
 		this.activateInternal();
+
+		if (doll instanceof NetherlandsDoll)
+			for (AbstractDoll other : this.dolls)
+				if (other instanceof NetherlandsDoll) {
+					for (int i = 0; i < 2; i++)
+						AliceSpireKit.addToTop(new DollActAction(other));
+
+					AliceSpireKit.logger.info("There is already a NetherlandsDoll. Triggering its passive effect.");
+					return;
+				}
 		
 		if (index == -1) {
 			for (int i = 0; i < MAX_DOLL_SLOTS; i++)
@@ -396,13 +407,13 @@ public class DollManager {
 		assert index >= 0 && index < MAX_DOLL_SLOTS;
 		assert this.dolls.get(index) == doll || this.dolls.get(index) instanceof EmptyDollSlot;
 		
-		boolean cancelled = false;
-		for (AbstractDoll other : this.dolls)
-			if (other.preOtherDollSpawn(doll))
-				cancelled = true;
-		
-		if (cancelled)
-			return;
+//		boolean cancelled = false;
+//		for (AbstractDoll other : this.dolls)
+//			if (other.preOtherDollSpawn(doll))
+//				cancelled = true;
+//
+//		if (cancelled)
+//			return;
 		
 		for (AbstractRelic relic : this.owner.relics)
 			if (relic instanceof OnDollOperateHook)
@@ -412,16 +423,17 @@ public class DollManager {
 			if (power instanceof OnDollOperateHook)
 				((OnDollOperateHook) power).preSpawnDoll(doll);
 		
-		int multiplier = this.getTotalHouraiPassiveAmount();
-		doll.maxHP += multiplier * doll.getDarkGrimoireBaseHP();
-		doll.HP += multiplier * doll.getDarkGrimoireBaseHP();
+		int bonusHP = this.getTotalHouraiPassiveAmount();
+		doll.maxHP += bonusHP;
+		doll.HP += bonusHP;
 		
 		doll.showHealthBar();
 		
 		this.dolls.set(index, doll);
 		doll.applyPower();
-		
 		doll.postSpawn();
+
+		AliceSpireKit.addActionToBuffer(new DollActAction(doll));
 		
 		this.applyPowers();
 		

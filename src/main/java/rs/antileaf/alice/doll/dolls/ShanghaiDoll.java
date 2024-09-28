@@ -24,7 +24,7 @@ public class ShanghaiDoll extends AbstractDoll {
 	public static final String ID = SIMPLE_NAME;
 	private static final AliceDollStrings dollStrings = AliceDollStrings.get(ID);
 	
-	public static final int MAX_HP = 3;
+	public static final int MAX_HP = 4;
 	public static final int PASSIVE_AMOUNT = 2;
 	public static final int ACT_AMOUNT = 4;
 	
@@ -162,10 +162,8 @@ public class ShanghaiDoll extends AbstractDoll {
 	
 	@Override
 	public void onStartOfTurn() {
-//		this.baseActAmount += this.passiveAmount;
-		this.charge += 1;
-		this.applyPower();
-//		this.highlightActValue();
+//		this.charge += 1;
+//		this.applyPower();
 	}
 	
 	// The logic of Strength is implemented in AbstractDoll.applyPowers().

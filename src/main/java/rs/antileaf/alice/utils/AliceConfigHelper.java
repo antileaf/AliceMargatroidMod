@@ -11,8 +11,8 @@ import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.CardLibrary;
 import com.megacrit.cardcrawl.helpers.FontHelper;
-import rs.antileaf.alice.cards.AliceMargatroid.WitchsTeaParty;
 import rs.antileaf.alice.cards.Marisa.*;
+import rs.antileaf.alice.cards.alice.WitchsTeaParty;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -22,9 +22,11 @@ import java.util.Properties;
 public class AliceConfigHelper {
 	public static String SHOULD_OPEN_TUTORIAL = "shouldOpenTutorial";
 	public static String ENABLE_SPELL_CARD_SIGN_DISPLAY = "enableSpellCardSignDisplay";
+	public static String ENABLE_CARD_TARGET_ICONS = "enableCardTargetIcons";
 	public static String ENABLE_ALTERNATIVE_MARISA_CARD_IMAGE = "enableAlternativeMarisaCardImage";
 	public static String USE_PACK_MASTER_STYLE_MARISA_CARDS = "usePackMasterStyleMarisaCards";
-	public static String ENABLE_WITCHS_TEA_PARTY_FEATURE = "enableWitchsTeaPartyFeature";
+	public static String ENABLE_WITCHS_TEA_PARTY_FEATURE = "enableWitchsTeaPartyFeature"; // Deprecated
+	public static String ENABLE_SHANGHAI_DOLL_EVENT_FOR_OTHER_CHARACTERS = "enableShanghaiDollEventForOtherCharacters";
 	public static String ENABLE_DEBUGGING = "enableDebugging";
 	public static String SKIN_SELECTION_UNLOCKED = "skinSelectionUnlocked";
 	public static String SKIN_CHOSEN = "skinChosen";
@@ -38,9 +40,11 @@ public class AliceConfigHelper {
 			Properties defaults = new Properties();
 			defaults.setProperty(SHOULD_OPEN_TUTORIAL, "true");
 			defaults.setProperty(ENABLE_SPELL_CARD_SIGN_DISPLAY, "true");
+			defaults.setProperty(ENABLE_CARD_TARGET_ICONS, "true");
 			defaults.setProperty(ENABLE_ALTERNATIVE_MARISA_CARD_IMAGE, "true");
 			defaults.setProperty(USE_PACK_MASTER_STYLE_MARISA_CARDS, "true");
 			defaults.setProperty(ENABLE_WITCHS_TEA_PARTY_FEATURE, "true");
+			defaults.setProperty(ENABLE_SHANGHAI_DOLL_EVENT_FOR_OTHER_CHARACTERS, "true");
 			defaults.setProperty(ENABLE_DEBUGGING, "false");
 			defaults.setProperty(SKIN_SELECTION_UNLOCKED, "false");
 			defaults.setProperty(SKIN_CHOSEN, "ORIGINAL");
@@ -65,6 +69,14 @@ public class AliceConfigHelper {
 	
 	public static void setEnableSpellCardSignDisplay(boolean enableSpellCardSignDisplay) {
 		conf.setBool(ENABLE_SPELL_CARD_SIGN_DISPLAY, enableSpellCardSignDisplay);
+	}
+
+	public static boolean enableCardTargetIcons() {
+		return conf.getBool(ENABLE_CARD_TARGET_ICONS);
+	}
+
+	public static void setEnableCardTargetIcons(boolean enableCardTargetIcons) {
+		conf.setBool(ENABLE_CARD_TARGET_ICONS, enableCardTargetIcons);
 	}
 	
 	private static void updateAllMarisaCards() {
@@ -107,6 +119,14 @@ public class AliceConfigHelper {
 		conf.setBool(ENABLE_WITCHS_TEA_PARTY_FEATURE, enableWitchsTeaPartyFeature);
 		
 		WitchsTeaParty.updateAll();
+	}
+
+	public static boolean enableShanghaiDollEventForOtherCharacters() {
+		return conf.getBool(ENABLE_SHANGHAI_DOLL_EVENT_FOR_OTHER_CHARACTERS);
+	}
+
+	public static void setEnableShanghaiDollEventForOtherCharacters(boolean enableShanghaiDollEventForOtherCharacters) {
+		conf.setBool(ENABLE_SHANGHAI_DOLL_EVENT_FOR_OTHER_CHARACTERS, enableShanghaiDollEventForOtherCharacters);
 	}
 	
 	public static boolean enableDebugging() {
@@ -184,6 +204,23 @@ public class AliceConfigHelper {
 					save();
 				}
 		);
+
+		y -= 50.0F;
+
+		ModLabeledToggleButton enableCardTargetIconsButton = new ModLabeledToggleButton(
+				strings.get(ENABLE_CARD_TARGET_ICONS),
+				350.0F,
+				y,
+				Settings.CREAM_COLOR,
+				FontHelper.charDescFont,
+				enableCardTargetIcons(),
+				panel,
+				(modLabel) -> {},
+				(button) -> {
+					setEnableCardTargetIcons(button.enabled);
+					save();
+				}
+		);
 		
 		y -= 50.0F;
 
@@ -237,6 +274,23 @@ public class AliceConfigHelper {
 //		);
 //
 //		y -= 50.0F;
+
+		ModLabeledToggleButton enableShanghaiDollEventForOtherCharactersButton = new ModLabeledToggleButton(
+				strings.get(ENABLE_SHANGHAI_DOLL_EVENT_FOR_OTHER_CHARACTERS),
+				350.0F,
+				y,
+				Settings.CREAM_COLOR,
+				FontHelper.charDescFont,
+				enableShanghaiDollEventForOtherCharacters(),
+				panel,
+				(modLabel) -> {},
+				(button) -> {
+					setEnableShanghaiDollEventForOtherCharacters(button.enabled);
+					save();
+				}
+		);
+
+		y -= 50.0F;
 		
 		ModLabeledToggleButton enableDebuggingButton = new ModLabeledToggleButton(
 				strings.get(ENABLE_DEBUGGING),
@@ -255,9 +309,11 @@ public class AliceConfigHelper {
 		
 		panel.addUIElement(tutorialButton);
 		panel.addUIElement(spellCardButton);
+		panel.addUIElement(enableCardTargetIconsButton);
 		panel.addUIElement(useAlternativeMarisaCardImageButton);
 		panel.addUIElement(usePackMasterStyleMarisaCardsButton);
 //		panel.addUIElement(enableWitchsTeaPartyFeatureButton);
+		panel.addUIElement(enableShanghaiDollEventForOtherCharactersButton);
 		panel.addUIElement(enableDebuggingButton);
 		
 		if (enableDebugging()) {

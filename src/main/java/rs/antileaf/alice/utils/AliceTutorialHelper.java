@@ -6,9 +6,6 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.localization.TutorialStrings;
-import rs.antileaf.alice.doll.AbstractDoll;
-
-import java.util.ArrayList;
 
 public class AliceTutorialHelper {
 	private static TutorialStrings generated = null;
@@ -18,41 +15,42 @@ public class AliceTutorialHelper {
 		
 		TutorialStrings tutorialStrings = CardCrawlGame.languagePack
 				.getTutorialString(AliceSpireKit.getModID() + "Raw");
-		ArrayList<String> res = new ArrayList<>();
-		
-		for (String key : tutorialStrings.TEXT) {
-			String s = key;
-			
-			
-			String[] dollClasses = new String[] {
-					"ShanghaiDoll",
-					"HouraiDoll",
-					"KyotoDoll",
-					"NetherlandsDoll",
-					"LondonDoll",
-					"FranceDoll",
-					"OrleansDoll"
-			};
-			
-			for (String dollClass : dollClasses) {
-				String dollName = CardCrawlGame.languagePack.getOrbString(dollClass).NAME;
-//				String flavor = AbstractDoll.getFlavor(dollClass);
-				String desc = AbstractDoll.getDescription(dollClass);
-				
-				s = s.replace("{" + dollClass + "}", dollName + " (" + /*flavor +*/ ") NL " + desc);
-			}
-			
-			res.add(s);
-		}
-		
-		generated = new TutorialStrings();
-		generated.TEXT = res.toArray(new String[0]);
+//		ArrayList<String> res = new ArrayList<>();
+//
+//		for (String key : tutorialStrings.TEXT) {
+//			String s = key;
+//
+//			String[] dollClasses = new String[] {
+//					"ShanghaiDoll",
+//					"HouraiDoll",
+//					"KyotoDoll",
+//					"NetherlandsDoll",
+//					"LondonDoll",
+//					"FranceDoll",
+//					"OrleansDoll"
+//			};
+//
+//			for (String dollClass : dollClasses) {
+//				String dollName = CardCrawlGame.languagePack.getOrbString(dollClass).NAME;
+////				String flavor = AbstractDoll.getFlavor(dollClass);
+//				String desc = AbstractDoll.getDescription(dollClass);
+//
+//				s = s.replace("{" + dollClass + "}", dollName + " (" + /*flavor +*/ ") NL " + desc);
+//			}
+//
+//			res.add(s);
+//		}
+//
+//		generated = new TutorialStrings();
+//		generated.TEXT = res.toArray(new String[0]);
+
+		generated = tutorialStrings;
 		
 //		Map<String, TutorialStrings> map = ReflectionHacks.getPrivateStatic(
 //				LocalizedStrings.class, "tutorials");
 //		map.put(AliceSpireKit.getModID(), generated);
 		
-		AliceSpireKit.log("Tutorial generated.");
+//		AliceSpireKit.log("Tutorial generated.");
 	}
 	
 	public static void openTutorial() {
@@ -62,7 +60,7 @@ public class AliceTutorialHelper {
 		Texture[] images = new Texture[generated.TEXT.length];
 		for (int i = 0; i < images.length; i++)
 			images[i] = ImageMaster.loadImage(
-					AliceSpireKit.getImgFilePath("tutorial", "" + i)
+					AliceSpireKit.getImgFilePath("tutorial", "" + (i + 1))
 			);
 		
 		AbstractDungeon.ftue = new CustomMultiPageFtue(

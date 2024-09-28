@@ -7,6 +7,6 @@
   "RevelationCardModifier": {
     "NAME": "启示",
     "DESCRIPTION": "打出此牌后，使手牌中 %s 攻击牌的基础伤害提高 #b%d 点，并获得 %s 效果。",
-    "EXTENDED_DESCRIPTION": ["的一张", "所有"]
+    "EXTENDED_DESCRIPTION": ["的一张随机", "所有"]
   }
 }

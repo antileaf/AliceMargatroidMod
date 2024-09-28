@@ -3,7 +3,7 @@
     "NAME": "爱丽丝的魔法书",
     "FLAVOR": "据说记载着人类无法使用的魔法。",
     "DESCRIPTIONS": [
-      "每场战斗开始时，在最右侧的空栏位中 #yalicemargatroidmod:生成 一个 #yalicemargatroidmod:上海人偶 ，然后在最左侧 #yalicemargatroidmod:生成 一个 #yalicemargatroidmod:蓬莱人偶 。",
+      "每场战斗开始时，在最右侧的空栏位中 #yalicemargatroidmod:生成 一个 #yalicemargatroidmod:上海人偶 。",
       "#yalicemargatroidmod:激活 ：重新打开新手教程。"
     ]
   },
@@ -55,6 +55,25 @@
     "FLAVOR": "可以承担持有者受到的一部分伤害的稀有人偶。",
     "DESCRIPTIONS": [
       "你的回合结束时，如果有即将受到攻击的空的 #yalicemargatroidmod:人偶 栏位，获得 #b3 点 #y格挡 。"
+    ]
+  },
+
+  "ShanghaiDollRelic": {
+    "NAME": "上海人偶",
+    "FLAVOR": "精巧而又可爱的人偶。",
+    "DESCRIPTIONS": [
+      "每场战斗开始时，对生命值最低的敌人造成 #b4 点伤害。",
+      "上海人偶（旧款）",
+      "这个人偶让你感觉很眼熟。"
+    ]
+  },
+
+  "BlackTeaRelic": {
+    "NAME": "红茶",
+    "FLAVOR": "爱丽丝的人偶们为你沏制的红茶。",
+    "DESCRIPTIONS": [
+      "拾起时，获得 #b7 点最大生命值，并恢复 #b7 点生命。",
+      "小爱丽丝为你沏制的红茶。"
     ]
   }
 }

@@ -15,6 +15,10 @@ public class AliceLanguageStrings {
 	public static String SEMICOLON_WITH_SPACE;
 	public static String EXCLAMATION_MARK; // 感叹号
 	public static String EXCLAMATION_MARK_WITH_SPACE;
+	public static String QUESTION_MARK; // 问号
+	public static String QUESTION_MARK_WITH_SPACE;
+	public static String OR; // 或
+	public static String AND; // 和
 	
 	public static void init(Map<String, String> strings) {
 		PERIOD = strings.get("PERIOD");
@@ -29,5 +33,9 @@ public class AliceLanguageStrings {
 		SEMICOLON_WITH_SPACE = strings.get("SEMICOLON_WITH_SPACE");
 		EXCLAMATION_MARK = strings.get("EXCLAMATION_MARK");
 		EXCLAMATION_MARK_WITH_SPACE = strings.get("EXCLAMATION_MARK_WITH_SPACE");
+		QUESTION_MARK = strings.get("QUESTION_MARK");
+		QUESTION_MARK_WITH_SPACE = strings.get("QUESTION_MARK_WITH_SPACE");
+		OR = strings.get("OR");
+		AND = strings.get("AND");
 	}
 }

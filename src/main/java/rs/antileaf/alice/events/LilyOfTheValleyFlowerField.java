@@ -1,99 +1,75 @@
 package rs.antileaf.alice.events;
 
+import basemod.abstracts.events.PhasedEvent;
+import basemod.abstracts.events.phases.TextPhase;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.events.AbstractImageEvent;
 import com.megacrit.cardcrawl.localization.EventStrings;
 import com.megacrit.cardcrawl.vfx.cardManip.ShowCardAndObtainEffect;
-import rs.antileaf.alice.cards.Derivations.CreateSusan;
 import rs.antileaf.alice.cards.colorless.PoisonousSweet;
+import rs.antileaf.alice.cards.derivations.CreateSusan;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
-public class LilyOfTheValleyFlowerField extends AbstractImageEvent {
+public class LilyOfTheValleyFlowerField extends PhasedEvent {
 	public static final String SIMPLE_NAME = LilyOfTheValleyFlowerField.class.getSimpleName();
 	public static final String ID = SIMPLE_NAME;
 	public static final EventStrings eventStrings = CardCrawlGame.languagePack.getEventString(ID);
-	
+
+	private static final String INTRO = "INTRO", LEAVE = "LEAVE", CHOICE = "CHOICE",
+			LEAVE_WITH_SUSAN = "LEAVE_WITH_SUSAN", LEAVE_WITH_FLOWERS = "LEAVE_WITH_FLOWERS";
+
 	public static final int MAX_HP_GAIN = 10;
 	public static final int MAX_HP_GAIN_HIGH_ASC = 5;
 	public static final int HP_LOSS = 7;
 	public static final int HP_LOSS_HIGH_ASC = 10;
-	
-	private static enum CurrentScreen {
-		INTRO, CHOICE, LEAVE
-	}
-	
-	CurrentScreen cur;
-	
-	public LilyOfTheValleyFlowerField() {
-		super(eventStrings.NAME, eventStrings.DESCRIPTIONS[0], AliceSpireKit.getEventImgFilePath(SIMPLE_NAME));
-		
-		this.cur = CurrentScreen.INTRO;
-		this.imageEventText.setDialogOption(eventStrings.OPTIONS[0]);
-	}
-	
+
 	public int getHpGain() {
 		return CardCrawlGame.isInARun() && AbstractDungeon.ascensionLevel >= 15 ? MAX_HP_GAIN_HIGH_ASC : MAX_HP_GAIN;
 	}
-	
+
 	public int getHpLoss() {
 		return CardCrawlGame.isInARun() && AbstractDungeon.ascensionLevel >= 15 ? HP_LOSS_HIGH_ASC : HP_LOSS;
 	}
-	
-//	@Override
-//	public void update() {
-//		super.update();
-//		if (!RoomEventDialog.waitForInput)
-//			this.buttonEffect(this.roomEventText.getSelectedOption());
-//	}
-	
-	@Override
-	protected void buttonEffect(int buttonPressed) {
-		if (this.cur == CurrentScreen.INTRO) {
-			if (buttonPressed != 0)
-				AliceSpireKit.log("INTRO, Invalid button pressed: " + buttonPressed);
-			
-			this.imageEventText.updateBodyText(eventStrings.DESCRIPTIONS[1]);
-			this.imageEventText.updateDialogOption(0, String.format(eventStrings.OPTIONS[1], this.getHpGain()),
-					new PoisonousSweet());
-			this.imageEventText.setDialogOption(String.format(eventStrings.OPTIONS[2], this.getHpLoss()),
-					new CreateSusan());
-			
-			this.cur = CurrentScreen.CHOICE;
-		}
-		else if (this.cur == CurrentScreen.CHOICE) {
-			if (buttonPressed == 0) {
-				this.imageEventText.updateBodyText(eventStrings.DESCRIPTIONS[2]);
-				AbstractDungeon.player.increaseMaxHp(this.getHpGain(), true);
-				AbstractDungeon.player.heal(AbstractDungeon.player.maxHealth);
-				AbstractDungeon.effectList.add(new ShowCardAndObtainEffect(
-						new PoisonousSweet(), (float) (Settings.WIDTH / 2), (float) (Settings.HEIGHT / 2)
-				));
-				logMetric(ID, "Take lily of the valley");
-			}
-			else if (buttonPressed == 1) {
-				this.imageEventText.updateBodyText(eventStrings.DESCRIPTIONS[3]);
-				AbstractDungeon.player.damage(new DamageInfo(null, this.getHpLoss(), DamageInfo.DamageType.HP_LOSS));
-				CardCrawlGame.sound.play("POWER_POISON", 0.05F);
-				CardCrawlGame.sound.play("BLOOD_SPLAT");
-				AbstractDungeon.effectList.add(new ShowCardAndObtainEffect(
-						new CreateSusan(), (float) (Settings.WIDTH / 2), (float) (Settings.HEIGHT / 2)
-				));
-				logMetric(ID, "Take Su-san");
-			}
-			else
-				AliceSpireKit.log("CHOICE, Invalid button pressed: " + buttonPressed);
-			
-			this.imageEventText.updateDialogOption(0, eventStrings.OPTIONS[3]);
-			this.imageEventText.clearRemainingOptions();
-			
-			this.cur = CurrentScreen.LEAVE;
-		}
-		else if (this.cur == CurrentScreen.LEAVE) {
-			logMetric(ID, "Leave");
-			this.openMap();
-		}
+
+	public LilyOfTheValleyFlowerField() {
+		super(ID, eventStrings.NAME, AliceSpireKit.getEventImgFilePath(SIMPLE_NAME));
+
+		this.registerPhase(INTRO, new TextPhase(eventStrings.DESCRIPTIONS[0])
+				.addOption(eventStrings.OPTIONS[0], (i) -> this.transitionKey(CHOICE))
+				.addOption(eventStrings.OPTIONS[1], (i) -> this.transitionKey(LEAVE)));
+
+		this.registerPhase(LEAVE, new TextPhase(eventStrings.DESCRIPTIONS[1])
+				.addOption(eventStrings.OPTIONS[2], (i) -> this.openMap()));
+
+		this.registerPhase(CHOICE, new TextPhase(eventStrings.DESCRIPTIONS[2])
+				.addOption(String.format(eventStrings.OPTIONS[3], this.getHpGain()), (i) -> {
+					AbstractDungeon.player.increaseMaxHp(this.getHpGain(), true);
+					AbstractDungeon.player.heal(AbstractDungeon.player.maxHealth);
+					AbstractDungeon.effectList.add(new ShowCardAndObtainEffect(new PoisonousSweet(),
+							Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
+					this.transitionKey(LEAVE_WITH_FLOWERS);
+				})
+				.addOption(new TextPhase.OptionInfo(String.format(eventStrings.OPTIONS[4], this.getHpLoss()))
+						.enabledCondition(() -> AbstractDungeon.player.currentHealth > this.getHpLoss(),
+								String.format(eventStrings.OPTIONS[5], this.getHpLoss())),
+						(i) -> {
+							AbstractDungeon.player.damage(new DamageInfo(null, this.getHpLoss(), DamageInfo.DamageType.HP_LOSS));
+							CardCrawlGame.sound.play("POWER_POISON", 0.05F);
+							CardCrawlGame.sound.play("BLOOD_SPLAT");
+							AbstractDungeon.effectList.add(new ShowCardAndObtainEffect(new CreateSusan(),
+									Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
+							this.transitionKey(LEAVE_WITH_SUSAN);
+						}));
+
+		// OPTIONS[2] 都是“离开”
+		this.registerPhase(LEAVE_WITH_SUSAN, new TextPhase(eventStrings.DESCRIPTIONS[3])
+				.addOption(eventStrings.OPTIONS[2], (i) -> this.openMap()));
+
+		this.registerPhase(LEAVE_WITH_FLOWERS, new TextPhase(eventStrings.DESCRIPTIONS[4])
+				.addOption(eventStrings.OPTIONS[2], (i) -> this.openMap()));
+
+		this.transitionKey(INTRO);
 	}
 }

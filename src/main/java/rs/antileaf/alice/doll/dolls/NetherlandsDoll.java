@@ -1,6 +1,7 @@
 package rs.antileaf.alice.doll.dolls;
 
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
+import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.powers.DexterityPower;
 import com.megacrit.cardcrawl.powers.StrengthPower;
@@ -26,7 +27,7 @@ public class NetherlandsDoll extends AbstractDoll {
 				MAX_HP,
 				0,
 				0,
-				AliceSpireKit.getOrbImgFilePath("yellow"),
+				AliceSpireKit.getOrbImgFilePath(SIMPLE_NAME),
 				RenderTextMode.BOTH
 		);
 		
@@ -82,21 +83,7 @@ public class NetherlandsDoll extends AbstractDoll {
 	
 	@Override
 	public void postSpawn() {
-//		this.addActionsToTop(new ApplyPowerAction(
-//					AbstractDungeon.player,
-//					AbstractDungeon.player,
-//					new StrengthPower(AbstractDungeon.player, this.passiveAmount),
-//					this.passiveAmount
-//			),
-//				new ApplyPowerAction(
-//					AbstractDungeon.player,
-//					AbstractDungeon.player,
-//					new DexterityPower(AbstractDungeon.player, this.actAmount),
-//					this.actAmount
-//			)
-//		);
-		for (int i = 0; i < 2; i++)
-			AliceSpireKit.addActionToBuffer(new DollActAction(this));
+		AliceSpireKit.addActionToBuffer(new DollActAction(this)); // 额外一次
 		
 //		this.highlightPassiveValue();
 	}
@@ -118,16 +105,16 @@ public class NetherlandsDoll extends AbstractDoll {
 		AliceSpireKit.commitBuffer();
 	}
 	
-	@Override
-	public boolean preOtherDollSpawn(AbstractDoll doll) {
-		if (doll instanceof NetherlandsDoll) {
-			for (int i = 0; i < 2; i++)
-				this.addToTop(new DollActAction(this));
-			return true;
-		}
-		else
-			return false;
-	}
+//	@Override
+//	public boolean preOtherDollSpawn(AbstractDoll doll) {
+//		if (doll instanceof NetherlandsDoll) {
+//			for (int i = 0; i < 2; i++)
+//				this.addToTop(new DollActAction(this));
+//			return true;
+//		}
+//		else
+//			return false;
+//	}
 	
 	@Override
 	public void onRecycle() {
@@ -182,6 +169,16 @@ public class NetherlandsDoll extends AbstractDoll {
 	
 	@Override
 	public void playChannelSFX() {}
+
+	@Override
+	protected float getRenderXOffset() {
+		return NUM_X_OFFSET + 14.0F * Settings.scale;
+	}
+
+	@Override
+	protected float getRenderYOffset() {
+		return this.bobEffect.y / 2.0F + NUM_Y_OFFSET - 28.0F * Settings.scale;
+	}
 	
 	public static String getDescription() {
 		return getHpDescription(MAX_HP) + " NL " + (new NetherlandsDoll()).desc();

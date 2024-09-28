@@ -20,8 +20,8 @@ public class HouraiDoll extends AbstractDoll {
 	public static final String ID = SIMPLE_NAME;
 	private static final AliceDollStrings dollStrings = AliceDollStrings.get(ID);
 	
-	public static final int MAX_HP = 2;
-	public static final int PASSIVE_AMOUNT = 1;
+	public static final int MAX_HP = 3;
+	public static final int PASSIVE_AMOUNT = 3;
 	public static final int ACT_AMOUNT = 3;
 	
 //	private int additionalPassiveAmount = 0;

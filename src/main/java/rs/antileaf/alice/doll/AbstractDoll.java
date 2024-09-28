@@ -27,7 +27,6 @@ import rs.antileaf.alice.doll.dolls.*;
 import rs.antileaf.alice.doll.enums.DollAmountTime;
 import rs.antileaf.alice.doll.enums.DollAmountType;
 import rs.antileaf.alice.doll.interfaces.PlayerOrEnemyDollAmountModHook;
-import rs.antileaf.alice.relics.AlicesDarkGrimoire;
 import rs.antileaf.alice.strings.AliceDollStrings;
 import rs.antileaf.alice.strings.AliceLanguageStrings;
 import rs.antileaf.alice.utils.AliceSpireKit;
@@ -440,18 +439,18 @@ public abstract class AbstractDoll extends CustomOrb {
 	
 	public abstract int getBaseHP();
 	
-	public int getDarkGrimoireBaseHP() {
-		if (!AliceSpireKit.isInBattle())
-			return this.getBaseHP();
-		
-		if (AbstractDungeon.player.hasRelic(AlicesDarkGrimoire.ID))
-			return this.getBaseHP() +
-					(int)DollManager.get().getDolls().stream()
-							.filter(doll -> doll != this && !(doll instanceof EmptyDollSlot))
-							.count() * AlicesDarkGrimoire.MULTIPLIER;
-		
-		return this.getBaseHP();
-	}
+//	public int getDarkGrimoireBaseHP() {
+//		if (!AliceSpireKit.isInBattle())
+//			return this.getBaseHP();
+//
+//		if (AbstractDungeon.player.hasRelic(AlicesDarkGrimoire.ID))
+//			return this.getBaseHP() +
+//					(int)DollManager.get().getDolls().stream()
+//							.filter(doll -> doll != this && !(doll instanceof EmptyDollSlot))
+//							.count() * AlicesDarkGrimoire.MULTIPLIER;
+//
+//		return this.getBaseHP();
+//	}
 	
 	// All actions added by onAct() should call addActionToBuffer.
 	// The buffer will be committed in DollManager.dollAct().
@@ -475,9 +474,9 @@ public abstract class AbstractDoll extends CustomOrb {
 	public void onEndOfTurn() {}
 	
 	// Returning true will cancel this spawn.
-	public boolean preOtherDollSpawn(AbstractDoll doll) {
-		return false;
-	}
+//	public boolean preOtherDollSpawn(AbstractDoll doll) {
+//		return false;
+//	}
 	
 	public void postOtherDollSpawn(AbstractDoll doll) {}
 	
@@ -1086,13 +1085,13 @@ public abstract class AbstractDoll extends CustomOrb {
 		}
 	}
 	
-	public static String[] dollClasses = new String[] {
+	public final static String[] dollClasses = new String[] {
 			"ShanghaiDoll",
-			"NetherlandsDoll",
 			"HouraiDoll",
 			"KyotoDoll",
-			"LondonDoll",
+			"NetherlandsDoll",
 			"FranceDoll",
+			"LondonDoll",
 			"OrleansDoll"
 	};
 	

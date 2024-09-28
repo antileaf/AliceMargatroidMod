@@ -10,7 +10,8 @@ import com.megacrit.cardcrawl.powers.StrengthPower;
 import rs.antileaf.alice.powers.AbstractAlicePower;
 
 public class MagicianRayPower extends AbstractAlicePower {
-	public static final String POWER_ID = MagicianRayPower.class.getSimpleName();
+	public static final String SIMPLE_NAME = MagicianRayPower.class.getSimpleName();
+	public static final String POWER_ID = SIMPLE_NAME;
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
 	
 	public MagicianRayPower(int amount) {
@@ -22,7 +23,7 @@ public class MagicianRayPower extends AbstractAlicePower {
 		
 		this.type = PowerType.BUFF;
 		this.updateDescription();
-		this.initializeImage(null);
+		this.initializeImage(SIMPLE_NAME);
 	}
 	
 	@Override

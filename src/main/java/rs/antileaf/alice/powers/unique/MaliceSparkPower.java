@@ -9,7 +9,8 @@ import rs.antileaf.alice.powers.AbstractAlicePower;
 import rs.antileaf.alice.utils.AliceMiscKit;
 
 public class MaliceSparkPower extends AbstractAlicePower {
-	public static final String POWER_ID = MaliceSparkPower.class.getSimpleName();
+	public static final String SIMPLE_NAME = MaliceSparkPower.class.getSimpleName();
+	public static final String POWER_ID = SIMPLE_NAME;
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
 	
 //	private int diff = 0;
@@ -22,7 +23,7 @@ public class MaliceSparkPower extends AbstractAlicePower {
 		
 		this.type = PowerType.DEBUFF;
 		this.updateDescription();
-		this.initializeImage(null);
+		this.initializeImage(SIMPLE_NAME);
 	}
 	
 	@Override

@@ -15,7 +15,8 @@ import rs.antileaf.alice.powers.AbstractAlicePower;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class SeaOfSubconsciousnessPower extends AbstractAlicePower {
-	public static final String POWER_ID = SeaOfSubconsciousnessPower.class.getSimpleName();
+	public static final String SIMPLE_NAME = SeaOfSubconsciousnessPower.class.getSimpleName();
+	public static final String POWER_ID = SIMPLE_NAME;
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
 	
 	public SeaOfSubconsciousnessPower(int amount) {
@@ -26,7 +27,7 @@ public class SeaOfSubconsciousnessPower extends AbstractAlicePower {
 		
 		this.type = PowerType.BUFF;
 		this.updateDescription();
-		this.initializeImage(null);
+		this.initializeImage(SIMPLE_NAME);
 	}
 	
 	@Override

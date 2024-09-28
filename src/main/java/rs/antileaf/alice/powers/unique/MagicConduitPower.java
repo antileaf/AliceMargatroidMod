@@ -19,7 +19,8 @@ import rs.antileaf.alice.powers.AbstractAlicePower;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class MagicConduitPower extends AbstractAlicePower implements OnDollOperateHook {
-	public static final String POWER_ID = MagicConduitPower.class.getSimpleName();
+	public static final String SIMPLE_NAME = MagicConduitPower.class.getSimpleName();
+	public static final String POWER_ID = SIMPLE_NAME;
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
 	
 	private static final float VFX_MIN = 0.1F, VFX_MAX = 0.4F;
@@ -34,7 +35,7 @@ public class MagicConduitPower extends AbstractAlicePower implements OnDollOpera
 		
 		this.type = PowerType.BUFF;
 		this.updateDescription();
-		this.initializeImage(null);
+		this.initializeImage(SIMPLE_NAME);
 	}
 	
 	@Override

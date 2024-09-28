@@ -11,7 +11,8 @@ import rs.antileaf.alice.powers.AbstractAlicePower;
 import rs.antileaf.alice.utils.AliceAudioMaster;
 
 public class AliceExtraTurnPower extends AbstractAlicePower {
-	public static final String POWER_ID = AliceExtraTurnPower.class.getSimpleName();
+	public static final String SIMPLE_NAME = AliceExtraTurnPower.class.getSimpleName();
+	public static final String POWER_ID = SIMPLE_NAME;
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
 	
 	public AliceExtraTurnPower(int amount) {
@@ -22,8 +23,7 @@ public class AliceExtraTurnPower extends AbstractAlicePower {
 		
 		this.type = PowerType.BUFF;
 		this.updateDescription();
-//		this.initializeImage(null);
-		this.loadRegion("time");
+		this.initializeImage(SIMPLE_NAME);
 	}
 	
 	@Override

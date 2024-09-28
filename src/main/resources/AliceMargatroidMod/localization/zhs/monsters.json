@@ -1,0 +1,7 @@
+{
+  "ShanghaiDollAsMonster": {
+    "NAME": "上海人偶",
+    "DIALOG": ["……！", "……？"],
+    "MOVES": ["新月", "结界", "弹幕", "害怕"]
+  }
+}

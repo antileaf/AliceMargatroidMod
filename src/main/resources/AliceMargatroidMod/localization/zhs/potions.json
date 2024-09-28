@@ -11,5 +11,13 @@
     "DESCRIPTIONS": [
       "所有 #y人偶 #y行动 一次。"
     ]
+  },
+
+  "BottledDoll": {
+    "NAME": "瓶装人偶",
+    "DESCRIPTIONS": [
+      "#y生成 一个对应种类的 #y人偶 。"
+    ],
+    "FLAVOR": "我要控告你违反了人偶保护法！"
   }
 }

@@ -13,7 +13,7 @@ import com.megacrit.cardcrawl.screens.mainMenu.MenuCancelButton;
 import javassist.CannotCompileException;
 import javassist.CtBehavior;
 import rs.antileaf.alice.characters.AliceMargatroid;
-import rs.antileaf.alice.patches.enums.AliceMargatroidModClassEnum;
+import rs.antileaf.alice.patches.enums.AbstractPlayerEnum;
 import rs.antileaf.alice.ui.SkinSelectScreen;
 
 @SuppressWarnings("unused")
@@ -21,7 +21,7 @@ public class CharacterSelectScreenSkinPatch {
 //	public static boolean shouldUpdateBackground = false;
 	
 	public static boolean isAliceSelected() {
-		return CardCrawlGame.chosenCharacter == AliceMargatroidModClassEnum.ALICE_MARGATROID &&
+		return CardCrawlGame.chosenCharacter == AbstractPlayerEnum.ALICE_MARGATROID &&
 				(Boolean) ReflectionHacks.getPrivate(CardCrawlGame.mainMenuScreen.charSelectScreen,
 						CharacterSelectScreen.class, "anySelected");
 	}

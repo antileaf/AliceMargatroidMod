@@ -18,7 +18,7 @@ public class KyotoDoll extends AbstractDoll {
 	public static final String ID = SIMPLE_NAME;
 	private static final AliceDollStrings dollStrings = AliceDollStrings.get(ID);
 	
-	public static final int MAX_HP = 6;
+	public static final int MAX_HP = 8;
 //	public static final int ACT_AMOUNT = 3;
 	
 	public KyotoDoll() {

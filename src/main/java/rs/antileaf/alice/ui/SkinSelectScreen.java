@@ -9,7 +9,7 @@ import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
-import rs.antileaf.alice.patches.enums.AliceMargatroidModClassEnum;
+import rs.antileaf.alice.patches.enums.AbstractPlayerEnum;
 import rs.antileaf.alice.strings.AliceSkinStrings;
 import rs.antileaf.alice.utils.AliceConfigHelper;
 import rs.antileaf.alice.utils.AliceSpireKit;
@@ -75,7 +75,7 @@ public class SkinSelectScreen {
 	}
 	
 	private void updateInput() {
-		if (CardCrawlGame.chosenCharacter == AliceMargatroidModClassEnum.ALICE_MARGATROID) {
+		if (CardCrawlGame.chosenCharacter == AbstractPlayerEnum.ALICE_MARGATROID) {
 			this.prevHb.update();
 			this.nextHb.update();
 			

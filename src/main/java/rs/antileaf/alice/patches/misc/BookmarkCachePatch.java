@@ -4,7 +4,7 @@ import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePostfixPatch;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import rs.antileaf.alice.action.utils.AnonymousAction;
-import rs.antileaf.alice.cards.AliceMargatroid.Bookmark;
+import rs.antileaf.alice.cards.alice.Bookmark;
 import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class BookmarkCachePatch {

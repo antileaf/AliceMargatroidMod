@@ -18,7 +18,8 @@ public class AliceSecondaryMagicNumberVariable extends DynamicVariable {
 		}
 		return false;
 	}
-	
+
+	@Override
 	public int value(AbstractCard card) {
 		if (card instanceof AbstractAliceCard) {
 			AbstractAliceCard aliceCard = (AbstractAliceCard) card;
@@ -26,7 +27,8 @@ public class AliceSecondaryMagicNumberVariable extends DynamicVariable {
 		}
 		return -1;
 	}
-	
+
+	@Override
 	public int baseValue(AbstractCard card) {
 		if (card instanceof AbstractAliceCard) {
 			AbstractAliceCard aliceCard = (AbstractAliceCard) card;
@@ -34,7 +36,8 @@ public class AliceSecondaryMagicNumberVariable extends DynamicVariable {
 		}
 		return -1;
 	}
-	
+
+	@Override
 	public boolean upgraded(AbstractCard card) {
 		if (card instanceof AbstractAliceCard) {
 			AbstractAliceCard aliceCard = (AbstractAliceCard) card;

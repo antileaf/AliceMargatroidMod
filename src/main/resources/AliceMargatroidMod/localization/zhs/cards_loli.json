@@ -1,0 +1,46 @@
+{
+  "Pause_Loli": {
+    "NAME": "一时停止！",
+    "DESCRIPTION": "爱丽丝或目标 alicemargatroidmod:人偶 获得 !B! 点 格挡 。 NL 下回合开始时，额外抽 !M! 张牌。"
+  },
+
+  "VivaciousShanghaiDoll_Loli": {
+    "NAME": "活泼的上海人偶！",
+    "DESCRIPTION": "获得 !aliceM2! 点 力量 。 NL alicemargatroidmod:生成 一个 alicemargatroidmod:上海人偶 ， NL 使其 alicemargatroidmod:行动 !M! 次。"
+  },
+
+  "QuietHouraiDoll_Loli": {
+    "NAME": "文静的蓬莱人偶！",
+    "DESCRIPTION": "alicemargatroidmod:生成 一个 alicemargatroidmod:蓬莱人偶 。 NL 所有 alicemargatroidmod:人偶 获得 !B! 点 格挡 。",
+    "UPGRADE_DESCRIPTION": "alicemargatroidmod:生成 一个 alicemargatroidmod:蓬莱人偶 。 NL 如果目标栏位中已经有一个 alicemargatroidmod:蓬莱人偶 ，则在 alicemargatroidmod:回收 之前先使其 alicemargatroidmod:行动 !M! 次。 NL 所有 alicemargatroidmod:人偶 获得 !B! 点 格挡 。"
+  },
+
+  "SpringKyotoDoll_Loli": {
+    "NAME": "春之京都人偶！",
+    "DESCRIPTION": "alicemargatroidmod:生成 一个 alicemargatroidmod:京都人偶 。 NL 下回合开始时，所有 alicemargatroidmod:京都人偶 alicemargatroidmod:行动 一次。",
+    "UPGRADE_DESCRIPTION": "alicemargatroidmod:生成 一个 alicemargatroidmod:京都人偶 。 NL 所有 alicemargatroidmod:京都人偶 生命值提高 !aliceM2! 点。 NL 下回合开始时，所有 alicemargatroidmod:京都人偶 alicemargatroidmod:行动 一次。"
+  },
+
+  "RedHairedNetherlandsDoll_Loli": {
+    "NAME": "红发的荷兰人偶！",
+    "DESCRIPTION": "alicemargatroidmod:生成 一个 alicemargatroidmod:荷兰人偶 。 NL 所有 alicemargatroidmod:荷兰人偶 获得 !B! 点 格挡 !M! 次。",
+    "UPGRADE_DESCRIPTION": "alicemargatroidmod:生成 一个 alicemargatroidmod:荷兰人偶 。 NL 爱丽丝和所有 alicemargatroidmod:荷兰人偶 获得 !B! 点 格挡 !M! 次。"
+  },
+
+  "CharitableFranceDoll_Loli": {
+    "NAME": "博爱的法兰西人偶！",
+    "DESCRIPTION": "所有敌人失去 !aliceM2! 点 力量 一回合。 NL alicemargatroidmod:生成 一个 alicemargatroidmod:法兰西人偶 。 NL 如果目标栏位中已经有一个 alicemargatroidmod:法兰西人偶 ，则不会 alicemargatroidmod:生成 ，而是改为使其 alicemargatroidmod:行动 !M! 次。"
+  },
+
+  "MistyLondonDoll_Loli": {
+    "NAME": "雾之伦敦人偶！",
+    "DESCRIPTION": "alicemargatroidmod:生成 一个 alicemargatroidmod:伦敦人偶 。 NL 本回合结束时， 保留 手牌中的所有技能牌。",
+    "UPGRADE_DESCRIPTION": "alicemargatroidmod:生成 一个 alicemargatroidmod:伦敦人偶 ，或者使目标 alicemargatroidmod:人偶 alicemargatroidmod:行动 !M! 次。 NL 本回合结束时， 保留 手牌中的所有技能牌。"
+  },
+
+  "CharismaticOrleansDoll_Loli": {
+    "NAME": "魅力的奥尔良人偶！",
+    "DESCRIPTION": "alicemargatroidmod:生成 一个 alicemargatroidmod:奥尔良人偶 。 NL 如果这张牌是战斗中临时增加的牌，这张牌在首次被打出前耗能变为 0 。",
+    "UPGRADE_DESCRIPTION": "alicemargatroidmod:生成 一个 alicemargatroidmod:奥尔良人偶 ，使其 alicemargatroidmod:行动 一次。 NL 如果这张牌是战斗中临时增加的牌，这张牌在首次被打出前耗能变为 0 。"
+  }
+}
