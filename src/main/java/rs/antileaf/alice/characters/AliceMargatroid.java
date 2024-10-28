@@ -13,14 +13,13 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.EnergyManager;
 import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.core.Settings.GameLanguage;
+import com.megacrit.cardcrawl.events.city.Vampires;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.ScreenShake;
+import com.megacrit.cardcrawl.localization.CharacterStrings;
 import com.megacrit.cardcrawl.screens.CharSelectInfo;
 import com.megacrit.cardcrawl.unlock.UnlockTracker;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import rs.antileaf.alice.AliceMargatroidMod;
 import rs.antileaf.alice.cards.alice.Chant;
 import rs.antileaf.alice.cards.alice.Defend_AliceMargatroid;
@@ -30,19 +29,17 @@ import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.AbstractPlayerEnum;
 import rs.antileaf.alice.relics.AlicesGrimoire;
 import rs.antileaf.alice.ui.SkinSelectScreen;
+import rs.antileaf.alice.utils.AliceSpireKit;
 
 import java.util.ArrayList;
 
 public class AliceMargatroid extends CustomPlayer {
-	
-	private static final int ENERGY_PER_TURN = 3; // how much energy you get every turn
-	private static final String ALICE_SHOULDER_2 = "AliceMargatroidMod/img/char/AliceMargatroid/shoulder2.png"; // shoulder2 / shoulder_1
-	private static final String ALICE_SHOULDER_1 = "AliceMargatroidMod/img/char/AliceMargatroid/shoulder1.png"; // shoulder1 / shoulder_2
+	private static final CharacterStrings characterStrings =
+			CardCrawlGame.languagePack.getCharacterString(AliceMargatroid.class.getSimpleName());
+
+	private static final String ALICE_SHOULDER_2 = "AliceMargatroidMod/img/char/AliceMargatroid/shoulder.png"; // shoulder2 / shoulder_1
+	private static final String ALICE_SHOULDER_1 = "AliceMargatroidMod/img/char/AliceMargatroid/shoulder.png"; // shoulder1 / shoulder_2
 	private static final String ALICE_CORPSE = "AliceMargatroidMod/img/char/AliceMargatroid/corpse.png"; // dead corpse
-	public static final Logger logger = LogManager.getLogger(AliceMargatroidMod.class.getName());
-	//private static final float[] layerSpeeds = { 20.0F, 0.0F, -40.0F, 0.0F, 0.0F, 5.0F, 0.0F, -8.0F, 0.0F, 8.0F };
-//	private static final String ALICE_SKELETON_ATLAS = "img/char/Reiuji/MarisaModelv3.atlas";// Marisa_v0 / MarisaModel_v02 /MarisaModelv3
-//	private static final String ALICE_SKELETON_JSON = "img/char/Reiuji/MarisaModelv3.json";
 	private static final String ALICE_ANIMATION = "Idle";// Sprite / Idle
 	private static final String[] ORB_TEXTURES = {
 			"AliceMargatroidMod/img/UI/AliceMargatroid/EPanel/layer5.png",
@@ -60,19 +57,16 @@ public class AliceMargatroid extends CustomPlayer {
 	private static final String ORB_VFX = "AliceMargatroidMod/img/UI/AliceMargatroid/energyBlueVFX.png";
 	private static final float[] LAYER_SPEED =
 			{-40.0F, -32.0F, 20.0F, -20.0F, 0.0F, -10.0F, -8.0F, 5.0F, -5.0F, 0.0F};
-	//public static final String SPRITER_ANIM_FILEPATH = "img/char/MyCharacter/marisa_test.scml"; // spriter animation scml
-	
+
 	private SkinSelectScreen.Skin skin = null;
 	
 	public AliceMargatroid(String name) {
-		//super(name, setClass, null, null , null ,new SpriterAnimation(SPRITER_ANIM_FILEPATH));
-		super(name, AbstractPlayerEnum.ALICE_MARGATROID, ORB_TEXTURES, ORB_VFX, LAYER_SPEED, null, null);
-		//super(name, setClass, null, null, (String) null, null);
+		super(name, AbstractPlayerEnum.ALICE_MARGATROID_PLAYER_CLASS, ORB_TEXTURES, ORB_VFX, LAYER_SPEED, null, null);
 		
 		this.dialogX = (this.drawX + 0.0F * Settings.scale); // set location for text bubbles
 		this.dialogY = (this.drawY + 220.0F * Settings.scale); // you can just copy these values
 		
-		logger.info("init Alice Margatroid");
+		AliceSpireKit.logger.info("init Alice Margatroid");
 		
 		this.initializeClass(
 				"AliceMargatroidMod/img/char/AliceMargatroid/alice.png",
@@ -81,12 +75,12 @@ public class AliceMargatroid extends CustomPlayer {
 				ALICE_CORPSE,
 				this.getLoadout(),
 				20.0F, -10.0F, 220.0F, 290.0F,
-				new EnergyManager(ENERGY_PER_TURN)
+				new EnergyManager(3)
 		);
 		
 //		this.maxOrbs = 0;
-		
-		logger.info("init finish");
+
+		AliceSpireKit.logger.info("init finish");
 	}
 	
 	public ArrayList<String> getStartingDeck() { // 初始卡组
@@ -117,19 +111,10 @@ public class AliceMargatroid extends CustomPlayer {
 	private static final int HAND_SIZE = 5;
 	private static final int ASCENSION_MAX_HP_LOSS = 7;
 	
-	public CharSelectInfo getLoadout() { // the rest of the character loadout so includes your character select screen info plus hp and starting gold
-		String title;
-		String flavor;
-		if (Settings.language == Settings.GameLanguage.ZHS || Settings.language == Settings.GameLanguage.ZHT) {
-			title = "爱丽丝·玛格特罗伊德";
-			flavor = "居住在魔法之森的人偶使。 NL 拥有精细操控人偶的能力。";
-		} else {
-			title = "Alice Margatroid";
-			flavor = "A puppeteer living in the Forest of Magic. NL Has the ability to operate dolls with precision.";
-		}
+	public CharSelectInfo getLoadout() {
 		return new CharSelectInfo(
-				title,
-				flavor,
+				characterStrings.NAMES[0],
+				characterStrings.TEXT[0],
 				STARTING_HP,
 				MAX_HP,
 				0,
@@ -151,21 +136,13 @@ public class AliceMargatroid extends CustomPlayer {
 	}
 	
 	public String getTitle(PlayerClass playerClass) { // 称号
-		String title;
-		if (Settings.language == GameLanguage.ZHS ||
-				Settings.language == GameLanguage.ZHT) {
-			title = "七色的人偶使";
-			
-			int easterEgg = MathUtils.random(1, 50); // 谁不喜欢彩蛋呢？
-			if (easterEgg == 1)
-				title = "布加勒斯特的人偶使";
-			else if (easterEgg == 2)
-				title = "七色的萝莉使";
-		}
-		else if (Settings.language == GameLanguage.JPN)
-			title = "七色の人形遣い";
-		else
-			title = "Seven-Colored Puppeteer";
+		String title = characterStrings.NAMES[2];
+
+		int easterEgg = MathUtils.random(1, 50); // 谁不喜欢彩蛋呢？
+		if (easterEgg == 1)
+			title = characterStrings.NAMES[3];
+		else if (easterEgg == 2 && characterStrings.NAMES.length > 4)
+			title = characterStrings.NAMES[4];
 
 		return title;
 	}
@@ -196,24 +173,29 @@ public class AliceMargatroid extends CustomPlayer {
 	}
 	
 	public String getLocalizedCharacterName() {
-		String char_name;
-		if ((Settings.language == Settings.GameLanguage.ZHS)
-				|| (Settings.language == Settings.GameLanguage.ZHT)) {
-			char_name = "爱丽丝·玛格特罗伊德";
-		} else if (Settings.language == Settings.GameLanguage.JPN) {
-			char_name = "アリス・マーガトロイド";
-		} else {
-			char_name = "Alice Margatroid";
-		}
-		return char_name;
+		return characterStrings.NAMES[0];
+//		String char_name;
+//		if ((Settings.language == Settings.GameLanguage.ZHS)
+//				|| (Settings.language == Settings.GameLanguage.ZHT)) {
+//			char_name = "爱丽丝·玛格特罗伊德";
+//		} else if (Settings.language == Settings.GameLanguage.JPN) {
+//			char_name = "アリス・マーガトロイド";
+//		} else {
+//			char_name = "Alice Margatroid";
+//		}
+//		return char_name;
+	}
+
+	public String getCustomModeModCharacterName() { // Used in patch
+		return characterStrings.NAMES[1];
 	}
 	
 	public AbstractPlayer newInstance() {
 		return new AliceMargatroid(this.name);
 	}
 	
-	public String getVampireText() { // TODO: Change here to change the vampire text
-		return com.megacrit.cardcrawl.events.city.Vampires.DESCRIPTIONS[1];
+	public String getVampireText() {
+		return Vampires.DESCRIPTIONS[1];
 	}
 	
 	public Color getCardRenderColor() {
@@ -246,7 +228,7 @@ public class AliceMargatroid extends CustomPlayer {
 	
 	@Override
 	public String getSpireHeartText() {
-		return CardCrawlGame.languagePack.getEventString("AliceSpireHeart").DESCRIPTIONS[0];
+		return characterStrings.TEXT[1];
 	}
 	
 	@Override

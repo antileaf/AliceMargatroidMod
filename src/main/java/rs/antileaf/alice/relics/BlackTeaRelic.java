@@ -28,13 +28,15 @@ public class BlackTeaRelic extends CustomRelic {
 		
 		this.largeImg = ImageMaster.loadImage(IMG_LARGE);
 
+		this.checkFlavor();
+	}
+
+	public void checkFlavor() {
 		if (AbstractDungeon.isPlayerInDungeon() && AbstractDungeon.player != null &&
-				AbstractDungeon.player.chosenClass == AbstractPlayerEnum.ALICE_MARGATROID) {
+				AbstractDungeon.player.chosenClass == AbstractPlayerEnum.ALICE_MARGATROID_PLAYER_CLASS) {
 			this.flavorText = this.DESCRIPTIONS[1];
 
-//			this.tips.clear();
-//			this.tips.add(new PowerTip(this.name, this.description));
-//			this.initializeTips();
+			// No need to initialize tips, as the tips are not being changed
 		}
 	}
 	

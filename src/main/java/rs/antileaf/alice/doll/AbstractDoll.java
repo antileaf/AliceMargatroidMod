@@ -690,7 +690,7 @@ public abstract class AbstractDoll extends CustomOrb {
 		}
 		
 		if (AbstractDungeon.player != null && !AbstractDungeon.player.hasRelic(RunicDome.ID)) {
-			if (this.damageAboutToTake > 0) {
+			if (this.damageAboutToTake >= 0) {
 				FontHelper.renderFontCentered(
 						sb,
 						FontHelper.cardEnergyFont_L,

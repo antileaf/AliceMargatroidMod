@@ -30,7 +30,7 @@ public class ShanghaiDollAsMonsterPatch {
 	public static class ReplaceLouseWithShanghaiDoll {
 		@SpirePostfixPatch
 		public static MonsterGroup Postfix(MonsterGroup group, AbstractDungeon _inst) {
-			if ((AbstractDungeon.player.chosenClass == AbstractPlayerEnum.ALICE_MARGATROID ||
+			if ((AbstractDungeon.player.chosenClass == AbstractPlayerEnum.ALICE_MARGATROID_PLAYER_CLASS ||
 					AliceConfigHelper.enableShanghaiDollEventForOtherCharacters()) &&
 					!AliceSpireKit.getSaveData().getHasTriggeredShanghaiDollEvent()) {
 				ArrayList<Integer> indices = new ArrayList<>();
@@ -85,6 +85,4 @@ public class ShanghaiDollAsMonsterPatch {
 			}
 		}
 	}
-
-
 }

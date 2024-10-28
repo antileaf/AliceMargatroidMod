@@ -90,7 +90,7 @@ public class ShanghaiDollAsMonster extends CustomMonster {
 	public void usePreBattleAction() {
 		super.usePreBattleAction();
 
-		if (AbstractDungeon.player.chosenClass == AbstractPlayerEnum.ALICE_MARGATROID)
+		if (AbstractDungeon.player.chosenClass == AbstractPlayerEnum.ALICE_MARGATROID_PLAYER_CLASS)
 			this.addToBot(new TalkAction(this, monsterStrings.DIALOG[0], 0.5F, 2.0F));
 		else {
 			this.name = Stream.generate(() -> AliceLanguageStrings.QUESTION_MARK)

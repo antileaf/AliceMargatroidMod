@@ -24,7 +24,7 @@ public class DollOfRoundTable extends AbstractAliceCard {
 	
 	private static final int COST = 2;
 	private static final int UPGRADED_COST = 1;
-	private static final int BLOCK = 15;
+	private static final int BLOCK = 16;
 	
 	public DollOfRoundTable() {
 		super(

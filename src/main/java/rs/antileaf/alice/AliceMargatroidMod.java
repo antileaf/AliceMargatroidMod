@@ -23,6 +23,7 @@ import com.megacrit.cardcrawl.helpers.CardHelper;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.localization.*;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.unlock.UnlockTracker;
 import org.apache.logging.log4j.LogManager;
@@ -53,6 +54,7 @@ import rs.antileaf.alice.patches.enums.CardTargetEnum;
 import rs.antileaf.alice.potions.ConcentrationPotion;
 import rs.antileaf.alice.potions.WeavingPotion;
 import rs.antileaf.alice.relics.*;
+import rs.antileaf.alice.save.AliceSaveData;
 import rs.antileaf.alice.strings.*;
 import rs.antileaf.alice.targeting.handlers.*;
 import rs.antileaf.alice.ui.SkinSelectScreen;
@@ -70,6 +72,7 @@ public class AliceMargatroidMod implements
 		PostExhaustSubscriber,
 		PostBattleSubscriber,
 		PostDungeonInitializeSubscriber,
+		StartGameSubscriber,
 		EditCharactersSubscriber,
 		PostInitializeSubscriber,
 		EditRelicsSubscriber,
@@ -221,12 +224,12 @@ public class AliceMargatroidMod implements
 	public void receiveEditCharacters() {
 		logger.info("begin editing characters");
 
-        logger.info("add {}", AbstractPlayerEnum.ALICE_MARGATROID.toString());
+        logger.info("add {}", AbstractPlayerEnum.ALICE_MARGATROID_PLAYER_CLASS.toString());
 		BaseMod.addCharacter(
 				new AliceMargatroid("Alice Margatroid"),
 				CHARACTER_BUTTON,
 				ALICE_PORTRAIT,
-				AbstractPlayerEnum.ALICE_MARGATROID
+				AbstractPlayerEnum.ALICE_MARGATROID_PLAYER_CLASS
 		);
 		logger.info("done editing characters");
 	}
@@ -294,8 +297,8 @@ public class AliceMargatroidMod implements
 		
 		logger.info("done editing cards");
 	}
-	
-	// 必须有这个函数才能初始化
+
+	@SuppressWarnings("unused")
 	public static void initialize() {
 		new AliceMargatroidMod();
 		AliceConfigHelper.loadConfig();
@@ -308,7 +311,6 @@ public class AliceMargatroidMod implements
 	@Override
 	public void receiveEditKeywords() {
 		logger.info("Setting up custom keywords");
-//		System.out.println("Setting up custom keywords");
 
 		String keywordsPath = AliceSpireKit.getLocalizationFilePath("keywords");
 
@@ -333,7 +335,8 @@ public class AliceMargatroidMod implements
 	@Override
 	public void receiveEditStrings() {
 		logger.info("start editing strings");
-		
+
+		AliceSpireKit.loadCustomStrings(CharacterStrings.class, "character");
 		AliceSpireKit.loadCustomStrings(RelicStrings.class, "relics");
 		AliceSpireKit.loadCustomStrings(CardStrings.class, "cards");
 		AliceSpireKit.loadCustomStrings(PowerStrings.class, "powers");
@@ -447,6 +450,16 @@ public class AliceMargatroidMod implements
 	public void receivePostDungeonInitialize() {
 //		SkinSelectScreen.inst.resetCurrentSkin();
 	}
+
+	@Override
+	public void receiveStartGame() {
+		for (AbstractRelic r : AbstractDungeon.player.relics) {
+			if (r instanceof ShanghaiDollRelic)
+				((ShanghaiDollRelic) r).checkNameAndFlavor();
+			else if (r instanceof BlackTeaRelic)
+				((BlackTeaRelic) r).checkFlavor();
+		}
+	}
 	
 	@Override
 	public void receivePostDraw(AbstractCard card) {
@@ -465,9 +478,9 @@ public class AliceMargatroidMod implements
 		CustomTargeting.registerCustomTargeting(CardTargetEnum.DOLL_OR_NONE, new DollOrNoneTargeting());
 		
 		BaseMod.addPotion(WeavingPotion.class, Color.YELLOW, Color.GOLD.cpy(), Color.CLEAR, WeavingPotion.ID,
-				AbstractPlayerEnum.ALICE_MARGATROID);
+				AbstractPlayerEnum.ALICE_MARGATROID_PLAYER_CLASS);
 		BaseMod.addPotion(ConcentrationPotion.class, Color.ROYAL, Color.BLUE, Color.CLEAR, ConcentrationPotion.ID,
-				AbstractPlayerEnum.ALICE_MARGATROID);
+				AbstractPlayerEnum.ALICE_MARGATROID_PLAYER_CLASS);
 //		BaseMod.addPotion(BottledDoll.class, Color.GOLD, Color.GOLDENROD, Color.CLEAR, "BottledDoll",
 //				AliceMargatroidModClassEnum.ALICE_MARGATROID);
 		
@@ -484,7 +497,7 @@ public class AliceMargatroidMod implements
 		
 		BaseMod.addEvent(
 				new AddEventParams.Builder(LilyOfTheValleyFlowerField.ID, LilyOfTheValleyFlowerField.class)
-						.playerClass(AbstractPlayerEnum.ALICE_MARGATROID)
+						.playerClass(AbstractPlayerEnum.ALICE_MARGATROID_PLAYER_CLASS)
 						.eventType(EventUtils.EventType.NORMAL)
 						.create()
 		);
@@ -693,7 +706,7 @@ public class AliceMargatroidMod implements
 		this.cardsToAdd.add(new RefreshingSpringWater());
 		this.cardsToAdd.add(new DollArmy());
 		this.cardsToAdd.add(new AliceGame());
-		this.cardsToAdd.add(new MagicConduit());
+//		this.cardsToAdd.add(new MagicConduit());
 		this.cardsToAdd.add(new SeekerDoll());
 		this.cardsToAdd.add(new ArtfulChanter());
 		this.cardsToAdd.add(new TheSouthernCross());

@@ -98,7 +98,7 @@
   
   "DollCremation": {
     "NAME": "人偶火葬",
-    "DESCRIPTION": "alicemargatroidmod:回收 目标 alicemargatroidmod:人偶 ，造成 !D! 点伤害。 NL 虚无 。",
+    "DESCRIPTION": "虚无 。 NL alicemargatroidmod:回收 目标 alicemargatroidmod:人偶 ，造成 !D! 点伤害。",
     "EXTENDED_DESCRIPTION": ["我 #r没有 人偶 。"]
   },
   
@@ -183,7 +183,7 @@
   
   "Ultimatum": {
     "NAME": "逐客令",
-    "DESCRIPTION": "造成 !D! 点伤害，给予 !M! 层 虚弱 和 易伤 。 NL 对所有同名敌人也会生效。 NL 消耗 。"
+    "DESCRIPTION": "造成 !D! 点伤害。 NL 给予 !M! 层 虚弱 和 易伤 。 NL 对所有同名敌人也会生效。 NL 消耗 。"
   },
   
   "BlackTea": {
@@ -313,7 +313,7 @@
   
   "MaidensBunraku": {
     "NAME": "少女文乐",
-    "DESCRIPTION": "每当 alicemargatroidmod:人偶 alicemargatroidmod:行动 后，使其获得 !M! 点 格挡 。 NL 虚无 。"
+    "DESCRIPTION": "虚无 。 NL 每当 alicemargatroidmod:人偶 alicemargatroidmod:行动 后，使其获得 !M! 点 格挡 。"
   },
   
   "Usokae": {
@@ -362,7 +362,7 @@
   
   "ArtfulChanter": {
     "NAME": "狡猾的吟诵者",
-    "DESCRIPTION": "指定位置 alicemargatroidmod:生成 alicemargatroidmod:人偶 时，如果目标栏位中已有 alicemargatroidmod:人偶 ，新 alicemargatroidmod:生成 的 alicemargatroidmod:人偶 alicemargatroidmod:行动 !M! 次。"
+    "DESCRIPTION": "指定位置 alicemargatroidmod:生成 alicemargatroidmod:人偶 时，如果目标栏位中已有 alicemargatroidmod:人偶 ，新 alicemargatroidmod:生成 的 alicemargatroidmod:人偶 额外 alicemargatroidmod:行动 一次。"
   },
   
   "Masterpiece": {
@@ -377,7 +377,7 @@
   
   "LuminousShanghaiDoll": {
     "NAME": "魔彩光的上海人偶",
-    "DESCRIPTION": "每当有即将受到攻击的 alicemargatroidmod:人偶 alicemargatroidmod:行动 时，使一个随机的 alicemargatroidmod:上海人偶 也 alicemargatroidmod:行动 一次。"
+    "DESCRIPTION": "每当有即将受到攻击的 alicemargatroidmod:人偶 alicemargatroidmod:行动 时，使一个随机的 alicemargatroidmod:上海人偶 alicemargatroidmod:行动 一次。"
   },
   
   "TheSouthernCross": {

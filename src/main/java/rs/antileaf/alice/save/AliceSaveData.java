@@ -1,4 +1,4 @@
-package rs.antileaf.alice.utils;
+package rs.antileaf.alice.save;
 
 public class AliceSaveData {
 	private boolean hasTriggeredShanghaiDollEvent = false;

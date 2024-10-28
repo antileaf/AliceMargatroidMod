@@ -9,6 +9,7 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.powers.watcher.MasterRealityPower;
 import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.cardmodifier.PhantomCardModifier;
 import rs.antileaf.alice.cards.AbstractAliceCard;
@@ -79,6 +80,9 @@ public class WillOWisp extends AbstractAliceCard {
 								}
 								else {
 									AbstractCard copy = selected.makeStatEquivalentCopy();
+									if (AbstractDungeon.player.hasPower(MasterRealityPower.POWER_ID))
+										copy.upgrade();
+
 									CardModifierManager.addModifier(copy, new PhantomCardModifier());
 									AliceSpireKit.addCardToHand(copy);
 								}

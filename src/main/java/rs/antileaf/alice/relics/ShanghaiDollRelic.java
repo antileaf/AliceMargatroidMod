@@ -36,8 +36,12 @@ public class ShanghaiDollRelic extends CustomRelic {
 		
 		this.largeImg = ImageMaster.loadImage(IMG_LARGE);
 
+		this.checkNameAndFlavor();
+	}
+
+	public void checkNameAndFlavor() {
 		if (AbstractDungeon.isPlayerInDungeon() && AbstractDungeon.player != null &&
-				AbstractDungeon.player.chosenClass == AbstractPlayerEnum.ALICE_MARGATROID) {
+				AbstractDungeon.player.chosenClass == AbstractPlayerEnum.ALICE_MARGATROID_PLAYER_CLASS) {
 			ReflectionHacks.setPrivateFinal(this, AbstractRelic.class, "name",
 					this.DESCRIPTIONS[1]);
 			this.flavorText = this.DESCRIPTIONS[2];

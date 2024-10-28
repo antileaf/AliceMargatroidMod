@@ -21,6 +21,7 @@ import org.jetbrains.annotations.Nullable;
 import rs.antileaf.alice.AliceMargatroidMod;
 import rs.antileaf.alice.cardmodifier.PhantomCardModifier;
 import rs.antileaf.alice.cards.AbstractAliceCard;
+import rs.antileaf.alice.save.AliceSaveData;
 import rs.antileaf.alice.strings.AliceLanguageStrings;
 
 import java.nio.charset.StandardCharsets;

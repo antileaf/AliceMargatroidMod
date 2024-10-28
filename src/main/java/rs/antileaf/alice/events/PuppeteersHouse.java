@@ -334,7 +334,7 @@ public class PuppeteersHouse extends PhasedEvent {
 	public PuppeteersHouse() {
 		super(ID, eventStrings.NAME, AliceSpireKit.getEventImgFilePath(SIMPLE_NAME + "/outside"));
 
-		if (AbstractDungeon.player.chosenClass == AbstractPlayerEnum.ALICE_MARGATROID)
+		if (AbstractDungeon.player.chosenClass == AbstractPlayerEnum.ALICE_MARGATROID_PLAYER_CLASS)
 			this.charType = CharType.ALICE;
 		else if (AliceSpireKit.isMarisaModAvailable() &&
 				AbstractDungeon.player.chosenClass == ThModClassEnum.MARISA)

@@ -21,7 +21,7 @@ public class CharacterSelectScreenSkinPatch {
 //	public static boolean shouldUpdateBackground = false;
 	
 	public static boolean isAliceSelected() {
-		return CardCrawlGame.chosenCharacter == AbstractPlayerEnum.ALICE_MARGATROID &&
+		return CardCrawlGame.chosenCharacter == AbstractPlayerEnum.ALICE_MARGATROID_PLAYER_CLASS &&
 				(Boolean) ReflectionHacks.getPrivate(CardCrawlGame.mainMenuScreen.charSelectScreen,
 						CharacterSelectScreen.class, "anySelected");
 	}

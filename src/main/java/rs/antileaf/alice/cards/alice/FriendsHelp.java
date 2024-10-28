@@ -12,8 +12,8 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import rs.antileaf.alice.action.common.AliceAddCardToHandAction;
 import rs.antileaf.alice.action.common.AliceDiscoverAction;
-import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.cards.Marisa.*;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
@@ -111,10 +111,8 @@ public class FriendsHelp extends AbstractAliceCard {
 					}
 					else
 						AliceSpireKit.log("How could this be? Check carefully.");
-					
-					this.addToTop(new AnonymousAction(() -> {
-						AliceSpireKit.addCardToHand(card);
-					}));
+
+					this.addToTop(new AliceAddCardToHandAction(card));
 				},
 				cardStrings.EXTENDED_DESCRIPTION[0],
 				true

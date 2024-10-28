@@ -55,6 +55,7 @@ public class CharitableFranceDoll_Loli extends AbstractLoliCard<CharitableFrance
 		this.tags.add(CardTagEnum.ALICE_DOLL_ACT);
 
 		this.targetIcons.add(AliceTargetIcon.SLOT);
+		this.targetIcons.add(AliceTargetIcon.NONE);
 	}
 	
 	@Override

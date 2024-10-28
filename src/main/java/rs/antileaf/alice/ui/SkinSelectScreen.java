@@ -75,7 +75,7 @@ public class SkinSelectScreen {
 	}
 	
 	private void updateInput() {
-		if (CardCrawlGame.chosenCharacter == AbstractPlayerEnum.ALICE_MARGATROID) {
+		if (CardCrawlGame.chosenCharacter == AbstractPlayerEnum.ALICE_MARGATROID_PLAYER_CLASS) {
 			this.prevHb.update();
 			this.nextHb.update();
 			

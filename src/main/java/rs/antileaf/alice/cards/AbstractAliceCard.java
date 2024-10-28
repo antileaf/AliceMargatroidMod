@@ -35,7 +35,6 @@ import static rs.antileaf.alice.AliceMargatroidMod.ALICE_PUPPETEER_FLAVOR;
 public abstract class AbstractAliceCard extends CustomCard {
 //	protected static final CardStrings cardStrings =
 //			CardCrawlGame.languagePack.getCardStrings("AbstractAliceCard");
-	protected static final Color CYAN_COLOR = new Color(0f, 204f / 255f, 0f, 1f);
 	
 	protected String cardSign = null;
 	public final ArrayList<AliceTargetIcon> targetIcons = new ArrayList<>();
@@ -58,7 +57,7 @@ public abstract class AbstractAliceCard extends CustomCard {
 	public boolean upgradedSecondaryDamage = false;
 	public boolean isSecondaryDamageModified = false;
 
-	boolean isLoli = false;
+//	boolean isLoli = false;
 	
 	public AbstractAliceCard(
 			String id,
@@ -467,16 +466,16 @@ public abstract class AbstractAliceCard extends CustomCard {
 		}
 	}
 
-	public boolean convertible() {
-		return !this.isLoli;
-	}
-
-	public boolean isLoli() {
-		return this.isLoli;
-	}
-
-	public void convertToLoli() {
-		if (this.convertible())
-			this.isLoli = true;
-	}
+//	public boolean convertible() {
+//		return !this.isLoli;
+//	}
+//
+//	public boolean isLoli() {
+//		return this.isLoli;
+//	}
+//
+//	public void convertToLoli() {
+//		if (this.convertible())
+//			this.isLoli = true;
+//	}
 }

@@ -11,7 +11,7 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import javassist.CannotCompileException;
 import javassist.CtBehavior;
-import rs.antileaf.alice.action.utils.AnonymousAction;
+import rs.antileaf.alice.action.common.AliceAddCardToHandAction;
 import rs.antileaf.alice.cards.Marisa.AbstractAliceMarisaCard;
 import rs.antileaf.alice.cards.Marisa.AliceSpark;
 import rs.antileaf.alice.utils.AliceSpireKit;
@@ -42,10 +42,8 @@ public class MarisaAlternativeImagePatch {
 		public static SpireReturn<Void> Insert(DoubleSpark _inst, AbstractPlayer p, AbstractMonster m, AbstractCard c) {
 			if ((c instanceof Spark) && AliceMarisaCardFields.isAliceMarisaCard.get(_inst)) {
 				AbstractAliceMarisaCard.setImages((CustomCard) c, AliceSpark.ID);
-				
-				AliceSpireKit.addToBot(new AnonymousAction(() -> {
-					AliceSpireKit.addCardToHand(c);
-				}));
+
+				AliceSpireKit.addToBot(new AliceAddCardToHandAction(c));
 				
 				return SpireReturn.Return();
 			}

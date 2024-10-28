@@ -3,12 +3,13 @@ package rs.antileaf.alice.potions;
 import basemod.abstracts.CustomPotion;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
-import com.megacrit.cardcrawl.helpers.CardHelper;
 import com.megacrit.cardcrawl.helpers.PowerTip;
 import com.megacrit.cardcrawl.localization.PotionStrings;
 import com.megacrit.cardcrawl.potions.AbstractPotion;
+import rs.antileaf.alice.AliceMargatroidMod;
 import rs.antileaf.alice.action.doll.SpawnDollAction;
 import rs.antileaf.alice.doll.AbstractDoll;
+import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class WeavingPotion extends CustomPotion {
 	public static final String SIMPLE_NAME = WeavingPotion.class.getSimpleName();
@@ -26,7 +27,7 @@ public class WeavingPotion extends CustomPotion {
 				PotionColor.SWIFT
 		);
 		
-		this.labOutlineColor = CardHelper.getColor(255,215,0);
+		this.labOutlineColor = AliceMargatroidMod.ALICE_PUPPETEER.cpy();
 	}
 	
 	@Override
@@ -40,8 +41,10 @@ public class WeavingPotion extends CustomPotion {
 	
 	@Override
 	public void use(AbstractCreature target) {
-		for (int i = 0; i < this.potency; i++)
-			this.addToBot(new SpawnDollAction(AbstractDoll.getRandomDoll(), -1));
+		if (AliceSpireKit.isInBattle()) {
+			for (int i = 0; i < this.potency; i++)
+				this.addToBot(new SpawnDollAction(AbstractDoll.getRandomDoll(), -1));
+		}
 	}
 	
 	@Override

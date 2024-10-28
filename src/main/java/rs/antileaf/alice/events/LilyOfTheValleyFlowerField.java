@@ -44,14 +44,17 @@ public class LilyOfTheValleyFlowerField extends PhasedEvent {
 				.addOption(eventStrings.OPTIONS[2], (i) -> this.openMap()));
 
 		this.registerPhase(CHOICE, new TextPhase(eventStrings.DESCRIPTIONS[2])
-				.addOption(String.format(eventStrings.OPTIONS[3], this.getHpGain()), (i) -> {
-					AbstractDungeon.player.increaseMaxHp(this.getHpGain(), true);
-					AbstractDungeon.player.heal(AbstractDungeon.player.maxHealth);
-					AbstractDungeon.effectList.add(new ShowCardAndObtainEffect(new PoisonousSweet(),
-							Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
-					this.transitionKey(LEAVE_WITH_FLOWERS);
-				})
-				.addOption(new TextPhase.OptionInfo(String.format(eventStrings.OPTIONS[4], this.getHpLoss()))
+				.addOption(new TextPhase.OptionInfo(String.format(eventStrings.OPTIONS[3], this.getHpGain()),
+						new PoisonousSweet()),
+						(i) -> {
+							AbstractDungeon.player.increaseMaxHp(this.getHpGain(), true);
+							AbstractDungeon.player.heal(AbstractDungeon.player.maxHealth);
+							AbstractDungeon.effectList.add(new ShowCardAndObtainEffect(new PoisonousSweet(),
+									Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
+							this.transitionKey(LEAVE_WITH_FLOWERS);
+						})
+				.addOption(new TextPhase.OptionInfo(String.format(eventStrings.OPTIONS[4], this.getHpLoss()),
+								new CreateSusan())
 						.enabledCondition(() -> AbstractDungeon.player.currentHealth > this.getHpLoss(),
 								String.format(eventStrings.OPTIONS[5], this.getHpLoss())),
 						(i) -> {

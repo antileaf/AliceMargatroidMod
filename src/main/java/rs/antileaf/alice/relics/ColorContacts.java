@@ -17,6 +17,8 @@ public class ColorContacts extends CustomRelic {
 	private static final String IMG_OTL = AliceSpireKit.getRelicOutlineImgFilePath(SIMPLE_NAME);
 	private static final String IMG_LARGE = AliceSpireKit.getRelicLargeImgFilePath(SIMPLE_NAME);
 
+	public static final int TURNS = 3;
+
 	public ColorContacts() {
 		super(
 				ID,
@@ -31,7 +33,7 @@ public class ColorContacts extends CustomRelic {
 	
 	@Override
 	public String getUpdatedDescription() {
-		return DESCRIPTIONS[0];
+		return String.format(DESCRIPTIONS[0], TURNS);
 	}
 	
 	@Override
@@ -47,7 +49,7 @@ public class ColorContacts extends CustomRelic {
 		
 		this.setCounter(this.counter + 1);
 		
-		if (this.counter <= 2) {
+		if (this.counter <= TURNS) {
 			this.flash();
 			this.addToBot(new RelicAboveCreatureAction(AbstractDungeon.player, this));
 			this.addToBot(new GainEnergyAction(1));
@@ -57,7 +59,7 @@ public class ColorContacts extends CustomRelic {
 	
 	@Override
 	public void onPlayerEndTurn() {
-		if (this.counter >= 2) {
+		if (this.counter >= TURNS) {
 			this.setCounter(-1);
 			this.grayscale = true;
 		}
