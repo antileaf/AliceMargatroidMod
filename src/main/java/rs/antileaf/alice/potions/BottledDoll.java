@@ -11,8 +11,8 @@ import com.megacrit.cardcrawl.helpers.PowerTip;
 import com.megacrit.cardcrawl.localization.PotionStrings;
 import com.megacrit.cardcrawl.potions.AbstractPotion;
 import rs.antileaf.alice.doll.AbstractDoll;
+import rs.antileaf.alice.utils.AliceHelper;
 import rs.antileaf.alice.utils.AliceKeywordsHelper;
-import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class BottledDoll extends CustomPotion {
 	public Texture img;
@@ -32,7 +32,7 @@ public class BottledDoll extends CustomPotion {
 		);
 
 		this.labOutlineColor = CardHelper.getColor(255,215,0);
-		this.img = new Texture(AliceSpireKit.getImgFilePath("orbs", "ShanghaiDoll"));
+		this.img = new Texture(AliceHelper.getImgFilePath("orbs", "ShanghaiDoll"));
 	}
 
 	private void updateDescription() {
@@ -45,7 +45,7 @@ public class BottledDoll extends CustomPotion {
 	public void setDoll(String dollClazz) {
 		this.dollClazz = dollClazz;
 		this.updateDescription();
-		this.img = new Texture(AliceSpireKit.getImgFilePath("orbs", dollClazz));
+		this.img = new Texture(AliceHelper.getImgFilePath("orbs", dollClazz));
 	}
 
 	@Override

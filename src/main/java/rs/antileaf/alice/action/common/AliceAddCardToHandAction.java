@@ -4,7 +4,7 @@ import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.powers.watcher.MasterRealityPower;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class AliceAddCardToHandAction extends AbstractGameAction {
 	private final AbstractCard card;
@@ -24,7 +24,7 @@ public class AliceAddCardToHandAction extends AbstractGameAction {
 	}
 
 	public void update() {
-		AliceSpireKit.addCardToHand(this.card);
+		AliceHelper.addCardToHand(this.card);
 		this.isDone = true;
 	}
 }

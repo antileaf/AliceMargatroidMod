@@ -11,15 +11,15 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.strings.AliceCardModifierStrings;
 import rs.antileaf.alice.strings.AliceLanguageStrings;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RevelationCardModifier extends AbstractCardModifier {
 	private static final String SIMPLE_NAME = RevelationCardModifier.class.getSimpleName();
-	public static final String ID = SIMPLE_NAME;
-	private static final AliceCardModifierStrings cardModifierStrings = AliceCardModifierStrings.get(SIMPLE_NAME);
+	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
+	private static final AliceCardModifierStrings cardModifierStrings = AliceCardModifierStrings.get(ID);
 	
 	public static final int AMOUNT = 2;
 	
@@ -79,7 +79,7 @@ public class RevelationCardModifier extends AbstractCardModifier {
 			this.addToBot(new AnonymousAction(() -> {
 				ArrayList<AbstractCard> failed = new ArrayList<>();
 				for (AbstractCard c : chosen) {
-					AliceSpireKit.upgradeCardDamage(c, AMOUNT);
+					AliceHelper.upgradeCardDamage(c, AMOUNT);
 					
 					if (AbstractDungeon.player.hand.contains(c)) {
 						c.flash();
@@ -92,7 +92,7 @@ public class RevelationCardModifier extends AbstractCardModifier {
 				}
 				
 				if (!failed.isEmpty())
-					AliceSpireKit.log(SIMPLE_NAME + ": Chosen card(s) not in hand: " + failed);
+					AliceHelper.log(SIMPLE_NAME + ": Chosen card(s) not in hand: " + failed);
 			}));
 		}
  	}

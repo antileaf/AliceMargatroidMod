@@ -12,6 +12,7 @@ public class AliceHoveredTargets {
 	
 	public static AliceHoveredTargets NONE = new AliceHoveredTargets();
 	public static AliceHoveredTargets PLAYER = new AliceHoveredTargets() {{ player = true; }};
+
 	public static AliceHoveredTargets allMonsters() {
 		return new AliceHoveredTargets() {{
 			monsters = AbstractDungeon.getMonsters().monsters.stream()

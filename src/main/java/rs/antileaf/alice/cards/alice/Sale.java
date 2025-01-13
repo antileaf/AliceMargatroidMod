@@ -15,12 +15,11 @@ import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
 import rs.antileaf.alice.targeting.AliceTargetIcon;
 import rs.antileaf.alice.targeting.handlers.DollTargeting;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class Sale extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = Sale.class.getSimpleName();
-//	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
-	public static final String ID = SIMPLE_NAME;
+	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 0;
@@ -31,7 +30,7 @@ public class Sale extends AbstractAliceCard {
 		super(
 				ID,
 				cardStrings.NAME,
-				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceHelper.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.SKILL,
@@ -55,7 +54,7 @@ public class Sale extends AbstractAliceCard {
 		if (doll != null) {
 			this.addToBot(new RecycleDollAction(doll));
 			this.addToBot(new GainGoldAction(this.magicNumber));
-			AliceSpireKit.addEffect(new GainGoldTextEffect(this.magicNumber));
+			AliceHelper.addEffect(new GainGoldTextEffect(this.magicNumber));
 			CardCrawlGame.sound.play("GOLD_JINGLE");
 		}
 	}

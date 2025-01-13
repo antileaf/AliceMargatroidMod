@@ -13,12 +13,11 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.powers.unique.MaliceSparkPower;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class MaliceSpark extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = MaliceSpark.class.getSimpleName();
-//	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
-	public static final String ID = SIMPLE_NAME;
+	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
@@ -31,7 +30,7 @@ public class MaliceSpark extends AbstractAliceCard {
 		super(
 				ID,
 				cardStrings.NAME,
-				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceHelper.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.ATTACK,

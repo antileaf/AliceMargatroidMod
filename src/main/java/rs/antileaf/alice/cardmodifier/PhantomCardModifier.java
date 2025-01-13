@@ -10,16 +10,16 @@ import com.megacrit.cardcrawl.cards.CardGroup;
 import com.megacrit.cardcrawl.vfx.cardManip.ExhaustCardEffect;
 import rs.antileaf.alice.strings.AliceCardModifierStrings;
 import rs.antileaf.alice.strings.AliceLanguageStrings;
-import rs.antileaf.alice.utils.AliceMiscKit;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
+import rs.antileaf.alice.utils.AliceMiscHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PhantomCardModifier extends AbstractCardModifier {
 	private static final String SIMPLE_NAME = PhantomCardModifier.class.getSimpleName();
-	public static final String ID = SIMPLE_NAME;
-	private static final AliceCardModifierStrings cardModifierStrings = AliceCardModifierStrings.get(SIMPLE_NAME);
+	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
+	private static final AliceCardModifierStrings cardModifierStrings = AliceCardModifierStrings.get(ID);
 	
 	public static boolean check(AbstractCard card) {
 		return CardModifierManager.hasModifier(card, ID);
@@ -31,7 +31,7 @@ public class PhantomCardModifier extends AbstractCardModifier {
 	
 	@Override
 	public String modifyDescription(String rawDescription, AbstractCard card) {
-		return rawDescription + " NL *" + AliceMiscKit.join(
+		return rawDescription + " NL *" + AliceMiscHelper.join(
 				cardModifierStrings.NAME,
 				AliceLanguageStrings.PERIOD
 		);
@@ -63,7 +63,7 @@ public class PhantomCardModifier extends AbstractCardModifier {
 	public void atEndOfTurn(AbstractCard card, CardGroup group) {
 		assert check(card);
 		this.addToBot(new ExhaustSpecificCardAction(card, group));
-		AliceSpireKit.addEffect(new ExhaustCardEffect(card));
+		AliceHelper.addEffect(new ExhaustCardEffect(card));
 	}
 	
 	@Override

@@ -1,6 +1,6 @@
 package rs.antileaf.alice.strings;
 
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 import java.util.Map;
 
@@ -17,7 +17,7 @@ public class AliceCardModifierStrings {
 	
 	public static AliceCardModifierStrings get(String id) {
 		if (!strings.containsKey(id))
-			AliceSpireKit.log("AliceCardModifierStrings.get", "No such string: " + id);
+			AliceHelper.log("AliceCardModifierStrings.get", "No such string: " + id);
 		
 		return strings.get(id);
 	}

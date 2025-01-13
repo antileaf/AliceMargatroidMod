@@ -15,14 +15,13 @@ import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.strings.AliceCardNoteStrings;
 import rs.antileaf.alice.strings.AliceLanguageStrings;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 import java.util.ArrayList;
 
 public class Bookmark extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = Bookmark.class.getSimpleName();
-//	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
-	public static final String ID = SIMPLE_NAME;
+	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	private static final AliceCardNoteStrings cardNoteStrings = AliceCardNoteStrings.get(ID);
 	
@@ -33,14 +32,14 @@ public class Bookmark extends AbstractAliceCard {
 	
 	// The logic of calling this is implemented in patches.
 	public static void updateCache() {
-		if (AliceSpireKit.isInBattle()) {
+		if (AliceHelper.isInBattle()) {
 			cache = newCache.stream()
 					.collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
 			newCache = AbstractDungeon.player.hand.group.stream()
 					.filter(c -> !(c instanceof Bookmark))
 					.collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
 			
-			AliceSpireKit.log("Bookmark cache updated: " + cache.size() + " -> " + newCache.size());
+			AliceHelper.log("Bookmark cache updated: " + cache.size() + " -> " + newCache.size());
 		}
 	}
 	
@@ -53,7 +52,7 @@ public class Bookmark extends AbstractAliceCard {
 		super(
 				ID,
 				cardStrings.NAME,
-				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceHelper.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.SKILL,
@@ -67,8 +66,8 @@ public class Bookmark extends AbstractAliceCard {
 	
 	@Override
 	public TooltipInfo getNote() {
-		if (!AliceSpireKit.isInBattle())
-			return new TooltipInfo(AliceCardNoteStrings.DEFAULT_TITLE, cardNoteStrings.DESCRIPTION);
+		if (!AliceHelper.isInBattle())
+			return null;
 		
 		if (cache.isEmpty())
 			return new TooltipInfo(cardNoteStrings.TITLE, cardNoteStrings.EXTENDED_DESCRIPTION[0]);

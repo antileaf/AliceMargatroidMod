@@ -5,11 +5,10 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.powers.DexterityPower;
 import com.megacrit.cardcrawl.powers.StrengthPower;
-import rs.antileaf.alice.action.doll.DollActAction;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.enums.DollAmountType;
 import rs.antileaf.alice.strings.AliceDollStrings;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class NetherlandsDoll extends AbstractDoll {
 	public static final String SIMPLE_NAME = NetherlandsDoll.class.getSimpleName();
@@ -27,7 +26,7 @@ public class NetherlandsDoll extends AbstractDoll {
 				MAX_HP,
 				0,
 				0,
-				AliceSpireKit.getOrbImgFilePath(SIMPLE_NAME),
+				AliceHelper.getOrbImgFilePath(SIMPLE_NAME),
 				RenderTextMode.BOTH
 		);
 		
@@ -53,7 +52,7 @@ public class NetherlandsDoll extends AbstractDoll {
 	@Override
 	public void onAct() {
 		if (!this.shouldAddDex) {
-			AliceSpireKit.addActionToBuffer(new ApplyPowerAction(
+			AliceHelper.addActionToBuffer(new ApplyPowerAction(
 					AbstractDungeon.player,
 					AbstractDungeon.player,
 					new StrengthPower(AbstractDungeon.player, 1),
@@ -65,7 +64,7 @@ public class NetherlandsDoll extends AbstractDoll {
 			this.highlightPassiveValue();
 		}
 		else {
-			AliceSpireKit.addActionToBuffer(new ApplyPowerAction(
+			AliceHelper.addActionToBuffer(new ApplyPowerAction(
 					AbstractDungeon.player,
 					AbstractDungeon.player,
 					new DexterityPower(AbstractDungeon.player, 1),
@@ -83,26 +82,26 @@ public class NetherlandsDoll extends AbstractDoll {
 	
 	@Override
 	public void postSpawn() {
-		AliceSpireKit.addActionToBuffer(new DollActAction(this)); // 额外一次
+//		AliceHelper.addActionToBuffer(new DollActAction(this)); // 额外一次
 		
 //		this.highlightPassiveValue();
 	}
 	
 	private void onDisappeared() {
-		AliceSpireKit.addActionToBuffer(new ApplyPowerAction(
+		AliceHelper.addActionToBuffer(new ApplyPowerAction(
 				AbstractDungeon.player,
 				AbstractDungeon.player,
 				new StrengthPower(AbstractDungeon.player, -this.passiveAmount),
 				-this.passiveAmount
 		));
-		AliceSpireKit.addActionToBuffer(new ApplyPowerAction(
+		AliceHelper.addActionToBuffer(new ApplyPowerAction(
 				AbstractDungeon.player,
 				AbstractDungeon.player,
 				new DexterityPower(AbstractDungeon.player, -this.actAmount),
 				-this.actAmount
 		));
 		
-		AliceSpireKit.commitBuffer();
+		AliceHelper.commitBuffer();
 	}
 	
 //	@Override

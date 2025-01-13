@@ -17,14 +17,13 @@ import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.strings.AliceCardNoteStrings;
 import rs.antileaf.alice.strings.AliceLanguageStrings;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 import java.util.Comparator;
 
 public class SevenColoredPuppeteer extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = SevenColoredPuppeteer.class.getSimpleName();
-//	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
-	public static final String ID = SIMPLE_NAME;
+	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	private static final AliceCardNoteStrings cardNoteStrings = AliceCardNoteStrings.get(ID);
 	
@@ -38,7 +37,7 @@ public class SevenColoredPuppeteer extends AbstractAliceCard {
 		super(
 				ID,
 				cardStrings.NAME,
-				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceHelper.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.ATTACK,
@@ -77,11 +76,11 @@ public class SevenColoredPuppeteer extends AbstractAliceCard {
 	
 	@Override
 	public TooltipInfo getNote() {
-		if (!AliceSpireKit.isInBattle())
+		if (!AliceHelper.isInBattle())
 			return new TooltipInfo(cardNoteStrings.TITLE, cardNoteStrings.DESCRIPTION);
 		
 		if (cardNoteStrings == null) {
-			AliceSpireKit.logger.info("SevenColoredPuppeteer.getNote(): No note found for ID: {}!", ID);
+			AliceHelper.logger.info("SevenColoredPuppeteer.getNote(): No note found for ID: {}!", ID);
 			return null;
 		}
 		

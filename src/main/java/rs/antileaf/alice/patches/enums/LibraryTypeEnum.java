@@ -10,9 +10,6 @@ public class LibraryTypeEnum {
 	
 	@SpireEnum(name = "Alice Derivation")
 	public static CardLibrary.LibraryType ALICE_MARGATROID_DERIVATION_COLOR;
-
-	@SpireEnum(name = "Alice Loli Cards")
-	public static CardLibrary.LibraryType ALICE_LOLI_COLOR;
 	
 	@SpireEnum(name = "Marisa Derivation")
 	public static CardLibrary.LibraryType ALICE_MARISA_COLOR;

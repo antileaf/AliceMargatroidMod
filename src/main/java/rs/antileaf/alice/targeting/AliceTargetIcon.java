@@ -1,7 +1,7 @@
 package rs.antileaf.alice.targeting;
 
 import com.badlogic.gdx.graphics.Texture;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class AliceTargetIcon {
 	public static final AliceTargetIcon ALICE, DOLL, SLOT, ENEMY, NONE;
@@ -22,32 +22,32 @@ public class AliceTargetIcon {
 	static {
 		ALICE = new AliceTargetIcon(
 				"Alice",
-				AliceSpireKit.getImgFilePath("UI/targetIcons", "alice"),
-				AliceSpireKit.getImgFilePath("UI/targetIcons", "alice_bg"),
+				AliceHelper.getImgFilePath("UI/targetIcons", "alice"),
+				AliceHelper.getImgFilePath("UI/targetIcons", "alice_bg"),
 				0.88F
 		);
 		DOLL = new AliceTargetIcon(
 				"Doll",
-				AliceSpireKit.getImgFilePath("UI/targetIcons", "doll"),
-				AliceSpireKit.getImgFilePath("UI/targetIcons", "doll_bg"),
+				AliceHelper.getImgFilePath("UI/targetIcons", "doll"),
+				AliceHelper.getImgFilePath("UI/targetIcons", "doll_bg"),
 				0.82F
 		);
 		SLOT = new AliceTargetIcon(
 				"Slot",
-				AliceSpireKit.getImgFilePath("UI/targetIcons", "slot"),
-				AliceSpireKit.getImgFilePath("UI/targetIcons", "slot_bg"),
+				AliceHelper.getImgFilePath("UI/targetIcons", "slot"),
+				AliceHelper.getImgFilePath("UI/targetIcons", "slot_bg"),
 				0.8F
 		);
 		ENEMY = new AliceTargetIcon(
 				"Enemy",
-				AliceSpireKit.getImgFilePath("UI/targetIcons", "enemy"),
-				AliceSpireKit.getImgFilePath("UI/targetIcons", "enemy_bg"),
+				AliceHelper.getImgFilePath("UI/targetIcons", "enemy"),
+				AliceHelper.getImgFilePath("UI/targetIcons", "enemy_bg"),
 				0.8F
 		);
 		NONE = new AliceTargetIcon(
 				"None",
-				AliceSpireKit.getImgFilePath("UI/targetIcons", "none"),
-				AliceSpireKit.getImgFilePath("UI/targetIcons", "none_bg"),
+				AliceHelper.getImgFilePath("UI/targetIcons", "none"),
+				AliceHelper.getImgFilePath("UI/targetIcons", "none_bg"),
 				0.8F
 		);
 	}

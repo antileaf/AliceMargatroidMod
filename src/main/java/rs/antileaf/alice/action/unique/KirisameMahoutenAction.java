@@ -4,7 +4,7 @@ import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import rs.antileaf.alice.powers.unique.KirisameMahoutenPower;
+import rs.antileaf.alice.powers.deprecated.KirisameMahoutenPower;
 
 public class KirisameMahoutenAction extends AbstractGameAction {
 	private static final float DURATION = 0.1F;

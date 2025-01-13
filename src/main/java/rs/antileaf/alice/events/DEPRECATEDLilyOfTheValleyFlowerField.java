@@ -7,9 +7,9 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.events.AbstractImageEvent;
 import com.megacrit.cardcrawl.localization.EventStrings;
 import com.megacrit.cardcrawl.vfx.cardManip.ShowCardAndObtainEffect;
+import rs.antileaf.alice.cards.colorless.CreateSusan;
 import rs.antileaf.alice.cards.colorless.PoisonousSweet;
-import rs.antileaf.alice.cards.derivations.CreateSusan;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 @Deprecated
 public class DEPRECATEDLilyOfTheValleyFlowerField extends AbstractImageEvent {
@@ -29,7 +29,7 @@ public class DEPRECATEDLilyOfTheValleyFlowerField extends AbstractImageEvent {
 	CurrentScreen cur;
 
 	public DEPRECATEDLilyOfTheValleyFlowerField() {
-		super(eventStrings.NAME, eventStrings.DESCRIPTIONS[0], AliceSpireKit.getEventImgFilePath(SIMPLE_NAME));
+		super(eventStrings.NAME, eventStrings.DESCRIPTIONS[0], AliceHelper.getEventImgFilePath(SIMPLE_NAME));
 		
 		this.cur = CurrentScreen.INTRO;
 		this.imageEventText.setDialogOption(eventStrings.OPTIONS[0]);
@@ -54,7 +54,7 @@ public class DEPRECATEDLilyOfTheValleyFlowerField extends AbstractImageEvent {
 	protected void buttonEffect(int buttonPressed) {
 		if (this.cur == CurrentScreen.INTRO) {
 			if (buttonPressed != 0)
-				AliceSpireKit.log("INTRO, Invalid button pressed: " + buttonPressed);
+				AliceHelper.log("INTRO, Invalid button pressed: " + buttonPressed);
 			
 			this.imageEventText.updateBodyText(eventStrings.DESCRIPTIONS[1]);
 			this.imageEventText.updateDialogOption(0, String.format(eventStrings.OPTIONS[1], this.getHpGain()),
@@ -85,7 +85,7 @@ public class DEPRECATEDLilyOfTheValleyFlowerField extends AbstractImageEvent {
 				logMetric(ID, "Take Su-san");
 			}
 			else
-				AliceSpireKit.log("CHOICE, Invalid button pressed: " + buttonPressed);
+				AliceHelper.log("CHOICE, Invalid button pressed: " + buttonPressed);
 			
 			this.imageEventText.updateDialogOption(0, eventStrings.OPTIONS[3]);
 			this.imageEventText.clearRemainingOptions();

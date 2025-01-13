@@ -17,17 +17,18 @@ import com.megacrit.cardcrawl.helpers.CardLibrary;
 import com.megacrit.cardcrawl.localization.EventStrings;
 import com.megacrit.cardcrawl.rewards.RewardItem;
 import rs.antileaf.alice.cards.alice.*;
+import rs.antileaf.alice.cards.deprecated.WillOWisp;
 import rs.antileaf.alice.patches.enums.AbstractPlayerEnum;
 import rs.antileaf.alice.relics.BlackTeaRelic;
 import rs.antileaf.alice.relics.ShanghaiDollRelic;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class PuppeteersHouse extends PhasedEvent {
 	public static final String SIMPLE_NAME = PuppeteersHouse.class.getSimpleName();
-	public static final String ID = SIMPLE_NAME;
+	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	public static final EventStrings eventStrings = CardCrawlGame.languagePack.getEventString(ID);
 	public static final EventStrings touhouStrings = CardCrawlGame.languagePack.getEventString(ID + "_Greetings");
 
@@ -65,7 +66,7 @@ public class PuppeteersHouse extends PhasedEvent {
 	public static final String[] RARE_CARDS = new String[]{
 			Perihelion.ID,
 			Bookmark.ID,
-			ButterflyFlurry.ID,
+			CollapsingWorlds.ID,
 			SurpriseSpring.ID,
 			AliceInWonderland.ID,
 			WillOWisp.ID,
@@ -326,17 +327,17 @@ public class PuppeteersHouse extends PhasedEvent {
 	}
 
 	public void changeImg(String name) {
-		this.imageEventText.loadImage(AliceSpireKit.getEventImgFilePath(SIMPLE_NAME + "/" + name));
+		this.imageEventText.loadImage(AliceHelper.getEventImgFilePath(SIMPLE_NAME + "/" + name));
 		ReflectionHacks.setPrivate(this.imageEventText, GenericEventDialog.class, "imgColor",
 				new Color(1.0F, 1.0F, 1.0F, 0.5F));
 	}
 
 	public PuppeteersHouse() {
-		super(ID, eventStrings.NAME, AliceSpireKit.getEventImgFilePath(SIMPLE_NAME + "/outside"));
+		super(ID, eventStrings.NAME, AliceHelper.getEventImgFilePath(SIMPLE_NAME + "/outside"));
 
 		if (AbstractDungeon.player.chosenClass == AbstractPlayerEnum.ALICE_MARGATROID_PLAYER_CLASS)
 			this.charType = CharType.ALICE;
-		else if (AliceSpireKit.isMarisaModAvailable() &&
+		else if (AliceHelper.isMarisaModAvailable() &&
 				AbstractDungeon.player.chosenClass == ThModClassEnum.MARISA)
 			this.charType = CharType.MARISA;
 		else if (Arrays.stream(TOUHOU_CHARS).anyMatch(s -> s.equals(AbstractDungeon.player.chosenClass.name()))) {
@@ -366,8 +367,8 @@ public class PuppeteersHouse extends PhasedEvent {
 					this.transitionKey(RETURN);
 					AbstractDungeon.player.loseRelic(ShanghaiDollRelic.ID);
 
-					AliceSpireKit.getSaveData().setReturnedShanghaiDoll(true);
-					AliceSpireKit.logger.info("You returned Shanghai Doll to Alice. Thank you!");
+					AliceHelper.getSaveData().setReturnedShanghaiDoll(true);
+					AliceHelper.logger.info("You returned Shanghai Doll to Alice. Thank you!");
 				});
 		if (this.charType != CharType.ALICE)
 			choicePhase.addOption(this.getRefuseOption(), (i) -> this.transitionKey(REFUSE));
@@ -417,7 +418,7 @@ public class PuppeteersHouse extends PhasedEvent {
 	}
 
 	public static class AliceCardReward extends CustomReward {
-		public static Texture ICON = new Texture(AliceSpireKit.getImgFilePath("UI", "AliceCardReward"));
+		public static Texture ICON = new Texture(AliceHelper.getImgFilePath("UI", "AliceCardReward"));
 
 		ArrayList<AbstractCard> aliceCards;
 
@@ -428,7 +429,7 @@ public class PuppeteersHouse extends PhasedEvent {
 					Enums.ALICE_CARD_REWARD
 			);
 
-			assert Gdx.files.internal(AliceSpireKit.getImgFilePath("UI", "AliceCardReward")).exists();
+			assert Gdx.files.internal(AliceHelper.getImgFilePath("UI", "AliceCardReward")).exists();
 
 			this.aliceCards = cards;
 		}

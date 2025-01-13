@@ -9,7 +9,7 @@ import com.megacrit.cardcrawl.potions.AbstractPotion;
 import rs.antileaf.alice.AliceMargatroidMod;
 import rs.antileaf.alice.action.doll.SpawnDollAction;
 import rs.antileaf.alice.doll.AbstractDoll;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class WeavingPotion extends CustomPotion {
 	public static final String SIMPLE_NAME = WeavingPotion.class.getSimpleName();
@@ -41,7 +41,7 @@ public class WeavingPotion extends CustomPotion {
 	
 	@Override
 	public void use(AbstractCreature target) {
-		if (AliceSpireKit.isInBattle()) {
+		if (AliceHelper.isInBattle()) {
 			for (int i = 0; i < this.potency; i++)
 				this.addToBot(new SpawnDollAction(AbstractDoll.getRandomDoll(), -1));
 		}

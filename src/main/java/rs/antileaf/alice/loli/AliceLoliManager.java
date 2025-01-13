@@ -2,7 +2,7 @@ package rs.antileaf.alice.loli;
 
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import rs.antileaf.alice.cards.AbstractLoliCard;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
@@ -10,6 +10,7 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.function.Function;
 
+@Deprecated
 public class AliceLoliManager {
 	private static final HashMap<Class<? extends AbstractLoliCard<?>>, Function<AbstractCard, AbstractLoliCard<?>>>
 			registry = new HashMap<>();
@@ -33,7 +34,7 @@ public class AliceLoliManager {
 								Function<AbstractCard, AbstractLoliCard<?>> fromMethod) {
 		registry.put(clazz, fromMethod);
 
-		AliceSpireKit.logger.info("Registered {} -> {}",
+		AliceHelper.logger.info("Registered {} -> {}",
 				getParamType(clazz).getSimpleName(), clazz.getSimpleName());
 	}
 

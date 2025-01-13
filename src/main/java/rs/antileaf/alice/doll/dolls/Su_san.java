@@ -10,7 +10,7 @@ import com.megacrit.cardcrawl.powers.PoisonPower;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.enums.DollAmountType;
 import rs.antileaf.alice.strings.AliceDollStrings;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class Su_san extends AbstractDoll {
 	public static final String SIMPLE_NAME = Su_san.class.getSimpleName();
@@ -27,7 +27,7 @@ public class Su_san extends AbstractDoll {
 				MAX_HP,
 				PASSIVE_AMOUNT,
 				-1,
-				AliceSpireKit.getOrbImgFilePath(SIMPLE_NAME),
+				AliceHelper.getOrbImgFilePath(SIMPLE_NAME),
 				RenderTextMode.PASSIVE
 		);
 		
@@ -53,11 +53,12 @@ public class Su_san extends AbstractDoll {
 	public void triggerPassiveEffect() {
 		for (AbstractMonster m : AbstractDungeon.getMonsters().monsters)
 			if (!m.isDeadOrEscaped())
-				AliceSpireKit.addActionToBuffer(new ApplyPowerAction(
+				AliceHelper.addActionToBuffer(new ApplyPowerAction(
 						m,
 						AbstractDungeon.player,
 						new PoisonPower(m, AbstractDungeon.player, this.passiveAmount),
-						this.passiveAmount
+						this.passiveAmount,
+						true
 				));
 	}
 	
@@ -70,7 +71,7 @@ public class Su_san extends AbstractDoll {
 	public void onAct() {
 		for (AbstractMonster m : AbstractDungeon.getMonsters().monsters)
 			if (!m.isDeadOrEscaped() && m.hasPower(PoisonPower.POWER_ID))
-				AliceSpireKit.addActionToBuffer(new PoisonLoseHpAction(
+				AliceHelper.addActionToBuffer(new PoisonLoseHpAction(
 						m,
 						m,
 						m.getPower(PoisonPower.POWER_ID).amount,

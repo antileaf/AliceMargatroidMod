@@ -6,9 +6,11 @@ import com.megacrit.cardcrawl.localization.PowerStrings;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.interfaces.OnDollOperateHook;
 import rs.antileaf.alice.powers.AbstractAlicePower;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class DollWarPower extends AbstractAlicePower implements OnDollOperateHook {
-	public static final String POWER_ID = DollWarPower.class.getSimpleName();
+	public static final String SIMPLE_NAME = DollWarPower.class.getSimpleName();
+	public static final String POWER_ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
 	
 	public DollWarPower(int amount) {

@@ -9,16 +9,16 @@ import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.doll.interfaces.OnDollOperateHook;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 import rs.antileaf.alice.utils.AliceTutorialHelper;
 
 public class AlicesDarkGrimoire extends CustomRelic implements ClickableRelic, OnDollOperateHook {
 	public static final String SIMPLE_NAME = AlicesDarkGrimoire.class.getSimpleName();
+	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 
-	public static final String ID = SIMPLE_NAME;
-	private static final String IMG = AliceSpireKit.getRelicImgFilePath(SIMPLE_NAME);
-	private static final String IMG_OTL = AliceSpireKit.getRelicOutlineImgFilePath(SIMPLE_NAME);
-	private static final String IMG_LARGE = AliceSpireKit.getRelicLargeImgFilePath(SIMPLE_NAME);
+	private static final String IMG = AliceHelper.getRelicImgFilePath(SIMPLE_NAME);
+	private static final String IMG_OTL = AliceHelper.getRelicOutlineImgFilePath(SIMPLE_NAME);
+	private static final String IMG_LARGE = AliceHelper.getRelicLargeImgFilePath(SIMPLE_NAME);
 	
 	public static final int MULTIPLIER = 3;
 
@@ -43,14 +43,10 @@ public class AlicesDarkGrimoire extends CustomRelic implements ClickableRelic, O
 	@Override
 	public void obtain() {
 		if (AbstractDungeon.player.hasRelic(AlicesGrimoire.ID)) {
-			for (AbstractRelic relic : AbstractDungeon.player.relics) {
-				if (relic instanceof AlicesGrimoire) {
-					this.instantObtain(AbstractDungeon.player,
-							AbstractDungeon.player.relics.indexOf(relic),
-							false);
-					break;
-				}
-			}
+			this.instantObtain(AbstractDungeon.player,
+					AbstractDungeon.player.relics.indexOf(
+							AbstractDungeon.player.getRelic(AlicesGrimoire.ID)),
+					false);
 		} else {
 			super.obtain();
 		}
@@ -80,7 +76,7 @@ public class AlicesDarkGrimoire extends CustomRelic implements ClickableRelic, O
 	
 	@Override
 	public void onRightClick() {
-		if (AliceSpireKit.isInBattle() && !AbstractDungeon.actionManager.turnHasEnded)
+		if (AliceHelper.isInBattle() && !AbstractDungeon.actionManager.turnHasEnded)
 			AliceTutorialHelper.openTutorial();
 	}
 }

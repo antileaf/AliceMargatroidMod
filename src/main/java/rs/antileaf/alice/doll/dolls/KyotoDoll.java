@@ -11,7 +11,7 @@ import rs.antileaf.alice.doll.DollDamageInfo;
 import rs.antileaf.alice.doll.enums.DollAmountTime;
 import rs.antileaf.alice.doll.enums.DollAmountType;
 import rs.antileaf.alice.strings.AliceDollStrings;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class KyotoDoll extends AbstractDoll {
 	public static final String SIMPLE_NAME = KyotoDoll.class.getSimpleName();
@@ -28,7 +28,7 @@ public class KyotoDoll extends AbstractDoll {
 				MAX_HP,
 				-1,
 				-1,
-				AliceSpireKit.getOrbImgFilePath(SIMPLE_NAME),
+				AliceHelper.getOrbImgFilePath(SIMPLE_NAME),
 				RenderTextMode.NONE
 		);
 		
@@ -53,7 +53,7 @@ public class KyotoDoll extends AbstractDoll {
 	
 	@Override
 	public void onAct() {
-		AliceSpireKit.addActionToBuffer(new DamageAllEnemiesAction(
+		AliceHelper.addActionToBuffer(new DamageAllEnemiesAction(
 				AbstractDungeon.player,
 				DollDamageInfo.createDamageMatrix(
 						this.HP / 2,
@@ -73,7 +73,7 @@ public class KyotoDoll extends AbstractDoll {
 		int amount = (this.maxHP - this.HP) / 2;
 		
 		if (amount > 0)
-			AliceSpireKit.addActionToBuffer(new HealDollAction(this, amount));
+			AliceHelper.addActionToBuffer(new HealDollAction(this, amount));
 	}
 	
 //	@Override

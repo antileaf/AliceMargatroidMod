@@ -12,14 +12,13 @@ import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.cardmodifier.RevelationCardModifier;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 import java.util.ArrayList;
 
 public class Revelation extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = Revelation.class.getSimpleName();
-//	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
-	public static final String ID = SIMPLE_NAME;
+	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 0;
@@ -29,7 +28,7 @@ public class Revelation extends AbstractAliceCard {
 		super(
 				ID,
 				cardStrings.NAME,
-				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceHelper.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.SKILL,
@@ -63,7 +62,7 @@ public class Revelation extends AbstractAliceCard {
 			this.addToBot(new AnonymousAction(() -> {
 				ArrayList<AbstractCard> failed = new ArrayList<>();
 				for (AbstractCard c : chosen) {
-					AliceSpireKit.upgradeCardDamage(c, this.magicNumber);
+					AliceHelper.upgradeCardDamage(c, this.magicNumber);
 					
 					if (AbstractDungeon.player.hand.contains(c)) {
 						c.flash();
@@ -83,7 +82,7 @@ public class Revelation extends AbstractAliceCard {
 				}
 				
 				if (!failed.isEmpty())
-					AliceSpireKit.log(SIMPLE_NAME + ": Chosen card(s) not in hand: " + failed);
+					AliceHelper.log(SIMPLE_NAME + ": Chosen card(s) not in hand: " + failed);
 			}));
 		}
 	}

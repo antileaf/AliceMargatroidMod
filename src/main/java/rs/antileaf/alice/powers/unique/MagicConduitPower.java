@@ -16,11 +16,11 @@ import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.doll.interfaces.OnDollOperateHook;
 import rs.antileaf.alice.effects.common.AliceDrawLineEffect;
 import rs.antileaf.alice.powers.AbstractAlicePower;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class MagicConduitPower extends AbstractAlicePower implements OnDollOperateHook {
 	public static final String SIMPLE_NAME = MagicConduitPower.class.getSimpleName();
-	public static final String POWER_ID = SIMPLE_NAME;
+	public static final String POWER_ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
 	
 	private static final float VFX_MIN = 0.1F, VFX_MAX = 0.4F;
@@ -65,7 +65,7 @@ public class MagicConduitPower extends AbstractAlicePower implements OnDollOpera
 		if (DollManager.get().getDolls().size() == DollManager.MAX_DOLL_SLOTS
 				&& DollManager.get().getDolls().get(DollManager.MAX_DOLL_SLOTS - 1) == doll) {
 			this.flash();
-			AliceSpireKit.addActionsToTop(
+			AliceHelper.addActionsToTop(
 					new RecycleDollAction(doll, null, true),
 					new GainEnergyAction(this.amount) {
 						@Override

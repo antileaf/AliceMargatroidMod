@@ -6,7 +6,7 @@ import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.CardGroup;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
@@ -44,7 +44,7 @@ public class AliceMoveToHandAction extends AbstractGameAction {
 			}
 			
 			if (source == AbstractDungeon.player.hand) {
-				AliceSpireKit.log("AliceMoveToHandAction: source is hand???");
+				AliceHelper.log("AliceMoveToHandAction: source is hand???");
 				this.isDone = true;
 				return;
 			}

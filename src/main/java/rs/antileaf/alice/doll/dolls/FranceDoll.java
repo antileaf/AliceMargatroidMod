@@ -7,7 +7,7 @@ import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.enums.DollAmountType;
 import rs.antileaf.alice.strings.AliceDollStrings;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class FranceDoll extends AbstractDoll {
 	public static final String SIMPLE_NAME = FranceDoll.class.getSimpleName();
@@ -24,7 +24,7 @@ public class FranceDoll extends AbstractDoll {
 				MAX_HP,
 				-1,
 				ACT_AMOUNT,
-				AliceSpireKit.getOrbImgFilePath(SIMPLE_NAME),
+				AliceHelper.getOrbImgFilePath(SIMPLE_NAME),
 				RenderTextMode.ACT
 		);
 		
@@ -62,12 +62,12 @@ public class FranceDoll extends AbstractDoll {
 		
 		if (dest != -1) {
 			if (DollManager.get().getDolls().get(dest) != this)
-				AliceSpireKit.addActionToBuffer(new MoveDollAction(this, dest));
+				AliceHelper.addActionToBuffer(new MoveDollAction(this, dest));
 			else
-				AliceSpireKit.logger.info("FranceDoll.onAct: dest == this");
+				AliceHelper.logger.info("FranceDoll.onAct: dest == this");
 		}
 		else {
-			AliceSpireKit.addActionToBuffer(new DollGainBlockAction(this, this.actAmount));
+			AliceHelper.addActionToBuffer(new DollGainBlockAction(this, this.actAmount));
 			this.highlightActValue();
 		}
 	}

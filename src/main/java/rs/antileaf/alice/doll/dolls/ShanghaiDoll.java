@@ -16,8 +16,8 @@ import rs.antileaf.alice.doll.enums.DollAmountTime;
 import rs.antileaf.alice.doll.enums.DollAmountType;
 import rs.antileaf.alice.relics.SuspiciousCard;
 import rs.antileaf.alice.strings.AliceDollStrings;
+import rs.antileaf.alice.utils.AliceHelper;
 import rs.antileaf.alice.utils.AliceImageMaster;
-import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class ShanghaiDoll extends AbstractDoll {
 	public static final String SIMPLE_NAME = ShanghaiDoll.class.getSimpleName();
@@ -39,7 +39,7 @@ public class ShanghaiDoll extends AbstractDoll {
 				MAX_HP,
 				PASSIVE_AMOUNT,
 				ACT_AMOUNT,
-				AliceSpireKit.getOrbImgFilePath(SIMPLE_NAME),
+				AliceHelper.getOrbImgFilePath(SIMPLE_NAME),
 				RenderTextMode.ACT
 		);
 		
@@ -128,10 +128,10 @@ public class ShanghaiDoll extends AbstractDoll {
 		this.charge = 0;
 		
 		if (!AbstractDungeon.player.hasRelic(SuspiciousCard.ID)) {
-			AbstractMonster m = AliceSpireKit.getMonsterWithLeastHP();
+			AbstractMonster m = AliceHelper.getMonsterWithLeastHP();
 			
 			if (m != null) {
-				AliceSpireKit.addActionToBuffer(new DollDamageAction(m,
+				AliceHelper.addActionToBuffer(new DollDamageAction(m,
 						new DollDamageInfo(this.actAmount, this,
 								DollAmountType.DAMAGE, DollAmountTime.ACT),
 						AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
@@ -143,7 +143,7 @@ public class ShanghaiDoll extends AbstractDoll {
 					.count() > 1)
 				AbstractDungeon.player.getRelic(SuspiciousCard.ID).flash();
 			
-			AliceSpireKit.addActionToBuffer(new DamageAllEnemiesAction(
+			AliceHelper.addActionToBuffer(new DamageAllEnemiesAction(
 					AbstractDungeon.player,
 					DollDamageInfo.createDamageMatrix(
 							this.actAmount,

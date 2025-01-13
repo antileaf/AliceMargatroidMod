@@ -10,11 +10,11 @@ import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.KyotoDoll;
 import rs.antileaf.alice.powers.AbstractAlicePower;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class PerfectCherryBlossomPower extends AbstractAlicePower {
 	public static final String SIMPLE_NAME = PerfectCherryBlossomPower.class.getSimpleName();
-	public static final String POWER_ID = SIMPLE_NAME;
+	public static final String POWER_ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
 	
 	public PerfectCherryBlossomPower(int amount) {
@@ -49,8 +49,8 @@ public class PerfectCherryBlossomPower extends AbstractAlicePower {
 			for (AbstractDoll doll : DollManager.get().getDolls())
 				for (int i = 0; i < amount; i++)
 					if (doll instanceof KyotoDoll)
-						AliceSpireKit.addActionToBuffer(new DollActAction(doll));
-			AliceSpireKit.commitBuffer();
+						AliceHelper.addActionToBuffer(new DollActAction(doll));
+			AliceHelper.commitBuffer();
 		}));
 		
 		this.addToBot(new RemoveSpecificPowerAction(this.owner, this.owner, this));

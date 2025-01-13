@@ -2,7 +2,6 @@ package rs.antileaf.alice.cards.alice;
 
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
-import com.megacrit.cardcrawl.actions.common.DamageRandomEnemyAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
@@ -16,15 +15,11 @@ import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.CardTagEnum;
-import rs.antileaf.alice.patches.enums.CardTargetEnum;
-import rs.antileaf.alice.targeting.AliceHoveredTargets;
-import rs.antileaf.alice.targeting.AliceTargetIcon;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class DollCremation extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = DollCremation.class.getSimpleName();
-//	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
-	public static final String ID = SIMPLE_NAME;
+	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 2;
@@ -35,13 +30,13 @@ public class DollCremation extends AbstractAliceCard {
 		super(
 				ID,
 				cardStrings.NAME,
-				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceHelper.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.ATTACK,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
 				CardRarity.COMMON,
-				CardTargetEnum.DOLL_OR_ENEMY
+				CardTarget.ENEMY
 		);
 		
 		this.damage = this.baseDamage = DAMAGE;
@@ -49,30 +44,30 @@ public class DollCremation extends AbstractAliceCard {
 		
 		this.tags.add(CardTagEnum.ALICE_COMMAND);
 
-		this.targetIcons.add(AliceTargetIcon.DOLL);
-		this.targetIcons.add(AliceTargetIcon.ENEMY);
+//		this.targetIcons.add(AliceTargetIcon.DOLL);
+//		this.targetIcons.add(AliceTargetIcon.ENEMY);
 	}
 	
-	@Override
-	public AliceHoveredTargets getHoveredTargets(AbstractMonster mon, AbstractDoll slot) {
-		if (mon != null) {
-			AbstractDoll rightmost = DollManager.get().getDolls().stream()
-					.filter(d -> !(d instanceof EmptyDollSlot))
-					.findFirst()
-					.orElse(null);
-			
-			if (rightmost != null)
-				return new AliceHoveredTargets() {{
-					this.dolls = new AbstractDoll[] {rightmost};
-				}};
-			else
-				return AliceHoveredTargets.NONE;
-		}
-		else if (slot != null && !(slot instanceof EmptyDollSlot))
-			return AliceHoveredTargets.allMonsters();
-		
-		return AliceHoveredTargets.NONE;
-	}
+//	@Override
+//	public AliceHoveredTargets getHoveredTargets(AbstractMonster mon, AbstractDoll slot) {
+//		if (mon != null) {
+//			AbstractDoll rightmost = DollManager.get().getDolls().stream()
+//					.filter(d -> !(d instanceof EmptyDollSlot))
+//					.findFirst()
+//					.orElse(null);
+//
+//			if (rightmost != null)
+//				return new AliceHoveredTargets() {{
+//					this.dolls = new AbstractDoll[] {rightmost};
+//				}};
+//			else
+//				return AliceHoveredTargets.NONE;
+//		}
+//		else if (slot != null && !(slot instanceof EmptyDollSlot))
+//			return AliceHoveredTargets.allMonsters();
+//
+//		return AliceHoveredTargets.NONE;
+//	}
 	
 	@Override
 	public boolean canUse(AbstractPlayer p, AbstractMonster m) {
@@ -98,14 +93,9 @@ public class DollCremation extends AbstractAliceCard {
 		
 		if (doll != null) {
 			this.addToBot(new RecycleDollAction(doll));
-			
-			AbstractMonster mon = this.getTargetedEnemy();
-			if (mon == null)
-				this.addToBot(new DamageRandomEnemyAction(new DamageInfo(p, this.damage, this.damageTypeForTurn),
-						AbstractGameAction.AttackEffect.FIRE));
-			else
-				this.addToBot(new DamageAction(mon, new DamageInfo(p, this.damage, this.damageTypeForTurn),
-						AbstractGameAction.AttackEffect.FIRE));
+
+			this.addToBot(new DamageAction(m, new DamageInfo(p, this.damage, this.damageTypeForTurn),
+					AbstractGameAction.AttackEffect.FIRE));
 		}
 	}
 	

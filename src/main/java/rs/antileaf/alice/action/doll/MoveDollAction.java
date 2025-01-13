@@ -4,6 +4,7 @@ import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.patches.enums.ActionTypeEnum;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class MoveDollAction extends AbstractGameAction {
 	private static final float DURATION = 0.2F;
@@ -25,7 +26,7 @@ public class MoveDollAction extends AbstractGameAction {
 			if (DollManager.get().contains(this.doll))
 				DollManager.get().moveDoll(this.doll, this.index);
 			else
-				rs.antileaf.alice.utils.AliceSpireKit.log(this.getClass(),
+				AliceHelper.log(this.getClass(),
 						"MoveDollAction.update(): DollManager does not contain " +
 								this.doll.getClass().getSimpleName() + "!");
 		}

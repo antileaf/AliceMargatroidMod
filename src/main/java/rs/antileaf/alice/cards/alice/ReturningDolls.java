@@ -9,17 +9,16 @@ import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.action.doll.RecycleDollAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
-import rs.antileaf.alice.cards.derivations.Retrace;
+import rs.antileaf.alice.cards.colorless.Retrace;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
 import rs.antileaf.alice.targeting.AliceTargetIcon;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class ReturningDolls extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = ReturningDolls.class.getSimpleName();
-//	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
-	public static final String ID = SIMPLE_NAME;
+	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
@@ -31,7 +30,7 @@ public class ReturningDolls extends AbstractAliceCard {
 		super(
 				ID,
 				cardStrings.NAME,
-				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceHelper.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.SKILL,
@@ -112,7 +111,7 @@ public class ReturningDolls extends AbstractAliceCard {
 				this.addToBot(new MakeTempCardInHandAction(new Retrace()));
 		}
 		else
-			AliceSpireKit.logger.info("ReturningDolls.use(): doll is null!");
+			AliceHelper.logger.info("ReturningDolls.use(): doll is null!");
 	}
 	
 	@Override

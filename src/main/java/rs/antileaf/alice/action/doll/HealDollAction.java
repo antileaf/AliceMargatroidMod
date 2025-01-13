@@ -4,7 +4,7 @@ import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.patches.enums.ActionTypeEnum;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class HealDollAction extends AbstractGameAction {
 	private static final float DURATION = 0.1F;
@@ -25,7 +25,7 @@ public class HealDollAction extends AbstractGameAction {
 			if (DollManager.get().contains(this.doll))
 				DollManager.get().heal(this.doll, this.heal);
 			else
-				AliceSpireKit.logger.info("HealDollAction.update(): DollManager does not contain {}!",
+				AliceHelper.logger.info("HealDollAction.update(): DollManager does not contain {}!",
 						this.doll.getClass().getSimpleName());
 		}
 		

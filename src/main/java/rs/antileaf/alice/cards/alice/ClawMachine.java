@@ -9,26 +9,24 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.action.common.AliceDiscoverAction;
 import rs.antileaf.alice.action.doll.SpawnDollAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
-import rs.antileaf.alice.cards.derivations.CreateDoll;
+import rs.antileaf.alice.cards.colorless.CreateDoll;
 import rs.antileaf.alice.cards.interfaces.ConditionalExhaustCard;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.FranceDoll;
-import rs.antileaf.alice.doll.dolls.LondonDoll;
+import rs.antileaf.alice.doll.dolls.HouraiDoll;
 import rs.antileaf.alice.doll.dolls.NetherlandsDoll;
-import rs.antileaf.alice.doll.dolls.OrleansDoll;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
 import rs.antileaf.alice.strings.AliceLanguageStrings;
 import rs.antileaf.alice.targeting.AliceTargetIcon;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 import java.util.ArrayList;
 
 public class ClawMachine extends AbstractAliceCard implements ConditionalExhaustCard {
 	public static final String SIMPLE_NAME = ClawMachine.class.getSimpleName();
-//	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
-	public static final String ID = SIMPLE_NAME;
+	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 
 	private static final int COST = 1;
@@ -39,19 +37,19 @@ public class ClawMachine extends AbstractAliceCard implements ConditionalExhaust
 		super(
 				ID,
 				cardStrings.NAME,
-				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceHelper.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.SKILL,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
 				CardRarity.UNCOMMON,
-				CardTargetEnum.DOLL_OR_EMPTY_SLOT_OR_NONE
+				CardTargetEnum.DOLL_OR_EMPTY_SLOT
 		);
 
 		this.resumeChoices();
 
 		this.targetIcons.add(AliceTargetIcon.SLOT);
-		this.targetIcons.add(AliceTargetIcon.NONE);
+//		this.targetIcons.add(AliceTargetIcon.NONE);
 
 		this.initializeDescription();
 	}
@@ -60,8 +58,7 @@ public class ClawMachine extends AbstractAliceCard implements ConditionalExhaust
 		this.choices.clear();
 		this.choices.add(NetherlandsDoll.SIMPLE_NAME);
 		this.choices.add(FranceDoll.SIMPLE_NAME);
-		this.choices.add(LondonDoll.SIMPLE_NAME);
-		this.choices.add(OrleansDoll.SIMPLE_NAME);
+		this.choices.add(HouraiDoll.SIMPLE_NAME);
 	}
 
 	@Override
@@ -72,7 +69,7 @@ public class ClawMachine extends AbstractAliceCard implements ConditionalExhaust
 
 	@Override
 	public void initializeDescription() {
-		AliceSpireKit.logger.info("ClawMachine.initializeDescription: choices = {}", this.choices);
+		AliceHelper.logger.info("ClawMachine.initializeDescription: choices = {}", this.choices);
 		if (this.choices == null)
 			return;
 
@@ -86,7 +83,7 @@ public class ClawMachine extends AbstractAliceCard implements ConditionalExhaust
 						sb.append(" ").append(AliceLanguageStrings.OR).append(" ");
 				}
 
-				sb.append("alicemargatroidmod:").append(AbstractDoll.getName(this.choices.get(i)));
+				sb.append("alicemargatroid:").append(AbstractDoll.getName(this.choices.get(i)));
 			}
 
 			this.rawDescription = String.format(!this.upgraded ? cardStrings.DESCRIPTION :
@@ -94,7 +91,7 @@ public class ClawMachine extends AbstractAliceCard implements ConditionalExhaust
 		}
 		else if (this.choices.size() == 1)
 			this.rawDescription = String.format(cardStrings.EXTENDED_DESCRIPTION[1],
-					"alicemargatroidmod:" + AbstractDoll.getName(this.choices.get(0)));
+					"alicemargatroid:" + AbstractDoll.getName(this.choices.get(0)));
 		else
 			this.rawDescription = cardStrings.EXTENDED_DESCRIPTION[2]; // 按理说不应该没有选项
 
@@ -121,7 +118,7 @@ public class ClawMachine extends AbstractAliceCard implements ConditionalExhaust
 					(card) -> {
 						if (card instanceof CreateDoll) {
 							String clz = ((CreateDoll) card).dollClazz;
-							AliceSpireKit.logger.info("ClawMachine.use: clz = {}", clz);
+							AliceHelper.logger.info("ClawMachine.use: clz = {}", clz);
 
 							AbstractDoll doll = AbstractDoll.newInst(clz);
 							this.addToTop(new SpawnDollAction(doll, index));
@@ -129,7 +126,7 @@ public class ClawMachine extends AbstractAliceCard implements ConditionalExhaust
 							this.choices.remove(clz);
 							this.initializeDescription();
 						} else
-							AliceSpireKit.logger.info("ClawMachine.use: card is not CreateDoll!");
+							AliceHelper.logger.info("ClawMachine.use: card is not CreateDoll!");
 					},
 					cardStrings.EXTENDED_DESCRIPTION[0],
 					false

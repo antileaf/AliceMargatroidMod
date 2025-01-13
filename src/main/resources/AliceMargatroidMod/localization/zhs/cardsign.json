@@ -1,89 +1,89 @@
 {
-  "SurpriseSpring": {
+  "AliceMargatroid:SurpriseSpring": {
     "SIGN": "春符"
   },
   
-  "MaidensBunraku": {
+  "AliceMargatroid:MaidensBunraku": {
     "SIGN": "操符"
   },
   
-  "CharitableFranceDoll": {
+  "AliceMargatroid:CharitableFranceDoll": {
     "SIGN": "苍符"
   },
   
-  "CharismaticOrleansDoll": {
-    "SIGN": "苍符"
-  },
-  
-  "RedHairedNetherlandsDoll": {
+  "AliceMargatroid:RedHairedNetherlandsDoll": {
     "SIGN": "红符"
   },
   
-  "MistyLondonDoll": {
-    "SIGN": "暗符"
-  },
-  
-  "SpringKyotoDoll": {
+  "AliceMargatroid:SpringKyotoDoll": {
     "SIGN": "雅符"
   },
   
-  "VivaciousShanghaiDoll": {
+  "AliceMargatroid:VivaciousShanghaiDoll": {
     "SIGN": "枪符"
   },
   
-  "QuietHouraiDoll": {
+  "AliceMargatroid:QuietHouraiDoll": {
     "SIGN": "雅符"
   },
   
-  "LuminousShanghaiDoll": {
+  "AliceMargatroid:LuminousShanghaiDoll": {
     "SIGN": "诅咒"
   },
   
-  "LittleLegion": {
+  "AliceMargatroid:LittleLegion": {
     "SIGN": "战符"
   },
   
-  "DollWar": {
+  "AliceMargatroid:DollWar": {
     "SIGN": "战操"
   },
   
-  "ArtfulChanter": {
+  "AliceMargatroid:ArtfulChanter": {
     "SIGN": "符之一"
   },
   
-  "DollCrusader": {
+  "AliceMargatroid:DollCrusader": {
     "SIGN": "符之二"
   },
   
-  "DevilryLight": {
+  "AliceMargatroid:DevilryLight": {
     "SIGN": "魔光"
   },
   
-  "DollMiraCeti": {
+  "AliceMargatroid:DollMiraCeti": {
     "SIGN": "赤符"
   },
   
-  "SeekerDoll": {
+  "AliceMargatroid:SeekerDoll": {
     "SIGN": "侦符"
   },
   
-  "Tripwire": {
+  "AliceMargatroid:Tripwire": {
     "SIGN": "聚焦"
   },
   
-  "CutiePhalanx": {
-    "SIGN": "枪符"
-  },
-  
-  "DollOfRoundTable": {
+  "AliceMargatroid:DollOfRoundTable": {
     "SIGN": "骑士"
   },
   
-  "ReturnInanimateness": {
+  "AliceMargatroid:DollInSea": {
+    "SIGN": "操符"
+  },
+
+  "AliceMargatroid:DEPRECATEDReturnInanimateness": {
     "SIGN": "魔操"
   },
-  
-  "DollInSea": {
-    "SIGN": "操符"
+
+  "AliceMargatroid:DEPRECATEDCutiePhalanx": {
+    "SIGN": "枪符"
+  },
+
+  "AliceMargatroid:DEPRECATEDCharismaticOrleansDoll": {
+    "SIGN": "苍符"
+  },
+
+  "AliceMargatroid:DEPRECATEDMistyLondonDoll": {
+    "SIGN": "暗符"
   }
 }

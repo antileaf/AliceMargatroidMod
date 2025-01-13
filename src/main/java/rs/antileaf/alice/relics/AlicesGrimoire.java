@@ -9,16 +9,16 @@ import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import rs.antileaf.alice.action.doll.SpawnDollAction;
 import rs.antileaf.alice.doll.dolls.ShanghaiDoll;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 import rs.antileaf.alice.utils.AliceTutorialHelper;
 
 public class AlicesGrimoire extends CustomRelic implements ClickableRelic {
 	public static final String SIMPLE_NAME = AlicesGrimoire.class.getSimpleName();
+	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 
-	public static final String ID = SIMPLE_NAME;
-	private static final String IMG = AliceSpireKit.getRelicImgFilePath(SIMPLE_NAME);
-	private static final String IMG_OTL = AliceSpireKit.getRelicOutlineImgFilePath(SIMPLE_NAME);
-	private static final String IMG_LARGE = AliceSpireKit.getRelicLargeImgFilePath(SIMPLE_NAME);
+	private static final String IMG = AliceHelper.getRelicImgFilePath(SIMPLE_NAME);
+	private static final String IMG_OTL = AliceHelper.getRelicOutlineImgFilePath(SIMPLE_NAME);
+	private static final String IMG_LARGE = AliceHelper.getRelicLargeImgFilePath(SIMPLE_NAME);
 
 	public AlicesGrimoire() {
 		super(
@@ -57,7 +57,7 @@ public class AlicesGrimoire extends CustomRelic implements ClickableRelic {
 	
 	@Override
 	public void onRightClick() {
-		if (AliceSpireKit.isInBattle() && !AbstractDungeon.actionManager.turnHasEnded)
+		if (AliceHelper.isInBattle() && !AbstractDungeon.actionManager.turnHasEnded)
 			AliceTutorialHelper.openTutorial();
 	}
 	

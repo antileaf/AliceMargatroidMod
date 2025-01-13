@@ -8,10 +8,11 @@ import com.megacrit.cardcrawl.localization.PowerStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.WeakPower;
 import rs.antileaf.alice.powers.AbstractAlicePower;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class DevilryLightPower extends AbstractAlicePower {
 	public static final String SIMPLE_NAME = DevilryLightPower.class.getSimpleName();
-	public static final String POWER_ID = SIMPLE_NAME;
+	public static final String POWER_ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
 	
 	public DevilryLightPower(int amount) {

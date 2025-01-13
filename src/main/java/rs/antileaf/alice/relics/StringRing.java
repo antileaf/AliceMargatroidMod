@@ -14,17 +14,17 @@ import rs.antileaf.alice.action.doll.SpawnDollAction;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 import java.util.Optional;
 
 public class StringRing extends CustomRelic implements ClickableRelic, CustomSavable<String> {
 	public static final String SIMPLE_NAME = StringRing.class.getSimpleName();
+	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 
-	public static final String ID = SIMPLE_NAME;
-	private static final String IMG = AliceSpireKit.getRelicImgFilePath(SIMPLE_NAME);
-	private static final String IMG_OTL = AliceSpireKit.getRelicOutlineImgFilePath(SIMPLE_NAME);
-	private static final String IMG_LARGE = AliceSpireKit.getRelicLargeImgFilePath(SIMPLE_NAME);
+	private static final String IMG = AliceHelper.getRelicImgFilePath(SIMPLE_NAME);
+	private static final String IMG_OTL = AliceHelper.getRelicOutlineImgFilePath(SIMPLE_NAME);
+	private static final String IMG_LARGE = AliceHelper.getRelicLargeImgFilePath(SIMPLE_NAME);
 	
 	String dollClazz = null;
 
@@ -70,7 +70,7 @@ public class StringRing extends CustomRelic implements ClickableRelic, CustomSav
 	
 	@Override
 	public void onRightClick() {
-		if (AliceSpireKit.isInBattle() && !AbstractDungeon.actionManager.turnHasEnded && this.dollClazz != null) {
+		if (AliceHelper.isInBattle() && !AbstractDungeon.actionManager.turnHasEnded && this.dollClazz != null) {
 			this.addToBot(new RelicAboveCreatureAction(AbstractDungeon.player, this));
 			this.addToBot(new SpawnDollAction(AbstractDoll.newInst(this.dollClazz), -1));
 			this.dollClazz = null;
@@ -100,7 +100,7 @@ public class StringRing extends CustomRelic implements ClickableRelic, CustomSav
 				}
 				else {
 					this.dollClazz = null;
-					AliceSpireKit.log("StringRing: Optional<AbstractDoll> is empty. Maybe there is a bug in the code.");
+					AliceHelper.log("StringRing: Optional<AbstractDoll> is empty. Maybe there is a bug in the code.");
 				}
 			}
 		}

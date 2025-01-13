@@ -1,8 +1,0 @@
-{
-  "DollPotion": {
-    "NAME": "人偶药水",
-    "DESCRIPTIONS": [
-      "生成 #b%d 个随机 #y人偶 。"
-    ]
-  }
-}

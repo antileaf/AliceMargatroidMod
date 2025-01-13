@@ -5,7 +5,7 @@ import com.evacipated.cardcrawl.modthespire.lib.SpirePostfixPatch;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.cards.alice.Bookmark;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class BookmarkCachePatch {
 	@SpirePatch(
@@ -16,7 +16,7 @@ public class BookmarkCachePatch {
 	public static class StartOfTurnUpdateCachePatch {
 		@SpirePostfixPatch
 		public static void Postfix(AbstractPlayer _inst) {
-			AliceSpireKit.addToBot(new AnonymousAction(Bookmark::updateCache));
+			AliceHelper.addToBot(new AnonymousAction(Bookmark::updateCache));
 		}
 	}
 	

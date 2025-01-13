@@ -7,6 +7,7 @@ import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import rs.antileaf.alice.cards.alice.Dessert;
 
+@SuppressWarnings("unused")
 public class DessertRenderIconPatch {
 	@SpirePatch(clz = AbstractPlayer.class, method = "renderHand", paramtypez = {SpriteBatch.class})
 	public static class RenderIconPatch {

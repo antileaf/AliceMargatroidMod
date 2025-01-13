@@ -11,10 +11,11 @@ import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.powers.AbstractAlicePower;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class UsokaePower extends AbstractAlicePower implements OnReceivePowerPower {
-	public static final String POWER_ID = UsokaePower.class.getSimpleName();
+	public static final String SIMPLE_NAME = UsokaePower.class.getSimpleName();
+	public static final String POWER_ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
 	
 	public UsokaePower() {
@@ -42,13 +43,13 @@ public class UsokaePower extends AbstractAlicePower implements OnReceivePowerPow
 
 		AbstractMonster monster = (AbstractMonster) source;
 		if (!DollManager.get().damageTarget.containsKey(monster)) {
-			AliceSpireKit.logger.info("UsokaePower: No doll target for monster {}", monster.name);
+			AliceHelper.logger.info("UsokaePower: No doll target for monster {}", monster.name);
 			return true;
 		}
 
 		AbstractDoll doll = DollManager.get().getDolls().get(DollManager.get().damageTarget.get(monster));
 		if (doll == null) {
-			AliceSpireKit.logger.info("UsokaePower: Doll target for monster {} is null", monster.name);
+			AliceHelper.logger.info("UsokaePower: Doll target for monster {} is null", monster.name);
 			return true;
 		}
 

@@ -9,27 +9,27 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.powers.StrengthPower;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.powers.unique.MagicianRayPower;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class MagicianRay extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = MagicianRay.class.getSimpleName();
-//	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
-	public static final String ID = SIMPLE_NAME;
+	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
 	private static final int DAMAGE = 6;
-	private static final int MAGIC = 4;
-	private static final int UPGRADE_PLUS_MAGIC = 2;
+	private static final int MAGIC = 2;
+	private static final int UPGRADE_PLUS_MAGIC = 3;
 	
 	public MagicianRay() {
 		super(
 				ID,
 				cardStrings.NAME,
-				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceHelper.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.ATTACK,
@@ -46,7 +46,10 @@ public class MagicianRay extends AbstractAliceCard {
 	public void use(AbstractPlayer p, AbstractMonster m) {
 		this.addToBot(new DamageAction(m, new DamageInfo(p, this.damage, this.damageTypeForTurn),
 				AbstractGameAction.AttackEffect.FIRE));
-		this.addToBot(new ApplyPowerAction(p, p, new MagicianRayPower(this.magicNumber), this.magicNumber));
+
+		this.addToBot(new ApplyPowerAction(p, p, new StrengthPower(p, this.magicNumber)));
+
+		this.addToBot(new ApplyPowerAction(p, p, new MagicianRayPower(this.magicNumber)));
 	}
 	
 	@Override

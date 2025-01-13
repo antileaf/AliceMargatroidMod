@@ -9,10 +9,11 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.PowerStrings;
 import rs.antileaf.alice.powers.AbstractAlicePower;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class SwordOfLightPower extends AbstractAlicePower implements InvisiblePower {
 	public static final String SIMPLE_NAME = SwordOfLightPower.class.getSimpleName();
-	public static final String POWER_ID = SIMPLE_NAME;
+	public static final String POWER_ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
 	
 	public SwordOfLightPower() {

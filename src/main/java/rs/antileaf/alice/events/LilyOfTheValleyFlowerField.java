@@ -8,13 +8,13 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.EventStrings;
 import com.megacrit.cardcrawl.vfx.cardManip.ShowCardAndObtainEffect;
+import rs.antileaf.alice.cards.colorless.CreateSusan;
 import rs.antileaf.alice.cards.colorless.PoisonousSweet;
-import rs.antileaf.alice.cards.derivations.CreateSusan;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class LilyOfTheValleyFlowerField extends PhasedEvent {
 	public static final String SIMPLE_NAME = LilyOfTheValleyFlowerField.class.getSimpleName();
-	public static final String ID = SIMPLE_NAME;
+	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	public static final EventStrings eventStrings = CardCrawlGame.languagePack.getEventString(ID);
 
 	private static final String INTRO = "INTRO", LEAVE = "LEAVE", CHOICE = "CHOICE",
@@ -34,7 +34,7 @@ public class LilyOfTheValleyFlowerField extends PhasedEvent {
 	}
 
 	public LilyOfTheValleyFlowerField() {
-		super(ID, eventStrings.NAME, AliceSpireKit.getEventImgFilePath(SIMPLE_NAME));
+		super(ID, eventStrings.NAME, AliceHelper.getEventImgFilePath(SIMPLE_NAME));
 
 		this.registerPhase(INTRO, new TextPhase(eventStrings.DESCRIPTIONS[0])
 				.addOption(eventStrings.OPTIONS[0], (i) -> this.transitionKey(CHOICE))

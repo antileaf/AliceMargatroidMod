@@ -3,52 +3,52 @@
     "TITLE": "注释"
   },
   
-  "Revelation": {
+  "AliceMargatroid:Revelation": {
     "DESCRIPTION": "伤害提高效果可以叠加，但 #y启示 效果不会叠加。"
   },
   
-  "WitchsTeaParty": {
-    "TITLE": "联动特性",
-    "DESCRIPTION": "如果开启了魔理沙或帕秋莉 mod ，则选项中必定包含对应颜色。 NL 可以在设置中选择是否启用此特性。 NL 当前状态： %s 。",
-    "EXTENDED_DESCRIPTION": ["#g已启用", "#r未启用"]
-  },
-  
-  "Bookmark": {
+  "AliceMargatroid:Bookmark": {
     "TITLE": "状态追踪",
-    "DESCRIPTION": "仅作用于弃牌堆、抽牌堆或消耗堆中的牌。 NL 如果在第一回合打出此牌，则 #r不会 产生任何效果。",
+    "DESCRIPTION": "",
     "EXTENDED_DESCRIPTION": ["上回合开始时 #r没有 手牌。", "上回合开始时，共有 #b%d 张手牌（不包括“书签”）："]
   },
   
-  "LuminousShanghaiDoll": {
+  "AliceMargatroid:LuminousShanghaiDoll": {
     "DESCRIPTION": "这次 行动 #r不会 再次触发此效果。"
   },
   
-  "Perihelion": {
+  "AliceMargatroid:Perihelion": {
     "TITLE": "状态",
     "DESCRIPTION": "包括耗能变化、新增或失去词条、基础伤害变化、升级。"
   },
   
-  "AliceInWonderland": {
+  "AliceMargatroid:AliceInWonderland": {
     "TITLE": "变化",
     "DESCRIPTION": "变化不视为消耗，也不视为临时增加牌。"
   },
   
-  "MagicConduit": {
-    "DESCRIPTION": "因为第一次行动后就会被 #y回收 ，所以最多只能行动一次。"
-  },
-  
-  "DollCremation": {
-    "DESCRIPTION": "如果指向敌人打出，则会 回收 最右侧的 人偶 。"
-  },
-  
-  "SevenColoredPuppeteer": {
+  "AliceMargatroid:SevenColoredPuppeteer": {
     "TITLE": "状态追踪",
     "DESCRIPTION": "在战斗中，这里会显示人偶的生成和行动情况。",
     "EXTENDED_DESCRIPTION": ["本场战斗中，已 生成 过 #b%d 种 人偶", " ，每种 人偶 的 行动 次数如下：", "次", "次"]
   },
 
-  "DollWorkshop": {
+  "AliceMargatroid:DEPRECATEDMagicConduit": {
+    "DESCRIPTION": "因为第一次行动后就会被 #y回收 ，所以最多只能行动一次。"
+  },
+
+  "AliceMargatroid:DEPRECATEDDollCremation": {
+    "DESCRIPTION": "如果指向敌人打出，则会 回收 最右侧的 人偶 。"
+  },
+
+  "AliceMargatroid:DEPRECATEDDollWorkshop": {
     "TITLE": "更强的",
     "DESCRIPTION": "可获得的衍生卡牌的效果可在大图预览界面或卡牌收藏中查看。"
+  },
+
+  "AliceMargatroid:DEPRECATEDWitchsTeaParty": {
+    "TITLE": "联动特性",
+    "DESCRIPTION": "如果开启了魔理沙或帕秋莉 mod ，则选项中必定包含对应颜色。 NL 可以在设置中选择是否启用此特性。 NL 当前状态： %s 。",
+    "EXTENDED_DESCRIPTION": ["#g已启用", "#r未启用"]
   }
 }

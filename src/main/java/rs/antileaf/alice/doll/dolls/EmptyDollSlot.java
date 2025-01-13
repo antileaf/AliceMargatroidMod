@@ -7,7 +7,7 @@ import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.orbs.AbstractOrb;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.strings.AliceDollStrings;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class EmptyDollSlot extends AbstractDoll {
 	public static final String SIMPLE_NAME = EmptyDollSlot.class.getSimpleName();
@@ -102,7 +102,7 @@ public class EmptyDollSlot extends AbstractDoll {
 	@Override
 	public boolean takeDamage(int amount) {
 		if (amount > 0)
-			AliceSpireKit.log(EmptyDollSlot.class, "EmptyDollSlot.takeDamage() called!");
+			AliceHelper.log(EmptyDollSlot.class, "EmptyDollSlot.takeDamage() called!");
 		
 		return false;
 	}
@@ -114,13 +114,13 @@ public class EmptyDollSlot extends AbstractDoll {
 	
 	@Override
 	public int getBaseHP() {
-		AliceSpireKit.log("EmptyDollSlot.getBaseHP() called.");
+		AliceHelper.log("EmptyDollSlot.getBaseHP() called.");
 		return 0;
 	}
 	
 	@Override
 	public void onAct() {
-		AliceSpireKit.log(EmptyDollSlot.class, "EmptyDollSlot.onAct() called!");
+		AliceHelper.log(EmptyDollSlot.class, "EmptyDollSlot.onAct() called!");
 	}
 	
 	@Override
@@ -141,7 +141,7 @@ public class EmptyDollSlot extends AbstractDoll {
 	
 	@Override
 	public void triggerActAnimation() {
-		AliceSpireKit.log(EmptyDollSlot.class, "EmptyDollSlot.triggerActAnimation() called!");
+		AliceHelper.log(EmptyDollSlot.class, "EmptyDollSlot.triggerActAnimation() called!");
 	}
 	
 	@Override

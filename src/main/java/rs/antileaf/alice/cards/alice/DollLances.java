@@ -12,12 +12,11 @@ import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.ShanghaiDoll;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class DollLances extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = DollLances.class.getSimpleName();
-//	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
-	public static final String ID = SIMPLE_NAME;
+	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
@@ -30,7 +29,7 @@ public class DollLances extends AbstractAliceCard {
 		super(
 				ID,
 				cardStrings.NAME,
-				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceHelper.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.ATTACK,
@@ -68,6 +67,25 @@ public class DollLances extends AbstractAliceCard {
 //			AliceSpireKit.commitBuffer();
 //		});
 //	}
+
+	@Override
+	public void applyPowers() {
+		this.baseMagicNumber = this.magicNumber = 1 + (int) DollManager.get().getDolls().stream()
+				.filter(doll -> doll instanceof ShanghaiDoll)
+				.count();
+
+		super.applyPowers();
+	}
+
+	@Override
+	public void initializeDescription() {
+		this.rawDescription = cardStrings.DESCRIPTION;
+
+		if (AliceHelper.isInBattle() && this.magicNumber != -1)
+			this.rawDescription += " NL " + cardStrings.EXTENDED_DESCRIPTION[0];
+
+		super.initializeDescription();
+	}
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {

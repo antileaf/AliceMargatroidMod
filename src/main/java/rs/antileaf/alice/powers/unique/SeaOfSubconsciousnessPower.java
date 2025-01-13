@@ -12,11 +12,11 @@ import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.effects.unique.SeaOfSubconsciousnessEffect;
 import rs.antileaf.alice.powers.AbstractAlicePower;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class SeaOfSubconsciousnessPower extends AbstractAlicePower {
 	public static final String SIMPLE_NAME = SeaOfSubconsciousnessPower.class.getSimpleName();
-	public static final String POWER_ID = SIMPLE_NAME;
+	public static final String POWER_ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
 	
 	public SeaOfSubconsciousnessPower(int amount) {
@@ -56,7 +56,7 @@ public class SeaOfSubconsciousnessPower extends AbstractAlicePower {
 						}
 					}
 					else
-						AliceSpireKit.log("SeaOfSubconsciousnessPower: index out of bounds: " + i);
+						AliceHelper.log("SeaOfSubconsciousnessPower: index out of bounds: " + i);
 				}));
 		}
 	

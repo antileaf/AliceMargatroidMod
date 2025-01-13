@@ -4,6 +4,7 @@ import basemod.ReflectionHacks;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.evacipated.cardcrawl.modthespire.patcher.PatchingException;
+import com.megacrit.cardcrawl.actions.common.MakeTempCardInHandAction;
 import com.megacrit.cardcrawl.actions.utility.HandCheckAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.CardGroup;
@@ -13,7 +14,7 @@ import com.megacrit.cardcrawl.vfx.cardManip.ExhaustCardEffect;
 import javassist.CannotCompileException;
 import javassist.CtBehavior;
 import rs.antileaf.alice.cardmodifier.PhantomCardModifier;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class PhantomPurgePatch {
 //	@SpirePatch(clz = UseCardAction.class, method = "update")
@@ -56,8 +57,8 @@ public class PhantomPurgePatch {
 		public static SpireReturn<Void> Insert(CardGroup _inst, AbstractCard c) {
 			if (PhantomCardModifier.check(c)) {
 				c.darken(false);
-				AliceSpireKit.addEffect(new ExhaustCardEffect(c));
-				AliceSpireKit.addToBot(new HandCheckAction());
+				AliceHelper.addEffect(new ExhaustCardEffect(c));
+				AliceHelper.addToBot(new HandCheckAction());
 				AbstractDungeon.player.onCardDrawOrDiscard();
 				return SpireReturn.Return();
 			}
@@ -104,7 +105,7 @@ public class PhantomPurgePatch {
 		public static SpireReturn<Void> Insert(CardGroup _inst, AbstractCard c, boolean randomSpot) {
 			if (PhantomCardModifier.check(c)) {
 				c.darken(false);
-				AliceSpireKit.addEffect(new ExhaustCardEffect(c));
+				AliceHelper.addEffect(new ExhaustCardEffect(c));
 				return SpireReturn.Return();
 			}
 			else
@@ -127,11 +128,24 @@ public class PhantomPurgePatch {
 		public static SpireReturn<Void> Insert(CardGroup _inst, AbstractCard c) {
 			if (PhantomCardModifier.check(c)) {
 				c.darken(false);
-				AliceSpireKit.addEffect(new ExhaustCardEffect(c));
+				AliceHelper.addEffect(new ExhaustCardEffect(c));
 				return SpireReturn.Return();
 			}
 			else
 				return SpireReturn.Continue();
+		}
+	}
+
+	@SpirePatch(clz = MakeTempCardInHandAction.class, method = "addToDiscard", paramtypez = {int.class})
+	public static class MakeTempCardInHandPatch {
+		@SpirePrefixPatch
+		public static SpireReturn<Void> Prefix(MakeTempCardInHandAction _inst, int handAmt) {
+			AbstractCard c = ReflectionHacks.getPrivate(_inst, MakeTempCardInHandAction.class, "c");
+
+			if (PhantomCardModifier.check(c))
+				return SpireReturn.Return();
+
+			return SpireReturn.Continue();
 		}
 	}
 	

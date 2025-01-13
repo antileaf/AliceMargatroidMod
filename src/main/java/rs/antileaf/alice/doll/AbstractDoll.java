@@ -29,7 +29,7 @@ import rs.antileaf.alice.doll.enums.DollAmountType;
 import rs.antileaf.alice.doll.interfaces.PlayerOrEnemyDollAmountModHook;
 import rs.antileaf.alice.strings.AliceDollStrings;
 import rs.antileaf.alice.strings.AliceLanguageStrings;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -344,7 +344,7 @@ public abstract class AbstractDoll extends CustomOrb {
 		boolean showEffect = (this.block > 0);
 		
 		if (amount > this.block)
-			AliceSpireKit.log(AbstractDoll.class, "AbstractDoll.loseBlock() called with amount > block.");
+			AliceHelper.log(AbstractDoll.class, "AbstractDoll.loseBlock() called with amount > block.");
 		this.block = Math.max(0, this.block - amount);
 		
 		//
@@ -371,7 +371,7 @@ public abstract class AbstractDoll extends CustomOrb {
 	}
 	
 	private void brokeBlock() {
-		AliceSpireKit.addEffect(new HbBlockBrokenEffect(
+		AliceHelper.addEffect(new HbBlockBrokenEffect(
 				this.hb.cX - this.hb.width / 2.0F + BLOCK_ICON_X,
 				this.hb.cY - this.hb.height / 2.0F + BLOCK_ICON_Y
 		));
@@ -383,7 +383,7 @@ public abstract class AbstractDoll extends CustomOrb {
 			int blockLoss = Math.min(this.block, amount);
 			if (blockLoss > 0) {
 				if (Settings.SHOW_DMG_BLOCK)
-					AliceSpireKit.addEffect(new BlockedNumberEffect(
+					AliceHelper.addEffect(new BlockedNumberEffect(
 							this.hb.cX,
 							this.hb.cY + this.hb.height / 2.0F,
 							"" + blockLoss));
@@ -415,6 +415,15 @@ public abstract class AbstractDoll extends CustomOrb {
 	
 	public void heal(int amount) {
 		this.HP = Math.min(this.HP + amount, this.maxHP);
+		this.updateDescription();
+		AbstractDungeon.effectsQueue.add(new HealEffect(this.getDrawCX(), this.getDrawCY() +
+				(this.img == null ? 96.0F : this.img.getHeight()), amount));
+		this.healthBarUpdatedEvent();
+	}
+
+	public void increaseMaxHealth(int amount) {
+		this.maxHP += amount;
+		this.HP += amount;
 		this.updateDescription();
 		AbstractDungeon.effectsQueue.add(new HealEffect(this.getDrawCX(), this.getDrawCY() +
 				(this.img == null ? 96.0F : this.img.getHeight()), amount));
@@ -549,7 +558,7 @@ public abstract class AbstractDoll extends CustomOrb {
 		}
 		this.description += " NL ";
 		
-		UIStrings uiStrings = CardCrawlGame.languagePack.getUIString("DollDescription");
+		UIStrings uiStrings = CardCrawlGame.languagePack.getUIString(AliceHelper.makeID("DollDescription"));
 		String passiveString = uiStrings.TEXT[0];
 		String actString = uiStrings.TEXT[1];
 		
@@ -987,11 +996,11 @@ public abstract class AbstractDoll extends CustomOrb {
 	}
 	
 	protected String coloredPassiveAmount() {
-		return AliceSpireKit.coloredNumber(this.passiveAmount, this.basePassiveAmount);
+		return AliceHelper.coloredNumber(this.passiveAmount, this.basePassiveAmount);
 	}
 	
 	protected String coloredActAmount() {
-		return AliceSpireKit.coloredNumber(this.actAmount, this.baseActAmount);
+		return AliceHelper.coloredNumber(this.actAmount, this.baseActAmount);
 	}
 	
 	public enum RenderTextMode {
@@ -1001,42 +1010,38 @@ public abstract class AbstractDoll extends CustomOrb {
 	protected final float STOP_ANIM = -9999.0F;
 	
 	public void addToTop(AbstractGameAction action) {
-		AliceSpireKit.addToTop(action);
+		AliceHelper.addToTop(action);
 	}
 	
 	public void addActionsToTop(AbstractGameAction... actions) {
-		AliceSpireKit.addActionsToTop(actions);
+		AliceHelper.addActionsToTop(actions);
 	}
 	
 	public void addToBot(AbstractGameAction action) {
-		AliceSpireKit.addToBot(action);
+		AliceHelper.addToBot(action);
 	}
 	
 	public static String getHpDescription(int maxHP) {
-		UIStrings uiStrings = CardCrawlGame.languagePack.getUIString("DollHPDescription");
+		UIStrings uiStrings = CardCrawlGame.languagePack.getUIString(AliceHelper.makeID("DollHPDescription"));
 		return String.format(uiStrings.TEXT[0], maxHP);
 	}
 	
 	public static String getName(String clazz) {
 		if (clazz == null) {
-			AliceSpireKit.log(AbstractDoll.class, "getName() called with null.");
+			AliceHelper.log(AbstractDoll.class, "getName() called with null.");
 			return "Error";
 		}
 		
 		if (clazz.equals(ShanghaiDoll.ID))
 			return AliceDollStrings.get(ShanghaiDoll.ID).NAME;
-		else if (clazz.equals(NetherlandsDoll.ID))
-			return AliceDollStrings.get(NetherlandsDoll.ID).NAME;
-		else if (clazz.equals(HouraiDoll.ID))
-			return AliceDollStrings.get(HouraiDoll.ID).NAME;
-		else if (clazz.equals(FranceDoll.ID))
-			return AliceDollStrings.get(FranceDoll.ID).NAME;
-		else if (clazz.equals(LondonDoll.ID))
-			return AliceDollStrings.get(LondonDoll.ID).NAME;
 		else if (clazz.equals(KyotoDoll.ID))
 			return AliceDollStrings.get(KyotoDoll.ID).NAME;
-		else if (clazz.equals(OrleansDoll.ID))
-			return AliceDollStrings.get(OrleansDoll.ID).NAME;
+		else if (clazz.equals(HouraiDoll.ID))
+			return AliceDollStrings.get(HouraiDoll.ID).NAME;
+		else if (clazz.equals(NetherlandsDoll.ID))
+			return AliceDollStrings.get(NetherlandsDoll.ID).NAME;
+		else if (clazz.equals(FranceDoll.ID))
+			return AliceDollStrings.get(FranceDoll.ID).NAME;
 		else if (clazz.equals(Su_san.ID))
 			return AliceDollStrings.get(Su_san.ID).NAME;
 		else
@@ -1047,52 +1052,44 @@ public abstract class AbstractDoll extends CustomOrb {
 //		assert AbstractDoll.class.isAssignableFrom(clazz) : "clazz is not a subclass of Abstract";
 //		assert clazz != null : "clazz is null";
 		if (clazz == null) {
-			AliceSpireKit.log("AbstractDoll.newInst", "clazz is null");
+			AliceHelper.log("AbstractDoll.newInst", "clazz is null");
 			return null;
 		}
 		
 		if (clazz.equals(EmptyDollSlot.ID)) {
-			AliceSpireKit.log(AbstractDoll.class, "Why newInst(EmptyDollSlot)?");
+			AliceHelper.log(AbstractDoll.class, "Why newInst(EmptyDollSlot)?");
 			return new EmptyDollSlot();
 		}
 		else if (clazz.equals(ShanghaiDoll.ID)) {
 			return new ShanghaiDoll();
 		}
-		else if (clazz.equals(NetherlandsDoll.ID)) {
-			return new NetherlandsDoll();
+		else if (clazz.equals(KyotoDoll.ID)) {
+			return new KyotoDoll();
 		}
 		else if (clazz.equals(HouraiDoll.ID)) {
 			return new HouraiDoll();
 		}
+		else if (clazz.equals(NetherlandsDoll.ID)) {
+			return new NetherlandsDoll();
+		}
 		else if (clazz.equals(FranceDoll.ID)) {
 			return new FranceDoll();
-		}
-		else if (clazz.equals(LondonDoll.ID)) {
-			return new LondonDoll();
-		}
-		else if (clazz.equals(KyotoDoll.ID)) {
-			return new KyotoDoll();
-		}
-		else if (clazz.equals(OrleansDoll.ID)) {
-			return new OrleansDoll();
 		}
 		else if (clazz.equals(Su_san.ID)) {
 			return new Su_san();
 		}
 		else {
-			AliceSpireKit.log(AbstractDoll.class, "Unknown class: " + clazz);
+			AliceHelper.log(AbstractDoll.class, "Unknown class: " + clazz);
 			return null;
 		}
 	}
 	
 	public final static String[] dollClasses = new String[] {
 			"ShanghaiDoll",
-			"HouraiDoll",
 			"KyotoDoll",
+			"HouraiDoll",
 			"NetherlandsDoll",
-			"FranceDoll",
-			"LondonDoll",
-			"OrleansDoll"
+			"FranceDoll"
 	};
 	
 	public static String getRandomDollIdExcept(String... exceptClasses) {
@@ -1103,11 +1100,11 @@ public abstract class AbstractDoll extends CustomOrb {
 				.filter(c -> Arrays.stream(exceptClasses).noneMatch(ec -> ec.equals(c)))
 				.toArray(String[]::new);
 		
-		AliceSpireKit.log(AbstractDoll.class, "Remaining classes: " + Arrays.toString(remainingClasses));
-		AliceSpireKit.log(AbstractDoll.class, "Except classes: " + Arrays.toString(exceptClasses));
+		AliceHelper.log(AbstractDoll.class, "Remaining classes: " + Arrays.toString(remainingClasses));
+		AliceHelper.log(AbstractDoll.class, "Except classes: " + Arrays.toString(exceptClasses));
 		
 		if (remainingClasses.length == 0) {
-			AliceSpireKit.log(AbstractDoll.class, "No remaining classes to choose from.");
+			AliceHelper.log(AbstractDoll.class, "No remaining classes to choose from.");
 			return null;
 		}
 		
@@ -1136,11 +1133,9 @@ public abstract class AbstractDoll extends CustomOrb {
 		String[] fullClasses = new String[] {
 				ShanghaiDoll.ID,
 				NetherlandsDoll.ID,
-				HouraiDoll.ID,
 				FranceDoll.ID,
-				LondonDoll.ID,
 				KyotoDoll.ID,
-				OrleansDoll.ID
+				HouraiDoll.ID
 		};
 		
 		return Arrays.stream(fullClasses).anyMatch(c -> c.equals(doll.ID));
@@ -1164,18 +1159,14 @@ public abstract class AbstractDoll extends CustomOrb {
 			res = ShanghaiDoll.getDescription();
 		else if (dollID.equals(NetherlandsDoll.ID))
 			res = NetherlandsDoll.getDescription();
-		else if (dollID.equals(HouraiDoll.ID))
-			res = HouraiDoll.getDescription();
 		else if (dollID.equals(FranceDoll.ID))
 			res = FranceDoll.getDescription();
-		else if (dollID.equals(LondonDoll.ID))
-			res = LondonDoll.getDescription();
 		else if (dollID.equals(KyotoDoll.ID))
 			res = KyotoDoll.getDescription();
-		else if (dollID.equals(OrleansDoll.ID))
-			res = OrleansDoll.getDescription();
+		else if (dollID.equals(HouraiDoll.ID))
+			res = HouraiDoll.getDescription();
 		else
-			AliceSpireKit.log(AbstractDoll.class, "getDescription() Unknown doll ID: " + dollID);
+			AliceHelper.log(AbstractDoll.class, "getDescription() Unknown doll ID: " + dollID);
 		
 		descriptions.put(dollID, res);
 		return res;

@@ -7,8 +7,8 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
+import rs.antileaf.alice.utils.AliceHelper;
 import rs.antileaf.alice.utils.AliceImageMaster;
-import rs.antileaf.alice.utils.AliceSpireKit;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,7 +53,7 @@ public class SeaOfSubconsciousnessEffect extends AbstractGameEffect {
 		
 		if (this.duration < 0.0F) {
 			this.isDone = true;
-			AliceSpireKit.log("SeaOfSubconsciousnessEffect: done, slot = " + this.slot);
+			AliceHelper.log("SeaOfSubconsciousnessEffect: done, slot = " + this.slot);
 			instances.remove(this.slot);
 		}
 	}

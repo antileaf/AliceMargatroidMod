@@ -2,7 +2,6 @@ package rs.antileaf.alice.utils;
 
 import basemod.BaseMod;
 import com.megacrit.cardcrawl.localization.Keyword;
-import rs.antileaf.alice.AliceMargatroidMod;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,9 +15,9 @@ public class AliceKeywordsHelper {
 
 		for (Keyword key : dollKeywords) {
 			String[] names = Arrays.stream(key.NAMES).skip(1).toArray(String[]::new);
-			AliceSpireKit.log("Loading keyword : " + names[0]);
+			AliceHelper.log("Loading keyword : " + names[0]);
 			
-			BaseMod.addKeyword(AliceMargatroidMod.SIMPLE_NAME.toLowerCase(), names[0], names,
+			BaseMod.addKeyword("alicemargatroid", names[0], names,
 					key.DESCRIPTION);
 
 			descriptions.put(names[0], key.DESCRIPTION);

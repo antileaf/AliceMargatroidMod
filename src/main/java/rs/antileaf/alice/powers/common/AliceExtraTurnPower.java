@@ -9,10 +9,11 @@ import com.megacrit.cardcrawl.localization.PowerStrings;
 import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.powers.AbstractAlicePower;
 import rs.antileaf.alice.utils.AliceAudioMaster;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class AliceExtraTurnPower extends AbstractAlicePower {
 	public static final String SIMPLE_NAME = AliceExtraTurnPower.class.getSimpleName();
-	public static final String POWER_ID = SIMPLE_NAME;
+	public static final String POWER_ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
 	
 	public AliceExtraTurnPower(int amount) {
@@ -34,7 +35,7 @@ public class AliceExtraTurnPower extends AbstractAlicePower {
 	@Override
 	public void onInitialApplication() {
 		AbstractDungeon.overlayMenu.endTurnButton.updateText(
-				CardCrawlGame.languagePack.getUIString("AliceExtraTurnButton").TEXT[0]);
+				CardCrawlGame.languagePack.getUIString(AliceHelper.makeID("ExtraTurnButton")).TEXT[0]);
 	}
 	
 	@Override

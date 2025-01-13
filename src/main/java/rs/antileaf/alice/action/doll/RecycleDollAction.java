@@ -5,7 +5,7 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.patches.enums.ActionTypeEnum;
 import rs.antileaf.alice.powers.unique.DollAmbushPower;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class RecycleDollAction extends AbstractGameAction {
 	private final AbstractDoll doll;
@@ -33,11 +33,11 @@ public class RecycleDollAction extends AbstractGameAction {
 			if (!this.isSpecial && AbstractDungeon.player.hasPower(DollAmbushPower.POWER_ID)) {
 				int count = AbstractDungeon.player.getPower(DollAmbushPower.POWER_ID).amount;
 				for (int i = 0; i < count; i++)
-					AliceSpireKit.addActionToBuffer(new DollActAction(doll));
+					AliceHelper.addActionToBuffer(new DollActAction(doll));
 			}
 			
-			AliceSpireKit.addActionToBuffer(new RecycleDollInternalAction(doll, newDoll));
-			AliceSpireKit.commitBuffer();
+			AliceHelper.addActionToBuffer(new RecycleDollInternalAction(doll, newDoll));
+			AliceHelper.commitBuffer();
 			
 			this.isDone = true;
 		}

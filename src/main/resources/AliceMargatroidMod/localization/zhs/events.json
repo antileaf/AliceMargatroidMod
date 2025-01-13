@@ -1,12 +1,12 @@
 {
-  "AliceSensoryStone": {
+  "AliceMargatroid:SensoryStone": {
     "NAME": "爱丽丝-感知石",
     "DESCRIPTIONS": [
       "#y~雪夜。~ NL NL 本该是樱花如雪花般飘落的季节，然而满目所见仍是真正的雪花。 NL 你轻轻摘取其中一片，感受着它慢慢在你手心融化。 NL NL 不经意间，你遇见了一个熟悉的 #r红白色 身影。 NL “谁会和你这种 #y~七色魔法笨蛋~ 是旧友啦。” NL “明明好不容易遇见旧友，就只有这种问候吗？ NL 久别重逢就应该这样——” NL NL “作为好久不见的赠礼，将 #r~你的性命~ 收下！”"
     ]
   },
   
-  "LilyOfTheValleyFlowerField": {
+  "AliceMargatroid:LilyOfTheValleyFlowerField": {
     "NAME": "铃兰花田",
     "DESCRIPTIONS": [
       "你的前方是一片铃兰花田。 NL 花田中有一位身材娇小的少女，她正专心地照料着花朵。 NL NL 察觉到你的到来，她转过头来，向你 #y~招手~ 。",
@@ -25,7 +25,7 @@
     ]
   },
 
-  "PuppeteersHouse": {
+  "AliceMargatroid:PuppeteersHouse": {
     "NAME": "人偶洋馆",
     "DESCRIPTIONS": [
       "你来到了一座有着西洋风格的小洋馆前。 NL 宅邸的外墙十分整洁，窗帘也已经拉开，似乎能看到室内有许多 #b~小东西~ 在忙碌。 NL NL 在破败的高塔中，这样的建筑显得格格不入。 NL 你对此感到 #y~好奇~ ，便走近门口。",
@@ -97,7 +97,7 @@
     ]
   },
 
-  "PuppeteersHouse_Greetings": {
+  "AliceMargatroid:PuppeteersHouse_Greetings": {
     "NAME": "人偶洋馆寒暄语",
     "DESCRIPTIONS": [],
     "OPTIONS": []

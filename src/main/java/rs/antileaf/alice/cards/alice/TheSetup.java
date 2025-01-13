@@ -14,14 +14,12 @@ import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
-import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.targeting.AliceHoveredTargets;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class TheSetup extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = TheSetup.class.getSimpleName();
-//	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
-	public static final String ID = SIMPLE_NAME;
+	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
@@ -32,7 +30,7 @@ public class TheSetup extends AbstractAliceCard {
 		super(
 				ID,
 				cardStrings.NAME,
-				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceHelper.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.ATTACK,
@@ -42,7 +40,6 @@ public class TheSetup extends AbstractAliceCard {
 		);
 		
 		this.damage = this.baseDamage = DAMAGE;
-		this.tags.add(CardTagEnum.ALICE_RAY);
 	}
 	
 	@Override
@@ -64,9 +61,9 @@ public class TheSetup extends AbstractAliceCard {
 					if (amount > 0) {
 						for (AbstractDoll doll : DollManager.get().getDolls())
 							if (!(doll instanceof EmptyDollSlot) && doll.calcTotalDamageAboutToTake() != -1)
-								AliceSpireKit.addActionToBuffer(new DollGainBlockAction(doll, amount));
+								AliceHelper.addActionToBuffer(new DollGainBlockAction(doll, amount));
 						
-						AliceSpireKit.commitBuffer();
+						AliceHelper.commitBuffer();
 					}
 				}
 		));

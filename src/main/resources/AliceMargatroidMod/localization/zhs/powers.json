@@ -1,75 +1,75 @@
 {
-  "DollAmbushPower": {
+  "AliceMargatroid:DollAmbushPower": {
     "NAME": "人偶伏兵",
     "DESCRIPTIONS": [
       "回收 一个 人偶时，使其 行动", "次。"
     ]
   },
   
-  "KirisameMahoutenPower": {
+  "AliceMargatroid:DEPRECATEDKirisameMahoutenPower": {
     "NAME": "雾雨魔法店",
     "DESCRIPTIONS": [
       "战斗结束后，获得：", "、", "。"
     ]
   },
   
-  "FrostRayPower": {
+  "AliceMargatroid:DEPRECATEDFrostRayPower": {
     "NAME": "冰冻射线",
     "DESCRIPTIONS": [
       "下", "次打出具有 消耗 的攻击牌或技能牌时，改为将其置入弃牌堆。"
     ]
   },
   
-  "DollWarPower": {
+  "AliceMargatroid:DollWarPower": {
     "NAME": "人偶战争",
     "DESCRIPTIONS": [
       "生成 人偶 时 ，使其生命值提高 #b%d 点。"
     ]
   },
   
-  "DollJudgePower": {
+  "AliceMargatroid:DollJudgePower": {
     "NAME": "人偶裁判",
     "DESCRIPTIONS": [
       "人偶 被 回收 时，爱丽丝获得其拥有格挡的 #b%d%% 。"
     ]
   },
   
-  "SpiritualPowerPower": {
+  "AliceMargatroid:DEPRECATEDSpiritualPowerPower": {
     "NAME": "精神力",
     "DESCRIPTIONS": [
       "每打出一张 #y指令 牌，对随机敌人造成", "点伤害。"
     ]
   },
   
-  "PunishmentPower": {
+  "AliceMargatroid:DEPRECATEDPunishmentPower": {
     "NAME": "惩戒",
     "DESCRIPTIONS": [
       "下次攻击时，受到", "点伤害。"
     ]
   },
   
-  "CallToDollsPower": {
+  "AliceMargatroid:CallToDollsPower": {
     "NAME": "战斗号角",
     "DESCRIPTIONS": [
-      "#b%d 回合内，受到的 人偶 伤害提高 #b50%% 。"
+      "#b%d 回合内，受到来自 人偶 的伤害提高 #b50%% 。"
     ]
   },
   
-  "RefractionPower": {
+  "AliceMargatroid:DEPRECATEDRefractionPower": {
     "NAME": "折射",
     "DESCRIPTIONS": [
       "所有 射线 牌造成的伤害提高", "点。"
     ]
   },
   
-  "TyrantPower": {
+  "AliceMargatroid:DEPRECATEDTyrantPower": {
     "NAME": "统御",
     "DESCRIPTIONS": [
       "本场战斗中，所有 人偶 的最大生命值提高", "点。"
     ]
   },
   
-  "DollActivationPower": {
+  "AliceMargatroid:DollActivationPower": {
     "NAME": "人偶振起",
     "DESCRIPTIONS": [
       "在你的回合结束时，使你最右侧的 人偶 行动 一次。",
@@ -77,21 +77,21 @@
     ]
   },
   
-  "MaliceSparkPower": {
+  "AliceMargatroid:MaliceSparkPower": {
     "NAME": "魔丽丝炮",
     "DESCRIPTIONS": [
       "本回合内，手牌上限减少", "张。"
     ]
   },
   
-  "AliceInWonderlandPower": {
+  "AliceMargatroid:DEPRECATEDAliceInWonderlandPower": {
     "NAME": "爱丽丝梦游仙境",
     "DESCRIPTIONS": [
       "每回合开始时，将 #b%d 张随机的罕见牌加入手牌。"
     ]
   },
   
-  "AliceExtraTurnPower": {
+  "AliceMargatroid:AliceExtraTurnPower": {
     "NAME": "额外回合",
     "DESCRIPTIONS": [
       "本回合结束后，获得一个额外回合。",
@@ -99,105 +99,105 @@
     ]
   },
   
-  "DollOrchestraPower": {
+  "AliceMargatroid:DEPRECATEDDollOrchestraPower": {
     "NAME": "人偶乐团",
     "DESCRIPTIONS": [
       "每 生成 一个 人偶，抽 #b%d 张牌。"
     ]
   },
   
-  "ThePhantomOfTheGrandGuignolPower": {
+  "AliceMargatroid:DEPRECATEDThePhantomOfTheGrandGuignolPower": {
     "NAME": "猎奇剧团里的怪人",
     "DESCRIPTIONS": [
       "人偶 的被动和 行动 效果的基础数值提高 #b%d 点。"
     ]
   },
   
-  "MaidensBunrakuPower": {
+  "AliceMargatroid:MaidensBunrakuPower": {
     "NAME": "少女文乐",
     "DESCRIPTIONS": [
       "每当 人偶 行动 后，使其获得 #b%d 点 格挡。"
     ]
   },
   
-  "UsokaePower": {
+  "AliceMargatroid:UsokaePower": {
     "NAME": "莺替神事",
     "DESCRIPTIONS": [
       "如果敌人对应的人偶栏位中有人偶，免疫该名敌人对你施加的负面状态。"
     ]
   },
   
-  "DevilryLightPower": {
+  "AliceMargatroid:DevilryLightPower": {
     "NAME": "惨虐之光",
     "DESCRIPTIONS": [
       "下回合开始时，对所有敌人施加 #b%d 层 #y虚弱 。"
     ]
   },
   
-  "MagicConduitPower": {
+  "AliceMargatroid:MagicConduitPower": {
     "NAME": "魔力传导线",
     "DESCRIPTIONS": [
       "如果最左侧栏位中有 人偶 ，当其 行动 后，将其回收，获得 #b%d [E] ，抽 #b%d 张牌。"
     ]
   },
   
-  "ArtfulChanterPower": {
+  "AliceMargatroid:ArtfulChanterPower": {
     "NAME": "狡猾的吟诵者",
     "DESCRIPTIONS": [
       "可指向生成 人偶 时，如果目标位置上已有 人偶 ，新 生成 的 人偶 行动 #b%d 次。"
     ]
   },
   
-  "SealOfLightPower": {
+  "AliceMargatroid:SealOfLightPower": {
     "NAME": "光之封印",
     "DESCRIPTIONS": [
       "最大生命值降低 #b%d%% 。"
     ]
   },
   
-  "MagicianRayPower": {
+  "AliceMargatroid:MagicianRayPower": {
     "NAME": "魔法使射线",
     "DESCRIPTIONS": [
-      "下回合开始时，获得 #b%d 临时 力量 。"
+      "下回合结束时，失去 #b%d 点 力量 。"
     ]
   },
   
-  "LuminousShanghaiDollPower": {
+  "AliceMargatroid:LuminousShanghaiDollPower": {
     "NAME": "魔彩光的上海人偶",
     "DESCRIPTIONS": [
       "每当有即将受到攻击的 人偶 行动 时，使一个随机的 上海人偶 也 行动 #b%d 次。"
     ]
   },
   
-  "ChantPower": {
+  "AliceMargatroid:ChantPower": {
     "NAME": "咏唱",
     "DESCRIPTIONS": [
       "下回合开始时，所有 人偶 行动 #b%d 次。"
     ]
   },
   
-  "SeaOfSubconsciousnessPower": {
+  "AliceMargatroid:SeaOfSubconsciousnessPower": {
     "NAME": "无意识之海",
     "DESCRIPTIONS": [
       "打出一张手牌后，如果其编号对应的人偶栏位中有 人偶 ，使其 行动 #b%d 次。"
     ]
   },
   
-  "SwordOfLightPower": {
+  "AliceMargatroid:SwordOfLightPower": {
     "NAME": "光之剑：超新星",
     "DESCRIPTIONS": [
       "每回合打出的第一张 #y攻击牌 造成 #b50% 额外伤害。"
     ]
   },
   
-  "PerfectCherryBlossomPower": {
+  "AliceMargatroid:PerfectCherryBlossomPower": {
     "NAME": "樱花盛开",
     "DESCRIPTIONS": [
       "下回开始时，所有 京都人偶 行动 #b%d 次。"
     ]
   },
 
-  "CleanAirActPower": {
+  "AliceMargatroid:CleanAirActPower": {
     "NAME": "清洁空气法案",
     "DESCRIPTIONS": [
       "本回合结束时，保留手牌中的所有 #y技能牌 。",
@@ -205,11 +205,18 @@
     ]
   },
 
-  "DollWorkshopPower": {
+  "AliceMargatroid:DollWorkshopPower": {
     "NAME": "人偶工坊",
     "DESCRIPTIONS": [
       "每回合开始时，随机将 #b%d 张更强的 人偶 牌加入手牌，其具有 #y消耗 。",
       "每回合开始时，随机将 #b%d 张更强的 人偶 牌加入手牌，它们具有 #y消耗 。"
+    ]
+  },
+
+  "AliceMargatroid:PrincessFormPower": {
+    "NAME": "魔王形态",
+    "DESCRIPTIONS": [
+      "在你打出一张耗能为1且不具有 #y幻影 的牌后，将 #b%d 张具有 #y幻影 的复制加入手牌。"
     ]
   }
 }

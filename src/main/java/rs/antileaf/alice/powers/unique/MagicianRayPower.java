@@ -6,12 +6,12 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.PowerStrings;
 import com.megacrit.cardcrawl.powers.LoseStrengthPower;
-import com.megacrit.cardcrawl.powers.StrengthPower;
 import rs.antileaf.alice.powers.AbstractAlicePower;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class MagicianRayPower extends AbstractAlicePower {
 	public static final String SIMPLE_NAME = MagicianRayPower.class.getSimpleName();
-	public static final String POWER_ID = SIMPLE_NAME;
+	public static final String POWER_ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
 	
 	public MagicianRayPower(int amount) {
@@ -21,7 +21,7 @@ public class MagicianRayPower extends AbstractAlicePower {
 		this.amount = amount;
 		this.priority = 0;
 		
-		this.type = PowerType.BUFF;
+		this.type = PowerType.DEBUFF;
 		this.updateDescription();
 		this.initializeImage(SIMPLE_NAME);
 	}
@@ -40,8 +40,7 @@ public class MagicianRayPower extends AbstractAlicePower {
 	@Override
 	public void atStartOfTurn() {
 		this.flash();
-		
-		this.addToBot(new ApplyPowerAction(this.owner, this.owner, new StrengthPower(this.owner, this.amount), this.amount));
+
 		this.addToBot(new ApplyPowerAction(this.owner, this.owner, new LoseStrengthPower(this.owner, this.amount), this.amount));
 		
 		this.addToBot(new RemoveSpecificPowerAction(this.owner, this.owner, this));

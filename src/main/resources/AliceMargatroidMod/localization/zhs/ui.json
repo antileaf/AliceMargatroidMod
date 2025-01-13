@@ -1,42 +1,43 @@
 {
-  "AliceSkinSelectionScreen": {
+  "AliceMargatroid:SkinSelectScreen": {
     "TEXT": [
-      "皮肤选择"
+      "皮肤选择",
+      "启用墨镜"
+    ]
+  },
+
+  "AliceMargatroid:EnableSignature": {
+    "TEXT": [
+      "启用异画"
+    ]
+  },
+
+  "AliceMargatroid:HideDescription": {
+    "TEXT": [
+      "隐藏描述"
     ]
   },
   
-  "AliceNoDollDialog": {
+  "AliceMargatroid:NoDollDialog": {
     "TEXT": [
       "我 #r没有 人偶。"
     ]
   },
   
-  "AliceDuplicateCards": {
-    "TEXT": [
-      "我的手牌中有相同的牌："
-    ]
-  },
-  
-  "AliceExtraTurnButton": {
+  "AliceMargatroid:ExtraTurnButton": {
     "TEXT": [
       "额外回合"
     ]
   },
   
-  "ResurgenceEffect": {
-    "TEXT": [
-      "再现"
-    ]
-  },
-  
-  "DollDescription": {
+  "AliceMargatroid:DollDescription": {
     "TEXT": [
       "被动",
       "行动"
     ]
   },
   
-  "DollHPDescription": {
+  "AliceMargatroid:DollHPDescription": {
     "TEXT": [
       "基础生命值为 #b%d 点。"
     ]

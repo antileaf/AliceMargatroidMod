@@ -18,7 +18,7 @@ import com.megacrit.cardcrawl.powers.StrengthPower;
 import rs.antileaf.alice.patches.enums.AbstractPlayerEnum;
 import rs.antileaf.alice.relics.ShanghaiDollRelic;
 import rs.antileaf.alice.strings.AliceLanguageStrings;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 import rs.antileaf.alice.utils.AliceSpriterAnimation;
 
 import java.util.stream.Stream;
@@ -42,7 +42,7 @@ public class ShanghaiDollAsMonster extends CustomMonster {
 				-80.0F,
 				150.0F,
 				166.0F,
-				AliceSpireKit.getImgFilePath("monsters", SIMPLE_NAME + "/Idle/objectAa000"),
+				AliceHelper.getImgFilePath("monsters", SIMPLE_NAME + "/Idle/objectAa000"),
 				x,
 				y
 		);
@@ -178,13 +178,13 @@ public class ShanghaiDollAsMonster extends CustomMonster {
 		public void animationFinished(Animation animation) {
 			if (!animation.name.equals("Escape") && !animation.name.equals("Idle") && !animation.name.equals("Fall")) {
 				owner.setAnim("Idle");
-				AliceSpireKit.logger.info("ShanghaiDollAsMonster ended anim {}", animation.name);
+				AliceHelper.logger.info("ShanghaiDollAsMonster ended anim {}", animation.name);
 			}
 		}
 
 		@Override
 		public void animationChanged(Animation a, Animation b) {
-			AliceSpireKit.logger.info("ShanghaiDollAsMonster changed to anim {}", b.name);
+			AliceHelper.logger.info("ShanghaiDollAsMonster changed to anim {}", b.name);
 		}
 
 		@Override

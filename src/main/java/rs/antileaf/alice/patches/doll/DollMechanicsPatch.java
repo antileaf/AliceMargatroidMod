@@ -11,7 +11,7 @@ import javassist.CannotCompileException;
 import javassist.CtBehavior;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 @SuppressWarnings("unused")
 public class DollMechanicsPatch {
@@ -103,7 +103,7 @@ public class DollMechanicsPatch {
 		@SpirePostfixPatch
 		public static void Postfix(AbstractCreature _inst) {
 			if (_inst instanceof AbstractPlayer) {
-				AliceSpireKit.log("Show health bar!");
+				AliceHelper.log("Show health bar!");
 				
 				for (AbstractDoll doll : DollManager.getInstance((AbstractPlayer) _inst).getDolls()) {
 					doll.showHealthBar();
@@ -117,7 +117,7 @@ public class DollMechanicsPatch {
 		@SpirePostfixPatch
 		public static void Postfix(AbstractCreature _inst) {
 			if (_inst instanceof AbstractPlayer) {
-				AliceSpireKit.log("Hide health bar!");
+				AliceHelper.log("Hide health bar!");
 				for (AbstractDoll doll : DollManager.getInstance((AbstractPlayer) _inst).getDolls()) {
 					doll.hideHealthBar();
 				}

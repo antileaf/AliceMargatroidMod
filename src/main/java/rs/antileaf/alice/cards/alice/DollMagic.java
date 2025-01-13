@@ -17,12 +17,11 @@ import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
 import rs.antileaf.alice.targeting.AliceHoveredTargets;
 import rs.antileaf.alice.targeting.AliceTargetIcon;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class DollMagic extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = DollMagic.class.getSimpleName();
-//	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
-	public static final String ID = SIMPLE_NAME;
+	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 0;
@@ -36,7 +35,7 @@ public class DollMagic extends AbstractAliceCard {
 		super(
 				ID,
 				cardStrings.NAME,
-				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceHelper.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.SKILL,
@@ -49,7 +48,7 @@ public class DollMagic extends AbstractAliceCard {
 		this.magicNumber = this.baseMagicNumber = MAGIC;
 		this.counter = this.magicNumber;
 		
-		if (AliceSpireKit.isInBattle())
+		if (AliceHelper.isInBattle())
 			this.applyPowers();
 
 		this.targetIcons.add(AliceTargetIcon.ALICE);
@@ -68,7 +67,7 @@ public class DollMagic extends AbstractAliceCard {
 	public void applyPowers() {
 		super.applyPowers();
 		
-		if (AliceSpireKit.isInBattle() &&
+		if (AliceHelper.isInBattle() &&
 				(AbstractDungeon.player.drawPile.contains(this) || AbstractDungeon.player.discardPile.contains(this)))
 			this.rawDescription = cardStrings.DESCRIPTION +
 					String.format(cardStrings.EXTENDED_DESCRIPTION[0], this.counter);
@@ -150,7 +149,7 @@ public class DollMagic extends AbstractAliceCard {
 			this.upgradeName();
 			this.upgradeMagicNumber(-UPGRADE_MINUS_MAGIC);
 			
-			if (AliceSpireKit.isInBattle()) {
+			if (AliceHelper.isInBattle()) {
 				this.counter -= UPGRADE_MINUS_MAGIC;
 				if (this.counter <= 0)
 					this.addToBot(new AnonymousAction(this::returnToHand));

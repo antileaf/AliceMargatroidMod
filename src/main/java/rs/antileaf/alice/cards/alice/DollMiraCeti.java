@@ -15,12 +15,11 @@ import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
 import rs.antileaf.alice.targeting.AliceTargetIcon;
 import rs.antileaf.alice.targeting.handlers.DollTargeting;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class DollMiraCeti extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = DollMiraCeti.class.getSimpleName();
-//	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
-	public static final String ID = SIMPLE_NAME;
+	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = -1;
@@ -30,7 +29,7 @@ public class DollMiraCeti extends AbstractAliceCard {
 		super(
 				ID,
 				cardStrings.NAME,
-				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceHelper.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.SKILL,
@@ -52,8 +51,10 @@ public class DollMiraCeti extends AbstractAliceCard {
 		this.addToBot(new AnonymousAction(() -> {
 			int amount = this.energyOnUse + (this.upgraded ? 1 : 0);
 			
-			if (p.hasRelic(ChemicalX.ID))
+			if (p.hasRelic(ChemicalX.ID)) {
 				amount += ChemicalX.BOOST;
+				p.getRelic(ChemicalX.ID).flash();
+			}
 			
 			if (amount > 0) {
 				if (!this.freeToPlayOnce)

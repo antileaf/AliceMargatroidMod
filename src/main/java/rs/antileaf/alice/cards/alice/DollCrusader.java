@@ -14,14 +14,13 @@ import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.CardTagEnum;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 import java.util.ArrayList;
 
 public class DollCrusader extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = DollCrusader.class.getSimpleName();
-//	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
-	public static final String ID = SIMPLE_NAME;
+	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 2;
@@ -32,7 +31,7 @@ public class DollCrusader extends AbstractAliceCard {
 		super(
 				ID,
 				cardStrings.NAME,
-				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceHelper.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.SKILL,
@@ -56,16 +55,16 @@ public class DollCrusader extends AbstractAliceCard {
 					AbstractDoll doll = DollManager.get().getDolls().get(i);
 					indices.add(i);
 
-					AliceSpireKit.addActionToBuffer(new RecycleDollAction(doll));
+					AliceHelper.addActionToBuffer(new RecycleDollAction(doll));
 				}
 			
 			for (int i : indices) {
 				AbstractDoll doll = AbstractDoll.getRandomDoll();
-				AliceSpireKit.addActionToBuffer(new SpawnDollAction(doll, i));
+				AliceHelper.addActionToBuffer(new SpawnDollAction(doll, i));
 //				AliceSpireKit.addActionToBuffer(new DollActAction(doll));
 			}
 			
-			AliceSpireKit.commitBuffer();
+			AliceHelper.commitBuffer();
 		}));
 	}
 	

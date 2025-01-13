@@ -6,27 +6,30 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.action.doll.HealDollAction;
+import rs.antileaf.alice.action.doll.IncreaseDollMaxHealthAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
+import rs.antileaf.alice.doll.dolls.KyotoDoll;
+import rs.antileaf.alice.doll.dolls.ShanghaiDoll;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.targeting.AliceHoveredTargets;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class DollInSea extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = DollInSea.class.getSimpleName();
-//	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
-	public static final String ID = SIMPLE_NAME;
+	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
+	private static final int MAGIC = 4;
 	
 	public DollInSea() {
 		super(
 				ID,
 				cardStrings.NAME,
-				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceHelper.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.SKILL,
@@ -34,8 +37,8 @@ public class DollInSea extends AbstractAliceCard {
 				CardRarity.COMMON,
 				CardTarget.NONE
 		);
-		
-		this.exhaust = true;
+
+		this.magicNumber = this.baseMagicNumber = MAGIC;
 	}
 	
 	@Override
@@ -47,6 +50,12 @@ public class DollInSea extends AbstractAliceCard {
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
+		if (this.upgraded) {
+			for (AbstractDoll doll : DollManager.get().getDolls())
+				if (doll instanceof ShanghaiDoll || doll instanceof KyotoDoll)
+					this.addToBot(new IncreaseDollMaxHealthAction(doll, this.magicNumber));
+		}
+
 		for (AbstractDoll doll : DollManager.get().getDolls())
 			if (!(doll instanceof EmptyDollSlot))
 				this.addToBot(new HealDollAction(doll, doll.maxHP));
@@ -61,7 +70,6 @@ public class DollInSea extends AbstractAliceCard {
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
-			this.exhaust = false;
 			this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
 			this.initializeDescription();
 		}

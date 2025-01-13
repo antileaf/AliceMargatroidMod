@@ -11,10 +11,10 @@ public class AliceTutorialHelper {
 	private static TutorialStrings generated = null;
 	
 	public static void generateTutorial() {
-		AliceSpireKit.log("Generating tutorial...");
+		AliceHelper.log("Generating tutorial...");
 		
 		TutorialStrings tutorialStrings = CardCrawlGame.languagePack
-				.getTutorialString(AliceSpireKit.getModID() + "Raw");
+				.getTutorialString(AliceHelper.getModID() + "Raw");
 //		ArrayList<String> res = new ArrayList<>();
 //
 //		for (String key : tutorialStrings.TEXT) {
@@ -60,7 +60,7 @@ public class AliceTutorialHelper {
 		Texture[] images = new Texture[generated.TEXT.length];
 		for (int i = 0; i < images.length; i++)
 			images[i] = ImageMaster.loadImage(
-					AliceSpireKit.getImgFilePath("tutorial", "" + (i + 1))
+					AliceHelper.getImgFilePath("tutorial", "" + (i + 1))
 			);
 		
 		AbstractDungeon.ftue = new CustomMultiPageFtue(

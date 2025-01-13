@@ -8,10 +8,12 @@ import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.powers.AbstractAlicePower;
-import rs.antileaf.alice.utils.AliceMiscKit;
+import rs.antileaf.alice.utils.AliceHelper;
+import rs.antileaf.alice.utils.AliceMiscHelper;
 
 public class DollActivationPower extends AbstractAlicePower {
-	public static final String POWER_ID = DollActivationPower.class.getSimpleName();
+	public static final String SIMPLE_NAME = DollActivationPower.class.getSimpleName();
+	public static final String POWER_ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
 	
 	public DollActivationPower(int amount) {
@@ -38,7 +40,7 @@ public class DollActivationPower extends AbstractAlicePower {
 		if (this.amount <= 1)
 			this.description = powerStrings.DESCRIPTIONS[0];
 		else
-			this.description = AliceMiscKit.join(
+			this.description = AliceMiscHelper.join(
 					powerStrings.DESCRIPTIONS[1],
 					"#b" + this.amount,
 					powerStrings.DESCRIPTIONS[2]

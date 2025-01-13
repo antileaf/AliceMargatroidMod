@@ -9,11 +9,13 @@ import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.ShanghaiDoll;
 import rs.antileaf.alice.doll.interfaces.OnDollOperateHook;
 import rs.antileaf.alice.powers.AbstractAlicePower;
+import rs.antileaf.alice.utils.AliceHelper;
 
 import java.util.ArrayList;
 
 public class LuminousShanghaiDollPower extends AbstractAlicePower implements OnDollOperateHook {
-	public static final String POWER_ID = LuminousShanghaiDollPower.class.getSimpleName();
+	public static final String SIMPLE_NAME = LuminousShanghaiDollPower.class.getSimpleName();
+	public static final String POWER_ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
 	
 	public LuminousShanghaiDollPower(int amount) {

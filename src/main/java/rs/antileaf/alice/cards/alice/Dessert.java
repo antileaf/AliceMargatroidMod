@@ -4,8 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.megacrit.cardcrawl.actions.common.DiscardSpecificCardAction;
 import com.megacrit.cardcrawl.actions.common.GainEnergyAction;
+import com.megacrit.cardcrawl.actions.utility.NewQueueCardAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -15,13 +15,12 @@ import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
+import rs.antileaf.alice.utils.AliceHelper;
 import rs.antileaf.alice.utils.AliceImageMaster;
-import rs.antileaf.alice.utils.AliceSpireKit;
 
 public class Dessert extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = Dessert.class.getSimpleName();
-//	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
-	public static final String ID = SIMPLE_NAME;
+	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
@@ -35,7 +34,7 @@ public class Dessert extends AbstractAliceCard {
 		super(
 				ID,
 				cardStrings.NAME,
-				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceHelper.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.SKILL,
@@ -52,20 +51,23 @@ public class Dessert extends AbstractAliceCard {
 //		AliceSpireKit.log("Dessert.triggerOnOtherCardPlayed: Triggered.");
 		
 		if (!AbstractDungeon.player.hand.contains(this)) {
-			AliceSpireKit.logger.info("Dessert.triggerOnOtherCardPlayed: This card is not in player's hand.");
+			AliceHelper.logger.info("Dessert.triggerOnOtherCardPlayed: This card is not in player's hand.");
 			return;
 		}
 		
 		if (!AbstractDungeon.player.hand.contains(c)) {
-			AliceSpireKit.logger.info("Dessert.triggerOnOtherCardPlayed: The other card is not in player's hand.");
+			AliceHelper.logger.info("Dessert.triggerOnOtherCardPlayed: The other card is not in player's hand.");
 			return;
 		}
 		
 		if (!AbstractDungeon.player.hand.isEmpty() &&
 				AbstractDungeon.player.hand.getTopCard() == c) {
-			this.use(AbstractDungeon.player, null);
-			this.addToBot(new DiscardSpecificCardAction(this));
-			this.flash();
+//			this.use(AbstractDungeon.player, null);
+//			this.addToBot(new DiscardSpecificCardAction(this));
+//			this.flash();
+//			this.addToBot(new AlicePlayACardAction(this, AbstractDungeon.player.hand, null, false));
+
+			this.addToBot(new NewQueueCardAction(this, true, false, true));
 		}
 	}
 	
@@ -90,7 +92,7 @@ public class Dessert extends AbstractAliceCard {
 	}
 	
 	public void renderDessertIcon(SpriteBatch sb) {
-		if (AliceSpireKit.isInBattle()) {
+		if (AliceHelper.isInBattle()) {
 			boolean shouldShowIcon = false;
 			
 			if (AbstractDungeon.player.hand.contains(this)) {
@@ -116,7 +118,7 @@ public class Dessert extends AbstractAliceCard {
 			}
 			
 			if (this.iconTransparency > 0.0F && this.iconTransparency < 1.0F) {
-				AliceSpireKit.logger.info("Dessert.render: iconTransparency = {}", this.iconTransparency);
+				AliceHelper.logger.info("Dessert.render: iconTransparency = {}", this.iconTransparency);
 			}
 			
 			if (this.iconTransparency > 0.0F && AbstractDungeon.player.hand.contains(this)) {

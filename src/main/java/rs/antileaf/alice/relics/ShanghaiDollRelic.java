@@ -10,16 +10,17 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.PowerTip;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
+import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.patches.enums.AbstractPlayerEnum;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class ShanghaiDollRelic extends CustomRelic {
 	public static final String SIMPLE_NAME = ShanghaiDollRelic.class.getSimpleName();
+	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 
-	public static final String ID = SIMPLE_NAME;
-	private static final String IMG = AliceSpireKit.getRelicImgFilePath(SIMPLE_NAME);
-	private static final String IMG_OTL = AliceSpireKit.getRelicOutlineImgFilePath(SIMPLE_NAME);
-	private static final String IMG_LARGE = AliceSpireKit.getRelicLargeImgFilePath(SIMPLE_NAME);
+	private static final String IMG = AliceHelper.getRelicImgFilePath(SIMPLE_NAME);
+	private static final String IMG_OTL = AliceHelper.getRelicOutlineImgFilePath(SIMPLE_NAME);
+	private static final String IMG_LARGE = AliceHelper.getRelicLargeImgFilePath(SIMPLE_NAME);
 
 	public static final int DAMAGE = 4;
 
@@ -69,9 +70,11 @@ public class ShanghaiDollRelic extends CustomRelic {
 
 			this.flash();
 			this.addToBot(new RelicAboveCreatureAction(AbstractDungeon.player, this));
-			this.addToBot(new DamageAction(AliceSpireKit.getMonsterWithLeastHP(),
-					new DamageInfo(AbstractDungeon.player, DAMAGE, DamageInfo.DamageType.THORNS),
-							AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
+			this.addToBot(new AnonymousAction(() -> {
+				this.addToTop(new DamageAction(AliceHelper.getMonsterWithLeastHP(),
+						new DamageInfo(AbstractDungeon.player, DAMAGE, DamageInfo.DamageType.THORNS),
+						AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
+			}));
 		}
 	}
 	

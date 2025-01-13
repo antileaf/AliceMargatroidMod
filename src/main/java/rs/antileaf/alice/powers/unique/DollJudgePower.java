@@ -7,9 +7,11 @@ import com.megacrit.cardcrawl.localization.PowerStrings;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.interfaces.OnDollOperateHook;
 import rs.antileaf.alice.powers.AbstractAlicePower;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class DollJudgePower extends AbstractAlicePower implements OnDollOperateHook {
-	public static final String POWER_ID = DollJudgePower.class.getSimpleName();
+	public static final String SIMPLE_NAME = DollJudgePower.class.getSimpleName();
+	public static final String POWER_ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
 	
 	public DollJudgePower(int amount) {

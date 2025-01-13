@@ -10,7 +10,7 @@ import com.megacrit.cardcrawl.events.beyond.SensoryStone;
 import javassist.CannotCompileException;
 import javassist.CtBehavior;
 import rs.antileaf.alice.characters.AliceMargatroid;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class SensoryStonePatch {
 //	private static float alternateAnimateTimer = 0.0F;
@@ -20,9 +20,9 @@ public class SensoryStonePatch {
 		@SpirePrefixPatch
 		public static void Prefix(SensoryStone _inst, int num) {
 			if (num != 0 && AbstractDungeon.isPlayerInDungeon() && AbstractDungeon.player instanceof AliceMargatroid) {
-				_inst.imageEventText.loadImage(AliceSpireKit.getEventImgFilePath("AliceSensoryStone"));
-				AliceSpireKit.log("SensoryStonePatch",
-						"Loading image: " + AliceSpireKit.getEventImgFilePath("AliceSensoryStone"));
+				_inst.imageEventText.loadImage(AliceHelper.getEventImgFilePath("AliceSensoryStone"));
+				AliceHelper.log("SensoryStonePatch",
+						"Loading image: " + AliceHelper.getEventImgFilePath("AliceSensoryStone"));
 				Color new_color = Color.WHITE.cpy();
 				new_color.a = 0.0F;
 				ReflectionHacks.setPrivate(_inst.imageEventText, GenericEventDialog.class,

@@ -13,8 +13,8 @@ import com.megacrit.cardcrawl.vfx.EndTurnGlowEffect;
 import javassist.CannotCompileException;
 import javassist.CtBehavior;
 import rs.antileaf.alice.powers.common.AliceExtraTurnPower;
+import rs.antileaf.alice.utils.AliceHelper;
 import rs.antileaf.alice.utils.AliceImageMaster;
-import rs.antileaf.alice.utils.AliceSpireKit;
 
 // @SuppressWarnings("unused")
 public class EndTurnButtonPatch {
@@ -26,9 +26,9 @@ public class EndTurnButtonPatch {
 	public static class UpdateTextPatch {
 		@SpirePrefixPatch
 		public static void Prefix(EndTurnButton _inst, @ByRef String[] msg) {
-			if (msg[0].equals(EndTurnButton.END_TURN_MSG) && AliceSpireKit.isInBattle() &&
+			if (msg[0].equals(EndTurnButton.END_TURN_MSG) && AliceHelper.isInBattle() &&
 					AbstractDungeon.player.hasPower(AliceExtraTurnPower.POWER_ID)) {
-				msg[0] = CardCrawlGame.languagePack.getUIString("AliceExtraTurnButton").TEXT[0];
+				msg[0] = CardCrawlGame.languagePack.getUIString(AliceHelper.makeID("ExtraTurnButton")).TEXT[0];
 				
 //				AliceSpireKit.log("EndTurnButtonPatch", "Changed end turn button text to " + msg[0] + "!");
 			}
@@ -82,7 +82,7 @@ public class EndTurnButtonPatch {
 		@SpireInsertPatch(locator = Locator.class, localvars = "buttonImg")
 		public static void Insert(EndTurnButton _inst, SpriteBatch sb, @ByRef Texture[] buttonImg) {
 			if (buttonImg[0] == ImageMaster.END_TURN_BUTTON_GLOW &&
-					AliceSpireKit.isInBattle() &&
+					AliceHelper.isInBattle() &&
 					AbstractDungeon.player.hasPower(AliceExtraTurnPower.POWER_ID))
 				buttonImg[0] = AliceImageMaster.GOLD_END_TURN_BUTTON_GLOW;
 		}
@@ -105,7 +105,7 @@ public class EndTurnButtonPatch {
 		
 		@SpireInsertPatch(locator = Locator.class)
 		public static SpireReturn<Void> Insert(EndTurnGlowEffect _inst, SpriteBatch sb, float x, float y) {
-			if (AliceSpireKit.isInBattle() && AbstractDungeon.player.hasPower(AliceExtraTurnPower.POWER_ID)) {
+			if (AliceHelper.isInBattle() && AbstractDungeon.player.hasPower(AliceExtraTurnPower.POWER_ID)) {
 				float scale = ReflectionHacks.getPrivate(_inst, EndTurnGlowEffect.class, "scale");
 				sb.draw(
 						AliceImageMaster.GOLD_END_TURN_BUTTON_GLOW,

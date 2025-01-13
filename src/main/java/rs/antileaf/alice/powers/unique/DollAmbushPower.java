@@ -6,10 +6,12 @@ import com.megacrit.cardcrawl.localization.PowerStrings;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.interfaces.OnDollOperateHook;
 import rs.antileaf.alice.powers.AbstractAlicePower;
-import rs.antileaf.alice.utils.AliceMiscKit;
+import rs.antileaf.alice.utils.AliceHelper;
+import rs.antileaf.alice.utils.AliceMiscHelper;
 
 public class DollAmbushPower extends AbstractAlicePower implements OnDollOperateHook {
-	public static final String POWER_ID = DollAmbushPower.class.getSimpleName();
+	private static final String SIMPLE_NAME = DollAmbushPower.class.getSimpleName();
+	public static final String POWER_ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
 	
 	public DollAmbushPower(int amount) {
@@ -31,7 +33,7 @@ public class DollAmbushPower extends AbstractAlicePower implements OnDollOperate
 	
 	@Override
 	public void updateDescription() {
-		this.description = AliceMiscKit.join(
+		this.description = AliceMiscHelper.join(
 				powerStrings.DESCRIPTIONS[0],
 				"#b" + this.amount,
 				powerStrings.DESCRIPTIONS[1]

@@ -11,8 +11,8 @@ import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.CardLibrary;
 import com.megacrit.cardcrawl.helpers.FontHelper;
-import rs.antileaf.alice.cards.Marisa.*;
-import rs.antileaf.alice.cards.alice.WitchsTeaParty;
+import rs.antileaf.alice.cards.deprecated.DEPRECATEDWitchsTeaParty;
+import rs.antileaf.alice.cards.marisa.*;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -30,6 +30,10 @@ public class AliceConfigHelper {
 	public static String ENABLE_DEBUGGING = "enableDebugging";
 	public static String SKIN_SELECTION_UNLOCKED = "skinSelectionUnlocked";
 	public static String SKIN_CHOSEN = "skinChosen";
+	public static String SIGNATURE_UNLOCKED = "signatureUnlocked_";
+	public static String SIGNATURE_ENABLED = "signatureEnabled_";
+	public static String SUNGLASSES_UNLOCKED = "sunglassesUnlocked";
+	public static String SUNGLASSES_ENABLED = "sunglassesEnabled";
 	
 	public static SpireConfig conf = null;
 	public static Map<String, String> strings;
@@ -49,9 +53,9 @@ public class AliceConfigHelper {
 			defaults.setProperty(SKIN_SELECTION_UNLOCKED, "false");
 			defaults.setProperty(SKIN_CHOSEN, "ORIGINAL");
 			
-			conf = new SpireConfig(AliceSpireKit.getModID(), "config", defaults);
+			conf = new SpireConfig(AliceHelper.getModID(), "config", defaults);
 		} catch (IOException e) {
-			AliceSpireKit.log("AliceConfigHelper.initialize", "Failed to load config.");
+			AliceHelper.log("AliceConfigHelper.initialize", "Failed to load config.");
 		}
 	}
 	
@@ -85,7 +89,7 @@ public class AliceConfigHelper {
 			if (card instanceof AbstractAliceMarisaCard)
 				((AbstractAliceMarisaCard) card).setImages(id);
 			else
-				AliceSpireKit.logger.info("AliceConfigHelper.updateAllMarisaCards: Card {} is not an instance of AbstractAliceMarisaCard.", id);
+				AliceHelper.logger.info("AliceConfigHelper.updateAllMarisaCards: Card {} is not an instance of AbstractAliceMarisaCard.", id);
 		}
 	}
 	
@@ -96,7 +100,7 @@ public class AliceConfigHelper {
 	public static void setEnableAlternativeMarisaCardImage(boolean enableAlternativeMarisaCardImage) {
 		conf.setBool(ENABLE_ALTERNATIVE_MARISA_CARD_IMAGE, enableAlternativeMarisaCardImage);
 		
-		if (!AliceSpireKit.isMarisaModAvailable())
+		if (!AliceHelper.isMarisaModAvailable())
 			updateAllMarisaCards();
 	}
 	
@@ -107,18 +111,20 @@ public class AliceConfigHelper {
 	public static void setUsePackMasterStyleMarisaCards(boolean usePackMasterStyleMarisaCards) {
 		conf.setBool(USE_PACK_MASTER_STYLE_MARISA_CARDS, usePackMasterStyleMarisaCards);
 		
-		if (AliceSpireKit.isMarisaModAvailable())
+		if (AliceHelper.isMarisaModAvailable())
 			updateAllMarisaCards();
 	}
-	
+
+	@Deprecated
 	public static boolean enableWitchsTeaPartyFeature() {
 		return conf.getBool(ENABLE_WITCHS_TEA_PARTY_FEATURE);
 	}
-	
+
+	@Deprecated
 	public static void setEnableWitchsTeaPartyFeature(boolean enableWitchsTeaPartyFeature) {
 		conf.setBool(ENABLE_WITCHS_TEA_PARTY_FEATURE, enableWitchsTeaPartyFeature);
 		
-		WitchsTeaParty.updateAll();
+		DEPRECATEDWitchsTeaParty.updateAll();
 	}
 
 	public static boolean enableShanghaiDollEventForOtherCharacters() {
@@ -154,12 +160,48 @@ public class AliceConfigHelper {
 		if (skinLabel != null)
 			skinLabel.text = strings.get(SKIN_CHOSEN) + skin;
 	}
+
+	public static boolean isSignatureUnlocked(String id) {
+		String key = SIGNATURE_UNLOCKED + id;
+		return conf.has(key) && conf.getBool(key);
+	}
+
+	public static void setSignatureUnlocked(String id, boolean unlocked) {
+		conf.setBool(SIGNATURE_UNLOCKED + id, unlocked);
+		save();
+	}
+
+	public static boolean isSignatureEnabled(String id) {
+		String key = SIGNATURE_ENABLED + id;
+		return conf.has(key) && conf.getBool(key);
+	}
+
+	public static void setSignatureEnabled(String id, boolean enabled) {
+		conf.setBool(SIGNATURE_ENABLED + id, enabled);
+		save();
+	}
+
+	public static boolean isSunglassesUnlocked() {
+		return conf.getBool(SUNGLASSES_UNLOCKED);
+	}
+
+	public static void setSunglassesUnlocked(boolean unlocked) {
+		conf.setBool(SUNGLASSES_UNLOCKED, unlocked);
+	}
+
+	public static boolean isSunglassesEnabled() {
+		return conf.getBool(SUNGLASSES_ENABLED);
+	}
+
+	public static void setSunglassesEnabled(boolean enabled) {
+		conf.setBool(SUNGLASSES_ENABLED, enabled);
+	}
 	
 	public static void save() {
 		try {
 			conf.save();
 		} catch (IOException e) {
-			AliceSpireKit.log("AliceConfigHelper.save", "Failed to save config.");
+			AliceHelper.log("AliceConfigHelper.save", "Failed to save config.");
 		}
 	}
 	
@@ -167,7 +209,7 @@ public class AliceConfigHelper {
 		ModPanel panel = new ModPanel();
 		
 		Gson gson = new Gson();
-		String json = Gdx.files.internal(AliceSpireKit.getLocalizationFilePath("config"))
+		String json = Gdx.files.internal(AliceHelper.getLocalizationFilePath("config"))
 				.readString(String.valueOf(StandardCharsets.UTF_8));
 		strings = gson.fromJson(json, (new TypeToken<Map<String, String>>() {}).getType());
 		

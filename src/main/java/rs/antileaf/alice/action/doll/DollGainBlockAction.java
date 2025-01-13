@@ -4,7 +4,7 @@ import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.patches.enums.ActionTypeEnum;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class DollGainBlockAction extends AbstractGameAction {
 	private static final float DURATION = 0.1F;
@@ -24,7 +24,7 @@ public class DollGainBlockAction extends AbstractGameAction {
 			if (DollManager.get().contains(this.doll))
 				DollManager.get().addBlock(this.doll, this.block);
 			else
-				AliceSpireKit.log(this.getClass(),
+				AliceHelper.log(this.getClass(),
 						"DollGainBlockAction.update(): DollManager does not contain " +
 								this.doll.getClass().getSimpleName() + "!");
 		}

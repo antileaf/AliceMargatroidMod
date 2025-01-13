@@ -10,12 +10,12 @@ import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.localization.UIStrings;
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 import java.util.HashMap;
 import java.util.Map;
 
-// colorFunction takes [0, 1] and returns a color
+@Deprecated
 public class ResurgenceEffect extends AbstractGameEffect {
 	public static Map<Integer, ResurgenceEffect> instances = new HashMap<>();
 	
@@ -36,7 +36,7 @@ public class ResurgenceEffect extends AbstractGameEffect {
 		this.color = Color.WHITE.cpy();
 		this.color.a = 0.0F;
 		
-		this.img = ImageMaster.loadImage(AliceSpireKit.getImgFilePath("vfx", "resurgence"));
+		this.img = ImageMaster.loadImage(AliceHelper.getImgFilePath("vfx", "resurgence"));
 		this.x = Settings.WIDTH - this.img.getWidth() / 2.0F;
 		this.y = Settings.HEIGHT * 0.45F;
 	}

@@ -4,7 +4,7 @@ import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.patches.enums.ActionTypeEnum;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class DollLoseBlockAction extends AbstractGameAction {
 	private static final float DURATION = 0.1F;
@@ -22,7 +22,7 @@ public class DollLoseBlockAction extends AbstractGameAction {
 	public void update() {
 		if (this.duration == DURATION) {
 			if (!DollManager.get().contains(this.doll)) {
-				AliceSpireKit.log(this.getClass(),
+				AliceHelper.log(this.getClass(),
 						"DollLoseBlockAction.update(): DollManager does not contain " +
 								this.doll.getClass().getSimpleName() + "!");
 				this.isDone = true;
@@ -45,7 +45,7 @@ public class DollLoseBlockAction extends AbstractGameAction {
 				DollManager.get().loseBlock(this.doll, this.block);
 			}
 			else
-				AliceSpireKit.log(this.getClass(),
+				AliceHelper.log(this.getClass(),
 						"DollGainBlockAction.update(): DollManager does not contain " +
 								this.doll.getClass().getSimpleName() + "!");
 		}

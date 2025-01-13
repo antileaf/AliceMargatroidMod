@@ -3,8 +3,6 @@ package rs.antileaf.alice.characters;
 import basemod.abstracts.CustomPlayer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -29,7 +27,7 @@ import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.AbstractPlayerEnum;
 import rs.antileaf.alice.relics.AlicesGrimoire;
 import rs.antileaf.alice.ui.SkinSelectScreen;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 import java.util.ArrayList;
 
@@ -40,33 +38,36 @@ public class AliceMargatroid extends CustomPlayer {
 	private static final String ALICE_SHOULDER_2 = "AliceMargatroidMod/img/char/AliceMargatroid/shoulder.png"; // shoulder2 / shoulder_1
 	private static final String ALICE_SHOULDER_1 = "AliceMargatroidMod/img/char/AliceMargatroid/shoulder.png"; // shoulder1 / shoulder_2
 	private static final String ALICE_CORPSE = "AliceMargatroidMod/img/char/AliceMargatroid/corpse.png"; // dead corpse
-	private static final String ALICE_ANIMATION = "Idle";// Sprite / Idle
 	private static final String[] ORB_TEXTURES = {
-			"AliceMargatroidMod/img/UI/AliceMargatroid/EPanel/layer5.png",
-			"AliceMargatroidMod/img/UI/AliceMargatroid/EPanel/layer4.png",
-			"AliceMargatroidMod/img/UI/AliceMargatroid/EPanel/layer3.png",
-			"AliceMargatroidMod/img/UI/AliceMargatroid/EPanel/layer2.png",
-			"AliceMargatroidMod/img/UI/AliceMargatroid/EPanel/layer1.png",
-			"AliceMargatroidMod/img/UI/AliceMargatroid/EPanel/layer0.png",
-			"AliceMargatroidMod/img/UI/AliceMargatroid/EPanel/layer5d.png",
-			"AliceMargatroidMod/img/UI/AliceMargatroid/EPanel/layer4d.png",
-			"AliceMargatroidMod/img/UI/AliceMargatroid/EPanel/layer3d.png",
-			"AliceMargatroidMod/img/UI/AliceMargatroid/EPanel/layer2d.png",
-			"AliceMargatroidMod/img/UI/AliceMargatroid/EPanel/layer1d.png"
+			"AliceMargatroidMod/img/UI/AliceMargatroid/EPanel/4.png",
+			"AliceMargatroidMod/img/UI/AliceMargatroid/EPanel/3.png",
+			"AliceMargatroidMod/img/UI/AliceMargatroid/EPanel/2.png",
+			"AliceMargatroidMod/img/UI/AliceMargatroid/EPanel/1.png",
+			"AliceMargatroidMod/img/UI/AliceMargatroid/EPanel/0.png",
+			"AliceMargatroidMod/img/UI/AliceMargatroid/EPanel/4d.png",
+			"AliceMargatroidMod/img/UI/AliceMargatroid/EPanel/3d.png",
+			"AliceMargatroidMod/img/UI/AliceMargatroid/EPanel/2d.png",
+			"AliceMargatroidMod/img/UI/AliceMargatroid/EPanel/1d.png"
 	};
-	private static final String ORB_VFX = "AliceMargatroidMod/img/UI/AliceMargatroid/energyBlueVFX.png";
+	private static final String ORB_VFX = "AliceMargatroidMod/img/UI/AliceMargatroid/vfx.png";
 	private static final float[] LAYER_SPEED =
-			{-40.0F, -32.0F, 20.0F, -20.0F, 0.0F, -10.0F, -8.0F, 5.0F, -5.0F, 0.0F};
-
-	private SkinSelectScreen.Skin skin = null;
+			{0.0F, -16.0F, 0.0F, 20.0F, 0.0F};
 	
 	public AliceMargatroid(String name) {
-		super(name, AbstractPlayerEnum.ALICE_MARGATROID_PLAYER_CLASS, ORB_TEXTURES, ORB_VFX, LAYER_SPEED, null, null);
+		super(
+				name,
+				AbstractPlayerEnum.ALICE_MARGATROID_PLAYER_CLASS,
+				ORB_TEXTURES,
+				ORB_VFX,
+				LAYER_SPEED,
+				null,
+				null
+		);
 		
 		this.dialogX = (this.drawX + 0.0F * Settings.scale); // set location for text bubbles
 		this.dialogY = (this.drawY + 220.0F * Settings.scale); // you can just copy these values
 		
-		AliceSpireKit.logger.info("init Alice Margatroid");
+		AliceHelper.logger.info("init Alice Margatroid");
 		
 		this.initializeClass(
 				"AliceMargatroidMod/img/char/AliceMargatroid/alice.png",
@@ -80,7 +81,9 @@ public class AliceMargatroid extends CustomPlayer {
 		
 //		this.maxOrbs = 0;
 
-		AliceSpireKit.logger.info("init finish");
+//		this.updateSkin();
+
+		AliceHelper.logger.info("init finish");
 	}
 	
 	public ArrayList<String> getStartingDeck() { // 初始卡组
@@ -160,7 +163,7 @@ public class AliceMargatroid extends CustomPlayer {
 	}
 	
 	public void doCharSelectScreenSelectEffect() {
-		CardCrawlGame.sound.play("AliceMargatroidMod:CHAR_SELECT_" + MathUtils.random(1, 3));
+		CardCrawlGame.sound.play(this.getCustomModeCharacterButtonSoundKey());
 		CardCrawlGame.screenShake.shake(
 				ScreenShake.ShakeIntensity.LOW,
 				ScreenShake.ShakeDur.SHORT,
@@ -169,7 +172,7 @@ public class AliceMargatroid extends CustomPlayer {
 	}
 	
 	public String getCustomModeCharacterButtonSoundKey() {
-		return "AliceMargatroidMod:CHAR_SELECT_" + MathUtils.random(1, 3);
+		return SkinSelectScreen.inst.getSoundKey();
 	}
 	
 	public String getLocalizedCharacterName() {
@@ -202,14 +205,14 @@ public class AliceMargatroid extends CustomPlayer {
 		return AliceMargatroidMod.ALICE_PUPPETEER.cpy();
 	}
 	
-	@Override
-	public void updateOrb(int orbCount) {
-		this.energyOrb.updateOrb(orbCount);
-	}
+//	@Override
+//	public void updateOrb(int orbCount) {
+//		this.energyOrb.updateOrb(orbCount);
+//	}
 	
-	public TextureAtlas.AtlasRegion getOrb() {
-		return new TextureAtlas.AtlasRegion(ImageMaster.loadImage(AliceMargatroidMod.CARD_ENERGY_ORB), 0, 0, 24, 24);
-	}
+//	public TextureAtlas.AtlasRegion getOrb() {
+//		return new TextureAtlas.AtlasRegion(ImageMaster.loadImage(AliceMargatroidMod.CARD_ENERGY_ORB), 0, 0, 24, 24);
+//	}
 	
 	public Color getSlashAttackColor() {
 		return AliceMargatroidMod.ALICE_PUPPETEER.cpy();
@@ -233,7 +236,7 @@ public class AliceMargatroid extends CustomPlayer {
 	
 	@Override
 	public String getSensoryStoneText() {
-		return CardCrawlGame.languagePack.getEventString("AliceSensoryStone").DESCRIPTIONS[0];
+		return CardCrawlGame.languagePack.getEventString(AliceHelper.makeID("SensoryStone")).DESCRIPTIONS[0];
 	}
 	
 	@Override
@@ -252,27 +255,20 @@ public class AliceMargatroid extends CustomPlayer {
 		super.applyPreCombatLogic();
 	}
 	
-	public void render(SpriteBatch sb) {
-		if (this.skin != SkinSelectScreen.inst.getSkin()) {
-			this.skin = SkinSelectScreen.inst.getSkin();
-			this.updateSkin(this.skin.img, this.skin.shoulder, this.skin.corpse);
-		}
-		
-		super.render(sb);
-	}
-	
 //	public void setSkin(SkinSelectScreen.Skin skin) {
 //		this.shouldUpdateSkin = skin;
 //	}
 	
-	public void updateSkin(String img, String shoulder, String corpse) {
-		this.img = ImageMaster.loadImage(img);
+	public void updateSkin() {
+		SkinSelectScreen.Skin skin = SkinSelectScreen.inst.getSkin();
+
+		this.img = ImageMaster.loadImage(skin.img);
 		
 		if (this.img != null)
 			this.atlas = null;
 		
-		this.shoulderImg = ImageMaster.loadImage(shoulder);
-		this.shoulder2Img = ImageMaster.loadImage(shoulder);
-		this.corpseImg = ImageMaster.loadImage(corpse);
+		this.shoulderImg = ImageMaster.loadImage(skin.shoulder);
+		this.shoulder2Img = ImageMaster.loadImage(skin.corpse);
+		this.corpseImg = ImageMaster.loadImage(skin.corpse);
 	}
 }

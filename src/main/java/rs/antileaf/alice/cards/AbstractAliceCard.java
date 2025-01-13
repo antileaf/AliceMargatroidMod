@@ -1,20 +1,25 @@
 package rs.antileaf.alice.cards;
 
-import basemod.abstracts.CustomCard;
+import basemod.ReflectionHacks;
 import basemod.helpers.TooltipInfo;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.evacipated.cardcrawl.mod.stslib.patches.FlavorText;
-import com.megacrit.cardcrawl.actions.AbstractGameAction;
+import com.evacipated.cardcrawl.modthespire.lib.SpireOverride;
+import com.evacipated.cardcrawl.modthespire.lib.SpireSuper;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.screens.SingleCardViewPopup;
+import rs.antileaf.alice.cards.utils.AbstractSecondaryVariablesCard;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
@@ -25,39 +30,29 @@ import rs.antileaf.alice.targeting.AliceHoveredTargets;
 import rs.antileaf.alice.targeting.AliceTargetIcon;
 import rs.antileaf.alice.targeting.handlers.*;
 import rs.antileaf.alice.utils.AliceConfigHelper;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
+import rs.antileaf.alice.utils.SignatureHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static rs.antileaf.alice.AliceMargatroidMod.ALICE_PUPPETEER_FLAVOR;
 
-public abstract class AbstractAliceCard extends CustomCard {
-//	protected static final CardStrings cardStrings =
-//			CardCrawlGame.languagePack.getCardStrings("AbstractAliceCard");
-	
+public abstract class AbstractAliceCard extends AbstractSecondaryVariablesCard {
+	private static final float FADE_DURATION = 0.3F;
+	private static final float FORCED_FADE_DURATION = 0.5F;
+
 	protected String cardSign = null;
 	public final ArrayList<AliceTargetIcon> targetIcons = new ArrayList<>();
-//	public Hitbox iconsHb;
-//	public ArrayList<PowerTip> iconsTips;
 
-	public boolean cantBePlayed = false;
-//	public boolean isSupplement = false;
-	
-	public int tempHP = 0;
-	public int baseTempHP = 0;
-	
-	public int secondaryMagicNumber = -1;
-	public int baseSecondaryMagicNumber = -1;
-	public boolean upgradedSecondaryMagicNumber = false;
-	public boolean isSecondaryMagicNumberModified = false;
-	
-	public int secondaryDamage = -1;
-	public int baseSecondaryDamage = -1;
-	public boolean upgradedSecondaryDamage = false;
-	public boolean isSecondaryDamageModified = false;
+//	public boolean cantBePlayed = false;
 
-//	boolean isLoli = false;
+	private TextureAtlas.AtlasRegion signaturePortrait = null;
+	public boolean hasSignature = false;
+
+	private boolean signatureHovered = false; // 矢野你诗人？
+	private float signatureHoveredTimer = 0.0F;
+	private float forcedTimer = 0.0F;
 	
 	public AbstractAliceCard(
 			String id,
@@ -74,9 +69,9 @@ public abstract class AbstractAliceCard extends CustomCard {
 				id,
 				name,
 				img != null ? img :
-						(type == CardType.ATTACK ? AliceSpireKit.getCardImgFilePath("Attack") :
-								type == CardType.SKILL ? AliceSpireKit.getCardImgFilePath("Skill") :
-										AliceSpireKit.getCardImgFilePath("Power")),
+						(type == CardType.ATTACK ? AliceHelper.getCardImgFilePath("Attack") :
+								type == CardType.SKILL ? AliceHelper.getCardImgFilePath("Skill") :
+										AliceHelper.getCardImgFilePath("Power")),
 				cost,
 				rawDescription,
 				type,
@@ -93,6 +88,21 @@ public abstract class AbstractAliceCard extends CustomCard {
 		AliceCardSignStrings sign = AliceCardSignStrings.get(this.cardID);
 		if (sign != null)
 			this.cardSign = sign.SIGN;
+
+		String sig = this.getSignatureImgPath();
+		if (Gdx.files.internal(sig).exists()) {
+			this.hasSignature = true;
+			this.signaturePortrait = SignatureHelper.load(sig);
+		}
+	}
+
+	public String getSignatureImgPath() {
+		return this.textureImg.replace(".png", "_s.png")
+				.replace("/cards/", "/signature/");
+	}
+
+	public String getSignaturePortraitImgPath() {
+		return this.getSignatureImgPath().replace(".png", "_p.png");
 	}
 	
 	public TooltipInfo getNote() {
@@ -112,36 +122,6 @@ public abstract class AbstractAliceCard extends CustomCard {
 			result.add(note);
 		
 		return result;
-	}
-
-	@Override
-	public void triggerWhenDrawn() {
-//		if (this.isSupplement)
-//			this.addToTop(new DrawCardAction(1));
-
-		super.triggerWhenDrawn();
-	}
-
-	@Override
-	public void applyPowers() {
-		super.applyPowers();
-		
-		if (this.baseSecondaryDamage != -1) {
-			int originalDamage = this.damage;
-			int originalBaseDamage = this.baseDamage;
-			boolean originalDamageModified = this.isDamageModified;
-			int[] originalMultiDamage = (this.multiDamage != null ? this.multiDamage.clone() : null);
-			
-			this.baseDamage = this.baseSecondaryDamage;
-			super.applyPowers();
-			this.isSecondaryDamageModified = this.secondaryDamage != this.baseSecondaryDamage;
-			this.secondaryDamage = this.damage;
-			
-			this.damage = originalDamage;
-			this.baseDamage = originalBaseDamage;
-			this.isDamageModified = originalDamageModified;
-			this.multiDamage = originalMultiDamage;
-		}
 	}
 	
 	@Override
@@ -165,33 +145,7 @@ public abstract class AbstractAliceCard extends CustomCard {
 			this.multiDamage = originalMultiDamage;
 		}
 	}
-	
-	@Override
-	public void resetAttributes() {
-		super.resetAttributes();
-		
-		this.tempHP = this.baseTempHP;
-		this.secondaryMagicNumber = this.baseSecondaryMagicNumber;
-		this.isSecondaryMagicNumberModified = false;
-		this.secondaryDamage = this.baseSecondaryDamage;
-		this.isSecondaryDamageModified = false;
-	}
-	
-	@Override
-	public void displayUpgrades() {
-		super.displayUpgrades();
-		
-		if (this.upgradedSecondaryMagicNumber) {
-			this.secondaryMagicNumber = this.baseSecondaryMagicNumber;
-			this.isSecondaryMagicNumberModified = true;
-		}
-		
-		if (this.upgradedSecondaryDamage) {
-			this.secondaryDamage = this.baseSecondaryDamage;
-			this.isSecondaryDamageModified = true;
-		}
-	}
-	
+
 	public AbstractDoll getTargetedSlot() {
 		if (this.target == CardTargetEnum.DOLL)
 			return DollTargeting.getTarget(this);
@@ -217,7 +171,8 @@ public abstract class AbstractAliceCard extends CustomCard {
 		AbstractDoll slot = this.getTargetedSlot();
 		return slot instanceof EmptyDollSlot ? null : slot;
 	}
-	
+
+	@Deprecated
 	public AbstractMonster getTargetedEnemy() {
 		if (this.target == CardTargetEnum.DOLL_OR_ENEMY) {
 			Object target = DollOrEnemyTargeting.getTarget(this);
@@ -237,14 +192,15 @@ public abstract class AbstractAliceCard extends CustomCard {
 
 	@Override
 	 public boolean canUse(AbstractPlayer p, AbstractMonster m) {
-		if (this.cantBePlayed || !super.canUse(p, m))
+		if (!super.canUse(p, m))
 			return false;
 		
 		if (this.target == CardTargetEnum.DOLL) {
 			if (!DollManager.get().hasDoll() && DollTargeting.getTarget(this) == null) {
-//				this.cantUseMessage = CardCrawlGame.languagePack
-//						.getUIString("AliceNoDollDialog").TEXT[0];
-//				AliceSpireKit.log("cantUseMessage: " + this.cantUseMessage);
+				this.cantUseMessage = CardCrawlGame.languagePack
+						.getUIString(AliceHelper.makeID("NoDollDialog")).TEXT[0];
+				AliceHelper.log("cantUseMessage: " + this.cantUseMessage);
+
 				// TODO: There may be a bug in stslib. Fix it later.
 				return false;
 			}
@@ -253,103 +209,26 @@ public abstract class AbstractAliceCard extends CustomCard {
 		return true;
 	}
 
-	@Override
-	public AbstractCard makeStatEquivalentCopy() {
-		AbstractAliceCard card = (AbstractAliceCard) super.makeStatEquivalentCopy();
-
-		card.cantBePlayed = this.cantBePlayed;
-//		card.isSupplement = this.isSupplement;
-
-		card.tempHP = this.tempHP;
-		card.baseTempHP = this.baseTempHP;
-		
-		card.secondaryMagicNumber = this.secondaryMagicNumber;
-		card.baseSecondaryMagicNumber = this.baseSecondaryMagicNumber;
-		
-		card.secondaryDamage = this.secondaryDamage;
-		card.baseSecondaryDamage = this.baseSecondaryDamage;
-
-		return card;
-	}
-	
 	public void aliceTriggerAtStartOfTurn() {}
 
-	public void triggerOnLeaveHand(boolean isExhaust, boolean isEndOfTurn) {}
-
-	public void triggerOnLeaveHand(boolean isExhaust) {
-		this.triggerOnLeaveHand(isExhaust, false);
-	}
-
 	@Override
-	public void triggerOnExhaust() {
-		this.triggerOnLeaveHand(true);
-		super.triggerOnExhaust();
-	}
+	public void update() {
+		super.update();
 
-	@Override
-	public void triggerOnManualDiscard() {
-		this.triggerOnLeaveHand(false, false);
-		super.triggerOnManualDiscard();
-	}
+		if (this.signatureHovered || (AliceHelper.isInBattle() && this.isHoveredInHand(1.0F))) {
+			this.signatureHoveredTimer += Gdx.graphics.getDeltaTime();
+			if (this.signatureHoveredTimer >= FADE_DURATION)
+				this.signatureHoveredTimer = FADE_DURATION;
+		}
+		else {
+			this.signatureHoveredTimer -= Gdx.graphics.getDeltaTime();
+			if (this.signatureHoveredTimer <= 0.0F)
+				this.signatureHoveredTimer = 0.0F;
+		}
 
-	@Override
-	public void triggerOnEndOfPlayerTurn() {
-		if (!this.retain)
-			this.triggerOnLeaveHand(false, true);
-		
-		super.triggerOnEndOfPlayerTurn();
+		if (this.forcedTimer > 0.0F)
+			this.forcedTimer -= Gdx.graphics.getDeltaTime();
 	}
-	
-	public void upgradeSecondaryMagicNumber(int amount) {
-		this.baseSecondaryMagicNumber += amount;
-		this.secondaryMagicNumber = this.baseSecondaryMagicNumber;
-		this.upgradedSecondaryMagicNumber = true;
-	}
-	
-	public void upgradeSecondaryDamage(int amount) {
-		this.baseSecondaryDamage += amount;
-		this.secondaryDamage = this.baseSecondaryDamage;
-		this.upgradedSecondaryDamage = true;
-	}
-
-	public void addActionsToTop(AbstractGameAction... actions) {
-		AliceSpireKit.addActionsToTop(actions);
-	}
-
-	public String bracketedName() {
-		return "(" + this.name + ")";
-	}
-
-//	protected void refreshIconsTip() {
-//		this.iconsTips.clear();
-//		if (!this.targetIcons.isEmpty())
-//			this.iconsTips.add(AliceTargetIconTipHelper.generateTip(this.targetIcons));
-//	}
-
-//	protected void updateIconsHb() {
-//		if (this.targetIcons.isEmpty()) {
-//			this.iconsHb.move(-100.0F, -100.0F);
-//			this.iconsHb.resize(0.0F, 0.0F);
-//		}
-//		else {
-//			float hbWidth = AliceTargetIcon.WIDTH * this.drawScale * Settings.scale;
-//			float hbHeight = AliceTargetIcon.WIDTH * this.drawScale * Settings.scale * this.targetIcons.size();
-//			float x = this.current_x + X_OFFSET * this.drawScale * Settings.scale;
-//			float y = this.current_y + (Y_OFFSET - AliceTargetIcon.WIDTH / 2.0F * (this.targetIcons.size() - 1))
-//					* this.drawScale * Settings.scale;
-//
-//			this.iconsHb.move(x, y);
-//			this.iconsHb.resize(hbWidth, hbHeight);
-//		}
-//
-//		this.iconsHb.update();
-//	}
-
-//	@Override
-//	public void update() {
-//		super.update();
-//		this.updateIconsHb();
-//	}
 	
 	public void renderCardSign(SpriteBatch sb, float xPos, float yPos, float yOffsetBase, float scale) {
 		if (!AliceConfigHelper.enableSpellCardSignDisplay())
@@ -387,7 +266,8 @@ public abstract class AbstractAliceCard extends CustomCard {
 		this.renderCardSign(sb, this.current_x, this.current_y, 400.0F, this.drawScale);
 	}
 
-	private void drawOnCard(SpriteBatch sb, Texture img, float xPos, float yPos, Vector2 offset, float width, float height, float alpha, float drawScale, float scaleModifier) {
+	private void drawOnCard(SpriteBatch sb, Texture img, float xPos, float yPos, Vector2 offset,
+							float width, float height, float alpha, float drawScale, float scaleModifier) {
 		if (this.angle != 0.0F)
 			offset.rotate(this.angle);
 
@@ -396,8 +276,8 @@ public abstract class AbstractAliceCard extends CustomCard {
 		float drawX = xPos + offset.x, drawY = yPos + offset.y;
 		float scale = drawScale * Settings.scale * scaleModifier;
 
-		Color backup = sb.getColor();
-		sb.setColor(1.0F, 1.0F, 1.0F, alpha);
+		Color backup = sb.getColor().cpy();
+		sb.getColor().a *= alpha;
 		sb.draw(
 				img,
 				drawX - width / 2.0F,
@@ -420,15 +300,17 @@ public abstract class AbstractAliceCard extends CustomCard {
 	}
 
 	public void renderTargetIcons(SpriteBatch sb, float xPos, float yPos, float xOffsetBase, float yOffsetBase,
-								  float width, float height, float drawScale) {
+								  float width, float height, float alpha, float drawScale) {
 		if (this.isFlipped || this.isLocked || this.transparency <= 0.0F)
 			return;
 
 		float xOffset = xOffsetBase, yOffset = yOffsetBase;
 
 		for (AliceTargetIcon icon : this.targetIcons) {
-			this.drawOnCard(sb, icon.bg, xPos, yPos, new Vector2(xOffset, yOffset), width, height, this.transparency, drawScale, AliceTargetIcon.BG_SCALE);
-			this.drawOnCard(sb, icon.img, xPos, yPos, new Vector2(xOffset, yOffset), width, height, this.transparency, drawScale, icon.scaleModifier);
+			this.drawOnCard(sb, icon.bg, xPos, yPos, new Vector2(xOffset, yOffset), width, height,
+					alpha * this.transparency, drawScale, AliceTargetIcon.BG_SCALE);
+			this.drawOnCard(sb, icon.img, xPos, yPos, new Vector2(xOffset, yOffset), width, height,
+					alpha * this.transparency, drawScale, icon.scaleModifier);
 
 //			xOffset += width;
 			yOffset -= height;
@@ -440,8 +322,14 @@ public abstract class AbstractAliceCard extends CustomCard {
 	public void renderTargetIcons(SpriteBatch sb) {
 //		this.renderTargetIcons(sb, this.current_x, this.current_y, 48.0F, -22.0F,
 //				AliceTargetIcon.WIDTH, AliceTargetIcon.WIDTH, this.drawScale);
-		this.renderTargetIcons(sb, this.current_x, this.current_y, X_OFFSET, Y_OFFSET,
-				AliceTargetIcon.WIDTH, AliceTargetIcon.WIDTH, this.drawScale);
+		if (SignatureHelper.shouldUseSignature(this.cardID) && this.getSignatureTransparency() <= 0.0F)
+			return;
+
+		this.renderTargetIcons(sb, this.current_x, this.current_y,
+				X_OFFSET, Y_OFFSET,
+				AliceTargetIcon.WIDTH, AliceTargetIcon.WIDTH,
+				 SignatureHelper.shouldUseSignature(this.cardID) ? this.getSignatureTransparency() : 1.0F,
+				this.drawScale);
 	}
 	
 	@Override
@@ -466,16 +354,247 @@ public abstract class AbstractAliceCard extends CustomCard {
 		}
 	}
 
-//	public boolean convertible() {
-//		return !this.isLoli;
-//	}
+	public void forceToShowDescription() {
+		this.signatureHoveredTimer = FORCED_FADE_DURATION;
+	}
+
+	private float getSignatureTransparency() {
+		float ret = Math.max(this.signatureHoveredTimer, this.forcedTimer) / FADE_DURATION;
+		if (ret > 1.0F)
+			ret = 1.0F;
+		return ret;
+	}
+
+	@Override
+	public void hover() {
+		super.hover();
+		this.signatureHovered = true;
+	}
+
+	@Override
+	public void unhover() {
+		super.unhover();
+		this.signatureHovered = false;
+	}
+
+	@SpireOverride
+	protected void renderDescription(SpriteBatch sb) {
+		if (!SignatureHelper.shouldUseSignature(this.cardID)) {
+			SpireSuper.call(sb);
+			return;
+		}
+
+		if (this.getSignatureTransparency() > 0.0F) {
+			Color textColor = ReflectionHacks.getPrivate(this, AbstractCard.class, "textColor");
+			Color goldColor = ReflectionHacks.getPrivate(this, AbstractCard.class, "goldColor");
+			float textColorAlpha = textColor.a, goldColorAlpha = goldColor.a;
+
+			textColor.a *= this.getSignatureTransparency();
+			goldColor.a *= this.getSignatureTransparency();
+			SpireSuper.call(sb);
+
+			textColor.a = textColorAlpha;
+			goldColor.a = goldColorAlpha;
+		}
+	}
+
+	@SpireOverride
+	protected void renderDescriptionCN(SpriteBatch sb) {
+		if (!SignatureHelper.shouldUseSignature(this.cardID)) {
+			SpireSuper.call(sb);
+			return;
+		}
+
+		if (this.getSignatureTransparency() > 0.0F) {
+			Color textColor = ReflectionHacks.getPrivate(this, AbstractCard.class, "textColor");
+			Color goldColor = ReflectionHacks.getPrivate(this, AbstractCard.class, "goldColor");
+			float textColorAlpha = textColor.a, goldColorAlpha = goldColor.a;
+
+			textColor.a *= this.getSignatureTransparency();
+			goldColor.a *= this.getSignatureTransparency();
+			SpireSuper.call(sb);
+
+			textColor.a = textColorAlpha;
+			goldColor.a = goldColorAlpha;
+		}
+	}
+
+	private Color getRenderColor() {
+		return ReflectionHacks.getPrivate(this, AbstractCard.class, "renderColor");
+	}
+
+	private Color getTypeColor() {
+		return ReflectionHacks.getPrivate(this, AbstractCard.class, "typeColor");
+	}
+
+	private void renderHelper(SpriteBatch sb, Color color, TextureAtlas.AtlasRegion img,
+							  float drawX, float drawY) {
+		ReflectionHacks.privateMethod(AbstractCard.class, "renderHelper",
+				SpriteBatch.class, Color.class, TextureAtlas.AtlasRegion.class, float.class, float.class)
+				.invoke(this, sb, color, img, drawX, drawY);
+	}
+
+	@Override
+	public void renderSmallEnergy(SpriteBatch sb, TextureAtlas.AtlasRegion region, float x, float y) {
+		if (SignatureHelper.shouldUseSignature(this.cardID)) {
+			Color renderColor = this.getRenderColor();
+
+			float alpha = renderColor.a;
+			renderColor.a *= this.getSignatureTransparency();
+
+			super.renderSmallEnergy(sb, region, x, y);
+
+			renderColor.a = alpha;
+		}
+		else
+			super.renderSmallEnergy(sb, region, x, y);
+	}
+
+	@SpireOverride
+	protected void renderImage(SpriteBatch sb, boolean hovered, boolean selected) {
+		SpireSuper.call(sb, hovered, selected);
+
+		if (SignatureHelper.shouldUseSignature(this.cardID) && this.getSignatureTransparency() > 0.0F) {
+			Color renderColor = this.getRenderColor();
+
+			float alpha = renderColor.a;
+			renderColor.a *= this.getSignatureTransparency();
+
+			this.renderHelper(sb, renderColor,
+					this.description.size() >= 4 ?
+							SignatureHelper.DESC_SHADOW : SignatureHelper.DESC_SHADOW_SMALL,
+					this.current_x, this.current_y);
+
+			renderColor.a = alpha;
+		}
+	}
+
+	@SpireOverride
+	protected void renderCardBg(SpriteBatch sb, float x, float y) {
+		if (SignatureHelper.shouldUseSignature(this.cardID)) {
+//			TextureAtlas.AtlasRegion bg;
 //
-//	public boolean isLoli() {
-//		return this.isLoli;
-//	}
+//			if (this.type == CardType.ATTACK)
+//				bg = SignatureHelper.ATTACK_BG;
+//			else if (this.type == CardType.POWER)
+//				bg = SignatureHelper.POWER_BG;
+//			else
+//				bg = SignatureHelper.SKILL_BG;
 //
-//	public void convertToLoli() {
-//		if (this.convertible())
-//			this.isLoli = true;
+//			this.renderHelper(sb, this.getRenderColor(), bg, x, y);
+		}
+		else
+			SpireSuper.call(sb, x, y);
+	}
+
+//	@Override
+//	public Texture getBackgroundSmallTexture() {
+//		if (SignatureHelper.shouldUseSignature(this.cardID)) {
+//			if (this.type == CardType.ATTACK)
+//				return SignatureHelper.ATTACK_BG;
+//			else if (this.type == CardType.POWER)
+//				return SignatureHelper.POWER_BG;
+//			else
+//				return SignatureHelper.SKILL_BG;
+//		}
+//		else
+//			return super.getBackgroundSmallTexture();
 //	}
+
+	@SpireOverride
+	protected void renderPortrait(SpriteBatch sb) {
+		if (SignatureHelper.shouldUseSignature(this.cardID)) {
+			sb.setColor(this.getRenderColor());
+			sb.draw(this.signaturePortrait,
+					this.current_x - 256.0F,
+					this.current_y - 256.0F,
+					256.0F, 256.0F, 512.0F, 512.0F,
+					this.drawScale * Settings.scale,
+					this.drawScale * Settings.scale,
+					this.angle);
+		}
+		else
+			SpireSuper.call(sb);
+	}
+
+	@SpireOverride
+	protected void renderJokePortrait(SpriteBatch sb) {
+		if (SignatureHelper.shouldUseSignature(this.cardID))
+			this.renderPortrait(sb);
+		else
+			SpireSuper.call(sb);
+	}
+
+	@SpireOverride
+	protected void renderPortraitFrame(SpriteBatch sb, float x, float y) {
+		if (SignatureHelper.shouldUseSignature(this.cardID)) {
+			TextureAtlas.AtlasRegion frame;
+
+			if (this.type == CardType.ATTACK) {
+				if (this.rarity == CardRarity.RARE)
+					frame = SignatureHelper.CARD_TYPE_ATTACK_RARE;
+				else if (this.rarity == CardRarity.UNCOMMON)
+					frame = SignatureHelper.CARD_TYPE_ATTACK_UNCOMMON;
+				else
+					frame = SignatureHelper.CARD_TYPE_ATTACK_COMMON;
+			}
+			else if (this.type == CardType.POWER) {
+				if (this.rarity == CardRarity.RARE)
+					frame = SignatureHelper.CARD_TYPE_POWER_RARE;
+				else if (this.rarity == CardRarity.UNCOMMON)
+					frame = SignatureHelper.CARD_TYPE_POWER_UNCOMMON;
+				else
+					frame = SignatureHelper.CARD_TYPE_POWER_COMMON;
+			}
+			else {
+				if (this.rarity == CardRarity.RARE)
+					frame = SignatureHelper.CARD_TYPE_SKILL_RARE;
+				else if (this.rarity == CardRarity.UNCOMMON)
+					frame = SignatureHelper.CARD_TYPE_SKILL_UNCOMMON;
+				else
+					frame = SignatureHelper.CARD_TYPE_SKILL_COMMON;
+			}
+
+			this.renderHelper(sb, this.getRenderColor(), frame, x, y);
+		}
+		else
+			SpireSuper.call(sb, x, y);
+	}
+
+	@SpireOverride
+	protected void renderBannerImage(SpriteBatch sb, float x, float y) {
+		if (!SignatureHelper.shouldUseSignature(this.cardID))
+			SpireSuper.call(sb, x, y);
+	}
+
+	@SpireOverride
+	protected void renderType(SpriteBatch sb) {
+		if (!SignatureHelper.shouldUseSignature(this.cardID)) {
+			SpireSuper.call(sb);
+			return;
+		}
+
+		String text;
+		if (this.type == CardType.ATTACK)
+			text = AbstractCard.TEXT[0];
+		else if (this.type == CardType.SKILL)
+			text = AbstractCard.TEXT[1];
+		else if (this.type == CardType.POWER)
+			text = AbstractCard.TEXT[2];
+		else if (this.type == CardType.CURSE)
+			text = AbstractCard.TEXT[3];
+		else if (this.type == CardType.STATUS)
+			text = AbstractCard.TEXT[7];
+		else
+			text = AbstractCard.TEXT[5];
+
+		BitmapFont font = FontHelper.cardTypeFont;
+		font.getData().setScale(this.drawScale);
+		this.getTypeColor().a = this.getRenderColor().a;
+		FontHelper.renderRotatedText(sb, font, text, this.current_x,
+				this.current_y - 195.0F * this.drawScale * Settings.scale,
+				0.0F,
+				-1.0F * this.drawScale * Settings.scale,
+				this.angle, false, this.getTypeColor());
+	}
 }

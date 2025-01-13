@@ -13,7 +13,7 @@ import com.megacrit.cardcrawl.screens.VictoryScreen;
 import javassist.CannotCompileException;
 import javassist.CtBehavior;
 import rs.antileaf.alice.characters.AliceMargatroid;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 import java.util.ArrayList;
 
@@ -46,7 +46,7 @@ public class BonusScorePatch {
 		public static void Insert(boolean victory, @ByRef int[] points) {
 			IS_ALICE = (AbstractDungeon.player instanceof AliceMargatroid);
 
-			if (AliceSpireKit.getSaveData().getReturnedShanghaiDoll()) {
+			if (AliceHelper.getSaveData().getReturnedShanghaiDoll()) {
 				BONUS = true;
 				points[0] += 1;
 			}

@@ -12,9 +12,9 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import javassist.CannotCompileException;
 import javassist.CtBehavior;
 import rs.antileaf.alice.action.common.AliceAddCardToHandAction;
-import rs.antileaf.alice.cards.Marisa.AbstractAliceMarisaCard;
-import rs.antileaf.alice.cards.Marisa.AliceSpark;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.cards.marisa.AbstractAliceMarisaCard;
+import rs.antileaf.alice.cards.marisa.AliceSpark;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class MarisaAlternativeImagePatch {
 	@SpirePatch(clz = DoubleSpark.class, method = SpirePatch.CLASS, requiredModId = "TS05_Marisa")
@@ -43,7 +43,7 @@ public class MarisaAlternativeImagePatch {
 			if ((c instanceof Spark) && AliceMarisaCardFields.isAliceMarisaCard.get(_inst)) {
 				AbstractAliceMarisaCard.setImages((CustomCard) c, AliceSpark.ID);
 
-				AliceSpireKit.addToBot(new AliceAddCardToHandAction(c));
+				AliceHelper.addToBot(new AliceAddCardToHandAction(c));
 				
 				return SpireReturn.Return();
 			}

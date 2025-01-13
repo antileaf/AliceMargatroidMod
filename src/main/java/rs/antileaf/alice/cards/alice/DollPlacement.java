@@ -16,12 +16,11 @@ import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
 import rs.antileaf.alice.targeting.AliceHoveredTargets;
 import rs.antileaf.alice.targeting.AliceTargetIcon;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class DollPlacement extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = DollPlacement.class.getSimpleName();
-//	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
-	public static final String ID = SIMPLE_NAME;
+	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
@@ -32,20 +31,20 @@ public class DollPlacement extends AbstractAliceCard {
 		super(
 				ID,
 				cardStrings.NAME,
-				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceHelper.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.ATTACK,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
 				CardRarity.BASIC,
-				CardTargetEnum.DOLL_OR_EMPTY_SLOT_OR_NONE
+				CardTargetEnum.DOLL_OR_EMPTY_SLOT
 		);
 		
 		this.damage = this.baseDamage = DAMAGE;
 		this.isMultiDamage = true;
 
 		this.targetIcons.add(AliceTargetIcon.SLOT);
-		this.targetIcons.add(AliceTargetIcon.NONE);
+//		this.targetIcons.add(AliceTargetIcon.NONE);
 	}
 	
 	@Override

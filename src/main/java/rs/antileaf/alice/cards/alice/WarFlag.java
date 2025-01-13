@@ -17,12 +17,11 @@ import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
 import rs.antileaf.alice.targeting.AliceTargetIcon;
 import rs.antileaf.alice.targeting.handlers.DollTargeting;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class WarFlag extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = WarFlag.class.getSimpleName();
-//	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
-	public static final String ID = SIMPLE_NAME;
+	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
@@ -32,7 +31,7 @@ public class WarFlag extends AbstractAliceCard {
 		super(
 				ID,
 				cardStrings.NAME,
-				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceHelper.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.SKILL,
@@ -63,14 +62,14 @@ public class WarFlag extends AbstractAliceCard {
 				int blockGain = doll.block / 2;
 				
 				if (blockGain > 0) {
-					AliceSpireKit.addActionToBuffer(new GainBlockAction(p, p, blockGain));
+					AliceHelper.addActionToBuffer(new GainBlockAction(p, p, blockGain));
 
 					for (AbstractDoll other : DollManager.get().getDolls()) {
 						if (other != doll)
-							AliceSpireKit.addActionToBuffer(new DollGainBlockAction(other, blockGain));
+							AliceHelper.addActionToBuffer(new DollGainBlockAction(other, blockGain));
 					}
 					
-					AliceSpireKit.commitBuffer();
+					AliceHelper.commitBuffer();
 				}
 			}
 		}));

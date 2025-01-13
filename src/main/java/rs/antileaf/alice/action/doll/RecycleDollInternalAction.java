@@ -4,7 +4,7 @@ import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.patches.enums.ActionTypeEnum;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class RecycleDollInternalAction extends AbstractGameAction {
 	private static final float DURATION = 0.1F;
@@ -22,7 +22,7 @@ public class RecycleDollInternalAction extends AbstractGameAction {
 	public void update() {
 		if (this.duration == DURATION) {
 			if (!DollManager.get().contains(this.doll)) {
-				AliceSpireKit.log(this.getClass(),
+				AliceHelper.log(this.getClass(),
 						"RecycleDollInternalAction.update(): DollManager does not contain " +
 								this.doll.getClass().getSimpleName() + "!");
 				
@@ -39,7 +39,7 @@ public class RecycleDollInternalAction extends AbstractGameAction {
 			if (DollManager.get().contains(this.doll))
 				DollManager.get().recycleDoll(this.doll, this.newDoll);
 			else
-				AliceSpireKit.log("???");
+				AliceHelper.log("???");
 		}
 	}
 }

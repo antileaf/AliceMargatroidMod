@@ -15,7 +15,7 @@ import javassist.CtBehavior;
 import rs.antileaf.alice.monsters.ShanghaiDollAsMonster;
 import rs.antileaf.alice.patches.enums.AbstractPlayerEnum;
 import rs.antileaf.alice.utils.AliceConfigHelper;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 import java.util.ArrayList;
 
@@ -32,7 +32,7 @@ public class ShanghaiDollAsMonsterPatch {
 		public static MonsterGroup Postfix(MonsterGroup group, AbstractDungeon _inst) {
 			if ((AbstractDungeon.player.chosenClass == AbstractPlayerEnum.ALICE_MARGATROID_PLAYER_CLASS ||
 					AliceConfigHelper.enableShanghaiDollEventForOtherCharacters()) &&
-					!AliceSpireKit.getSaveData().getHasTriggeredShanghaiDollEvent()) {
+					!AliceHelper.getSaveData().getHasTriggeredShanghaiDollEvent()) {
 				ArrayList<Integer> indices = new ArrayList<>();
 				for (int i = 0; i < group.monsters.size(); i++) {
 					AbstractMonster m = group.monsters.get(i);
@@ -51,7 +51,7 @@ public class ShanghaiDollAsMonsterPatch {
 					group.monsters.set(index, new ShanghaiDollAsMonster(x, y));
 					louse.dispose();
 
-					AliceSpireKit.logger.info("Successfully replaced Louse with Shanghai Doll at index {}", index);
+					AliceHelper.logger.info("Successfully replaced Louse with Shanghai Doll at index {}", index);
 				}
 			}
 
@@ -77,11 +77,11 @@ public class ShanghaiDollAsMonsterPatch {
 
 		@SpireInsertPatch(locator = Locator.class)
 		public static void Insert(AbstractRoom _inst) {
-			AliceSpireKit.logger.info("Victory! monsters: {}", _inst.monsters.monsters);
+			AliceHelper.logger.info("Victory! monsters: {}", _inst.monsters.monsters);
 
 			if (_inst.monsters.monsters.stream().anyMatch(m -> m instanceof ShanghaiDollAsMonster)) {
-				AliceSpireKit.getSaveData().setHasTriggeredShanghaiDollEvent(true);
-				AliceSpireKit.logger.info("Shanghai Doll event triggered!");
+				AliceHelper.getSaveData().setHasTriggeredShanghaiDollEvent(true);
+				AliceHelper.logger.info("Shanghai Doll event triggered!");
 			}
 		}
 	}

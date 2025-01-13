@@ -7,15 +7,15 @@ import com.megacrit.cardcrawl.actions.common.RelicAboveCreatureAction;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class ColorContacts extends CustomRelic {
 	public static final String SIMPLE_NAME = ColorContacts.class.getSimpleName();
+	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 
-	public static final String ID = SIMPLE_NAME;
-	private static final String IMG = AliceSpireKit.getRelicImgFilePath(SIMPLE_NAME);
-	private static final String IMG_OTL = AliceSpireKit.getRelicOutlineImgFilePath(SIMPLE_NAME);
-	private static final String IMG_LARGE = AliceSpireKit.getRelicLargeImgFilePath(SIMPLE_NAME);
+	private static final String IMG = AliceHelper.getRelicImgFilePath(SIMPLE_NAME);
+	private static final String IMG_OTL = AliceHelper.getRelicOutlineImgFilePath(SIMPLE_NAME);
+	private static final String IMG_LARGE = AliceHelper.getRelicLargeImgFilePath(SIMPLE_NAME);
 
 	public static final int TURNS = 3;
 

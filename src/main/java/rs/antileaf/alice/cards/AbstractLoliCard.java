@@ -3,6 +3,7 @@ package rs.antileaf.alice.cards;
 import basemod.helpers.CardModifierManager;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 
+@Deprecated
 public abstract class AbstractLoliCard<C extends AbstractCard> extends AbstractAliceCard {
 	public AbstractLoliCard(
 			String id,

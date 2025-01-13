@@ -15,18 +15,17 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.action.common.AliceAddCardToHandAction;
 import rs.antileaf.alice.action.common.AliceDiscoverAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
-import rs.antileaf.alice.cards.Marisa.*;
+import rs.antileaf.alice.cards.marisa.*;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.marisa.MarisaAlternativeImagePatch;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class FriendsHelp extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = FriendsHelp.class.getSimpleName();
-//	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
-	public static final String ID = SIMPLE_NAME;
+	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 0;
@@ -35,7 +34,7 @@ public class FriendsHelp extends AbstractAliceCard {
 		super(
 				ID,
 				cardStrings.NAME,
-				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceHelper.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.SKILL,
@@ -46,7 +45,7 @@ public class FriendsHelp extends AbstractAliceCard {
 		
 		this.exhaust = true;
 		
-		if (AliceSpireKit.isMarisaModAvailable()) {
+		if (AliceHelper.isMarisaModAvailable()) {
 			MultiCardPreview.add(this, new DoubleSpark(), new AsteroidBelt(), new _6A(), new Spark());
 			for (AbstractCard card : MultiCardPreview.multiCardPreview.get(this))
 				if (card instanceof CustomCard)
@@ -64,7 +63,7 @@ public class FriendsHelp extends AbstractAliceCard {
 	}
 	
 	public static void setAlternativeImg(CustomCard card) {
-		if (AliceSpireKit.isMarisaModAvailable()) {
+		if (AliceHelper.isMarisaModAvailable()) {
 			if (card instanceof DoubleSpark)
 				AbstractAliceMarisaCard.setImages(card, AliceDoubleSpark.SIMPLE_NAME);
 			else if (card instanceof AsteroidBelt)
@@ -80,7 +79,7 @@ public class FriendsHelp extends AbstractAliceCard {
 	public void use(AbstractPlayer p, AbstractMonster m) {
 		ArrayList<AbstractCard> choices = new ArrayList<>();
 		
-		if (AliceSpireKit.isMarisaModAvailable()) {
+		if (AliceHelper.isMarisaModAvailable()) {
 			for (CustomCard card : new CustomCard[]{new DoubleSpark(), new AsteroidBelt(), new _6A()}) {
 				setAlternativeImg(card);
 				if (card instanceof DoubleSpark)
@@ -104,13 +103,13 @@ public class FriendsHelp extends AbstractAliceCard {
 		this.addToBot(new AliceDiscoverAction(
 				choices,
 				(card) -> {
-					AliceSpireKit.log("Selected card: " + card.cardID);
+					AliceHelper.log("Selected card: " + card.cardID);
 					if (card instanceof CustomCard) {
-						AliceSpireKit.log("It is an instance of CustomCard.");
+						AliceHelper.log("It is an instance of CustomCard.");
 						setAlternativeImg((CustomCard) card);
 					}
 					else
-						AliceSpireKit.log("How could this be? Check carefully.");
+						AliceHelper.log("How could this be? Check carefully.");
 
 					this.addToTop(new AliceAddCardToHandAction(card));
 				},

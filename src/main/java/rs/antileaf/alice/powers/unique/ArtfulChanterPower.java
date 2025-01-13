@@ -3,11 +3,12 @@ package rs.antileaf.alice.powers.unique;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.PowerStrings;
-import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.powers.AbstractAlicePower;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class ArtfulChanterPower extends AbstractAlicePower {
-	public static final String POWER_ID = ArtfulChanterPower.class.getSimpleName();
+	public static final String SIMPLE_NAME = ArtfulChanterPower.class.getSimpleName();
+	public static final String POWER_ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
 	
 	public ArtfulChanterPower(int amount) {
@@ -35,7 +36,7 @@ public class ArtfulChanterPower extends AbstractAlicePower {
 		);
 	}
 	
-	public void flashLater() {
-		this.addToBot(new AnonymousAction(this::flash));
-	}
+//	public void flashLater() {
+//		this.addToBot(new AnonymousAction(this::flash));
+//	}
 }

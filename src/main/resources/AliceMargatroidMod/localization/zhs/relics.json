@@ -1,14 +1,14 @@
 {
-  "AlicesGrimoire": {
+  "AliceMargatroid:AlicesGrimoire": {
     "NAME": "爱丽丝的魔法书",
     "FLAVOR": "据说记载着人类无法使用的魔法。",
     "DESCRIPTIONS": [
-      "每场战斗开始时，在最右侧的空栏位中 #yalicemargatroidmod:生成 一个 #yalicemargatroidmod:上海人偶 。",
-      "#yalicemargatroidmod:激活 ：重新打开新手教程。"
+      "每场战斗开始时，在最右侧的空栏位中 #yalicemargatroid:生成 一个 #yalicemargatroid:上海人偶 。",
+      "#yalicemargatroid:激活 ：重新打开新手教程。"
     ]
   },
   
-  "SuspiciousCard": {
+  "AliceMargatroid:SuspiciousCard": {
     "NAME": "可疑的卡牌",
     "FLAVOR": "黑市流通的卡牌，上面画着上海人偶。",
     "DESCRIPTIONS": [
@@ -16,33 +16,33 @@
     ]
   },
   
-  "AlicesDarkGrimoire": {
+  "AliceMargatroid:AlicesDarkGrimoire": {
     "NAME": "爱丽丝的黑暗魔法书",
     "FLAVOR": "据说记载着人类无法使用的「究极的魔法」。",
     "DESCRIPTIONS": [
-      "替换 #r爱丽丝的魔法书 。每有一个 #yalicemargatroidmod:人偶 ，新 #yalicemargatroidmod:生成 的 #yalicemargatroidmod:人偶 的 #y基础 生命值就提高 #b3 点。",
-      "#yalicemargatroidmod:激活 ：重新打开新手教程。"
+      "替换 #r爱丽丝的魔法书 。每有一个 #yalicemargatroid:人偶 ，新 #yalicemargatroid:生成 的 #yalicemargatroid:人偶 的 #y基础 生命值就提高 #b3 点。",
+      "#yalicemargatroid:激活 ：重新打开新手教程。"
     ]
   },
   
-  "SwordOfLight_Supernova": {
+  "AliceMargatroid:SwordOfLight_Supernova": {
     "NAME": "光之剑：超新星",
-    "FLAVOR": "似乎是另一位爱丽丝的武器。",
+    "FLAVOR": "邦邦卡邦~",
     "DESCRIPTIONS": [
       "每回合打出的第一张 #y攻击牌 造成 #b50% 额外伤害。"
     ]
   },
   
-  "StringRing": {
+  "AliceMargatroid:StringRing": {
     "NAME": "提线指环",
     "FLAVOR": "人偶使必备的道具。",
     "DESCRIPTIONS": [
-      "战斗胜利时，如果没有已储存的人偶，将你最右侧的人偶储存起来。 NL #yalicemargatroidmod:激活 ：取出并 #yalicemargatroidmod:生成 一个对应种类的人偶。",
+      "战斗胜利时，如果没有已储存的人偶，将你最右侧的人偶储存起来。 NL #yalicemargatroid:激活 ：取出并 #yalicemargatroid:生成 一个对应种类的人偶。",
       "当前已储存： #g%s 。", "当前 #r没有 已储存的人偶。"
     ]
   },
   
-  "ColorContacts": {
+  "AliceMargatroid:ColorContacts": {
     "NAME": "美瞳",
     "FLAVOR": "“我会永不厌腻地注视你的眼睛，即使它们已不会再射出一缕确认我的光芒。”",
     "DESCRIPTIONS": [
@@ -50,15 +50,15 @@
     ]
   },
   
-  "SacrificialDoll": {
+  "AliceMargatroid:SacrificialDoll": {
     "NAME": "替身人偶",
     "FLAVOR": "可以承担持有者受到的一部分伤害的稀有人偶。",
     "DESCRIPTIONS": [
-      "你的回合结束时，如果有即将受到攻击的空的 #yalicemargatroidmod:人偶 栏位，获得 #b3 点 #y格挡 。"
+      "你的回合结束时，如果有即将受到攻击的空的 #yalicemargatroid:人偶 栏位，获得 #b3 点 #y格挡 。"
     ]
   },
 
-  "ShanghaiDollRelic": {
+  "AliceMargatroid:ShanghaiDollRelic": {
     "NAME": "上海人偶",
     "FLAVOR": "精巧而又可爱的人偶。",
     "DESCRIPTIONS": [
@@ -68,7 +68,7 @@
     ]
   },
 
-  "BlackTeaRelic": {
+  "AliceMargatroid:BlackTeaRelic": {
     "NAME": "红茶",
     "FLAVOR": "爱丽丝的人偶们为你沏制的红茶。",
     "DESCRIPTIONS": [

@@ -15,12 +15,11 @@ import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
 import rs.antileaf.alice.targeting.AliceHoveredTargets;
 import rs.antileaf.alice.targeting.AliceTargetIcon;
-import rs.antileaf.alice.utils.AliceSpireKit;
+import rs.antileaf.alice.utils.AliceHelper;
 
 public class Collector extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = Collector.class.getSimpleName();
-//	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
-	public static final String ID = SIMPLE_NAME;
+	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
@@ -31,7 +30,7 @@ public class Collector extends AbstractAliceCard {
 		super(
 				ID,
 				cardStrings.NAME,
-				AliceSpireKit.getCardImgFilePath(SIMPLE_NAME),
+				AliceHelper.getCardImgFilePath(SIMPLE_NAME),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.SKILL,
@@ -42,7 +41,7 @@ public class Collector extends AbstractAliceCard {
 		
 		this.magicNumber = this.baseMagicNumber = MAGIC;
 		
-		if (AliceSpireKit.isInBattle())
+		if (AliceHelper.isInBattle())
 			this.applyPowers();
 
 		this.targetIcons.add(AliceTargetIcon.ALICE);
@@ -68,7 +67,7 @@ public class Collector extends AbstractAliceCard {
 	public void initializeDescription() {
 		this.rawDescription = cardStrings.DESCRIPTION;
 		
-		if (AliceSpireKit.isInBattle() && this.block != -1)
+		if (AliceHelper.isInBattle() && this.block != -1)
 			this.rawDescription += " NL " + cardStrings.EXTENDED_DESCRIPTION[0];
 		
 		super.initializeDescription();
@@ -94,7 +93,7 @@ public class Collector extends AbstractAliceCard {
 		if (!this.upgraded) {
 			this.upgradeName();
 			this.upgradeMagicNumber(UPGRADE_PLUS_MAGIC);
-			if (AliceSpireKit.isInBattle())
+			if (AliceHelper.isInBattle())
 				this.applyPowers();
 			this.initializeDescription();
 		}

@@ -6,11 +6,12 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.PowerStrings;
 import rs.antileaf.alice.powers.AbstractAlicePower;
-import rs.antileaf.alice.utils.AliceMiscKit;
+import rs.antileaf.alice.utils.AliceHelper;
+import rs.antileaf.alice.utils.AliceMiscHelper;
 
 public class MaliceSparkPower extends AbstractAlicePower {
 	public static final String SIMPLE_NAME = MaliceSparkPower.class.getSimpleName();
-	public static final String POWER_ID = SIMPLE_NAME;
+	public static final String POWER_ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
 	
 //	private int diff = 0;
@@ -53,7 +54,7 @@ public class MaliceSparkPower extends AbstractAlicePower {
 	
 	@Override
 	public void updateDescription() {
-		this.description = AliceMiscKit.join(
+		this.description = AliceMiscHelper.join(
 				powerStrings.DESCRIPTIONS[0],
 				"#b" + this.amount,
 				powerStrings.DESCRIPTIONS[1]
