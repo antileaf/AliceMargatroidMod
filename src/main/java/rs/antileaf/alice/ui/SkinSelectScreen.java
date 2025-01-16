@@ -8,12 +8,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import rs.antileaf.alice.characters.AliceMargatroid;
 import rs.antileaf.alice.patches.enums.AbstractPlayerEnum;
 import rs.antileaf.alice.strings.AliceSkinStrings;
 import rs.antileaf.alice.utils.AliceConfigHelper;
@@ -89,7 +91,8 @@ public class SkinSelectScreen {
 		AliceConfigHelper.setAliceSkinChosen(this.cur.name());
 		AliceConfigHelper.save();
 
-//		findAliceAndSetSkin();
+		if (AbstractDungeon.player instanceof AliceMargatroid)
+			((AliceMargatroid) AbstractDungeon.player).updateSkin();
 	}
 	
 	public Skin getSkin() {
@@ -119,19 +122,29 @@ public class SkinSelectScreen {
 			
 			SkinEnum prev = SkinEnum.prev(this.cur), next = SkinEnum.next(this.cur);
 			SkinEnum temp = this.cur;
-			
-			if (prev != null && this.prevHb.clicked) {
-				this.prevHb.clicked = false;
-				CardCrawlGame.sound.play("UI_CLICK_1");
-				this.cur = prev;
-				this.refresh();
+
+			if (prev != null) {
+				if (this.prevHb.justHovered)
+					CardCrawlGame.sound.play("UI_HOVER");
+
+				if (this.prevHb.clicked) {
+					this.prevHb.clicked = false;
+					CardCrawlGame.sound.play("UI_CLICK_1");
+					this.cur = prev;
+					this.refresh();
+				}
 			}
-			
-			if (next != null && this.nextHb.clicked) {
-				this.nextHb.clicked = false;
-				CardCrawlGame.sound.play("UI_CLICK_1");
-				this.cur = next;
-				this.refresh();
+
+			if (next != null) {
+				if (this.nextHb.justHovered)
+					CardCrawlGame.sound.play("UI_HOVER");
+
+				if (this.nextHb.clicked) {
+					this.nextHb.clicked = false;
+					CardCrawlGame.sound.play("UI_CLICK_1");
+					this.cur = next;
+					this.refresh();
+				}
 			}
 
 			if (temp != this.cur && (temp == SkinEnum.BA) != (this.cur == SkinEnum.BA))

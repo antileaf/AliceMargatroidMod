@@ -27,6 +27,7 @@ import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.AbstractPlayerEnum;
 import rs.antileaf.alice.relics.AlicesGrimoire;
 import rs.antileaf.alice.ui.SkinSelectScreen;
+import rs.antileaf.alice.utils.AliceConfigHelper;
 import rs.antileaf.alice.utils.AliceHelper;
 
 import java.util.ArrayList;
@@ -81,7 +82,8 @@ public class AliceMargatroid extends CustomPlayer {
 		
 //		this.maxOrbs = 0;
 
-//		this.updateSkin();
+		if (SkinSelectScreen.inst != null)
+			this.updateSkin();
 
 		AliceHelper.logger.info("init finish");
 	}
@@ -262,7 +264,8 @@ public class AliceMargatroid extends CustomPlayer {
 	public void updateSkin() {
 		SkinSelectScreen.Skin skin = SkinSelectScreen.inst.getSkin();
 
-		this.img = ImageMaster.loadImage(skin.img);
+		this.img = ImageMaster.loadImage(AliceConfigHelper.isSunglassesEnabled() ?
+				skin.ss : skin.img);
 		
 		if (this.img != null)
 			this.atlas = null;

@@ -29,6 +29,7 @@ import rs.antileaf.alice.doll.enums.DollAmountType;
 import rs.antileaf.alice.doll.interfaces.PlayerOrEnemyDollAmountModHook;
 import rs.antileaf.alice.strings.AliceDollStrings;
 import rs.antileaf.alice.strings.AliceLanguageStrings;
+import rs.antileaf.alice.utils.AliceConfigHelper;
 import rs.antileaf.alice.utils.AliceHelper;
 
 import java.util.Arrays;
@@ -111,7 +112,10 @@ public abstract class AbstractDoll extends CustomOrb {
 	public boolean dontShowHPDescription = false;
 	
 	public AbstractDoll(String ID, String NAME, int maxHP, int basePassiveAmount, int baseActAmount, String imgPath, RenderTextMode renderTextMode) {
-		super(ID, NAME, basePassiveAmount, -1, "", "", imgPath);
+		super(ID, NAME, basePassiveAmount, -1, "", "",
+				 imgPath != null && AliceConfigHelper.isSunglassesEnabled() &&
+						Gdx.files.internal(imgPath.replace(".png", "_ss.png")).exists() ?
+						imgPath.replace(".png", "_ss.png") : imgPath);
 		
 //		if (this.dollStrings == null)
 //			throw new IllegalArgumentException("DollStrings for " + ID + " is null.");

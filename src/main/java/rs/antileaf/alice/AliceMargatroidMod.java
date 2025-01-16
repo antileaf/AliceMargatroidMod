@@ -112,12 +112,7 @@ public class AliceMargatroidMod implements
 	private static final String CHARACTER_BUTTON = "AliceMargatroidMod/img/charSelect/AliceMargatroid/Button.png";
 	private static final String ALICE_PORTRAIT = "AliceMargatroidMod/img/charSelect/AliceMargatroid/alice.png";
 	
-	private final ArrayList<AbstractCard> cardsToAdd = new ArrayList<>();
-	//private ArrayList<AbstractRelic> relicsToAdd = new ArrayList<>();
-	
 	private final ArrayList<Keyword> dollKeywords = new ArrayList<>();
-	
-//	public static boolean postInitialize = false;
 
 	private static AliceSaveData saveData = new AliceSaveData();
 	
