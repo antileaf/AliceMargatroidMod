@@ -15,7 +15,6 @@ import java.util.Map;
 public abstract class SignatureHelper {
 	private static final Logger logger = LogManager.getLogger(SignatureHelper.class);
 
-	public static TextureAtlas.AtlasRegion ATTACK_BG, SKILL_BG, POWER_BG;
 	public static TextureAtlas.AtlasRegion ATTACK_BG_P, SKILL_BG_P, POWER_BG_P;
 	public static TextureAtlas.AtlasRegion CARD_TYPE_ATTACK_COMMON, CARD_TYPE_ATTACK_UNCOMMON, CARD_TYPE_ATTACK_RARE;
 	public static TextureAtlas.AtlasRegion CARD_TYPE_SKILL_COMMON, CARD_TYPE_SKILL_UNCOMMON, CARD_TYPE_SKILL_RARE;
@@ -34,10 +33,6 @@ public abstract class SignatureHelper {
 	}
 
 	public static void initialize() {
-		ATTACK_BG = load(AliceHelper.getImgFilePath("512", "attack_s"));
-//		SKILL_BG = load(AliceHelper.getImgFilePath("512", "skill_s"));
-//		POWER_BG = load(AliceHelper.getImgFilePath("512", "power_s"));
-
 		ATTACK_BG_P = load(AliceHelper.getImgFilePath("1024", "attack_s"));
 		SKILL_BG_P = load(AliceHelper.getImgFilePath("1024", "skill_s"));
 		POWER_BG_P = load(AliceHelper.getImgFilePath("1024", "power_s"));
