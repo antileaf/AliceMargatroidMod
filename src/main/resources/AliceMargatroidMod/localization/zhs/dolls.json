@@ -25,7 +25,7 @@
     "TAG": "进攻",
     "TAG_COLOR": "#r",
     "PASSIVE_NAME": "新月",
-    "PASSIVE_DESCRIPTION": "上海人偶造成的伤害可以享受 #y力量 加成。",
+    "PASSIVE_DESCRIPTION": "#y生成 时自动 #y行动 一次。 上海人偶造成的伤害可以享受 #y力量 加成。",
     "ACT_DESCRIPTION": "对生命值最低的敌人造成 %s 点伤害。",
     "EXTENDED_DESCRIPTION": ["（当前拥有 %d 点充能。）"]
   },
@@ -56,8 +56,8 @@
     "TAG": "支援",
     "TAG_COLOR": "#g",
     "PASSIVE_NAME": "罗盘",
-    "PASSIVE_DESCRIPTION": "生成 其它 荷兰人偶 时，取消本次 生成 ，改为使本 人偶 行动 #b2 次。",
-    "ACT_DESCRIPTION": "为爱丽丝交替提供 #b1 点 力量 或 敏捷 。"
+    "PASSIVE_DESCRIPTION": "为爱丽丝提供 %s 点 力量 和 %s 点 敏捷 。 #y生成 其它 荷兰人偶 时， #r改为 使本 人偶 行动 #b2 次。",
+    "ACT_DESCRIPTION": "交替使被动效果的 力量 或 敏捷 增加 #b1 点。"
   },
   
   "FranceDoll": {
@@ -66,8 +66,8 @@
     "TAG": "防御",
     "TAG_COLOR": "#b",
     "PASSIVE_NAME": "星砂",
-    "PASSIVE_DESCRIPTION": "回合开始时，该人偶获得爱丽丝失去的所有 格挡 。",
-    "ACT_DESCRIPTION": "前往一个无法完全格挡攻击伤害的位置。如果已经在上述位置，则获得 %s 点 格挡 。"
+    "PASSIVE_DESCRIPTION": "回合开始时，将本 人偶 的 格挡 设置为与爱丽丝相同。",
+    "ACT_DESCRIPTION": "前往一个无法完全格挡攻击伤害的位置，并获得 %s 点 格挡 。 NL 不会移动到已经有 法兰西人偶 的位置。"
   },
   
   "DEPRECATEDLondonDoll": {

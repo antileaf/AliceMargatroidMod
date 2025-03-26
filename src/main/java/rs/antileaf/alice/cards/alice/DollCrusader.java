@@ -5,6 +5,7 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import rs.antileaf.alice.action.doll.DollActAction;
 import rs.antileaf.alice.action.doll.RecycleDollAction;
 import rs.antileaf.alice.action.doll.SpawnDollAction;
 import rs.antileaf.alice.action.utils.AnonymousAction;
@@ -61,7 +62,7 @@ public class DollCrusader extends AbstractAliceCard {
 			for (int i : indices) {
 				AbstractDoll doll = AbstractDoll.getRandomDoll();
 				AliceHelper.addActionToBuffer(new SpawnDollAction(doll, i));
-//				AliceSpireKit.addActionToBuffer(new DollActAction(doll));
+				AliceHelper.addActionToBuffer(new DollActAction(doll));
 			}
 			
 			AliceHelper.commitBuffer();

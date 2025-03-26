@@ -116,7 +116,7 @@
   "AliceMargatroid:MaidensBunrakuPower": {
     "NAME": "少女文乐",
     "DESCRIPTIONS": [
-      "每当 人偶 行动 后，使其获得 #b%d 点 格挡。"
+      "每当 人偶 行动 时，使其获得 #b%d 点 格挡。"
     ]
   },
   
@@ -217,6 +217,27 @@
     "NAME": "魔王形态",
     "DESCRIPTIONS": [
       "在你打出一张耗能为1且不具有 #y幻影 的牌后，将 #b%d 张具有 #y幻影 的复制加入手牌。"
+    ]
+  },
+
+  "AliceMargatroid:FuturisticBunrakuPower": {
+    "NAME": "未来文乐",
+    "DESCRIPTIONS": [
+      "本回合内，每打出一张牌， %s 行动 一次。 NL 回合结束时，将 %s 回收 。"
+    ]
+  },
+
+  "AliceMargatroid:ForbiddenMagicPower": {
+    "NAME": "禁咒",
+    "DESCRIPTIONS": [
+      "每 回收 一个 人偶 ，失去 #b%d 层 计划妥当 。"
+    ]
+  },
+
+  "AliceMargatroid:SemiAutomatonPower": {
+    "NAME": "半自主人偶",
+    "DESCRIPTIONS": [
+      "生成 下一个 人偶 时，使其 行动 #b%d 次。"
     ]
   }
 }

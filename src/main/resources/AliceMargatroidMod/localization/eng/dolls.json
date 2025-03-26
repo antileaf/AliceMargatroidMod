@@ -1,0 +1,72 @@
+{
+  "EmptyDollSlot": {
+    "NAME": "Empty Doll Slot",
+    "TYPE": "Empty Slot",
+    "TAG": "Empty Slot",
+    "TAG_COLOR": "",
+    "PASSIVE_NAME": "Empty Slot",
+    "PASSIVE_DESCRIPTION": "This is an empty Doll slot.",
+    "ACT_DESCRIPTION": "I TOLD you this is just an empty Doll slot."
+  },
+  
+  "Su_san": {
+    "NAME": "Su-san",
+    "TYPE": "Special Doll",
+    "TAG": "Attacker",
+    "TAG_COLOR": "#r",
+    "PASSIVE_NAME": "Melancholy",
+    "PASSIVE_DESCRIPTION": "At the end of your turn, apply %s #gPoison to ALL enemies.",
+    "ACT_DESCRIPTION": "Trigger #gPoison for ALL enemies once."
+  },
+  
+  "ShanghaiDoll": {
+    "NAME": "Shanghai Doll",
+    "TYPE": "Common Doll",
+    "TAG": "Attacker",
+    "TAG_COLOR": "#r",
+    "PASSIVE_NAME": "Crescent",
+    "PASSIVE_DESCRIPTION": "When #yPlaced , automatically #Acts once. Shanghai Doll's damage can be buffed by #yStrength.",
+    "ACT_DESCRIPTION": "Deal %s damage to the enemy with lowest HP.",
+    "EXTENDED_DESCRIPTION": ["(Currently %d Charge(s).)"]
+  },
+
+  "HouraiDoll": {
+    "NAME": "Hourai Doll",
+    "TYPE": "Advanced Doll",
+    "TAG": "Support",
+    "TAG_COLOR": "#g",
+    "PASSIVE_NAME": "Mountains",
+    "PASSIVE_DESCRIPTION": "When #yRecycled, gain %s .",
+    "ACT_DESCRIPTION": "Draw %s card."
+  },
+  
+  "KyotoDoll": {
+    "NAME": "Kyoto doll",
+    "TYPE": "Common Doll",
+    "TAG": "Attacker",
+    "TAG_COLOR": "#r",
+    "PASSIVE_NAME": "Strewing",
+    "PASSIVE_DESCRIPTION": "At the end of your turn, self-heal half of HP it has lost.",
+    "ACT_DESCRIPTION": "Deal damage equal to half of its HP to ALL enemies."
+  },
+  
+  "NetherlandsDoll": {
+    "NAME": "Netherlands Doll",
+    "TYPE": "Advanced Doll",
+    "TAG": "Support",
+    "TAG_COLOR": "#g",
+    "PASSIVE_NAME": "Compass",
+    "PASSIVE_DESCRIPTION": "Provides %s Strength and %s Dexterity for Alice. When #yPlacing other Netherlands Dolls, let this #Act #b2 times #rinstead .",
+    "ACT_DESCRIPTION": "Alternately increase the amount of Strength or Dexterity in Passive by #b1 ."
+  },
+  
+  "FranceDoll": {
+    "NAME": "France Doll",
+    "TYPE": "Advanced Doll",
+    "TAG": "Tank",
+    "TAG_COLOR": "#b",
+    "PASSIVE_NAME": "Star Sand",
+    "PASSIVE_DESCRIPTION": "At the start of your turn, set Block of this equal to Alice.",
+    "ACT_DESCRIPTION": "Move to a slot which can't bear enemies' damage, then gain %s Block. NL Will not move to a slot already containing a France Doll."
+  }
+}

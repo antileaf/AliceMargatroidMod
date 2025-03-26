@@ -39,14 +39,12 @@ public abstract class AliceHelper {
 	}
 	
 	public static String getLangShort() {
-		return "zhs";
-		
-//		if (Settings.language == Settings.GameLanguage.ZHS ||
-//				Settings.language == Settings.GameLanguage.ZHT) {
-//			return "zhs";
-//		} else {
-//			return "eng";
-//		}
+		if (Settings.language == Settings.GameLanguage.ZHS ||
+				Settings.language == Settings.GameLanguage.ZHT) {
+			return "zhs";
+		} else {
+			return "eng";
+		}
 	}
 	
 	public static String getImgFilePath(String type, String name) {

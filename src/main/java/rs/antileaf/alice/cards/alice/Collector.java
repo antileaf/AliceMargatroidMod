@@ -23,7 +23,7 @@ public class Collector extends AbstractAliceCard {
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
-	private static final int MAGIC = 3;
+	private static final int MAGIC = 4;
 	private static final int UPGRADE_PLUS_MAGIC = 1;
 	
 	public Collector() {
@@ -60,17 +60,9 @@ public class Collector extends AbstractAliceCard {
 	public void applyPowers() {
 		this.baseBlock = DollManager.get().getDollTypeCount() * this.magicNumber;
 		super.applyPowers();
-//		this.initializeDescription();
-	}
-	
-	@Override
-	public void initializeDescription() {
-		this.rawDescription = cardStrings.DESCRIPTION;
-		
-		if (AliceHelper.isInBattle() && this.block != -1)
-			this.rawDescription += " NL " + cardStrings.EXTENDED_DESCRIPTION[0];
-		
-		super.initializeDescription();
+
+		this.rawDescription = cardStrings.DESCRIPTION + " NL " + cardStrings.EXTENDED_DESCRIPTION[0];
+		this.initializeDescription();
 	}
 	
 	@Override
@@ -81,6 +73,9 @@ public class Collector extends AbstractAliceCard {
 			this.addToBot(new DollGainBlockAction(doll, this.block));
 		else
 			this.addToBot(new GainBlockAction(p, p, this.block));
+
+		this.rawDescription = cardStrings.DESCRIPTION;
+		this.initializeDescription();
 	}
 	
 	@Override

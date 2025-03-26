@@ -1,5 +1,6 @@
-package rs.antileaf.alice.cards.alice;
+package rs.antileaf.alice.cards.deprecated;
 
+import basemod.AutoAdd;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.AttackDamageRandomEnemyAction;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
@@ -13,14 +14,13 @@ import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.action.common.AliceDiscoverAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
-import rs.antileaf.alice.cards.colorless.Binah;
-import rs.antileaf.alice.cards.colorless.Chesed;
-import rs.antileaf.alice.cards.colorless.Goz;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.utils.AliceHelper;
 
 import java.util.ArrayList;
 
+@AutoAdd.Ignore
+@Deprecated
 public class Countermeasure extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = Countermeasure.class.getSimpleName();
 	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);

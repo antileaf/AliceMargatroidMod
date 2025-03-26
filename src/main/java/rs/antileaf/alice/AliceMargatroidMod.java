@@ -105,7 +105,7 @@ public class AliceMargatroidMod implements
 	private static final String POWER_CC_PORTRAIT = getCCPortraitPath("power");
 	private static final String ENERGY_ORB_CC_PORTRAIT = getCCPortraitPath("orb");
 	
-	public static final Color ALICE_PUPPETEER = CardHelper.getColor(255,215,0);
+	public static final Color ALICE_IMPRESSION_COLOR = CardHelper.getColor(255,215,0);
 	public static final Color ALICE_PUPPETEER_FLAVOR = CardHelper.getColor(250,250,210);
 	public static final String CARD_ENERGY_ORB = "AliceMargatroidMod/img/UI/AliceMargatroid/energyOrb.png";
 	
@@ -123,13 +123,13 @@ public class AliceMargatroidMod implements
 		logger.info("creating the color : ALICE_COLOR and ALICE_DERIVATION_COLOR");
 		BaseMod.addColor(
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
-				ALICE_PUPPETEER,
-				ALICE_PUPPETEER,
-				ALICE_PUPPETEER,
-				ALICE_PUPPETEER,
-				ALICE_PUPPETEER,
-				ALICE_PUPPETEER,
-				ALICE_PUPPETEER,
+				ALICE_IMPRESSION_COLOR,
+				ALICE_IMPRESSION_COLOR,
+				ALICE_IMPRESSION_COLOR,
+				ALICE_IMPRESSION_COLOR,
+				ALICE_IMPRESSION_COLOR,
+				ALICE_IMPRESSION_COLOR,
+				ALICE_IMPRESSION_COLOR,
 				ATTACK_CC,
 				SKILL_CC,
 				POWER_CC,
@@ -209,6 +209,10 @@ public class AliceMargatroidMod implements
 		);
 		BaseMod.addRelicToCustomPool(
 				new SacrificialDoll(),
+				AbstractCardEnum.ALICE_MARGATROID_COLOR
+		);
+		BaseMod.addRelicToCustomPool(
+				new MagicPotion(),
 				AbstractCardEnum.ALICE_MARGATROID_COLOR
 		);
 		BaseMod.addRelic(

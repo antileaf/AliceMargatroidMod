@@ -5,7 +5,7 @@ import com.evacipated.cardcrawl.modthespire.lib.SpireField;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 
-@SuppressWarnings("unused")
+@Deprecated
 public class SignatureInterfacePatch {
 	@SpirePatch(clz = AbstractCard.class, method = SpirePatch.CLASS)
 	public static class Fields {

@@ -24,8 +24,8 @@ public class NetherlandsDoll extends AbstractDoll {
 				ID,
 				dollStrings.NAME,
 				MAX_HP,
-				0,
-				0,
+				1,
+				1,
 				AliceHelper.getOrbImgFilePath(SIMPLE_NAME),
 				RenderTextMode.BOTH
 		);
@@ -83,8 +83,21 @@ public class NetherlandsDoll extends AbstractDoll {
 	@Override
 	public void postSpawn() {
 //		AliceHelper.addActionToBuffer(new DollActAction(this)); // 额外一次
-		
 //		this.highlightPassiveValue();
+
+		AliceHelper.addActionToBuffer(new ApplyPowerAction(
+				AbstractDungeon.player,
+				AbstractDungeon.player,
+				new StrengthPower(AbstractDungeon.player, this.passiveAmount),
+				this.passiveAmount
+		));
+
+		AliceHelper.addActionToBuffer(new ApplyPowerAction(
+				AbstractDungeon.player,
+				AbstractDungeon.player,
+				new DexterityPower(AbstractDungeon.player, this.actAmount),
+				this.actAmount
+		));
 	}
 	
 	private void onDisappeared() {
@@ -152,7 +165,8 @@ public class NetherlandsDoll extends AbstractDoll {
 	
 	@Override
 	public void updateDescriptionImpl() {
-		this.passiveDescription = dollStrings.PASSIVE_DESCRIPTION;
+		this.passiveDescription = String.format(dollStrings.PASSIVE_DESCRIPTION,
+				"#b" + this.passiveAmount, "#b" + this.actAmount);
 		this.actDescription = dollStrings.ACT_DESCRIPTION;
 	}
 	

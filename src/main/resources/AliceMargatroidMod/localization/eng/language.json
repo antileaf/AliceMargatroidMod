@@ -1,0 +1,18 @@
+{
+  "PERIOD": ".",
+  "PERIOD_WITH_SPACE": ". ",
+  "COMMA": ", ",
+  "COMMA_WITH_SPACE": ", ",
+  "CAESURA": ",",
+  "CAESURA_WITH_SPACE": ", ",
+  "COLON": ":",
+  "COLON_WITH_SPACE": ": ",
+  "SEMICOLON": ";",
+  "SEMICOLON_WITH_SPACE": "; ",
+  "EXCLAMATION_MARK": "!",
+  "EXCLAMATION_MARK_WITH_SPACE": "! ",
+  "QUESTION_MARK": "?",
+  "QUESTION_MARK_WITH_SPACE": "? ",
+  "OR": " or ",
+  "AND": " and "
+}

@@ -23,7 +23,8 @@ public class DollInSea extends AbstractAliceCard {
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
-	private static final int MAGIC = 4;
+	private static final int MAGIC = 2;
+	private static final int UPGRADE_PLUS_MAGIC = 4;
 	
 	public DollInSea() {
 		super(
@@ -44,17 +45,15 @@ public class DollInSea extends AbstractAliceCard {
 	@Override
 	public AliceHoveredTargets getHoveredTargets(AbstractMonster mon, AbstractDoll slot) {
 		return AliceHoveredTargets.fromDolls(DollManager.get().getDolls().stream()
-				.filter(doll -> !(doll instanceof EmptyDollSlot))
+				.filter(doll -> (doll instanceof ShanghaiDoll) || (doll instanceof KyotoDoll))
 				.toArray(AbstractDoll[]::new));
 	}
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
-		if (this.upgraded) {
-			for (AbstractDoll doll : DollManager.get().getDolls())
-				if (doll instanceof ShanghaiDoll || doll instanceof KyotoDoll)
-					this.addToBot(new IncreaseDollMaxHealthAction(doll, this.magicNumber));
-		}
+		for (AbstractDoll doll : DollManager.get().getDolls())
+			if (doll instanceof ShanghaiDoll || doll instanceof KyotoDoll)
+				this.addToBot(new IncreaseDollMaxHealthAction(doll, this.magicNumber));
 
 		for (AbstractDoll doll : DollManager.get().getDolls())
 			if (!(doll instanceof EmptyDollSlot))
@@ -70,7 +69,7 @@ public class DollInSea extends AbstractAliceCard {
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
-			this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
+			this.upgradeMagicNumber(UPGRADE_PLUS_MAGIC);
 			this.initializeDescription();
 		}
 	}

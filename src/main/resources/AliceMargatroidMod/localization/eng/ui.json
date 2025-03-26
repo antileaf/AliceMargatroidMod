@@ -1,0 +1,42 @@
+{
+  "AliceMargatroid:SkinSelectScreen": {
+    "TEXT": [
+      "Skin Select",
+      ""
+    ]
+  },
+
+  "AliceMargatroid:SignatureSCVPanel": {
+    "TEXT": [
+      "Signature",
+      "Signature Locked",
+      "Hide Description",
+      "Unlock Condition:"
+    ]
+  },
+
+  "AliceMargatroid:NoDollDialog": {
+    "TEXT": [
+      "I have #rNo Doll."
+    ]
+  },
+  
+  "AliceMargatroid:ExtraTurnButton": {
+    "TEXT": [
+      "Extra Turn"
+    ]
+  },
+  
+  "AliceMargatroid:DollDescription": {
+    "TEXT": [
+      "Passive",
+      "Act"
+    ]
+  },
+  
+  "AliceMargatroid:DollHPDescription": {
+    "TEXT": [
+      "Base HP: #b%d ."
+    ]
+  }
+}

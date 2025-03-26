@@ -72,7 +72,7 @@ public class AliceMoveToHandAction extends AbstractGameAction {
 				
 				if (AbstractDungeon.player.hand.size() >= BaseMod.MAX_HAND_SIZE) {
 					if (this.source != AbstractDungeon.player.discardPile)
-						AbstractDungeon.player.discardPile.moveToDiscardPile(card);
+						this.source.moveToDiscardPile(card);
 					
 					AbstractDungeon.player.createHandIsFullDialog();
 				}

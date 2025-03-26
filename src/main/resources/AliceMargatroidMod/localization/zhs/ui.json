@@ -6,18 +6,15 @@
     ]
   },
 
-  "AliceMargatroid:EnableSignature": {
+  "AliceMargatroid:SignatureSCVPanel": {
     "TEXT": [
-      "启用异画"
+      "启用异画",
+      "异画未解锁",
+      "隐藏描述",
+      "解锁条件："
     ]
   },
 
-  "AliceMargatroid:HideDescription": {
-    "TEXT": [
-      "隐藏描述"
-    ]
-  },
-  
   "AliceMargatroid:NoDollDialog": {
     "TEXT": [
       "我 #r没有 人偶。"

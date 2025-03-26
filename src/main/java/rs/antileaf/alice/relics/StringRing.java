@@ -53,7 +53,7 @@ public class StringRing extends CustomRelic implements ClickableRelic, CustomSav
 			return DESCRIPTIONS[0];
 		else {
 			if (this.dollClazz != null)
-				return DESCRIPTIONS[0] + " NL " + String.format(DESCRIPTIONS[1], AbstractDoll.getName(this.dollClazz));
+				return DESCRIPTIONS[0] + " NL " + String.format(DESCRIPTIONS[1], AbstractDoll.getKeyword(this.dollClazz));
 			else
 				return DESCRIPTIONS[0] + " NL " + DESCRIPTIONS[2];
 		}

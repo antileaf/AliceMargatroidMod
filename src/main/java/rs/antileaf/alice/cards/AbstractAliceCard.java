@@ -2,6 +2,7 @@ package rs.antileaf.alice.cards;
 
 import basemod.ReflectionHacks;
 import basemod.helpers.TooltipInfo;
+import basemod.patches.com.megacrit.cardcrawl.cards.AbstractCard.MultiCardPreview;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -51,8 +52,11 @@ public abstract class AbstractAliceCard extends AbstractSecondaryVariablesCard {
 	public boolean hasSignature = false;
 
 	private boolean signatureHovered = false; // 矢野你诗人？
-	private float signatureHoveredTimer = 0.0F;
-	private float forcedTimer = 0.0F;
+	public float signatureHoveredTimer = 0.0F;
+	public float forcedTimer = 0.0F;
+
+	public float previewTransparency = -1.0F;
+	public boolean dontAvoidSCVPanel = false;
 	
 	public AbstractAliceCard(
 			String id,
@@ -89,11 +93,9 @@ public abstract class AbstractAliceCard extends AbstractSecondaryVariablesCard {
 		if (sign != null)
 			this.cardSign = sign.SIGN;
 
-		String sig = this.getSignatureImgPath();
-		if (Gdx.files.internal(sig).exists()) {
+		this.signaturePortrait = SignatureHelper.load(this.getSignatureImgPath());
+		if (this.signaturePortrait != null)
 			this.hasSignature = true;
-			this.signaturePortrait = SignatureHelper.load(sig);
-		}
 	}
 
 	public String getSignatureImgPath() {
@@ -226,8 +228,11 @@ public abstract class AbstractAliceCard extends AbstractSecondaryVariablesCard {
 				this.signatureHoveredTimer = 0.0F;
 		}
 
-		if (this.forcedTimer > 0.0F)
+		if (this.forcedTimer > 0.0F) {
 			this.forcedTimer -= Gdx.graphics.getDeltaTime();
+			if (this.forcedTimer <= 0.0F)
+				this.forcedTimer = 0.0F;
+		}
 	}
 	
 	public void renderCardSign(SpriteBatch sb, float xPos, float yPos, float yOffsetBase, float scale) {
@@ -342,7 +347,8 @@ public abstract class AbstractAliceCard extends AbstractSecondaryVariablesCard {
 //		this.updateIconsHb();
 //		this.iconsHb.render(sb);
 	}
-	
+
+	@Override
 	public void renderInLibrary(SpriteBatch sb) {
 		super.renderInLibrary(sb);
 		if (!SingleCardViewPopup.isViewingUpgrade || !this.isSeen || this.isLocked) {
@@ -359,6 +365,9 @@ public abstract class AbstractAliceCard extends AbstractSecondaryVariablesCard {
 	}
 
 	private float getSignatureTransparency() {
+		if (this.previewTransparency >= 0.0F)
+			return this.previewTransparency;
+
 		float ret = Math.max(this.signatureHoveredTimer, this.forcedTimer) / FADE_DURATION;
 		if (ret > 1.0F)
 			ret = 1.0F;
@@ -375,6 +384,26 @@ public abstract class AbstractAliceCard extends AbstractSecondaryVariablesCard {
 	public void unhover() {
 		super.unhover();
 		this.signatureHovered = false;
+	}
+
+	@Override
+	public void renderCardTip(SpriteBatch sb) {
+		super.renderCardTip(sb);
+
+		float transparency = SignatureHelper.shouldUseSignature(this.cardID) ?
+				this.getSignatureTransparency() : 1.0F;
+
+		if (this.cardsToPreview instanceof AbstractAliceCard &&
+				SignatureHelper.shouldUseSignature(this.cardsToPreview.cardID))
+			((AbstractAliceCard) this.cardsToPreview).previewTransparency = transparency;
+
+		if (MultiCardPreview.multiCardPreview.get(this) != null) {
+			for (AbstractCard c : MultiCardPreview.multiCardPreview.get(this)) {
+				if (c instanceof AbstractAliceCard &&
+						SignatureHelper.shouldUseSignature(c.cardID))
+					((AbstractAliceCard) c).previewTransparency = transparency;
+			}
+		}
 	}
 
 	@SpireOverride

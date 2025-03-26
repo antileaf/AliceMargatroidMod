@@ -2,7 +2,6 @@ package rs.antileaf.alice.cards.alice;
 
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
-import com.megacrit.cardcrawl.actions.watcher.PressEndTurnButtonAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -72,7 +71,8 @@ public class Pause extends AbstractAliceCard {
 				new DrawCardNextTurnPower(p, this.magicNumber),
 				this.magicNumber
 		));
-		this.addToBot(new PressEndTurnButtonAction());
+
+//		this.addToBot(new PressEndTurnButtonAction());
 	}
 	
 	@Override

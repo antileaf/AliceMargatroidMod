@@ -1,0 +1,7 @@
+{
+  "ShanghaiDollAsMonster": {
+    "NAME": "Shanghai Doll",
+    "DIALOG": ["……!", "……?"],
+    "MOVES": ["Crescent", "Border", "Danmaku", "Afraid"]
+  }
+}

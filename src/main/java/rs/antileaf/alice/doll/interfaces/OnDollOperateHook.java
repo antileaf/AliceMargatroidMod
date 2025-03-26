@@ -8,6 +8,8 @@ public interface OnDollOperateHook {
 	default void preSpawnDoll(AbstractDoll doll) {}
 	
 	default void postSpawnDoll(AbstractDoll doll) {}
+
+	default void preDollAct(AbstractDoll doll) {}
 	
 	default void postDollAct(AbstractDoll doll) {}
 	
@@ -18,7 +20,8 @@ public interface OnDollOperateHook {
 	default void postDestroyDoll(AbstractDoll doll) {}
 	
 	default void postRecycleOrDestroyDoll(AbstractDoll doll) {}
-	
+
+	@Deprecated
 	default boolean canWorkOnSpecialAct() {
 		return true;
 	}

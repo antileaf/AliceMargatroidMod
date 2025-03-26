@@ -51,18 +51,23 @@ public class Lantern extends AbstractAliceCard {
 		this.addToBot(new AliceDiscoverAction(
 				() -> {
 					ArrayList<AbstractCard> cards = new ArrayList<>();
-					for (AbstractCard c : p.drawPile.group)
-						if (c.type == CardType.ATTACK)
-							cards.add(c);
+//					for (AbstractCard c : p.drawPile.group)
+//						if (c.type == CardType.ATTACK)
+//							cards.add(c);
+//
+//					ArrayList<AbstractCard> result = new ArrayList<>();
+//					for (int i = 0; i < 3; i++)
+//						if (!cards.isEmpty()) {
+//							AbstractCard c = cards.remove(AbstractDungeon.cardRandomRng.random(cards.size() - 1));
+//							result.add(c);
+//						}
+
+					for (int i = 0; i < 3 && i < p.drawPile.size(); i++) {
+						AbstractCard card = p.drawPile.group.get(i);
+						cards.add(card);
+					}
 					
-					ArrayList<AbstractCard> result = new ArrayList<>();
-					for (int i = 0; i < 3; i++)
-						if (!cards.isEmpty()) {
-							AbstractCard c = cards.remove(AbstractDungeon.cardRandomRng.random(cards.size() - 1));
-							result.add(c);
-						}
-					
-					return result;
+					return cards;
 				},
 				(card) -> {
 					if (AbstractDungeon.player.hand.size() >= BaseMod.MAX_HAND_SIZE) {

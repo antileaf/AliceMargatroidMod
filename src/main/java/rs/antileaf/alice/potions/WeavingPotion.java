@@ -27,7 +27,7 @@ public class WeavingPotion extends CustomPotion {
 				PotionColor.SWIFT
 		);
 		
-		this.labOutlineColor = AliceMargatroidMod.ALICE_PUPPETEER.cpy();
+		this.labOutlineColor = AliceMargatroidMod.ALICE_IMPRESSION_COLOR.cpy();
 	}
 	
 	@Override

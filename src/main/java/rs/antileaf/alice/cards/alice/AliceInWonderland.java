@@ -1,6 +1,8 @@
 package rs.antileaf.alice.cards.alice;
 
+import basemod.BaseMod;
 import com.badlogic.gdx.graphics.Color;
+import com.megacrit.cardcrawl.actions.common.ExhaustAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -13,6 +15,8 @@ import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.utils.AliceAudioMaster;
 import rs.antileaf.alice.utils.AliceHelper;
+
+import java.util.stream.IntStream;
 
 public class AliceInWonderland extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = AliceInWonderland.class.getSimpleName();
@@ -49,7 +53,22 @@ public class AliceInWonderland extends AbstractAliceCard {
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
+		this.addToBot(new ExhaustAction(BaseMod.MAX_HAND_SIZE, true, false));
+
+		AbstractDungeon.effectsQueue.add(new BorderLongFlashEffect(Color.GREEN.cpy()));
+		CardCrawlGame.sound.play(AliceAudioMaster.ALICE_IN_WONDERLAND);
+
+		int count = (int) IntStream.range(0, p.hand.size()).filter(i -> p.hand.group.get(i) != this).count();
+
 		this.addToBot(new AnonymousAction(() -> {
+			for (int i = 0; i < count; i++)
+				p.hand.addToTop(this.getCard());
+
+			p.hand.refreshHandLayout();
+			p.hand.applyPowers();
+		}));
+
+//		this.addToBot(new AnonymousAction(() -> {
 //			AlicePokerCardsDroppingEffect effect = new AlicePokerCardsDroppingEffect(0.6F, 2.5F,
 //					false, 750.0F);
 //
@@ -73,16 +92,16 @@ public class AliceInWonderland extends AbstractAliceCard {
 //
 //			AbstractDungeon.effectList.add(effect);
 
-			AbstractDungeon.effectsQueue.add(new BorderLongFlashEffect(Color.GREEN.cpy()));
-			CardCrawlGame.sound.play(AliceAudioMaster.ALICE_IN_WONDERLAND);
-
-			for (int i = 0; i < p.hand.size(); i++)
-				if (p.hand.group.get(i) != this)
-					p.hand.group.set(i, this.getCard());
-			
-			p.hand.refreshHandLayout();
-			p.hand.applyPowers();
-		}));
+//			AbstractDungeon.effectsQueue.add(new BorderLongFlashEffect(Color.GREEN.cpy()));
+//			CardCrawlGame.sound.play(AliceAudioMaster.ALICE_IN_WONDERLAND);
+//
+//			for (int i = 0; i < p.hand.size(); i++)
+//				if (p.hand.group.get(i) != this)
+//					p.hand.group.set(i, this.getCard());
+//
+//			p.hand.refreshHandLayout();
+//			p.hand.applyPowers();
+//		}));
 	}
 	
 	@Override

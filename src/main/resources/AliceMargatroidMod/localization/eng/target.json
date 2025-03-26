@@ -1,0 +1,9 @@
+{
+  "TITLE": "Available Targets",
+  "DESCRIPTION": "Available targets: NL %s",
+  "Alice": "Alice",
+  "Doll": "Doll",
+  "Slot": "Doll Slot",
+  "Enemy": "Enemy",
+  "None": "Non-specifying"
+}

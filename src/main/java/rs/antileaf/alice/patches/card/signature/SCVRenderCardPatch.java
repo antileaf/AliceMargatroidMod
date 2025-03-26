@@ -1,9 +1,12 @@
 package rs.antileaf.alice.patches.card.signature;
 
 import basemod.ReflectionHacks;
+import basemod.patches.com.megacrit.cardcrawl.cards.AbstractCard.MultiCardPreview;
+import basemod.patches.com.megacrit.cardcrawl.cards.AbstractCard.MultiCardPreviewRenderer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Vector2;
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.evacipated.cardcrawl.modthespire.patcher.PatchingException;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -14,6 +17,8 @@ import javassist.CannotCompileException;
 import javassist.CtBehavior;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.utils.SignatureHelper;
+
+import java.util.ArrayList;
 
 @SuppressWarnings("unused")
 public class SCVRenderCardPatch {
@@ -45,7 +50,7 @@ public class SCVRenderCardPatch {
 		@SpirePostfixPatch
 		public static void Postfix(SingleCardViewPopup _inst) {
 			if (Fields.signature.get(_inst) != null) {
-				Fields.signature.get(_inst).getTexture().dispose();
+//				Fields.signature.get(_inst).getTexture().dispose();
 				Fields.signature.set(_inst, null);
 			}
 		}
@@ -178,6 +183,28 @@ public class SCVRenderCardPatch {
 				return SpireReturn.Return();
 
 			return SpireReturn.Continue();
+		}
+	}
+
+	@SpirePatch(clz = MultiCardPreviewRenderer.RenderMultiCardPreviewInSingleViewPatch.class,
+			method = "Postfix", paramtypez = {SingleCardViewPopup.class, SpriteBatch.class})
+	public static class AvoidOverlappingWithPanelPatch {
+		@SpireInsertPatch(rloc = 25, localvars = {"horizontalOnly", "verticalNext", "position", "offset", "toPreview"})
+		public static void Insert(SingleCardViewPopup _inst, SpriteBatch sb, AbstractCard ___card,
+								  boolean horizontalOnly, @ByRef boolean[] verticalNext,
+								  Vector2 position, Vector2 offset, AbstractCard toPreview) {
+			if (___card instanceof AbstractAliceCard && SignatureHelper.isUnlocked(___card.cardID) &&
+					!((AbstractAliceCard) ___card).dontAvoidSCVPanel) {
+				ArrayList<AbstractCard> previews = MultiCardPreview.multiCardPreview.get(___card);
+
+				if (previews.size() > 1 && toPreview == previews.get(1)) {
+					ReflectionHacks.privateMethod(MultiCardPreviewRenderer.class, "reposition",
+							Vector2.class, Vector2.class, boolean.class)
+							.invoke(null, position, offset, horizontalOnly || !verticalNext[0]);
+
+					verticalNext[0] = !verticalNext[0];
+				}
+			}
 		}
 	}
 }

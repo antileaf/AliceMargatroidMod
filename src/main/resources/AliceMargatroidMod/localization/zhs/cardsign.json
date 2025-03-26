@@ -71,8 +71,20 @@
     "SIGN": "操符"
   },
 
-  "AliceMargatroid:DEPRECATEDReturnInanimateness": {
+  "AliceMargatroid:ReturnInanimateness": {
     "SIGN": "魔操"
+  },
+
+  "AliceMargatroid:FuturisticBunraku": {
+    "SIGN": "人偶"
+  },
+
+  "AliceMargatroid:StrawDollKamikaze": {
+    "SIGN": "咒符"
+  },
+
+  "AliceMargatroid:SemiAutomaton": {
+    "SIGN": "人偶"
   },
 
   "AliceMargatroid:DEPRECATEDCutiePhalanx": {

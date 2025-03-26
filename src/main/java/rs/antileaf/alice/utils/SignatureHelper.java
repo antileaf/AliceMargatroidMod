@@ -1,12 +1,17 @@
 package rs.antileaf.alice.utils;
 
 import basemod.AutoAdd;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import rs.antileaf.alice.cards.AbstractAliceCard;
+import rs.antileaf.alice.cards.alice.Thread;
+import rs.antileaf.alice.patches.card.signature.UnlockConditionPatch;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,10 +31,24 @@ public abstract class SignatureHelper {
 	public static TextureAtlas.AtlasRegion DESC_SHADOW_SMALL, DESC_SHADOW_SMALL_P;
 
 	private static Map<String, Boolean> unlocked, enabled;
+	private static final Map<String, Texture> cache = new HashMap<>();
 
 	public static TextureAtlas.AtlasRegion load(String path) {
-		Texture t = ImageMaster.loadImage(path);
-		return new TextureAtlas.AtlasRegion(t, 0, 0, t.getWidth(), t.getHeight());
+		Texture t;
+
+		if (cache.containsKey(path))
+			t = cache.get(path);
+		else {
+			if (Gdx.files.internal(path).exists())
+				t = ImageMaster.loadImage(path);
+			else
+				t = null;
+
+			cache.put(path, t);
+		}
+
+		return t == null ? null :
+				new TextureAtlas.AtlasRegion(t, 0, 0, t.getWidth(), t.getHeight());
 	}
 
 	public static void initialize() {
@@ -75,7 +94,7 @@ public abstract class SignatureHelper {
 
 	public static void unlock(String id, boolean unlock) {
 		AliceConfigHelper.setSignatureUnlocked(id, unlock);
-		unlocked.put(id, true);
+		unlocked.put(id, unlock);
 	}
 
 	public static boolean isEnabled(String id) {
@@ -127,5 +146,16 @@ public abstract class SignatureHelper {
 
 			logger.info("Unlocked {} ({}).", card.name, card.cardID);
 		}
+
+		unlock(Thread.ID, false); // TODO: This is just for testing
+		enable(Thread.ID, false);
+	}
+
+	public static boolean hasSignature(AbstractCard card) {
+		return card instanceof AbstractAliceCard && ((AbstractAliceCard) card).hasSignature;
+	}
+
+	public static String getUnlockCondition(String id) {
+		return UnlockConditionPatch.Fields.unlockCondition.get(CardCrawlGame.languagePack.getCardStrings(id));
 	}
 }

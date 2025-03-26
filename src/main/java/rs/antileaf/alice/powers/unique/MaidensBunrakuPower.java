@@ -49,7 +49,7 @@ public class MaidensBunrakuPower extends AbstractAlicePower implements OnDollOpe
 //	}
 	
 	@Override
-	public void postDollAct(AbstractDoll doll) {
+	public void preDollAct(AbstractDoll doll) {
 		Object effect = ReflectionHacks.getPrivate(this, AbstractPower.class, "effect");
 		if (effect instanceof ArrayList)
 			((ArrayList<AbstractGameEffect>) effect).add(new GainPowerEffect(this));

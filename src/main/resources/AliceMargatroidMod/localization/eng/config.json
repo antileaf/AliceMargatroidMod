@@ -1,0 +1,12 @@
+{
+  "shouldOpenTutorial": "Re-open tutorials",
+  "enableSpellCardSignDisplay": "Display card Signs (i.e. War Sign, Blue Sign)",
+  "enableCardTargetIcons": "Display icons for available targets",
+  "enableAlternativeMarisaCardImage": "Use Alternative Portrait for Marisa Cards (Only for derivatives of \"Friend's Help\")",
+  "usePackMasterStyleMarisaCards": "Use Pack Master styled Marisa cards (requires restarting)",
+  "enableWitchsTeaPartyFeature": "Enable feature for \"Witchs' Tea Party\"",
+  "enableShanghaiDollEventForOtherCharacters": "Enable Shanghai Doll event for other characters",
+  "enableDebugging": "Debugging (requires restarting)",
+  "skinSelectionUnlocked": "Unlock Skin Select",
+  "skinChosen": "Current Skin:"
+}

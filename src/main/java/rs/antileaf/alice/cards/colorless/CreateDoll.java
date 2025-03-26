@@ -50,9 +50,9 @@ public class CreateDoll extends AbstractAliceCard {
 
 	@Override
 	public void initializeDescription() {
-		this.name = this.dollClazz == null ? cardStrings.NAME : AbstractDoll.getName(this.dollClazz);
+		this.name = this.dollClazz == null ? cardStrings.NAME : AbstractDoll.getKeyword(this.dollClazz);
 		this.rawDescription = String.format(cardStrings.DESCRIPTION, this.dollClazz == null ?
-				cardStrings.EXTENDED_DESCRIPTION[0] : "alicemargatroid:" + AbstractDoll.getName(this.dollClazz));
+				cardStrings.EXTENDED_DESCRIPTION[0] : "alicemargatroid:" + AbstractDoll.getKeyword(this.dollClazz));
 		super.initializeDescription();
 	}
 	

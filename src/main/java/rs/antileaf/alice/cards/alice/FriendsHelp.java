@@ -46,13 +46,15 @@ public class FriendsHelp extends AbstractAliceCard {
 		this.exhaust = true;
 		
 		if (AliceHelper.isMarisaModAvailable()) {
-			MultiCardPreview.add(this, new DoubleSpark(), new AsteroidBelt(), new _6A(), new Spark());
+			MultiCardPreview.add(this, new Spark(), new _6A(), new DoubleSpark(), new AsteroidBelt());
 			for (AbstractCard card : MultiCardPreview.multiCardPreview.get(this))
 				if (card instanceof CustomCard)
 					setAlternativeImg((CustomCard) card);
 		}
 		else
-			MultiCardPreview.add(this, new AliceDoubleSpark(), new AliceAsteroidBelt(), new Alice6A(), new AliceSpark());
+			MultiCardPreview.add(this, new AliceSpark(), new Alice6A(), new AliceDoubleSpark(), new AliceAsteroidBelt());
+
+		this.dontAvoidSCVPanel = true;
 	}
 
 	@Override

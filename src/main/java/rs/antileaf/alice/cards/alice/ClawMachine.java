@@ -83,7 +83,7 @@ public class ClawMachine extends AbstractAliceCard implements ConditionalExhaust
 						sb.append(" ").append(AliceLanguageStrings.OR).append(" ");
 				}
 
-				sb.append("alicemargatroid:").append(AbstractDoll.getName(this.choices.get(i)));
+				sb.append("alicemargatroid:").append(AbstractDoll.getKeyword(this.choices.get(i)));
 			}
 
 			this.rawDescription = String.format(!this.upgraded ? cardStrings.DESCRIPTION :
@@ -91,7 +91,7 @@ public class ClawMachine extends AbstractAliceCard implements ConditionalExhaust
 		}
 		else if (this.choices.size() == 1)
 			this.rawDescription = String.format(cardStrings.EXTENDED_DESCRIPTION[1],
-					"alicemargatroid:" + AbstractDoll.getName(this.choices.get(0)));
+					"alicemargatroid:" + AbstractDoll.getKeyword(this.choices.get(0)));
 		else
 			this.rawDescription = cardStrings.EXTENDED_DESCRIPTION[2]; // 按理说不应该没有选项
 

@@ -22,7 +22,7 @@
     "DESCRIPTION": "包括耗能变化、新增或失去词条、基础伤害变化、升级。"
   },
   
-  "AliceMargatroid:AliceInWonderland": {
+  "AliceMargatroid:DEPAliceInWonderland": {
     "TITLE": "变化",
     "DESCRIPTION": "变化不视为消耗，也不视为临时增加牌。"
   },

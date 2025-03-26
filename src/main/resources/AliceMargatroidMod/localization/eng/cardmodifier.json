@@ -1,0 +1,12 @@
+{
+  "AliceMargatroid:PhantomCardModifier": {
+    "NAME": "Phantom",
+    "DESCRIPTION": "Phantom cards are removed when leaving your hand or at the end of turn, #rnot entering Exhaust pile. NL Phantom cards are not counted when checking for identical cards."
+  },
+  
+  "AliceMargatroid:RevelationCardModifier": {
+    "NAME": "Revelation",
+    "DESCRIPTION": "After being played, let %s in your hand gain #b2 bonus base damage, and gain %s effect.",
+    "EXTENDED_DESCRIPTION": ["a random Attack", "all Attacks"]
+  }
+}

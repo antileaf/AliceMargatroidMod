@@ -2,15 +2,15 @@
   "modid": "AliceMargatroidMod",
   "name": "Alice Margatroid",
   "author_list": [
-    "antileaf", "wolf"
+    "wolf", "antileaf"
   ],
   "description": "Adds Alice Margatroid from Touhou Project as a new playable character.",
   "dependencies": [
     "basemod", "stslib"
   ],
   "optional_dependencies": [
-    "TS05_Marisa", "PatchouliMod"
+    "TS05_Marisa"
   ],
   "version": "0.0.1",
-  "sts_version": "12-06-2019v2"
+  "sts_version": "${SlayTheSpire.version}"
 }

@@ -2,6 +2,7 @@ package rs.antileaf.alice.patches.card.signature;
 
 import basemod.ReflectionHacks;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.evacipated.cardcrawl.modthespire.patcher.PatchingException;
@@ -13,16 +14,17 @@ import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
+import com.megacrit.cardcrawl.localization.UIStrings;
 import com.megacrit.cardcrawl.screens.SingleCardViewPopup;
 import javassist.CannotCompileException;
 import javassist.CtBehavior;
-import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.utils.AliceHelper;
 import rs.antileaf.alice.utils.SignatureHelper;
 
 @SuppressWarnings("unused")
 public class SCVPanelPatch {
 	private static final float MAN = -1000.0F * Settings.scale;
+	private static final Texture LOCKED = new Texture(AliceHelper.getImgFilePath("UI", "locked"));
 
 	@SpirePatch(clz = SingleCardViewPopup.class, method = SpirePatch.CLASS)
 	public static class Fields {
@@ -33,7 +35,9 @@ public class SCVPanelPatch {
 		public static SpireField<Boolean> hideDesc = new SpireField<>(() -> false);
 
 		public static SpireField<String> enableText = new SpireField<>(() -> null);
+		public static SpireField<String> lockedText = new SpireField<>(() -> null);
 		public static SpireField<String> hideDescText = new SpireField<>(() -> null);
+		public static SpireField<String> conditionText = new SpireField<>(() -> null);
 	}
 
 	private static void setEnabled(SingleCardViewPopup _inst, boolean enabled) {
@@ -42,10 +46,10 @@ public class SCVPanelPatch {
 		if (!enabled) {
 			Fields.hideDesc.set(_inst, false);
 
-			Fields.descHb.get(_inst).move(MAN, MAN);
+			Fields.descHb.get(_inst).move(MAN, MAN); // What can I say
 		}
 		else {
-			Fields.descHb.get(_inst).move(Settings.WIDTH / 2.0F - 420.0F * Settings.scale,
+			Fields.descHb.get(_inst).move(Settings.WIDTH / 2.0F - 460.0F * Settings.scale,
 					260.0F * Settings.scale);
 		}
 
@@ -56,13 +60,16 @@ public class SCVPanelPatch {
 	@SpirePatch(clz = SingleCardViewPopup.class, method = SpirePatch.CONSTRUCTOR)
 	public static class ConstructorPatch {
 		public static void Postfix(SingleCardViewPopup _inst) {
-			Fields.enableHb.set(_inst, new Hitbox(240.0F * Settings.scale, 80.0F * Settings.scale));
-			Fields.descHb.set(_inst, new Hitbox(240.0F * Settings.scale, 80.0F * Settings.scale));
+			Fields.enableHb.set(_inst, new Hitbox(320.0F * Settings.scale, 80.0F * Settings.scale));
+			Fields.descHb.set(_inst, new Hitbox(320.0F * Settings.scale, 80.0F * Settings.scale));
 
-			Fields.enableText.set(_inst, CardCrawlGame.languagePack.getUIString(
-					AliceHelper.makeID("EnableSignature")).TEXT[0]);
-			Fields.hideDescText.set(_inst, CardCrawlGame.languagePack.getUIString(
-					AliceHelper.makeID("HideDescription")).TEXT[0]);
+			UIStrings uiStrings = CardCrawlGame.languagePack.getUIString(
+					AliceHelper.makeID("SignatureSCVPanel"));
+
+			Fields.enableText.set(_inst, uiStrings.TEXT[0]);
+			Fields.lockedText.set(_inst, uiStrings.TEXT[1]);
+			Fields.hideDescText.set(_inst, uiStrings.TEXT[2]);
+			Fields.conditionText.set(_inst, uiStrings.TEXT[3]);
 		}
 	}
 
@@ -71,16 +78,14 @@ public class SCVPanelPatch {
 	public static class OpenPatch {
 		@SpirePostfixPatch
 		public static void Postfix(SingleCardViewPopup _inst, AbstractCard card, CardGroup group) {
-			boolean unlocked = card instanceof AbstractAliceCard && SignatureHelper.isUnlocked(card.cardID);
-
-			if (unlocked) {
-				Fields.enableHb.get(_inst).move(Settings.WIDTH / 2.0F - 420.0F * Settings.scale,
+			if (SignatureHelper.hasSignature(card)) {
+				Fields.enableHb.get(_inst).move(Settings.WIDTH / 2.0F - 460.0F * Settings.scale,
 						340.0F * Settings.scale);
 
 				setEnabled(_inst, SignatureHelper.isEnabled(card.cardID));
 			}
 			else {
-				Fields.enableHb.get(_inst).move(MAN, MAN); // What can I say
+				Fields.enableHb.get(_inst).move(MAN, MAN);
 
 				setEnabled(_inst, false);
 			}
@@ -98,7 +103,7 @@ public class SCVPanelPatch {
 	@SpirePatch(clz = SingleCardViewPopup.class, method = "update")
 	public static class UpdatePatch {
 		@SpirePostfixPatch
-		public static void Postfix(SingleCardViewPopup _inst) {
+		public static void Postfix(SingleCardViewPopup _inst, AbstractCard ___card) {
 			Fields.enableHb.get(_inst).update();
 
 			if (Fields.enableHb.get(_inst).justHovered)
@@ -107,11 +112,13 @@ public class SCVPanelPatch {
 			if (Fields.enableHb.get(_inst).hovered && InputHelper.justClickedLeft) {
 				Fields.enableHb.get(_inst).clickStarted = true;
 				CardCrawlGame.sound.play("UI_CLICK_1");
-				}
+			}
 
 			if (Fields.enableHb.get(_inst).clicked) {
 				Fields.enableHb.get(_inst).clicked = false;
-				setEnabled(_inst, !Fields.enabled.get(_inst));
+
+				if (SignatureHelper.isUnlocked(___card.cardID))
+					setEnabled(_inst, !Fields.enabled.get(_inst));
 			}
 
 			if (Fields.enabled.get(_inst)) {
@@ -169,33 +176,49 @@ public class SCVPanelPatch {
 	public static class RenderPatch {
 		@SpirePostfixPatch
 		public static void Postfix(SingleCardViewPopup _inst, SpriteBatch sb, AbstractCard ___card) {
-			if (!(___card instanceof AbstractAliceCard) || !SignatureHelper.isUnlocked(___card.cardID))
+			if (!SignatureHelper.hasSignature(___card))
 				return;
 
 			sb.setColor(Color.WHITE);
-			sb.draw(ImageMaster.CHECKBOX,
-					Fields.enableHb.get(_inst).cX - 80.0F * Settings.scale - 32.0F,
-					Fields.enableHb.get(_inst).cY - 32.0F,
-					32.0F, 32.0F, 64.0F, 64.0F,
-					Settings.scale, Settings.scale,
-					0.0F, 0, 0, 64, 64,
-					false, false);
+
+			if (SignatureHelper.isUnlocked(___card.cardID))
+				sb.draw(ImageMaster.CHECKBOX,
+						Fields.enableHb.get(_inst).cX - 120.0F * Settings.scale - 32.0F,
+						Fields.enableHb.get(_inst).cY - 32.0F,
+						32.0F, 32.0F, 64.0F, 64.0F,
+						Settings.scale, Settings.scale,
+						0.0F, 0, 0, 64, 64,
+						false, false);
+			else {
+				sb.draw(ImageMaster.COLOR_TAB_LOCK,
+						Fields.enableHb.get(_inst).cX - 120.0F * Settings.scale - 32.0F,
+						Fields.enableHb.get(_inst).cY - 32.0F,
+						20.0F, 20.0F, 64.0F, 64.0F,
+						Settings.scale, Settings.scale,
+						0.0F, 0, 0, 40, 40,
+						false, false);
+			}
+
+			String text = SignatureHelper.isUnlocked(___card.cardID) ?
+					Fields.enableText.get(_inst) : Fields.lockedText.get(_inst);
 
 			if (Fields.enableHb.get(_inst).hovered)
-				FontHelper.renderFont(sb, FontHelper.cardTitleFont, Fields.enableText.get(_inst),
-						Fields.enableHb.get(_inst).cX - 45.0F * Settings.scale,
+//				FontHelper.renderFontRightTopAligned(sb, FontHelper.cardTitleFont, Fields.enableText.get(_inst),
+//						Fields.enableHb.get(_inst).cX + 69.0F * Settings.scale,
+				FontHelper.renderFont(sb, FontHelper.cardTitleFont, text,
+						Fields.enableHb.get(_inst).cX - 65.0F * Settings.scale,
 						Fields.enableHb.get(_inst).cY + 10.0F * Settings.scale,
 						Settings.BLUE_TEXT_COLOR);
 			else
-				FontHelper.renderFont(sb, FontHelper.cardTitleFont, Fields.enableText.get(_inst),
-						Fields.enableHb.get(_inst).cX - 45.0F * Settings.scale,
+				FontHelper.renderFont(sb, FontHelper.cardTitleFont, text,
+						Fields.enableHb.get(_inst).cX - 65.0F * Settings.scale,
 						Fields.enableHb.get(_inst).cY + 10.0F * Settings.scale,
 						Settings.GOLD_COLOR);
 
 			if (Fields.enabled.get(_inst)) {
 				sb.setColor(Color.WHITE);
 				sb.draw(ImageMaster.TICK,
-						Fields.enableHb.get(_inst).cX - 80.0F * Settings.scale - 32.0F,
+						Fields.enableHb.get(_inst).cX - 120.0F * Settings.scale - 32.0F,
 						Fields.enableHb.get(_inst).cY - 32.0F,
 						32.0F, 32.0F, 64.0F, 64.0F,
 						Settings.scale, Settings.scale,
@@ -205,38 +228,54 @@ public class SCVPanelPatch {
 
 			Fields.enableHb.get(_inst).render(sb);
 
-			if (!Fields.enabled.get(_inst))
-				return;
-
-			sb.setColor(Color.WHITE);
-			sb.draw(ImageMaster.CHECKBOX,
-					Fields.descHb.get(_inst).cX - 80.0F * Settings.scale - 32.0F,
-					Fields.descHb.get(_inst).cY - 32.0F,
-					32.0F, 32.0F, 64.0F, 64.0F,
-					Settings.scale, Settings.scale,
-					0.0F, 0, 0, 64, 64,
-					false, false);
-
-			if (Fields.descHb.get(_inst).hovered)
-				FontHelper.renderFont(sb, FontHelper.cardTitleFont, Fields.hideDescText.get(_inst),
-						Fields.descHb.get(_inst).cX - 45.0F * Settings.scale,
-						Fields.descHb.get(_inst).cY + 10.0F * Settings.scale,
-						Settings.BLUE_TEXT_COLOR);
-			else
-				FontHelper.renderFont(sb, FontHelper.cardTitleFont, Fields.hideDescText.get(_inst),
-						Fields.descHb.get(_inst).cX - 45.0F * Settings.scale,
-						Fields.descHb.get(_inst).cY + 10.0F * Settings.scale,
-						Settings.GOLD_COLOR);
-
-			if (Fields.hideDesc.get(_inst)) {
+			if (Fields.enabled.get(_inst)) {
 				sb.setColor(Color.WHITE);
-				sb.draw(ImageMaster.TICK,
-						Fields.descHb.get(_inst).cX - 80.0F * Settings.scale - 32.0F,
+				sb.draw(ImageMaster.CHECKBOX,
+						Fields.descHb.get(_inst).cX - 120.0F * Settings.scale - 32.0F,
 						Fields.descHb.get(_inst).cY - 32.0F,
 						32.0F, 32.0F, 64.0F, 64.0F,
 						Settings.scale, Settings.scale,
 						0.0F, 0, 0, 64, 64,
 						false, false);
+
+				if (Fields.descHb.get(_inst).hovered)
+					FontHelper.renderFont(sb, FontHelper.cardTitleFont, Fields.hideDescText.get(_inst),
+							Fields.descHb.get(_inst).cX - 65.0F * Settings.scale,
+							Fields.descHb.get(_inst).cY + 10.0F * Settings.scale,
+							Settings.BLUE_TEXT_COLOR);
+				else
+					FontHelper.renderFont(sb, FontHelper.cardTitleFont, Fields.hideDescText.get(_inst),
+							Fields.descHb.get(_inst).cX - 65.0F * Settings.scale,
+							Fields.descHb.get(_inst).cY + 10.0F * Settings.scale,
+							Settings.GOLD_COLOR);
+
+				if (Fields.hideDesc.get(_inst)) {
+					sb.setColor(Color.WHITE);
+					sb.draw(ImageMaster.TICK,
+							Fields.descHb.get(_inst).cX - 120.0F * Settings.scale - 32.0F,
+							Fields.descHb.get(_inst).cY - 32.0F,
+							32.0F, 32.0F, 64.0F, 64.0F,
+							Settings.scale, Settings.scale,
+							0.0F, 0, 0, 64, 64,
+							false, false);
+				}
+
+				Fields.descHb.get(_inst).render(sb);
+			}
+			else if (!SignatureHelper.isUnlocked(___card.cardID)) {
+				String condition = SignatureHelper.getUnlockCondition(___card.cardID);
+				if (condition != null) {
+					FontHelper.renderFont(sb, FontHelper.cardTitleFont, Fields.conditionText.get(_inst),
+							Fields.enableHb.get(_inst).cX - 140.0F * Settings.scale,
+							Fields.enableHb.get(_inst).cY - 70.0F * Settings.scale,
+							Settings.GOLD_COLOR);
+
+					FontHelper.renderSmartText(sb, FontHelper.cardTitleFont, condition,
+							Fields.enableHb.get(_inst).cX - 140.0F * Settings.scale,
+							Fields.enableHb.get(_inst).cY - 110.0F * Settings.scale,
+							280.0F * Settings.scale, 32.0F * Settings.scale,
+							Settings.CREAM_COLOR);
+				}
 			}
 		}
 	}

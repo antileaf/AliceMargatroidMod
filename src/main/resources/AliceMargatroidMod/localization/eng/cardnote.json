@@ -1,0 +1,26 @@
+{
+  "DEFAULT": {
+    "TITLE": "Note"
+  },
+  
+  "AliceMargatroid:Revelation": {
+    "DESCRIPTION": "Bonus base damage can stack, but #yRevelation will not stack."
+  },
+  
+  "AliceMargatroid:Bookmark": {
+    "TITLE": "State Tracking",
+    "DESCRIPTION": "",
+    "EXTENDED_DESCRIPTION": ["There is #rNo card in hand last turn.", "There are #b%d card(s) last turn (not including #yBookmark ):"]
+  },
+  
+  "AliceMargatroid:Perihelion": {
+    "TITLE": "Attributes",
+    "DESCRIPTION": "Including cost, keywords, base damage and #yUpgrade ."
+  },
+  
+  "AliceMargatroid:SevenColoredPuppeteer": {
+    "TITLE": "State Tracking",
+    "DESCRIPTION": "",
+    "EXTENDED_DESCRIPTION": ["#b%d type(s) of doll has been #yPlaced this combat", " , the count(s) of #Acts :", "time", "times"]
+  }
+}

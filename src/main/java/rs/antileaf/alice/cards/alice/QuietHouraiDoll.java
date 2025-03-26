@@ -1,10 +1,12 @@
 package rs.antileaf.alice.cards.alice;
 
+import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.powers.DrawCardNextTurnPower;
 import rs.antileaf.alice.action.doll.DollActAction;
 import rs.antileaf.alice.action.doll.SpawnDollAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
@@ -56,6 +58,8 @@ public class QuietHouraiDoll extends AbstractAliceCard {
 		
 		for (int i = 0; i < this.magicNumber; i++)
 			this.addToBot(new DollActAction(doll));
+
+		this.addToBot(new ApplyPowerAction(p, p, new DrawCardNextTurnPower(p, 1)));
 	}
 	
 	@Override

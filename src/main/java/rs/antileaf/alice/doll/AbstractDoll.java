@@ -63,6 +63,8 @@ public abstract class AbstractDoll extends CustomOrb {
 	
 	protected DollAmountType passiveAmountType = DollAmountType.MAGIC;
 	protected DollAmountType actAmountType = DollAmountType.MAGIC;
+
+	protected int specialBuffer = 0;
 	
 	protected int damageAboutToTake = 0;
 	protected int damageCount = 0;
@@ -468,6 +470,10 @@ public abstract class AbstractDoll extends CustomOrb {
 	// All actions added by onAct() should call addActionToBuffer.
 	// The buffer will be committed in DollManager.dollAct().
 	public abstract void onAct();
+
+	public void onSpecialAct() {
+		this.onAct();
+	}
 	
 	public void postSpawn() {}
 	
@@ -1050,6 +1056,13 @@ public abstract class AbstractDoll extends CustomOrb {
 			return AliceDollStrings.get(Su_san.ID).NAME;
 		else
 			return "Unknown";
+	}
+
+	public static String getKeyword(String clazz) {
+		if (AliceHelper.getLangShort().equals("zhs"))
+			return getName(clazz);
+
+		return getName(clazz).replace(" ", "_");
 	}
 	
 	public static AbstractDoll newInst(String clazz) {

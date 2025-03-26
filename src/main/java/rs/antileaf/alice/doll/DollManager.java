@@ -12,14 +12,15 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.monsters.ending.SpireShield;
 import com.megacrit.cardcrawl.monsters.ending.SpireSpear;
 import com.megacrit.cardcrawl.powers.AbstractPower;
+import com.megacrit.cardcrawl.powers.BlurPower;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import rs.antileaf.alice.action.doll.DollActAction;
 import rs.antileaf.alice.action.doll.MoveDollAction;
 import rs.antileaf.alice.action.doll.RecycleDollAction;
 import rs.antileaf.alice.action.doll.SpawnDollInternalAction;
 import rs.antileaf.alice.action.utils.AnonymousAction;
-import rs.antileaf.alice.cards.alice.DollMagic;
 import rs.antileaf.alice.cards.alice.SevenColoredPuppeteer;
+import rs.antileaf.alice.cards.deprecated.DollMagic;
 import rs.antileaf.alice.characters.AliceMargatroid;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.doll.dolls.FranceDoll;
@@ -195,12 +196,13 @@ public class DollManager {
 	public void startOfTurnClearBlock(int playerBlock) {
 		if (this.preservedBlock != 0)
 			AliceHelper.log("DollManager", "Preserved block is not 0: " + this.preservedBlock);
+
+		if (AbstractDungeon.player.hasPower(BlurPower.POWER_ID))
+			return;
 		
 		for (AbstractDoll doll : this.dolls) {
-			doll.clearBlock(this.preservedBlock);
-			
-			if (doll instanceof FranceDoll)
-				((FranceDoll) doll).triggerPassiveEffect(playerBlock);
+			if (!(doll instanceof FranceDoll))
+				doll.clearBlock(this.preservedBlock);
 		}
 	}
 	
@@ -436,7 +438,7 @@ public class DollManager {
 		doll.applyPower();
 		doll.postSpawn();
 
-		AliceHelper.addActionToBuffer(new DollActAction(doll));
+//		AliceHelper.addActionToBuffer(new DollActAction(doll));
 		
 		this.applyPowers();
 		
@@ -461,20 +463,29 @@ public class DollManager {
 	
 	public void dollAct(AbstractDoll doll, boolean isSpecial) {
 		assert this.dolls.contains(doll);
+
+		for (AbstractRelic relic : this.owner.relics)
+			if (relic instanceof OnDollOperateHook)
+				((OnDollOperateHook) relic).preDollAct(doll);
+
+		for (AbstractPower power : this.owner.powers)
+			if (power instanceof OnDollOperateHook)
+				((OnDollOperateHook) power).preDollAct(doll);
 		
 		doll.applyPower();
-		doll.onAct();
+		if (isSpecial)
+			doll.onSpecialAct();
+		else
+			doll.onAct();
 		
 		this.applyPowers();
 		
 		for (AbstractRelic relic : this.owner.relics)
-			if (relic instanceof OnDollOperateHook &&
-					(!isSpecial || ((OnDollOperateHook) relic).canWorkOnSpecialAct()))
+			if (relic instanceof OnDollOperateHook)
 				((OnDollOperateHook) relic).postDollAct(doll);
 		
 		for (AbstractPower power : this.owner.powers)
-			if (power instanceof OnDollOperateHook &&
-					(!isSpecial || ((OnDollOperateHook) power).canWorkOnSpecialAct()))
+			if (power instanceof OnDollOperateHook)
 				((OnDollOperateHook) power).postDollAct(doll);
 		
 		for (AbstractDoll other : this.dolls)

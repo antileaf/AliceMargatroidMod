@@ -1,0 +1,86 @@
+[
+  {
+    "NAMES": ["Doll", "doll", "dolls"],
+    "DESCRIPTION": "Alice can control Dolls, helping her in battle. NL Dolls have various functions."
+  },
+  
+  {
+    "NAMES": ["Place", "place", "placing", "placed"],
+    "DESCRIPTION": "Put a Doll in a #gspecified slot. NL If there is already a doll, #yRecycle it before placing the new one."
+  },
+  
+  {
+    "NAMES": ["Act", "act", "acts"],
+    "DESCRIPTION": "Activate a Doll's specific effect."
+  },
+  
+  {
+    "NAMES": ["Recycle", "recycle", "recycled"],
+    "DESCRIPTION": "Remove a Doll, and may trigger some special effects."
+  },
+  
+  {
+    "NAMES": ["Command", "command"],
+    "DESCRIPTION": "#gExtra effects triggered if targeting a #yDoll when played."
+  },
+
+  {
+    "NAMES": ["Revelation", "revelation"],
+    "DESCRIPTION": "After being played, let a random Attack in your hand gain #b2 bonus base damage, and gain #yRevelation effect."
+  },
+
+  {
+    "NAMES": ["Revelation+", "revelation+"],
+    "DESCRIPTION": "After being played, let all Attacks in your hand gain #b2 bonus base damage, and gain #yRevelation+ effect."
+  },
+  
+  {
+    "NAMES": ["Phantom", "phantom"],
+    "DESCRIPTION": "Phantom cards are removed when leaving your hand or at the end of turn, #rnot entering Exhaust pile. NL Phantom cards are not counted when checking for identical cards."
+  },
+  
+  {
+    "NAMES": ["Activate", "activate"],
+    "DESCRIPTION": "#yRight-click a relic to Activate it."
+  },
+  
+  {
+    "NAMES": ["Amplify", "amplify"],
+    "DESCRIPTION": "Pay extra energy for its effect when you have enough [E] ."
+  },
+
+  {
+    "NAMES": ["Blur", "blur"],
+    "DESCRIPTION": "Block is not removed at the start of your turn for several turns."
+  },
+  
+  {
+    "NAMES": ["Su-san", "su-san"],
+    "DESCRIPTION": "Special Doll - #rAttacker NL #yPassive #y- #yMelancholy : At the end of your turn, apply #b3 Poison to ALL enemies. NL #yAct : Trigger Poison for ALL enemies once."
+  },
+  
+  {
+    "NAMES": ["ShanghaiDoll", "Shanghai Doll", "shanghai_doll", "shanghai_dolls"],
+    "DESCRIPTION": "Common Doll - #rAttacker (4) NL #yPassive #y- #yCrescent : When #yPlaced , automatically #Acts once. Shanghai Doll's damage can be buffed by #yStrength. NL #yAct : Deal #b4 damage to the enemy with lowest HP."
+  },
+  
+  {
+    "NAMES": ["KyotoDoll", "Kyoto Doll", "kyoto_doll", "kyoto_dolls"],
+    "DESCRIPTION": "Common Doll - #rAttacker (8) NL #yPassive #y- #yStrewing : At the end of your turn, self-heal half of HP it has lost. NL #yAct : Deal damage equal to half of its HP to ALL enemies."
+  },
+
+  {
+    "NAMES": ["HouraiDoll", "Hourai Doll", "hourai_doll", "hourai_dolls"],
+    "DESCRIPTION": "Advanced Doll - #gSupport (4) NL #yPassive #y- #yMountains : When #yRecycled, gain [E]. NL #yAct : Draw 1 card."
+  },
+  
+  {
+    "NAMES": ["NetherlandsDoll", "Netherlands Doll", "netherlands_doll", "netherlands_dolls"],
+    "DESCRIPTION": "Advanced Doll - #gSupport (3) NL #yPassive #y- #yCompass : Provides #b1 Strength and Dexterity for Alice. When #yPlacing other Netherlands Dolls, let this #Act #b2 times #rinstead . NL #yAct : Alternately increase the amount of Strength or Dexterity in Passive by #b1 ."
+  },
+  
+  {
+    "NAMES": ["FranceDoll", "France Doll", "france_doll", "france_dolls"],
+    "DESCRIPTION": "Advanced Doll - #bTank (8) NL #yPassive #y- #yStar #ySand : At the start of your turn, set Block of this equal to Alice. NL #yAct : Move to a slot which can't bear enemies' damage, then gain #b5 Block. NL Will not move to a slot already containing a France Doll."
+  }
+]

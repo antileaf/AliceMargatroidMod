@@ -5,6 +5,7 @@ import com.megacrit.cardcrawl.actions.common.DamageAllEnemiesAction;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import rs.antileaf.alice.action.doll.DollGainBlockAction;
 import rs.antileaf.alice.action.doll.HealDollAction;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollDamageInfo;
@@ -12,6 +13,8 @@ import rs.antileaf.alice.doll.enums.DollAmountTime;
 import rs.antileaf.alice.doll.enums.DollAmountType;
 import rs.antileaf.alice.strings.AliceDollStrings;
 import rs.antileaf.alice.utils.AliceHelper;
+
+import java.util.Arrays;
 
 public class KyotoDoll extends AbstractDoll {
 	public static final String SIMPLE_NAME = KyotoDoll.class.getSimpleName();
@@ -53,19 +56,31 @@ public class KyotoDoll extends AbstractDoll {
 	
 	@Override
 	public void onAct() {
+		int[] matrix = DollDamageInfo.createDamageMatrix(
+				this.HP / 2,
+				this,
+				DollAmountType.DAMAGE,
+				DollAmountTime.PASSIVE);
+
+		this.specialBuffer = Arrays.stream(matrix).sum();
+
 		AliceHelper.addActionToBuffer(new DamageAllEnemiesAction(
 				AbstractDungeon.player,
-				DollDamageInfo.createDamageMatrix(
-						this.HP / 2,
-						this,
-						DollAmountType.DAMAGE,
-						DollAmountTime.PASSIVE),
+				matrix,
 				DamageInfo.DamageType.THORNS,
 				AbstractGameAction.AttackEffect.FIRE,
 				true
 		));
 		
 //		this.highlightActValue();
+	}
+
+	@Override
+	public void onSpecialAct() {
+		this.onAct();
+
+		AliceHelper.addActionToBuffer(new DollGainBlockAction(this, this.specialBuffer));
+		this.specialBuffer = 0;
 	}
 	
 	@Override

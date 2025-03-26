@@ -9,7 +9,9 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import rs.antileaf.alice.action.doll.DollActAction;
 import rs.antileaf.alice.action.doll.DollDamageAction;
+import rs.antileaf.alice.action.doll.DollGainBlockAction;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollDamageInfo;
 import rs.antileaf.alice.doll.enums.DollAmountTime;
@@ -18,6 +20,8 @@ import rs.antileaf.alice.relics.SuspiciousCard;
 import rs.antileaf.alice.strings.AliceDollStrings;
 import rs.antileaf.alice.utils.AliceHelper;
 import rs.antileaf.alice.utils.AliceImageMaster;
+
+import java.util.Arrays;
 
 public class ShanghaiDoll extends AbstractDoll {
 	public static final String SIMPLE_NAME = ShanghaiDoll.class.getSimpleName();
@@ -29,7 +33,8 @@ public class ShanghaiDoll extends AbstractDoll {
 	public static final int ACT_AMOUNT = 4;
 	
 	public static final float CHARGE_WIDTH = 18.0F * Settings.scale;
-	
+
+	@Deprecated
 	public int charge = 0;
 	
 	public ShanghaiDoll() {
@@ -117,6 +122,11 @@ public class ShanghaiDoll extends AbstractDoll {
 			}
 		}
 	}
+
+	@Override
+	public void postSpawn() {
+		AliceHelper.addActionToBuffer(new DollActAction(this));
+	}
 	
 	@Override
 	public void onAct() {
@@ -131,9 +141,12 @@ public class ShanghaiDoll extends AbstractDoll {
 			AbstractMonster m = AliceHelper.getMonsterWithLeastHP();
 			
 			if (m != null) {
-				AliceHelper.addActionToBuffer(new DollDamageAction(m,
-						new DollDamageInfo(this.actAmount, this,
-								DollAmountType.DAMAGE, DollAmountTime.ACT),
+				DollDamageInfo info = new DollDamageInfo(this.actAmount, this,
+						DollAmountType.DAMAGE, DollAmountTime.ACT);
+
+				this.specialBuffer = info.output;
+
+				AliceHelper.addActionToBuffer(new DollDamageAction(m, info,
 						AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
 			}
 		}
@@ -142,14 +155,18 @@ public class ShanghaiDoll extends AbstractDoll {
 					.filter(m -> !m.isDeadOrEscaped())
 					.count() > 1)
 				AbstractDungeon.player.getRelic(SuspiciousCard.ID).flash();
+
+			int[] matrix = DollDamageInfo.createDamageMatrix(
+					this.actAmount,
+					this,
+					this.actAmountType,
+					DollAmountTime.ACT);
+
+			this.specialBuffer = Arrays.stream(matrix).sum();
 			
 			AliceHelper.addActionToBuffer(new DamageAllEnemiesAction(
 					AbstractDungeon.player,
-					DollDamageInfo.createDamageMatrix(
-							this.actAmount,
-							this,
-							this.actAmountType,
-							DollAmountTime.ACT),
+					matrix,
 					DamageInfo.DamageType.THORNS,
 					AbstractGameAction.AttackEffect.SLASH_DIAGONAL,
 					true
@@ -158,6 +175,14 @@ public class ShanghaiDoll extends AbstractDoll {
 		
 		this.baseActAmount = tmpBase;
 		this.applyPower();
+	}
+
+	@Override
+	public void onSpecialAct() {
+		this.onAct();
+
+		AliceHelper.addActionToBuffer(new DollGainBlockAction(this, this.specialBuffer));
+		this.specialBuffer = 0;
 	}
 	
 	@Override

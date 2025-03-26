@@ -70,11 +70,11 @@
     </dependency>
 
 <!--    <dependency>-->
-<!--      <groupId>rs.lazymankits</groupId>-->
-<!--      <artifactId>LazyManKits</artifactId>-->
-<!--      <version>${LMK.version}</version>-->
+<!--      <groupId>com.blanktheevil</groupId>-->
+<!--      <artifactId>better-debug</artifactId>-->
+<!--      <version>newest</version>-->
 <!--      <scope>system</scope>-->
-<!--      <systemPath>${Steam.path}/workshop/content/646570/2554005913/[STS]Lazy Man's Kits.jar</systemPath>-->
+<!--      <systemPath>${Steam.path}/workshop/content/646570/2351301825/better-debug.jar</systemPath>-->
 <!--    </dependency>-->
 
     <dependency>

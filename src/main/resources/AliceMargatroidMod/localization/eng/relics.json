@@ -1,0 +1,87 @@
+{
+  "AliceMargatroid:AlicesGrimoire": {
+    "NAME": "Alice's Grimoire",
+    "FLAVOR": "Said to record magic that can't be used by humans.",
+    "DESCRIPTIONS": [
+      "At the start of each combat, #yalicemargatroid:Place a #yalicemargatroid:shanghai_doll in the rightmost slot.",
+      "#yalicemargatroid:Activate : Re-open tutorial."
+    ]
+  },
+  
+  "AliceMargatroid:SuspiciousCard": {
+    "NAME": "Suspicious Card",
+    "FLAVOR": "A card found in black market. There is a Shanghai Doll painted on it.",
+    "DESCRIPTIONS": [
+      "#yShanghai #yDolls now hits ALL enemies."
+    ]
+  },
+  
+  "AliceMargatroid:AlicesDarkGrimoire": {
+    "NAME": "Alice's Dark Grimoire",
+    "FLAVOR": "Said to record \"ultimate magic\" that can't be used by humans.",
+    "DESCRIPTIONS": [
+      "Replaces #rAlice's #rGrimoire . For each present #yalicemargatroid:Doll , increase the #ybase HP of newly #yalicemargatroid:Placed #yalicemargatroid:Doll by #b3 .",
+      "#yalicemargatroid:Activate : Re-open tutorial."
+    ]
+  },
+  
+  "AliceMargatroid:SwordOfLight_Supernova": {
+    "NAME": "Sword of Light : Supernova",
+    "FLAVOR": "Panpankapan~",
+    "DESCRIPTIONS": [
+      "The first #yAttack played each turn deals #b50% more damage."
+    ]
+  },
+  
+  "AliceMargatroid:StringRing": {
+    "NAME": "String Ring",
+    "FLAVOR": "Essential props for a puppeteer.",
+    "DESCRIPTIONS": [
+      "At the end of combat, if not storing any #yDoll , store the right-most #yDoll in this. NL #yalicemargatroid:Activate : take and #yalicemargatroid:Place a #yDoll of corresponding type.",
+      "Currently stored: #g%s .", "Currently #rnot storing any #yDoll ."
+    ]
+  },
+  
+  "AliceMargatroid:ColorContacts": {
+    "NAME": "Color Contacts",
+    "FLAVOR": "",
+    "DESCRIPTIONS": [
+      "At the first #b%d turns of each combat, gain [E] , and draw 1 card."
+    ]
+  },
+  
+  "AliceMargatroid:SacrificialDoll": {
+    "NAME": "Sacrificial Doll",
+    "FLAVOR": "An unusual doll, available to partially take damage for the possessor.",
+    "DESCRIPTIONS": [
+      "At the end of your turn, if there are empty #yalicemargatroid:Doll slots being attacked, gain #b3 Block."
+    ]
+  },
+
+  "AliceMargatroid:ShanghaiDollRelic": {
+    "NAME": "Shanghai Doll",
+    "FLAVOR": "A delicate and adorable doll.",
+    "DESCRIPTIONS": [
+      "At the start of each combat, deal #b4 damage to the enemy with lowest HP.",
+      "Shanghai Doll (Old Model)",
+      "This doll makes you feel very familiar."
+    ]
+  },
+
+  "AliceMargatroid:BlackTeaRelic": {
+    "NAME": "Black Tea",
+    "FLAVOR": "Black Tea brewed by Alice's Dolls.",
+    "DESCRIPTIONS": [
+      "Upon pickup, raise your Max HP by #b7 , and heal #b7 HP.",
+      "Black Tea brewed by little Alice."
+    ]
+  },
+
+  "AliceMargatroid:MagicPotion": {
+    "NAME": "Magic Potion",
+    "FLAVOR": "Magic Power restoration drug drawn out of mushrooms from the Forest of Magic.",
+    "DESCRIPTIONS": [
+      "At the start of your 2nd turn, gain [E] [E] ."
+    ]
+  }
+}

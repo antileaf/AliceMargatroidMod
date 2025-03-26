@@ -75,16 +75,9 @@ public class DollLances extends AbstractAliceCard {
 				.count();
 
 		super.applyPowers();
-	}
 
-	@Override
-	public void initializeDescription() {
-		this.rawDescription = cardStrings.DESCRIPTION;
-
-		if (AliceHelper.isInBattle() && this.magicNumber != -1)
-			this.rawDescription += " NL " + cardStrings.EXTENDED_DESCRIPTION[0];
-
-		super.initializeDescription();
+		this.rawDescription = cardStrings.DESCRIPTION + " NL " + cardStrings.EXTENDED_DESCRIPTION[0];
+		this.initializeDescription();
 	}
 	
 	@Override
@@ -125,6 +118,9 @@ public class DollLances extends AbstractAliceCard {
 					m,
 					new DamageInfo(p, this.damage, this.damageTypeForTurn),
 					AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
+
+		this.rawDescription = cardStrings.DESCRIPTION;
+		this.initializeDescription();
 	}
 	
 	@Override

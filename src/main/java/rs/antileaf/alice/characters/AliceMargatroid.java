@@ -153,7 +153,7 @@ public class AliceMargatroid extends CustomPlayer {
 	}
 	
 	public Color getCardTrailColor() {
-		return AliceMargatroidMod.ALICE_PUPPETEER.cpy();
+		return AliceMargatroidMod.ALICE_IMPRESSION_COLOR.cpy();
 	}
 	
 	public int getAscensionMaxHPLoss() {
@@ -204,7 +204,7 @@ public class AliceMargatroid extends CustomPlayer {
 	}
 	
 	public Color getCardRenderColor() {
-		return AliceMargatroidMod.ALICE_PUPPETEER.cpy();
+		return AliceMargatroidMod.ALICE_IMPRESSION_COLOR.cpy();
 	}
 	
 //	@Override
@@ -217,7 +217,7 @@ public class AliceMargatroid extends CustomPlayer {
 //	}
 	
 	public Color getSlashAttackColor() {
-		return AliceMargatroidMod.ALICE_PUPPETEER.cpy();
+		return AliceMargatroidMod.ALICE_IMPRESSION_COLOR.cpy();
 	}
 	
 	public AttackEffect[] getSpireHeartSlashEffect() {
@@ -271,7 +271,7 @@ public class AliceMargatroid extends CustomPlayer {
 			this.atlas = null;
 		
 		this.shoulderImg = ImageMaster.loadImage(skin.shoulder);
-		this.shoulder2Img = ImageMaster.loadImage(skin.corpse);
+		this.shoulder2Img = ImageMaster.loadImage(skin.shoulder);
 		this.corpseImg = ImageMaster.loadImage(skin.corpse);
 	}
 }

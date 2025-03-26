@@ -7,7 +7,7 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import rs.antileaf.alice.action.doll.RemoveDollAction;
+import rs.antileaf.alice.action.doll.RecycleDollAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
@@ -74,7 +74,7 @@ public class ReturnInanimateness extends AbstractAliceCard {
 	public void use(AbstractPlayer p, AbstractMonster m) {
 		for (AbstractDoll doll : DollManager.get().getDolls())
 			if (!(doll instanceof EmptyDollSlot))
-				this.addToBot(new RemoveDollAction(doll));
+				this.addToBot(new RecycleDollAction(doll));
 		
 		this.addToBot(new DamageAllEnemiesAction(p, this.multiDamage, this.damageTypeForTurn,
 				AbstractGameAction.AttackEffect.FIRE));

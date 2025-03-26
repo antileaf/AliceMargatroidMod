@@ -1,24 +1,26 @@
-package rs.antileaf.alice.cards.colorless;
+package rs.antileaf.alice.cards.deprecated;
 
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.utils.AliceHelper;
 
-public class Chesed extends AbstractAliceCard {
-	public static final String SIMPLE_NAME = Chesed.class.getSimpleName();
+@Deprecated
+public class Goz extends AbstractAliceCard {
+	public static final String SIMPLE_NAME = Goz.class.getSimpleName();
 	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 
 	private static final int COST = -2;
 
-	private static final int DAMAGE = 8;
-	private static final int UPGRADE_PLUS_DAMAGE = 3;
+	private static final int DAMAGE = 10;
+	private static final int UPGRADE_PLUS_DAMAGE = 4;
 
-	public Chesed() {
+	public Goz() {
 		super(
 				ID,
 				cardStrings.NAME,
@@ -32,7 +34,24 @@ public class Chesed extends AbstractAliceCard {
 		);
 
 		this.damage = this.baseDamage = DAMAGE;
-		this.isMultiDamage = true;
+	}
+
+	@Override
+	public void calculateCardDamage(AbstractMonster mo) {
+		if (mo == null && AliceHelper.isInBattle()) {
+			AbstractMonster target = null;
+
+			for (AbstractMonster m : AbstractDungeon.getMonsters().monsters) {
+				if (!m.isDeadOrEscaped()) {
+					if (target == null || m.currentHealth < target.maxHealth)
+						target = m;
+				}
+			}
+
+			super.calculateCardDamage(target);
+		}
+		else
+			super.calculateCardDamage(mo);
 	}
 
 	@Override
@@ -40,7 +59,7 @@ public class Chesed extends AbstractAliceCard {
 
 	@Override
 	public AbstractCard makeCopy() {
-		return new Chesed();
+		return new Goz();
 	}
 
 	@Override

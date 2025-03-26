@@ -41,14 +41,14 @@ public class LuminousShanghaiDollPower extends AbstractAlicePower implements OnD
 		this.description = String.format(powerStrings.DESCRIPTIONS[0], this.amount);
 	}
 	
-	@Override
-	public boolean canWorkOnSpecialAct() {
-		return false;
-	}
+//	@Override
+//	public boolean canWorkOnSpecialAct() {
+//		return false;
+//	}
 	
 	@Override
 	public void postDollAct(AbstractDoll doll) {
-		if (doll.calcTotalDamageAboutToTake() != -1) {
+		if (!(doll instanceof ShanghaiDoll)) {
 			ArrayList<AbstractDoll> shanghaiDolls = new ArrayList<>();
 			
 			for (AbstractDoll d : DollManager.get().getDolls())

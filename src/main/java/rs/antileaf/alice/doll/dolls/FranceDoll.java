@@ -1,7 +1,9 @@
 package rs.antileaf.alice.doll.dolls;
 
 import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import rs.antileaf.alice.action.doll.DollGainBlockAction;
+import rs.antileaf.alice.action.doll.DollLoseBlockAction;
 import rs.antileaf.alice.action.doll.MoveDollAction;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
@@ -14,7 +16,7 @@ public class FranceDoll extends AbstractDoll {
 	public static final String ID = SIMPLE_NAME;
 	private static final AliceDollStrings dollStrings = AliceDollStrings.get(ID);
 	
-	public static final int MAX_HP = 7;
+	public static final int MAX_HP = 8;
 	public static final int ACT_AMOUNT = 5;
 	
 	public FranceDoll() {
@@ -53,7 +55,7 @@ public class FranceDoll extends AbstractDoll {
 		if (this.getOverflowedDamage() <= 0) {
 			for (int i = 0; i < DollManager.get().getDolls().size(); i++) {
 				AbstractDoll doll = DollManager.get().getDolls().get(i);
-				if (doll != this && doll.getOverflowedDamage() > 0) {
+				if (!(doll instanceof FranceDoll) && doll.getOverflowedDamage() > 0) {
 					dest = i;
 					break;
 				}
@@ -66,20 +68,20 @@ public class FranceDoll extends AbstractDoll {
 			else
 				AliceHelper.logger.info("FranceDoll.onAct: dest == this");
 		}
-		else {
-			AliceHelper.addActionToBuffer(new DollGainBlockAction(this, this.actAmount));
-			this.highlightActValue();
-		}
+
+		AliceHelper.addActionToBuffer(new DollGainBlockAction(this, this.actAmount));
+		this.highlightActValue();
 	}
 	
 	@Override
 	public void onStartOfTurn() {
-		this.highlightPassiveValue();
+		this.addToBot(new DollLoseBlockAction(this, this.block));
+		this.addToBot(new DollGainBlockAction(this, AbstractDungeon.player.currentBlock));
 	}
 	
-	public void triggerPassiveEffect(int amount) {
-		this.addToBot(new DollGainBlockAction(this, amount));
-	}
+//	public void triggerPassiveEffect(int amount) {
+//		this.addToBot(new DollGainBlockAction(this, amount));
+//	}
 	
 	@Override
 	public void triggerActAnimation() {

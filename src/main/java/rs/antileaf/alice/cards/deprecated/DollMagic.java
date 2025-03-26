@@ -1,4 +1,4 @@
-package rs.antileaf.alice.cards.alice;
+package rs.antileaf.alice.cards.deprecated;
 
 import basemod.BaseMod;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;

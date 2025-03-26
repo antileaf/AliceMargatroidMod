@@ -77,7 +77,8 @@ public class SevenColoredPuppeteer extends AbstractAliceCard {
 	@Override
 	public TooltipInfo getNote() {
 		if (!AliceHelper.isInBattle())
-			return new TooltipInfo(cardNoteStrings.TITLE, cardNoteStrings.DESCRIPTION);
+			return null;
+//			return new TooltipInfo(cardNoteStrings.TITLE, cardNoteStrings.DESCRIPTION);
 		
 		if (cardNoteStrings == null) {
 			AliceHelper.logger.info("SevenColoredPuppeteer.getNote(): No note found for ID: {}!", ID);

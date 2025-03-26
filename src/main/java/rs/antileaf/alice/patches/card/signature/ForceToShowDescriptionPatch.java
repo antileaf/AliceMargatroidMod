@@ -1,17 +1,20 @@
 package rs.antileaf.alice.patches.card.signature;
 
 import com.badlogic.gdx.Gdx;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePostfixPatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePrefixPatch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.evacipated.cardcrawl.modthespire.lib.*;
+import com.evacipated.cardcrawl.modthespire.patcher.PatchingException;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.screens.select.GridCardSelectScreen;
 import com.megacrit.cardcrawl.screens.select.HandCardSelectScreen;
 import com.megacrit.cardcrawl.vfx.cardManip.ShowCardAndObtainEffect;
 import com.megacrit.cardcrawl.vfx.cardManip.ShowCardBrieflyEffect;
+import javassist.CannotCompileException;
+import javassist.CtBehavior;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import rs.antileaf.alice.cards.AbstractAliceCard;
+import rs.antileaf.alice.utils.SignatureHelper;
 
 @SuppressWarnings("unused")
 public class ForceToShowDescriptionPatch {
@@ -58,7 +61,7 @@ public class ForceToShowDescriptionPatch {
 	}
 
 	public static class HandSelectScreenPatches {
-		@SpirePatch(clz = HandCardSelectScreen.class, method = SpirePatch.CLASS)
+//		@SpirePatch(clz = HandCardSelectScreen.class, method = SpirePatch.CLASS)
 //		public static class Fields {
 //			public static SpireField<ArrayList<AbstractAliceCard>> last = new SpireField<>(ArrayList::new);
 //		}
@@ -141,6 +144,31 @@ public class ForceToShowDescriptionPatch {
 				((AbstractAliceCard) ___card).forceToShowDescription();
 
 //				logger.info("ShowCardAndObtainEffectPatch2: {}", ___card.cardID);
+			}
+		}
+	}
+
+	@SpirePatch(clz = AbstractCard.class, method = "renderInLibrary",
+			paramtypez = {SpriteBatch.class})
+	public static class RenderInLibraryPatch { // 神人矢野
+		private static class Locator extends SpireInsertLocator {
+			@Override
+			public int[] Locate(CtBehavior ctBehavior) throws CannotCompileException, PatchingException {
+				return LineFinder.findInOrder(ctBehavior,
+						new Matcher.MethodCallMatcher(AbstractCard.class, "render"));
+			}
+		}
+
+		@SpireInsertPatch(locator = Locator.class, localvars = {"copy"})
+		public static void Insert(AbstractCard _inst, SpriteBatch sb, AbstractCard copy) {
+			if (_inst instanceof AbstractAliceCard &&
+					copy instanceof AbstractAliceCard &&
+					SignatureHelper.shouldUseSignature(_inst.cardID)) {
+				AbstractAliceCard aliceCard = (AbstractAliceCard) _inst;
+				AbstractAliceCard aliceCopy = (AbstractAliceCard) copy;
+
+//				aliceCopy.signatureHoveredTimer = aliceCard.signatureHoveredTimer;
+				aliceCopy.forcedTimer = aliceCard.forcedTimer;
 			}
 		}
 	}
