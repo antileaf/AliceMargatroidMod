@@ -87,6 +87,14 @@
     "SIGN": "人偶"
   },
 
+  "AliceMargatroid:SoldierOfCross": {
+    "SIGN": "剑符"
+  },
+
+  "AliceMargatroid:SuicideSquad": {
+    "SIGN": "步兵"
+  },
+
   "AliceMargatroid:DEPRECATEDCutiePhalanx": {
     "SIGN": "枪符"
   },

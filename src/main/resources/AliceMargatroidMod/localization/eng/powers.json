@@ -13,6 +13,13 @@
     ]
   },
 
+  "AliceMargatroid:DollJudgePower": {
+    "NAME": "Doll Judgement",
+    "DESCRIPTIONS": [
+      "Whenever a #yDoll is #yRecycled, Alice gains #b%d%% of its Block."
+    ]
+  },
+
   "AliceMargatroid:CallToDollsPower": {
     "NAME": "Call To Dolls",
     "DESCRIPTIONS": [
@@ -60,86 +67,92 @@
   "AliceMargatroid:DevilryLightPower": {
     "NAME": "Devilry Light",
     "DESCRIPTIONS": [
-      "下回合开始时，对所有敌人施加 #b%d 层 #y虚弱 。"
+      "At the start of next turn, apply #b%d #yWeak to ALL enemies."
     ]
   },
 
   "AliceMargatroid:ArtfulChanterPower": {
-    "NAME": "狡猾的吟诵者",
+    "NAME": "Artful Chanter",
     "DESCRIPTIONS": [
-      "可指向生成 人偶 时，如果目标位置上已有 人偶 ，新 生成 的 人偶 行动 #b%d 次。"
-    ]
-  },
-  
-  "AliceMargatroid:SealOfLightPower": {
-    "NAME": "光之封印",
-    "DESCRIPTIONS": [
-      "最大生命值降低 #b%d%% 。"
+      "Whenever a alicemargatroid:Doll is alicemargatroid:Placed, if there is already a alicemargatroid:Doll in the same slot, the newer alicemargatroid:Doll alicemargatroid:Acts #b%d extra time(s)."
     ]
   },
   
   "AliceMargatroid:MagicianRayPower": {
-    "NAME": "魔法使射线",
+    "NAME": "Magician Ray",
     "DESCRIPTIONS": [
-      "下回合结束时，失去 #b%d 点 力量 。"
+      "At the end of next turn, lose #b%d #yStrength."
     ]
   },
   
   "AliceMargatroid:LuminousShanghaiDollPower": {
-    "NAME": "魔彩光的上海人偶",
+    "NAME": "Luminous Shanghai Doll",
     "DESCRIPTIONS": [
-      "每当有即将受到攻击的 人偶 行动 时，使一个随机的 上海人偶 也 行动 #b%d 次。"
-    ]
-  },
-  
-  "AliceMargatroid:ChantPower": {
-    "NAME": "咏唱",
-    "DESCRIPTIONS": [
-      "下回合开始时，所有 人偶 行动 #b%d 次。"
+      "Whenever a non- #yShanghai #yDoll #yActs, let a random #yShanghai #yDoll #yAct #b%d extra time(s)."
     ]
   },
   
   "AliceMargatroid:SeaOfSubconsciousnessPower": {
-    "NAME": "无意识之海",
+    "NAME": "Sea of Subconsciousness",
     "DESCRIPTIONS": [
-      "打出一张手牌后，如果其编号对应的人偶栏位中有 人偶 ，使其 行动 #b%d 次。"
+      "After playing a card in hand, if there is a alicemargatroid:Doll with the same order as the card, it alicemargatroid:Acts #b%d time(s)."
     ]
   },
   
   "AliceMargatroid:SwordOfLightPower": {
-    "NAME": "光之剑：超新星",
+    "NAME": "Sword of Light: Supernova",
     "DESCRIPTIONS": [
-      "每回合打出的第一张 #y攻击牌 造成 #b50% 额外伤害。"
-    ]
-  },
-  
-  "AliceMargatroid:PerfectCherryBlossomPower": {
-    "NAME": "樱花盛开",
-    "DESCRIPTIONS": [
-      "下回开始时，所有 京都人偶 行动 #b%d 次。"
-    ]
-  },
-
-  "AliceMargatroid:CleanAirActPower": {
-    "NAME": "清洁空气法案",
-    "DESCRIPTIONS": [
-      "本回合结束时，保留手牌中的所有 #y技能牌 。",
-      "接下来 #b%d 回合结束时，保留手牌中的所有 #y技能牌 。"
-    ]
-  },
-
-  "AliceMargatroid:DollWorkshopPower": {
-    "NAME": "人偶工坊",
-    "DESCRIPTIONS": [
-      "每回合开始时，随机将 #b%d 张更强的 人偶 牌加入手牌，其具有 #y消耗 。",
-      "每回合开始时，随机将 #b%d 张更强的 人偶 牌加入手牌，它们具有 #y消耗 。"
+      "The first #yAttack played each turn deals #b50% more damage."
     ]
   },
 
   "AliceMargatroid:PrincessFormPower": {
-    "NAME": "魔王形态",
+    "NAME": "Princess Form",
     "DESCRIPTIONS": [
-      "在你打出一张耗能为1且不具有 #y幻影 的牌后，将 #b%d 张具有 #y幻影 的复制加入手牌。"
+      "Whenever you play a 1-cost card, add #b%d copy(ies) with alicemargatroid:Phantom to your hand. NL alicemargatroid:Phantom cards do not trigger this effect."
+    ]
+  },
+
+  "AliceMargatroid:FuturisticBunrakuPower": {
+    "NAME": "Futuristic Bunraku",
+    "DESCRIPTIONS": [
+      "This turn, whenever you play a card, %s #yActs once. NL At the end of this turn, #yRecycle %s."
+    ]
+  },
+
+  "AliceMargatroid:ForbiddenMagicPower": {
+    "NAME": "Forbidden Magic",
+    "DESCRIPTIONS": [
+      "Whenever a #yDoll is #Placed, lose #b%d #yalicemargatroid:Well_Laid_Plans."
+    ]
+  },
+
+  "AliceMargatroid:SemiAutomatonPower": {
+    "NAME": "Semi-Automaton",
+    "DESCRIPTIONS": [
+      "After you #yPlace next #yDoll, let it #yAct #b%d times."
+    ]
+  },
+
+  "AliceMargatroid:GeyserPower": {
+    "NAME": "Geyser",
+    "DESCRIPTIONS": [
+      "Increase Block gained from cards by #b%d%%."
+    ]
+  },
+
+  "AliceMargatroid:TauntedPower": {
+    "NAME": "Taunted",
+    "DESCRIPTIONS": [
+      "In #b%d turns, can only attack the #b%d th #yDoll slot (from right to left)."
+    ]
+  },
+
+  "AliceMargatroid:UnlockMysticPower": {
+    "NAME": "Unlock Mystic",
+    "DESCRIPTIONS": [
+      "Whenever you trigger #yCommand, gain [E], and draw #b1 cards. NL Each unique name of cards can only trigger this once.",
+      "Triggered cards: NL "
     ]
   }
 }

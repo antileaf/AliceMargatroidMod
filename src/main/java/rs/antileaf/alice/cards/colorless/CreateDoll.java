@@ -44,15 +44,26 @@ public class CreateDoll extends AbstractAliceCard {
 		this.dollClazz = dollClazz;
 		this.initializeDescription();
 
-		if (Gdx.files.internal(AliceHelper.getCardImgFilePath(ID + "_" + dollClazz)).exists())
-			this.loadCardImage(AliceHelper.getCardImgFilePath(ID + "_" + dollClazz));
+		if (Gdx.files.internal(AliceHelper.getCardImgFilePath(SIMPLE_NAME + "_" + dollClazz)).exists())
+			this.loadCardImage(AliceHelper.getCardImgFilePath(SIMPLE_NAME + "_" + dollClazz));
+	}
+
+	public CreateDoll(String dollClazz, int index) {
+		this(dollClazz);
+		this.magicNumber = this.baseMagicNumber = index + 1;
+		this.cost = this.costForTurn = index + 1;
+		this.initializeDescription();
 	}
 
 	@Override
 	public void initializeDescription() {
 		this.name = this.dollClazz == null ? cardStrings.NAME : AbstractDoll.getKeyword(this.dollClazz);
-		this.rawDescription = String.format(cardStrings.DESCRIPTION, this.dollClazz == null ?
-				cardStrings.EXTENDED_DESCRIPTION[0] : "alicemargatroid:" + AbstractDoll.getKeyword(this.dollClazz));
+		this.rawDescription = String.format(this.magicNumber == -1 ?
+						cardStrings.DESCRIPTION : cardStrings.UPGRADE_DESCRIPTION,
+				this.dollClazz == null ?
+						cardStrings.EXTENDED_DESCRIPTION[0] :
+						"alicemargatroid:" + AbstractDoll.getKeyword(this.dollClazz));
+
 		super.initializeDescription();
 	}
 	

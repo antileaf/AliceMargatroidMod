@@ -273,8 +273,9 @@ public abstract class AliceHelper {
 		return AliceMargatroidMod.getSaveData();
 	}
 	
-	static String MARISA_MOD_ID = "TS05_Marisa";
-	static String PATCHOULI_MOD_ID = "PatchouliMod";
+	private static final String MARISA_MOD_ID = "TS05_Marisa";
+	private static final String PATCHOULI_MOD_ID = "PatchouliMod";
+	private static final String RANDOM_PREDICTION_MOD_ID = "RandomNumberPredictionMaster";
 	
 	static HashMap<String, Boolean> modAvailable = new HashMap<>();
 	
@@ -292,11 +293,17 @@ public abstract class AliceHelper {
 	public static boolean isPatchouliModAvailable() {
 		return AliceHelper.isModAvailable(PATCHOULI_MOD_ID);
 	}
-	
+
+	public static boolean isRandomPredictionModAvailable() {
+		return AliceHelper.isModAvailable(RANDOM_PREDICTION_MOD_ID);
+	}
+
+	@Deprecated
 	public static void log(String what) {
 		AliceMargatroidMod.logger.info(what);
 	}
-	
+
+	@Deprecated
 	public static void log(Object who, Object what) {
 		AliceMargatroidMod.logger.info("{} : {}", who.getClass().getSimpleName(), what);
 	}

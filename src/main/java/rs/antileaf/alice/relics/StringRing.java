@@ -2,7 +2,6 @@ package rs.antileaf.alice.relics;
 
 import basemod.abstracts.CustomRelic;
 import basemod.abstracts.CustomSavable;
-import com.evacipated.cardcrawl.mod.stslib.relics.ClickableRelic;
 import com.megacrit.cardcrawl.actions.common.RelicAboveCreatureAction;
 import com.megacrit.cardcrawl.actions.utility.HandCheckAction;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -10,6 +9,8 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.PowerTip;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import rs.antileaf.alice.action.doll.SpawnDollAction;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
@@ -18,7 +19,9 @@ import rs.antileaf.alice.utils.AliceHelper;
 
 import java.util.Optional;
 
-public class StringRing extends CustomRelic implements ClickableRelic, CustomSavable<String> {
+public class StringRing extends CustomRelic implements CustomSavable<String> {
+	private static final Logger logger = LogManager.getLogger(StringRing.class.getName());
+
 	public static final String SIMPLE_NAME = StringRing.class.getSimpleName();
 	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 
@@ -67,16 +70,16 @@ public class StringRing extends CustomRelic implements ClickableRelic, CustomSav
 			this.updateDesc();
 		}
 	}
-	
+
 	@Override
-	public void onRightClick() {
-		if (AliceHelper.isInBattle() && !AbstractDungeon.actionManager.turnHasEnded && this.dollClazz != null) {
+	public void atBattleStart() {
+		if (this.dollClazz != null) {
 			this.addToBot(new RelicAboveCreatureAction(AbstractDungeon.player, this));
 			this.addToBot(new SpawnDollAction(AbstractDoll.newInst(this.dollClazz), -1));
 			this.dollClazz = null;
 			this.stopPulse();
 			this.updateDesc();
-			
+
 			this.addToBot(new HandCheckAction());
 		}
 	}
@@ -100,7 +103,7 @@ public class StringRing extends CustomRelic implements ClickableRelic, CustomSav
 				}
 				else {
 					this.dollClazz = null;
-					AliceHelper.log("StringRing: Optional<AbstractDoll> is empty. Maybe there is a bug in the code.");
+					logger.warn("StringRing: Optional<AbstractDoll> is empty. Maybe there is a bug in the code.");
 				}
 			}
 		}

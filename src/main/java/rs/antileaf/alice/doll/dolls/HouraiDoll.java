@@ -2,6 +2,7 @@ package rs.antileaf.alice.doll.dolls;
 
 import com.megacrit.cardcrawl.actions.common.DrawCardAction;
 import com.megacrit.cardcrawl.actions.common.GainEnergyAction;
+import com.megacrit.cardcrawl.helpers.ImageMaster;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.enums.DollAmountType;
 import rs.antileaf.alice.strings.AliceDollStrings;
@@ -31,6 +32,8 @@ public class HouraiDoll extends AbstractDoll {
 		
 		this.passiveAmountType = DollAmountType.OTHERS;
 		this.actAmountType = DollAmountType.OTHERS;
+
+		this.tipImg = ImageMaster.loadImage(AliceHelper.getImgFilePath("UI", "Icon_CardDraw"));
 	}
 	
 	@Override

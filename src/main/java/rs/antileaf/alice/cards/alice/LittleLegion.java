@@ -45,7 +45,8 @@ public class LittleLegion extends AbstractAliceCard {
 		this.damage = this.baseDamage = DAMAGE;
 		this.magicNumber = this.baseMagicNumber = MAGIC;
 		this.isMultiDamage = true;
-		
+
+		this.isCommandCard = true;
 		this.tags.add(CardTagEnum.ALICE_COMMAND);
 		this.tags.add(CardTagEnum.ALICE_DOLL_ACT);
 

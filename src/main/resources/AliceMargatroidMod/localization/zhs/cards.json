@@ -26,7 +26,7 @@
   
   "AliceMargatroid:DollCrusader": {
     "NAME": "人偶十字军",
-    "DESCRIPTION": "alicemargatroid:回收 所有 alicemargatroid:人偶 ，然后在原位置 alicemargatroid:生成 一个随机 alicemargatroid:人偶 ，并使其 alicemargatroid:行动 一次。"
+    "DESCRIPTION": "alicemargatroid:回收 所有 alicemargatroid:人偶 ，然后在原位置 alicemargatroid:生成 一个随机 alicemargatroid:人偶 。 NL 所有 alicemargatroid:人偶 alicemargatroid:行动 一次。"
   },
   
   "AliceMargatroid:Thread": {
@@ -60,8 +60,8 @@
   
   "AliceMargatroid:SurpriseSpring": {
     "NAME": "惊喜之春",
-    "DESCRIPTION": "获得 [E] 。 NL 恢复 !M! 点生命。 NL 抽一张牌，将其在本场战斗中 升级 。 NL 消耗 。",
-    "UPGRADE_DESCRIPTION": "获得 [E] [E] 。 NL 恢复 !M! 点生命。 NL 抽一张牌，将其在本场战斗中 升级 。 NL 消耗 。",
+    "DESCRIPTION": "获得 [E] 。 NL 恢复 !M! 点生命。 NL 抽 !aliceM2! 张牌，将其在本场战斗中 升级 。 NL 消耗 。",
+    "UPGRADE_DESCRIPTION": "获得 [E] [E] 。 NL 恢复 !M! 点生命。 NL 抽 !aliceM2! 张牌，将它们在本场战斗中 升级 。 NL 消耗 。",
     "FLAVOR": "“什么是春度？就是你脑子里究竟有多春的程度啊。”"
   },
   
@@ -83,7 +83,7 @@
   
   "AliceMargatroid:DollJudge": {
     "NAME": "人偶裁判",
-    "DESCRIPTION": "alicemargatroid:人偶 被 alicemargatroid:回收 时，爱丽丝获得其拥有 格挡 的 50% 。"
+    "DESCRIPTION": "alicemargatroid:人偶 被 alicemargatroid:回收 时，爱丽丝获得其拥有 格挡 的 !M! % 。"
   },
   
   "AliceMargatroid:Hail": {
@@ -101,7 +101,7 @@
     "NAME": "七色的人偶使",
     "DESCRIPTION": "对所有敌人造成 !D! 点伤害 !M! 次。 NL 本场战斗中：有一种 *人偶 *行动 过 7 次才能打出； NL 每 *生成 过一种不同的 *人偶 ，耗能减少1 [E] 。",
     "UPGRADE_DESCRIPTION": "保留 。 对所有敌人造成 !D! 点伤害 !M! 次。 NL 本场战斗中：有一种 *人偶 *行动 过 7 次才能打出； NL 每 *生成 过一种不同的 *人偶 ，耗能减少1 [E] 。",
-    "EXTENDED_DESCRIPTION": ["需要有一种人偶 行动 过 #b7 次才能打出！"]
+    "EXTENDED_DESCRIPTION": ["需要有一种人偶行动过 #r7 次才能打出！"]
   },
   
   "AliceMargatroid:Collector": {
@@ -200,13 +200,13 @@
   
   "AliceMargatroid:DollOfRoundTable": {
     "NAME": "圆桌人偶",
-    "DESCRIPTION": "所有 alicemargatroid:人偶 获得 !B! 点 格挡 。 NL 本回合内，无法再从卡牌中获得 格挡 。 NL 消耗 。"
+    "DESCRIPTION": "爱丽丝和所有 alicemargatroid:人偶 获得 !B! 点 格挡 。 NL 本回合内，无法再从卡牌中获得 格挡 。 NL 消耗 。"
   },
   
   "AliceMargatroid:Dessert": {
     "NAME": "甜点",
-    "DESCRIPTION": "获得 [E] 。 NL 打出手牌中最右侧的牌后，从手牌中自动打出。",
-    "UPGRADE_DESCRIPTION": "获得 [E] [E] 。 NL 打出手牌中最右侧的牌后，从手牌中自动打出。"
+    "DESCRIPTION": "获得 [E] 。 NL 打出手牌中最左侧或最右侧的牌后，从手牌中自动打出。",
+    "UPGRADE_DESCRIPTION": "获得 [E] [E] 。 NL 打出手牌中最左侧或最右侧的牌后，从手牌中自动打出。"
   },
   
   "AliceMargatroid:TheSetup": {
@@ -293,7 +293,7 @@
   
   "AliceMargatroid:DEPRECATEDThePhantomOfTheGrandGuignol": {
     "NAME": "猎奇剧团里的怪人",
-    "DESCRIPTION": "alicemargatroid:人偶 的被动和 alicemargatroid:行动 效果的基础数值提高 !M! 点。 NL 每回合开始时，失去 [E] 。"
+    "DESCRIPTION": "alicemargatroid:人偶 的被动和 alicemargatroid:行动 效果的基础数值增加 !M! 点。 NL 每回合开始时，失去 [E] 。"
   },
   
   "AliceMargatroid:Housework": {
@@ -336,7 +336,7 @@
   
   "AliceMargatroid:DollArmy": {
     "NAME": "人偶军团",
-    "DESCRIPTION": "alicemargatroid:指令 ：在至多 !M! 个空栏位中 alicemargatroid:生成 一个与目标 alicemargatroid:人偶 类别相同的 alicemargatroid:人偶 。 NL 消耗 。"
+    "DESCRIPTION": "alicemargatroid:指令 ：在至多 !M! 个空栏位中 alicemargatroid:生成 一个目标 alicemargatroid:人偶 的复制。 NL 消耗 。"
   },
   
   "AliceMargatroid:AliceGame": {
@@ -417,7 +417,7 @@
   
   "AliceMargatroid:DollInSea": {
     "NAME": "海中的人偶",
-    "DESCRIPTION": "所有 alicemargatroid:上海人偶 和 alicemargatroid:京都人偶 的最大生命提高 !M! 点 。 NL 所有 alicemargatroid:人偶 的生命值恢复至满。"
+    "DESCRIPTION": "所有 alicemargatroid:人偶 的生命值恢复至满。 NL 所有 alicemargatroid:上海人偶 和 alicemargatroid:京都人偶 的最大生命增加 !M! 点 。"
   },
 
   "AliceMargatroid:ClawMachine": {
@@ -435,8 +435,8 @@
 
   "AliceMargatroid:PrincessForm": {
     "NAME": "魔王形态",
-    "DESCRIPTION": "虚无 。 NL 在你打出一张耗能为1的牌后，将一张具有 alicemargatroid:幻影 的复制加入手牌。 NL alicemargatroid:幻影 不会触发此效果。",
-    "UPGRADE_DESCRIPTION": "在你打出一张耗能为1的牌后，将一张具有 alicemargatroid:幻影 的复制加入手牌。 NL alicemargatroid:幻影 不会触发此效果。"
+    "DESCRIPTION": "虚无 。 NL 每打出3张耗能为1的牌，将第3张牌的一张耗能为0的、具有 alicemargatroid:幻影 的复制加入手牌。",
+    "UPGRADE_DESCRIPTION": "每打出3张耗能为1的牌，将第3张牌的一张耗能为0的、具有 alicemargatroid:幻影 的复制加入手牌。"
   },
 
   "AliceMargatroid:PolarNight": {
@@ -456,13 +456,33 @@
 
   "AliceMargatroid:ForbiddenMagic": {
     "NAME": "禁咒",
-    "DESCRIPTION": "当前每有一个空的 alicemargatroid:人偶 栏位，获得1层 alicemargatroid:计划妥当 。 NL 每 alicemargatroid:生成 一个 alicemargatroid:人偶 ，失去1层 alicemargatroid:计划妥当 。",
-    "UPGRADE_DESCRIPTION": "获得 !M! 层 alicemargatroid:计划妥当 。 NL 每 alicemargatroid:生成 一个 alicemargatroid:人偶 ，失去1层 alicemargatroid:计划妥当 。"
+    "DESCRIPTION": "当前每有一个空的 alicemargatroid:人偶 栏位，获得1层 alicemargatroid:计划妥当 。 NL 之后，每 alicemargatroid:生成 一个 alicemargatroid:人偶 ，失去1层 alicemargatroid:计划妥当 。",
+    "UPGRADE_DESCRIPTION": "获得 !M! 层 alicemargatroid:计划妥当 。 NL 之后，每 alicemargatroid:生成 一个 alicemargatroid:人偶 ，失去1层 alicemargatroid:计划妥当 。"
   },
 
   "AliceMargatroid:SemiAutomaton": {
     "NAME": "半自主人偶",
-    "DESCRIPTION": "保留 。 NL alicemargatroid:生成 下一个 alicemargatroid:人偶 时，使其 alicemargatroid:行动 !M! 次。 NL 消耗 。"
+    "DESCRIPTION": "alicemargatroid:生成 下一个 alicemargatroid:人偶 后，使其 alicemargatroid:行动 !M! 次。 NL 消耗 。"
+  },
+
+  "AliceMargatroid:Geyser": {
+    "NAME": "间歇泉",
+    "DESCRIPTION": "从卡牌中获得的 格挡 增加 !M! %。"
+  },
+
+  "AliceMargatroid:SoldierOfCross": {
+    "NAME": "交错的士兵",
+    "DESCRIPTION": "爱丽丝或目标 alicemargatroid:人偶 获得 !B! 点 格挡 。 NL alicemargatroid:指令 ： *嘲讽 所有敌人 !M! 回合，被 *嘲讽 的敌人只能攻击目标栏位。"
+  },
+
+  "AliceMargatroid:UnlockMystic": {
+    "NAME": "神秘解放",
+    "DESCRIPTION": "每当你触发 alicemargatroid:指令 效果时，获得 [E] ，并抽1张牌。 NL 每种卡名限一次。 NL 无法叠加，但可以重置可触发次数。"
+  },
+
+  "AliceMargatroid:SuicideSquad": {
+    "NAME": "敢死小分队",
+    "DESCRIPTION": "alicemargatroid:指令 ：对目标 alicemargatroid:人偶 对应的敌人造成 !D! 点伤害，并且目标 alicemargatroid:人偶 获得 !B! 点 格挡 ，恢复 !M! 点生命，最大生命值增加 !M! 点。"
   },
   
   
@@ -525,7 +545,7 @@
 
   "AliceMargatroid:Retrace": {
     "NAME": "折回",
-    "DESCRIPTION": "保留 。 NL alicemargatroid:回收 目标 alicemargatroid:人偶 ，抽 !M! 张牌。 NL 消耗 。"
+    "DESCRIPTION": "保留 。 NL alicemargatroid:指令 ： alicemargatroid:回收 目标 alicemargatroid:人偶 ，抽 !M! 张牌。 NL 消耗 。"
   },
   
   "AliceMargatroid:DEPRECATEDMarisasPotion": {
@@ -543,6 +563,7 @@
   "AliceMargatroid:CreateDoll": {
     "NAME": "生成人偶",
     "DESCRIPTION": "alicemargatroid:生成 一个 %s 。",
+    "UPGRADE_DESCRIPTION": "在从左至右的第 !M! 个栏位中 alicemargatroid:生成 一个 %s 。",
     "EXTENDED_DESCRIPTION": ["对应种类的 alicemargatroid:人偶"]
   },
 
@@ -616,26 +637,5 @@
     "NAME": "统御 (已弃用)",
     "DESCRIPTION": "本场战斗中，所有人偶的最大生命值提高 2X 点。",
     "UPGRADE_DESCRIPTION": "本场战斗中，所有人偶的最大生命值提高 2(X+1) 点。"
-  },
-
-  "AliceMargatroid:Countermeasure": {
-    "NAME": "对策",
-    "DESCRIPTION": "选择：对所有敌人造成 !M! 点伤害；对血量最低的敌人造成 !D! 点伤害；随机造成 !aliceD2! 点伤害 !aliceM2! 次。",
-    "EXTENDED_DESCRIPTION": ["选择一种效果"]
-  },
-
-  "AliceMargatroid:Chesed": {
-    "NAME": "清杂",
-    "DESCRIPTION": "对所有敌人造成 !D! 点伤害。"
-  },
-
-  "AliceMargatroid:Goz": {
-    "NAME": "集火",
-    "DESCRIPTION": "对生命值最低的敌人造成 !D! 点伤害。"
-  },
-
-  "AliceMargatroid:Binah": {
-    "NAME": "攻坚",
-    "DESCRIPTION": "随机对敌人造成 !D! 点伤害 !M! 次。"
   }
 }

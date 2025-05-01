@@ -14,7 +14,6 @@ import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
-import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.utils.AliceHelper;
 
 public class DollCremation extends AbstractAliceCard {
@@ -41,8 +40,6 @@ public class DollCremation extends AbstractAliceCard {
 		
 		this.damage = this.baseDamage = DAMAGE;
 		this.isEthereal = true;
-		
-		this.tags.add(CardTagEnum.ALICE_COMMAND);
 
 //		this.targetIcons.add(AliceTargetIcon.DOLL);
 //		this.targetIcons.add(AliceTargetIcon.ENEMY);

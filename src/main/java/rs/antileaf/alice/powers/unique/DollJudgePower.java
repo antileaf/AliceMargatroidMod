@@ -22,7 +22,7 @@ public class DollJudgePower extends AbstractAlicePower implements OnDollOperateH
 		
 		this.type = PowerType.BUFF;
 		this.updateDescription();
-		this.initializeImage(null);
+		this.initializeImage(SIMPLE_NAME);
 	}
 	
 	@Override

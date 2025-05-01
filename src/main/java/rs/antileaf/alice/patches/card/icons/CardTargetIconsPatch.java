@@ -17,13 +17,13 @@ import com.megacrit.cardcrawl.helpers.TipHelper;
 import com.megacrit.cardcrawl.screens.SingleCardViewPopup;
 import javassist.CannotCompileException;
 import javassist.CtBehavior;
+import me.antileaf.signature.patches.scv.SCVPanelPatch;
+import me.antileaf.signature.utils.SignatureHelper;
 import rs.antileaf.alice.cards.AbstractAliceCard;
-import rs.antileaf.alice.patches.card.signature.SCVPanelPatch;
 import rs.antileaf.alice.targeting.AliceTargetIcon;
 import rs.antileaf.alice.utils.AliceConfigHelper;
 import rs.antileaf.alice.utils.AliceImageMaster;
 import rs.antileaf.alice.utils.AliceTargetIconTipHelper;
-import rs.antileaf.alice.utils.SignatureHelper;
 
 import static rs.antileaf.alice.AliceMargatroidMod.ALICE_PUPPETEER_FLAVOR;
 
@@ -49,7 +49,7 @@ public class CardTargetIconsPatch {
 		if (Settings.lineBreakViaCharacter)
 			base += BODY_FONT.getLineHeight() * count;
 		else
-			base += TIP_DESC_LINE_SPACING * count;
+			base += TIP_DESC_LINE_SPACING * count + BODY_FONT.getCapHeight();
 
 		return base;
 	}
@@ -217,7 +217,7 @@ public class CardTargetIconsPatch {
 			@SpireInsertPatch(locator = Locator.class)
 			public static void Insert(SingleCardViewPopup _inst, SpriteBatch sb, AbstractCard ___card) {
 				if (___card instanceof AbstractAliceCard && AliceConfigHelper.enableCardTargetIcons() &&
-						(!SignatureHelper.shouldUseSignature(___card.cardID) ||
+						(!SignatureHelper.shouldUseSignature(___card) ||
 						!SCVPanelPatch.Fields.hideDesc.get(_inst)))
 					((AbstractAliceCard) ___card).renderTargetIcons(
 							sb,

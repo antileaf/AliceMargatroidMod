@@ -3,6 +3,7 @@ package rs.antileaf.alice.doll;
 import basemod.abstracts.CustomOrb;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
@@ -32,6 +33,7 @@ import rs.antileaf.alice.strings.AliceLanguageStrings;
 import rs.antileaf.alice.utils.AliceConfigHelper;
 import rs.antileaf.alice.utils.AliceHelper;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -49,6 +51,8 @@ public abstract class AbstractDoll extends CustomOrb {
 	private static final float FONT_SCALE = 0.7F;
 	
 	private static final float RETICLE_OFFSET_DIST = 15.0F * Settings.scale;
+
+	private static final Texture TauntTexture = new Texture(AliceHelper.getPowerImgFilePath("TauntedPower84"));
 	
 //	protected final AliceDollStrings dollStrings;
 	
@@ -72,6 +76,8 @@ public abstract class AbstractDoll extends CustomOrb {
 	private float vfxTimer = 1.0F;
 	protected float animX, animY;
 	protected float animSpeed;
+
+	protected Texture tipImg;
 	
 	protected float highlightPassiveValueTimer = 0.0F;
 	protected float passiveFontScale = FONT_SCALE;
@@ -112,6 +118,7 @@ public abstract class AbstractDoll extends CustomOrb {
 	private float reticleAnimTimer;
 	
 	public boolean dontShowHPDescription = false;
+	private boolean taunt = false;
 	
 	public AbstractDoll(String ID, String NAME, int maxHP, int basePassiveAmount, int baseActAmount, String imgPath, RenderTextMode renderTextMode) {
 		super(ID, NAME, basePassiveAmount, -1, "", "",
@@ -205,12 +212,20 @@ public abstract class AbstractDoll extends CustomOrb {
 	
 	public void renderGenericTip() {
 		if (this.hb.hovered) {
-			TipHelper.renderGenericTip(
+//			TipHelper.renderGenericTip(
+//					this.tX + 96.0F * Settings.scale,
+//					this.tY + 64.0F * Settings.scale,
+//					this.name,
+//					this.description
+//			);
+
+			ArrayList<PowerTip> tips = new ArrayList<>();
+			tips.add(new PowerTip(this.name, this.description, this.tipImg));
+
+			TipHelper.queuePowerTips(
 					this.tX + 96.0F * Settings.scale,
 					this.tY + 64.0F * Settings.scale,
-					this.name,
-					this.description
-			);
+					tips);
 		}
 	}
 	
@@ -303,11 +318,29 @@ public abstract class AbstractDoll extends CustomOrb {
 			this.overflowedDamage = 0;
 	}
 	
-	public void updateDamageAboutToTake(int damage, int count) {
+	public void setDamageAboutToTake(int damage, int count) {
 		this.damageAboutToTake = damage;
 		this.damageCount = count;
 		
 		this.updateOverflowedDamage();
+	}
+
+	public void addDamageAboutToTake(int damage, int count) {
+		if (damage <= 0)
+			return;
+
+		if (this.damageAboutToTake == -1)
+			this.setDamageAboutToTake(damage, count);
+		else {
+			if (this.damageCount > 1) {
+				this.damageAboutToTake *= this.damageCount;
+				this.damageCount = 1;
+			}
+
+			this.damageAboutToTake += damage * count;
+
+			this.updateOverflowedDamage();
+		}
 	}
 	
 	public int calcTotalDamageAboutToTake() {
@@ -316,6 +349,10 @@ public abstract class AbstractDoll extends CustomOrb {
 	
 	public int getOverflowedDamage() {
 		return this.overflowedDamage;
+	}
+
+	public void setTaunt(boolean taunt) {
+		this.taunt = taunt;
 	}
 	
 	// Returns remaining damage.
@@ -411,6 +448,8 @@ public abstract class AbstractDoll extends CustomOrb {
 				this.HP = 0;
 				ret = true;
 			}
+
+			this.onLoseHP(amount);
 		}
 		
 		this.updateDescription();
@@ -427,12 +466,16 @@ public abstract class AbstractDoll extends CustomOrb {
 		this.healthBarUpdatedEvent();
 	}
 
-	public void increaseMaxHealth(int amount) {
+	public void increaseMaxHealth(int amount, boolean isEmpty) {
 		this.maxHP += amount;
-		this.HP += amount;
+
+		if (!isEmpty) {
+			this.HP += amount;
+			AbstractDungeon.effectsQueue.add(new HealEffect(this.getDrawCX(), this.getDrawCY() +
+					(this.img == null ? 96.0F : this.img.getHeight()), amount));
+		}
+
 		this.updateDescription();
-		AbstractDungeon.effectsQueue.add(new HealEffect(this.getDrawCX(), this.getDrawCY() +
-				(this.img == null ? 96.0F : this.img.getHeight()), amount));
 		this.healthBarUpdatedEvent();
 	}
 	
@@ -483,6 +526,9 @@ public abstract class AbstractDoll extends CustomOrb {
 	
 	// Not equal to recycled or destroyed.
 	public void onRemoved() {}
+
+	@Deprecated
+	public void onLoseHP(int amount) {}
 	
 	@Override
 	public void onStartOfTurn() {}
@@ -506,6 +552,16 @@ public abstract class AbstractDoll extends CustomOrb {
 	public void postOtherDollDestroyed(AbstractDoll doll) {}
 	
 //	public void postOtherDollRemoved(AbstractDoll doll) {}
+
+	public AbstractDoll makeStatEquivalentCopy() {
+		AbstractDoll doll = newInst(this.getID());
+		doll.maxHP = this.maxHP;
+		doll.HP = this.HP;
+		doll.block = this.block;
+		doll.healthBarUpdatedEvent();
+
+		return doll;
+	}
 	
 	public void applyPower() {
 		AbstractPlayer player = AbstractDungeon.player;
@@ -678,7 +734,7 @@ public abstract class AbstractDoll extends CustomOrb {
 	}
 	
 	protected float getRenderYOffset() {
-		return this.bobEffect.y / 2.0F + NUM_Y_OFFSET - 4.0F * Settings.scale;
+		return this.bobEffect.y / 2.0F + NUM_Y_OFFSET - 26.0F * Settings.scale;
 	}
 	
 	@Override
@@ -706,6 +762,34 @@ public abstract class AbstractDoll extends CustomOrb {
 			this.renderActValue(sb,
 					this.cX + this.getRenderXOffset(),
 					this.cY + this.getRenderYOffset());
+		}
+
+		if (this.tipImg != null) {
+			int len = 0;
+			if (this.renderTextMode == RenderTextMode.PASSIVE)
+				len = this.getRenderPassiveValue().length();
+			else if (this.renderTextMode == RenderTextMode.ACT)
+				len = this.getRenderActValue().length();
+			else if (this.renderTextMode == RenderTextMode.BOTH)
+				len = Math.max(this.getRenderPassiveValue().length(), this.getRenderActValue().length());
+
+			sb.setColor(Color.WHITE);
+
+			sb.draw(
+					this.tipImg,
+					this.cX + this.getRenderXOffset() + len * 6.0F * Settings.scale,
+					this.cY + this.getRenderYOffset() - 14.0F * Settings.scale,
+					32.0F * Settings.scale,
+					32.0F * Settings.scale);
+		}
+
+		if (this.taunt) {
+			sb.draw(
+					TauntTexture,
+					this.cX - 50.0F * Settings.scale,
+					this.cY + this.getRenderYOffset() - 14.0F * Settings.scale,
+					32.0F * Settings.scale,
+					32.0F * Settings.scale);
 		}
 		
 		if (AbstractDungeon.player != null && !AbstractDungeon.player.hasRelic(RunicDome.ID)) {

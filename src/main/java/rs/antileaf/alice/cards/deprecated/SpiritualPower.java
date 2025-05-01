@@ -11,6 +11,7 @@ import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.powers.deprecated.SpiritualPowerPower;
 import rs.antileaf.alice.utils.AliceHelper;
 
+@Deprecated
 public class SpiritualPower extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = SpiritualPower.class.getSimpleName();
 //	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);

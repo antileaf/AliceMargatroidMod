@@ -1,10 +1,10 @@
 package rs.antileaf.alice.cards.utils;
 
-import basemod.abstracts.CustomCard;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import me.antileaf.signature.card.AbstractSignatureCard;
 
-public abstract class AbstractSecondaryVariablesCard extends CustomCard {
+public abstract class AbstractSecondaryVariablesCard extends AbstractSignatureCard {
 	public int secondaryMagicNumber = -1;
 	public int baseSecondaryMagicNumber = -1;
 	public boolean upgradedSecondaryMagicNumber = false;

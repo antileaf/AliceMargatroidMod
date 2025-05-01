@@ -25,7 +25,7 @@
     "TAG": "进攻",
     "TAG_COLOR": "#r",
     "PASSIVE_NAME": "新月",
-    "PASSIVE_DESCRIPTION": "#y生成 时自动 #y行动 一次。 上海人偶造成的伤害可以享受 #y力量 加成。",
+    "PASSIVE_DESCRIPTION": " #y生成 时自动 #y行动 一次。 上海人偶造成的伤害可以享受 #y力量 加成。",
     "ACT_DESCRIPTION": "对生命值最低的敌人造成 %s 点伤害。",
     "EXTENDED_DESCRIPTION": ["（当前拥有 %d 点充能。）"]
   },
@@ -46,8 +46,8 @@
     "TAG": "进攻",
     "TAG_COLOR": "#r",
     "PASSIVE_NAME": "落英",
-    "PASSIVE_DESCRIPTION": "每回合结束时，该人偶恢复一半的已损失生命值。",
-    "ACT_DESCRIPTION": "对所有敌人造成等同于自身生命值一半的伤害。"
+    "PASSIVE_DESCRIPTION": "恢复溢出的生命时，对所有敌人造成等量伤害。",
+    "ACT_DESCRIPTION": "恢复一半最大生命值。"
   },
   
   "NetherlandsDoll": {

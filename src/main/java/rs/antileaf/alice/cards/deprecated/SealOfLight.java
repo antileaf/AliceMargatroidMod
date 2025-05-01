@@ -8,7 +8,7 @@ import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
-import rs.antileaf.alice.powers.unique.SealOfLightPower;
+import rs.antileaf.alice.powers.deprecated.SealOfLightPower;
 import rs.antileaf.alice.utils.AliceHelper;
 
 public class SealOfLight extends AbstractAliceCard {

@@ -8,6 +8,7 @@ import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.FontHelper;
+import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.action.doll.DollActAction;
 import rs.antileaf.alice.action.doll.DollDamageAction;
@@ -50,6 +51,8 @@ public class ShanghaiDoll extends AbstractDoll {
 		
 		this.passiveAmountType = DollAmountType.MAGIC;
 		this.actAmountType = DollAmountType.DAMAGE;
+
+		this.tipImg = ImageMaster.INTENT_ATK_TIP_3;
 	}
 	
 	@Override

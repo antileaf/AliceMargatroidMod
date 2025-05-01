@@ -8,6 +8,7 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 
+@Deprecated
 public class DollOrEmptySlotOrEnemyTargeting extends TargetingHandler<Object> {
 	public static Object getTarget(AbstractCard card) {
 		Object target = CustomTargeting.getCardTarget(card);

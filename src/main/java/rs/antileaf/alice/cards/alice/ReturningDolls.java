@@ -12,6 +12,7 @@ import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.cards.colorless.Retrace;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
+import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
 import rs.antileaf.alice.targeting.AliceTargetIcon;
 import rs.antileaf.alice.utils.AliceHelper;
@@ -41,6 +42,9 @@ public class ReturningDolls extends AbstractAliceCard {
 		
 		this.magicNumber = this.baseMagicNumber = DRAW;
 		this.secondaryMagicNumber = this.baseSecondaryMagicNumber = MAGIC2;
+
+		this.isCommandCard = true;
+		this.tags.add(CardTagEnum.ALICE_COMMAND);
 
 		this.cardsToPreview = new Retrace();
 

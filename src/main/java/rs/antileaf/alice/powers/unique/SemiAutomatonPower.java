@@ -23,7 +23,7 @@ public class SemiAutomatonPower extends AbstractAlicePower implements OnDollOper
 		
 		this.type = PowerType.BUFF;
 		this.updateDescription();
-		this.initializeImage(null);
+		this.initializeImage(SIMPLE_NAME);
 	}
 	
 	@Override
@@ -45,7 +45,7 @@ public class SemiAutomatonPower extends AbstractAlicePower implements OnDollOper
 		this.flash();
 
 		for (int i = 0; i < this.amount; i++)
-			AliceHelper.addActionToBuffer(new DollActAction(doll));
+			this.addToBot(new DollActAction(doll));
 
 		AliceHelper.addActionToBuffer(new RemoveSpecificPowerAction(
 				this.owner, this.owner, this));

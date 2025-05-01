@@ -6,11 +6,11 @@
   ],
   "description": "Adds Alice Margatroid from Touhou Project as a new playable character.",
   "dependencies": [
-    "basemod", "stslib"
+    "basemod", "stslib", "SignatureLib"
   ],
   "optional_dependencies": [
-    "TS05_Marisa"
+    "TS05_Marisa", "RandomNumberPredictionMaster"
   ],
-  "version": "0.0.1",
+  "version": "0.0.9",
   "sts_version": "${SlayTheSpire.version}"
 }

@@ -42,7 +42,8 @@ public class Masterpiece extends AbstractAliceCard {
 		
 		this.block = this.baseBlock = BLOCK;
 		this.magicNumber = this.baseMagicNumber = DRAW;
-		
+
+		this.isCommandCard = true;
 		this.tags.add(CardTagEnum.ALICE_COMMAND);
 
 		this.targetIcons.add(AliceTargetIcon.DOLL);

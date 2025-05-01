@@ -58,12 +58,21 @@ public class DollCrusader extends AbstractAliceCard {
 
 					AliceHelper.addActionToBuffer(new RecycleDollAction(doll));
 				}
+
+//			ArrayList<AbstractDoll> spawn = new ArrayList<>();
 			
 			for (int i : indices) {
 				AbstractDoll doll = AbstractDoll.getRandomDoll();
 				AliceHelper.addActionToBuffer(new SpawnDollAction(doll, i));
-				AliceHelper.addActionToBuffer(new DollActAction(doll));
+//				spawn.add(doll);
 			}
+
+			AliceHelper.addActionToBuffer(new AnonymousAction(() -> {
+				for (AbstractDoll d : DollManager.get().getDolls())
+					if (!(d instanceof EmptyDollSlot))
+						AliceHelper.addActionToBuffer(new DollActAction(d));
+				AliceHelper.commitBuffer();
+			}));
 			
 			AliceHelper.commitBuffer();
 		}));

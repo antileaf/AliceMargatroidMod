@@ -3,8 +3,8 @@
     "NAME": "Alice's Grimoire",
     "FLAVOR": "Said to record magic that can't be used by humans.",
     "DESCRIPTIONS": [
-      "At the start of each combat, #yalicemargatroid:Place a #yalicemargatroid:shanghai_doll in the rightmost slot.",
-      "#yalicemargatroid:Activate : Re-open tutorial."
+      "At the start of each combat, #yalicemargatroid:Place a #yalicemargatroid:Shanghai_Doll in the rightmost slot.",
+      "#yalicemargatroid:Activate: Re-open tutorial."
     ]
   },
   
@@ -20,14 +20,14 @@
     "NAME": "Alice's Dark Grimoire",
     "FLAVOR": "Said to record \"ultimate magic\" that can't be used by humans.",
     "DESCRIPTIONS": [
-      "Replaces #rAlice's #rGrimoire . For each present #yalicemargatroid:Doll , increase the #ybase HP of newly #yalicemargatroid:Placed #yalicemargatroid:Doll by #b3 .",
-      "#yalicemargatroid:Activate : Re-open tutorial."
+      "Replaces #rAlice's #rGrimoire. For each present #yalicemargatroid:Doll , increase the Max HP of newly #yalicemargatroid:Placed #yalicemargatroid:Doll by #b4.",
+      "#yalicemargatroid:Activate: Re-open tutorial."
     ]
   },
   
   "AliceMargatroid:SwordOfLight_Supernova": {
-    "NAME": "Sword of Light : Supernova",
-    "FLAVOR": "Panpankapan~",
+    "NAME": "Sword of Light: Supernova",
+    "FLAVOR": "Hailing Light!",
     "DESCRIPTIONS": [
       "The first #yAttack played each turn deals #b50% more damage."
     ]
@@ -37,7 +37,7 @@
     "NAME": "String Ring",
     "FLAVOR": "Essential props for a puppeteer.",
     "DESCRIPTIONS": [
-      "At the end of combat, if not storing any #yDoll , store the right-most #yDoll in this. NL #yalicemargatroid:Activate : take and #yalicemargatroid:Place a #yDoll of corresponding type.",
+      "At the end of combat, store the rightmost #yDoll in this. NL At the start of each combat, take and #yalicemargatroid:Place a #yDoll of that kind.",
       "Currently stored: #g%s .", "Currently #rnot storing any #yDoll ."
     ]
   },
@@ -46,7 +46,7 @@
     "NAME": "Color Contacts",
     "FLAVOR": "",
     "DESCRIPTIONS": [
-      "At the first #b%d turns of each combat, gain [E] , and draw 1 card."
+      "At the first #b%d turns of each combat, gain [E], and draw 1 card."
     ]
   },
   
@@ -72,7 +72,7 @@
     "NAME": "Black Tea",
     "FLAVOR": "Black Tea brewed by Alice's Dolls.",
     "DESCRIPTIONS": [
-      "Upon pickup, raise your Max HP by #b7 , and heal #b7 HP.",
+      "Upon pickup, raise your Max HP by #b7, and heal #b7 HP.",
       "Black Tea brewed by little Alice."
     ]
   },
@@ -81,7 +81,7 @@
     "NAME": "Magic Potion",
     "FLAVOR": "Magic Power restoration drug drawn out of mushrooms from the Forest of Magic.",
     "DESCRIPTIONS": [
-      "At the start of your 2nd turn, gain [E] [E] ."
+      "At the start of your 2nd turn, gain [E] [E]."
     ]
   }
 }

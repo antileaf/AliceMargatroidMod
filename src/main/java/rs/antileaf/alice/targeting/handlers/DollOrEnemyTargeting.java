@@ -9,6 +9,7 @@ import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 
+@Deprecated
 public class DollOrEnemyTargeting extends TargetingHandler<Object> {
 	public static Object getTarget(AbstractCard card) {
 		Object target = CustomTargeting.getCardTarget(card);

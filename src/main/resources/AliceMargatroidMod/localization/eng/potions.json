@@ -2,7 +2,7 @@
   "WeavingPotion": {
     "NAME": "Weaving Potion",
     "DESCRIPTIONS": [
-      "Place #b%d random #yDolls 。"
+      "#yPlace #b%d random #yDolls in empty slots."
     ]
   },
   

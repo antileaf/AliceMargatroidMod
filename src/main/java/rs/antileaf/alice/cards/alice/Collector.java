@@ -64,6 +64,12 @@ public class Collector extends AbstractAliceCard {
 		this.rawDescription = cardStrings.DESCRIPTION + " NL " + cardStrings.EXTENDED_DESCRIPTION[0];
 		this.initializeDescription();
 	}
+
+	@Override
+	public void onMoveToDiscard() {
+		this.rawDescription = cardStrings.DESCRIPTION;
+		this.initializeDescription();
+	}
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
@@ -73,9 +79,6 @@ public class Collector extends AbstractAliceCard {
 			this.addToBot(new DollGainBlockAction(doll, this.block));
 		else
 			this.addToBot(new GainBlockAction(p, p, this.block));
-
-		this.rawDescription = cardStrings.DESCRIPTION;
-		this.initializeDescription();
 	}
 	
 	@Override

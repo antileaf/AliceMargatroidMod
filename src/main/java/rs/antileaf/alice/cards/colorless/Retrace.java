@@ -39,7 +39,8 @@ public class Retrace extends AbstractAliceCard {
 		this.magicNumber = this.baseMagicNumber = DRAW;
 		this.retain = this.selfRetain = true;
 		this.exhaust = true;
-		
+
+		this.isCommandCard = true;
 		this.tags.add(CardTagEnum.ALICE_COMMAND);
 
 		this.targetIcons.add(AliceTargetIcon.DOLL);

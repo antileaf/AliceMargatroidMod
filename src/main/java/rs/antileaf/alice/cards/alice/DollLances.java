@@ -79,6 +79,12 @@ public class DollLances extends AbstractAliceCard {
 		this.rawDescription = cardStrings.DESCRIPTION + " NL " + cardStrings.EXTENDED_DESCRIPTION[0];
 		this.initializeDescription();
 	}
+
+	@Override
+	public void onMoveToDiscard() {
+		this.rawDescription = cardStrings.DESCRIPTION;
+		this.initializeDescription();
+	}
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
@@ -118,9 +124,6 @@ public class DollLances extends AbstractAliceCard {
 					m,
 					new DamageInfo(p, this.damage, this.damageTypeForTurn),
 					AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
-
-		this.rawDescription = cardStrings.DESCRIPTION;
-		this.initializeDescription();
 	}
 	
 	@Override

@@ -1,5 +1,6 @@
 package rs.antileaf.alice.cards.alice;
 
+import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -11,9 +12,11 @@ import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
+import rs.antileaf.alice.doll.dolls.NetherlandsDoll;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
+import rs.antileaf.alice.powers.unique.FuturisticBunrakuPower;
 import rs.antileaf.alice.targeting.AliceTargetIcon;
 import rs.antileaf.alice.targeting.handlers.DollTargeting;
 import rs.antileaf.alice.utils.AliceHelper;
@@ -42,7 +45,8 @@ public class DollArmy extends AbstractAliceCard {
 		
 		this.magicNumber = this.baseMagicNumber = MAGIC;
 		this.exhaust = true;
-		
+
+		this.isCommandCard = true;
 		this.tags.add(CardTagEnum.ALICE_COMMAND);
 
 		this.targetIcons.add(AliceTargetIcon.DOLL);
@@ -51,9 +55,13 @@ public class DollArmy extends AbstractAliceCard {
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
 		AbstractDoll doll = DollTargeting.getTarget(this);
+
+		boolean futuristic = !(doll instanceof NetherlandsDoll) &&
+				p.powers.stream()
+						.anyMatch(power -> power instanceof FuturisticBunrakuPower &&
+								((FuturisticBunrakuPower) power).doll == doll);
 		
 		if (doll != null && !(doll instanceof EmptyDollSlot)) {
-			String id = doll.getID();
 			int count = this.magicNumber;
 			
 			for (int i = 0; i < DollManager.get().getDolls().size(); i++)
@@ -61,8 +69,15 @@ public class DollArmy extends AbstractAliceCard {
 						&& DollManager.get().getDolls().get(i) instanceof EmptyDollSlot) {
 					int pos = i;
 					this.addToBot(new AnonymousAction(() -> {
-						if (DollManager.get().getDolls().get(pos) instanceof EmptyDollSlot)
-							this.addToTop(new SpawnDollAction(AbstractDoll.newInst(id), pos));
+						if (DollManager.get().getDolls().get(pos) instanceof EmptyDollSlot) {
+							AbstractDoll copy = doll.makeStatEquivalentCopy();
+
+							this.addToTop(new SpawnDollAction(copy, pos));
+
+							if (futuristic)
+								this.addToBot(new ApplyPowerAction(p, p,
+										new FuturisticBunrakuPower(copy)));
+						}
 					}));
 					
 					if (--count <= 0)

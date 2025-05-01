@@ -20,20 +20,21 @@ import java.util.Map;
 import java.util.Properties;
 
 public class AliceConfigHelper {
-	public static String SHOULD_OPEN_TUTORIAL = "shouldOpenTutorial";
-	public static String ENABLE_SPELL_CARD_SIGN_DISPLAY = "enableSpellCardSignDisplay";
-	public static String ENABLE_CARD_TARGET_ICONS = "enableCardTargetIcons";
-	public static String ENABLE_ALTERNATIVE_MARISA_CARD_IMAGE = "enableAlternativeMarisaCardImage";
-	public static String USE_PACK_MASTER_STYLE_MARISA_CARDS = "usePackMasterStyleMarisaCards";
-	public static String ENABLE_WITCHS_TEA_PARTY_FEATURE = "enableWitchsTeaPartyFeature"; // Deprecated
-	public static String ENABLE_SHANGHAI_DOLL_EVENT_FOR_OTHER_CHARACTERS = "enableShanghaiDollEventForOtherCharacters";
-	public static String ENABLE_DEBUGGING = "enableDebugging";
-	public static String SKIN_SELECTION_UNLOCKED = "skinSelectionUnlocked";
-	public static String SKIN_CHOSEN = "skinChosen";
-	public static String SIGNATURE_UNLOCKED = "signatureUnlocked_";
-	public static String SIGNATURE_ENABLED = "signatureEnabled_";
-	public static String SUNGLASSES_UNLOCKED = "sunglassesUnlocked";
-	public static String SUNGLASSES_ENABLED = "sunglassesEnabled";
+	public static final String SHOULD_OPEN_TUTORIAL = "shouldOpenTutorial";
+	public static final String ENABLE_SPELL_CARD_SIGN_DISPLAY = "enableSpellCardSignDisplay";
+	public static final String ENABLE_CARD_TARGET_ICONS = "enableCardTargetIcons";
+	public static final String ENABLE_ALTERNATIVE_MARISA_CARD_IMAGE = "enableAlternativeMarisaCardImage";
+	public static final String USE_PACK_MASTER_STYLE_MARISA_CARDS = "usePackMasterStyleMarisaCards";
+	public static final String ENABLE_WITCHS_TEA_PARTY_FEATURE = "enableWitchsTeaPartyFeature"; // Deprecated
+	public static final String ENABLE_SHANGHAI_DOLL_EVENT_FOR_OTHER_CHARACTERS = "enableShanghaiDollEventForOtherCharacters";
+	public static final String ENABLE_DEBUGGING = "enableDebugging";
+//	public static final String SKIN_SELECTION_UNLOCKED = "skinSelectionUnlocked";
+	public static final String SKIN_CHOSEN = "skinChosen";
+	public static final String SIGNATURE_UNLOCKED = "signatureUnlocked_";
+	public static final String SIGNATURE_ENABLED = "signatureEnabled_";
+	public static final String SIGNATURE_CHECKED = "signatureChecked";
+	public static final String SUNGLASSES_UNLOCKED = "sunglassesUnlocked";
+	public static final String SUNGLASSES_ENABLED = "sunglassesEnabled";
 	
 	public static SpireConfig conf = null;
 	public static Map<String, String> strings;
@@ -50,7 +51,7 @@ public class AliceConfigHelper {
 			defaults.setProperty(ENABLE_WITCHS_TEA_PARTY_FEATURE, "true");
 			defaults.setProperty(ENABLE_SHANGHAI_DOLL_EVENT_FOR_OTHER_CHARACTERS, "true");
 			defaults.setProperty(ENABLE_DEBUGGING, "false");
-			defaults.setProperty(SKIN_SELECTION_UNLOCKED, "false");
+//			defaults.setProperty(SKIN_SELECTION_UNLOCKED, "false");
 			defaults.setProperty(SKIN_CHOSEN, "ORIGINAL");
 			
 			conf = new SpireConfig(AliceHelper.getModID(), "config", defaults);
@@ -142,14 +143,16 @@ public class AliceConfigHelper {
 	public static void setEnableDebugging(boolean enableDebugging) {
 		conf.setBool(ENABLE_DEBUGGING, enableDebugging);
 	}
-	
+
+	@Deprecated
 	public static boolean isAliceSkinSelectionUnlocked() {
-		return conf.getBool(SKIN_SELECTION_UNLOCKED);
+		return true;
+//		return conf.getBool(SKIN_SELECTION_UNLOCKED);
 	}
 	
-	public static void setAliceSkinSelectionUnlocked(boolean unlocked) {
-		conf.setBool(SKIN_SELECTION_UNLOCKED, unlocked);
-	}
+//	public static void setAliceSkinSelectionUnlocked(boolean unlocked) {
+//		conf.setBool(SKIN_SELECTION_UNLOCKED, unlocked);
+//	}
 	
 	public static String getAliceSkinChosen() {
 		return conf.getString(SKIN_CHOSEN);
@@ -161,15 +164,15 @@ public class AliceConfigHelper {
 			skinLabel.text = strings.get(SKIN_CHOSEN) + skin;
 	}
 
-	public static boolean isSignatureUnlocked(String id) {
+	public static boolean isOldVersionSignatureUnlocked(String id) {
 		String key = SIGNATURE_UNLOCKED + id;
 		return conf.has(key) && conf.getBool(key);
 	}
 
-	public static void setSignatureUnlocked(String id, boolean unlocked) {
-		conf.setBool(SIGNATURE_UNLOCKED + id, unlocked);
-		save();
-	}
+//	public static void setSignatureUnlocked(String id, boolean unlocked) {
+//		conf.setBool(SIGNATURE_UNLOCKED + id, unlocked);
+//		save();
+//	}
 
 	public static boolean isSignatureEnabled(String id) {
 		String key = SIGNATURE_ENABLED + id;
@@ -178,6 +181,15 @@ public class AliceConfigHelper {
 
 	public static void setSignatureEnabled(String id, boolean enabled) {
 		conf.setBool(SIGNATURE_ENABLED + id, enabled);
+		save();
+	}
+
+	public static boolean hasSignatureChecked() {
+		return conf.getBool(SIGNATURE_CHECKED);
+	}
+
+	public static void setSignatureChecked(boolean checked) {
+		conf.setBool(SIGNATURE_CHECKED, checked);
 		save();
 	}
 
@@ -359,23 +371,23 @@ public class AliceConfigHelper {
 		panel.addUIElement(enableDebuggingButton);
 		
 		if (enableDebugging()) {
-			y -= 50.0F;
-			
-			ModLabeledToggleButton enableSkinSelectionButton = new ModLabeledToggleButton(
-					strings.get(SKIN_SELECTION_UNLOCKED),
-					350.0F,
-					y,
-					Settings.CREAM_COLOR,
-					FontHelper.charDescFont,
-					isAliceSkinSelectionUnlocked(),
-					panel,
-					(modLabel) -> {
-					},
-					(button) -> {
-						setAliceSkinSelectionUnlocked(button.enabled);
-						save();
-					}
-			);
+//			y -= 50.0F;
+//
+//			ModLabeledToggleButton enableSkinSelectionButton = new ModLabeledToggleButton(
+//					strings.get(SKIN_SELECTION_UNLOCKED),
+//					350.0F,
+//					y,
+//					Settings.CREAM_COLOR,
+//					FontHelper.charDescFont,
+//					isAliceSkinSelectionUnlocked(),
+//					panel,
+//					(modLabel) -> {
+//					},
+//					(button) -> {
+//						setAliceSkinSelectionUnlocked(button.enabled);
+//						save();
+//					}
+//			);
 			
 			y -= 50.0F;
 			
@@ -390,7 +402,7 @@ public class AliceConfigHelper {
 					}
 			);
 			
-			panel.addUIElement(enableSkinSelectionButton);
+//			panel.addUIElement(enableSkinSelectionButton);
 			panel.addUIElement(skinLabel);
 		}
 		

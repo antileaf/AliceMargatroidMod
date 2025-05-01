@@ -1,7 +1,6 @@
 package rs.antileaf.alice.cards.alice;
 
 import basemod.helpers.CardModifierManager;
-import com.badlogic.gdx.math.MathUtils;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -52,7 +51,7 @@ public class Revelation extends AbstractAliceCard {
 			ArrayList<AbstractCard> chosen;
 			if (!this.upgraded) {
 				chosen = new ArrayList<>();
-				chosen.add(attacks.get(MathUtils.random(attacks.size() - 1)));
+				chosen.add(attacks.get(AbstractDungeon.cardRandomRng.random(attacks.size() - 1)));
 			}
 			else
 				chosen = attacks;

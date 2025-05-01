@@ -11,6 +11,7 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.EnergyManager;
 import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.cutscenes.CutscenePanel;
 import com.megacrit.cardcrawl.events.city.Vampires;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
@@ -255,6 +256,16 @@ public class AliceMargatroid extends CustomPlayer {
 	@Override
 	public void applyPreCombatLogic() {
 		super.applyPreCombatLogic();
+	}
+
+	@Override
+	public ArrayList<CutscenePanel> getCutscenePanels() {
+		ArrayList<CutscenePanel> panels = new ArrayList<>();
+		panels.add(new CutscenePanel(AliceHelper.getImgFilePath("char/cg", "CutScene1"),
+				"ATTACK_FAST"));
+		panels.add(new CutscenePanel(AliceHelper.getImgFilePath("char/cg", "CutScene2")));
+		panels.add(new CutscenePanel(AliceHelper.getImgFilePath("char/cg", "CutScene3")));
+		return panels;
 	}
 	
 //	public void setSkin(SkinSelectScreen.Skin skin) {

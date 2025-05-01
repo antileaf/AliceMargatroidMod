@@ -25,7 +25,7 @@
     "TAG": "Attacker",
     "TAG_COLOR": "#r",
     "PASSIVE_NAME": "Crescent",
-    "PASSIVE_DESCRIPTION": "When #yPlaced , automatically #Acts once. Shanghai Doll's damage can be buffed by #yStrength.",
+    "PASSIVE_DESCRIPTION": "When #yPlaced, automatically #yActs once. Shanghai Doll's damage can be buffed by #yStrength.",
     "ACT_DESCRIPTION": "Deal %s damage to the enemy with lowest HP.",
     "EXTENDED_DESCRIPTION": ["(Currently %d Charge(s).)"]
   },
@@ -36,7 +36,7 @@
     "TAG": "Support",
     "TAG_COLOR": "#g",
     "PASSIVE_NAME": "Mountains",
-    "PASSIVE_DESCRIPTION": "When #yRecycled, gain %s .",
+    "PASSIVE_DESCRIPTION": "When #yRecycled, gain %s.",
     "ACT_DESCRIPTION": "Draw %s card."
   },
   
@@ -46,27 +46,27 @@
     "TAG": "Attacker",
     "TAG_COLOR": "#r",
     "PASSIVE_NAME": "Strewing",
-    "PASSIVE_DESCRIPTION": "At the end of your turn, self-heal half of HP it has lost.",
-    "ACT_DESCRIPTION": "Deal damage equal to half of its HP to ALL enemies."
+    "PASSIVE_DESCRIPTION": "Whenever healed overflowed HP, deal equal amount of damage to ALL enemies.",
+    "ACT_DESCRIPTION": "Heal half of current max HP."
   },
   
   "NetherlandsDoll": {
-    "NAME": "Netherlands Doll",
+    "NAME": "Dutch Doll",
     "TYPE": "Advanced Doll",
     "TAG": "Support",
     "TAG_COLOR": "#g",
     "PASSIVE_NAME": "Compass",
-    "PASSIVE_DESCRIPTION": "Provides %s Strength and %s Dexterity for Alice. When #yPlacing other Netherlands Dolls, let this #Act #b2 times #rinstead .",
+    "PASSIVE_DESCRIPTION": "Provides %s Strength and %s Dexterity for Alice. When #yPlacing other Dutch Dolls, let this #yAct #b2 times #rinstead .",
     "ACT_DESCRIPTION": "Alternately increase the amount of Strength or Dexterity in Passive by #b1 ."
   },
   
   "FranceDoll": {
-    "NAME": "France Doll",
+    "NAME": "French Doll",
     "TYPE": "Advanced Doll",
     "TAG": "Tank",
     "TAG_COLOR": "#b",
     "PASSIVE_NAME": "Star Sand",
     "PASSIVE_DESCRIPTION": "At the start of your turn, set Block of this equal to Alice.",
-    "ACT_DESCRIPTION": "Move to a slot which can't bear enemies' damage, then gain %s Block. NL Will not move to a slot already containing a France Doll."
+    "ACT_DESCRIPTION": "Move to a slot which can't bear enemies' damage, then gain %s Block. NL Will not move to a slot already containing a French Doll."
   }
 }

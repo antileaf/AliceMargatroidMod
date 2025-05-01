@@ -1,22 +1,22 @@
 [
   {
     "NAMES": ["Doll", "doll", "dolls"],
-    "DESCRIPTION": "Alice can control Dolls, helping her in battle. NL Dolls have various functions."
+    "DESCRIPTION": "Alice can control #yDolls, helping her in battle. NL #yDolls have various functions."
   },
   
   {
     "NAMES": ["Place", "place", "placing", "placed"],
-    "DESCRIPTION": "Put a Doll in a #gspecified slot. NL If there is already a doll, #yRecycle it before placing the new one."
+    "DESCRIPTION": "Put a #yDoll in a #gspecific slot. NL If there is already a #yDoll, #yRecycle it before placing the new one."
   },
   
   {
     "NAMES": ["Act", "act", "acts"],
-    "DESCRIPTION": "Activate a Doll's specific effect."
+    "DESCRIPTION": "Activate a #yDoll's specific effect."
   },
   
   {
     "NAMES": ["Recycle", "recycle", "recycled"],
-    "DESCRIPTION": "Remove a Doll, and may trigger some special effects."
+    "DESCRIPTION": "Remove a #yDoll, and may trigger some special effects."
   },
   
   {
@@ -36,7 +36,7 @@
   
   {
     "NAMES": ["Phantom", "phantom"],
-    "DESCRIPTION": "Phantom cards are removed when leaving your hand or at the end of turn, #rnot entering Exhaust pile. NL Phantom cards are not counted when checking for identical cards."
+    "DESCRIPTION": "Phantom cards are removed when leaving your hand or at the end of turn, #rnot entering Exhaust pile. NL Phantom cards are not counted when checking for duplicates."
   },
   
   {
@@ -51,22 +51,27 @@
 
   {
     "NAMES": ["Blur", "blur"],
-    "DESCRIPTION": "Block is not removed at the start of your turn for several turns."
+    "DESCRIPTION": "#yBlock is not removed at the start of your turn for several turns."
+  },
+
+  {
+    "NAMES": ["Well Laid Plans", "well_laid_plans"],
+    "DESCRIPTION": "At the end of your turn, #yRetain up to several cards."
   },
   
   {
     "NAMES": ["Su-san", "su-san"],
-    "DESCRIPTION": "Special Doll - #rAttacker NL #yPassive #y- #yMelancholy : At the end of your turn, apply #b3 Poison to ALL enemies. NL #yAct : Trigger Poison for ALL enemies once."
+    "DESCRIPTION": "Special Doll - #rAttacker (4) NL #yPassive #y- #yMelancholy : At the end of your turn, apply #b3 #gPoison to ALL enemies. NL #yAct : Trigger #gPoison for ALL enemies once."
   },
   
   {
     "NAMES": ["ShanghaiDoll", "Shanghai Doll", "shanghai_doll", "shanghai_dolls"],
-    "DESCRIPTION": "Common Doll - #rAttacker (4) NL #yPassive #y- #yCrescent : When #yPlaced , automatically #Acts once. Shanghai Doll's damage can be buffed by #yStrength. NL #yAct : Deal #b4 damage to the enemy with lowest HP."
+    "DESCRIPTION": "Common Doll - #rAttacker (4) NL #yPassive #y- #yCrescent : When #yPlaced , automatically #yActs once. Shanghai Doll's damage can be buffed by #yStrength. NL #yAct : Deal #b4 damage to the enemy with lowest HP."
   },
   
   {
     "NAMES": ["KyotoDoll", "Kyoto Doll", "kyoto_doll", "kyoto_dolls"],
-    "DESCRIPTION": "Common Doll - #rAttacker (8) NL #yPassive #y- #yStrewing : At the end of your turn, self-heal half of HP it has lost. NL #yAct : Deal damage equal to half of its HP to ALL enemies."
+    "DESCRIPTION": "Common Doll - #rAttacker (8) NL #yPassive #y- #yStrewing : Whenever healed overflowed HP, deal equal amount of damage to ALL enemies. NL #yAct : Heal half of current max HP."
   },
 
   {
@@ -75,12 +80,12 @@
   },
   
   {
-    "NAMES": ["NetherlandsDoll", "Netherlands Doll", "netherlands_doll", "netherlands_dolls"],
-    "DESCRIPTION": "Advanced Doll - #gSupport (3) NL #yPassive #y- #yCompass : Provides #b1 Strength and Dexterity for Alice. When #yPlacing other Netherlands Dolls, let this #Act #b2 times #rinstead . NL #yAct : Alternately increase the amount of Strength or Dexterity in Passive by #b1 ."
+    "NAMES": ["NetherlandsDoll", "Dutch Doll", "dutch_doll", "dutch_dolls"],
+    "DESCRIPTION": "Advanced Doll - #gSupport (3) NL #yPassive #y- #yCompass : Provides #b1 #yStrength and #yDexterity for Alice. When #yPlacing other Dutch Dolls, let this #yAct #b2 times #rinstead . NL #yAct : Alternately increase the amount of Strength or Dexterity in Passive by #b1 ."
   },
   
   {
-    "NAMES": ["FranceDoll", "France Doll", "france_doll", "france_dolls"],
-    "DESCRIPTION": "Advanced Doll - #bTank (8) NL #yPassive #y- #yStar #ySand : At the start of your turn, set Block of this equal to Alice. NL #yAct : Move to a slot which can't bear enemies' damage, then gain #b5 Block. NL Will not move to a slot already containing a France Doll."
+    "NAMES": ["FranceDoll", "French Doll", "french_doll", "french_dolls"],
+    "DESCRIPTION": "Advanced Doll - #bTank (10) NL #yPassive #y- #yStar #ySand : At the start of your turn, set #yBlock of this equal to Alice. NL #yAct : Move to a slot which can't bear enemies' damage, then gain #b5 #yBlock. NL Will not move to a slot already containing a France Doll."
   }
 ]

@@ -85,5 +85,13 @@
 
   "AliceMargatroid:SemiAutomaton": {
     "SIGN": "Doll"
+  },
+
+  "AliceMargatroid:SoldierOfCross": {
+    "SIGN": "Sword Sign"
+  },
+
+  "AliceMargatroid:SuicideSquad": {
+    "SIGN": "Foot Soldiers"
   }
 }

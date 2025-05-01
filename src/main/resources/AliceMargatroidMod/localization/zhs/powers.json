@@ -130,7 +130,7 @@
   "AliceMargatroid:DevilryLightPower": {
     "NAME": "惨虐之光",
     "DESCRIPTIONS": [
-      "下回合开始时，对所有敌人施加 #b%d 层 #y虚弱 。"
+      "下回合开始时，给予所有敌人 #b%d 层 #y虚弱 。"
     ]
   },
   
@@ -165,7 +165,7 @@
   "AliceMargatroid:LuminousShanghaiDollPower": {
     "NAME": "魔彩光的上海人偶",
     "DESCRIPTIONS": [
-      "每当有即将受到攻击的 人偶 行动 时，使一个随机的 上海人偶 也 行动 #b%d 次。"
+      "每当有非 上海人偶 行动 时，使一个随机的 上海人偶 行动 #b%d 次。"
     ]
   },
   
@@ -216,7 +216,7 @@
   "AliceMargatroid:PrincessFormPower": {
     "NAME": "魔王形态",
     "DESCRIPTIONS": [
-      "在你打出一张耗能为1且不具有 #y幻影 的牌后，将 #b%d 张具有 #y幻影 的复制加入手牌。"
+      "每打出 #b3 张耗能为1的牌，将第3张牌的 #b%d 张耗能为0的、具有 #y幻影 的复制加入手牌。"
     ]
   },
 
@@ -230,14 +230,36 @@
   "AliceMargatroid:ForbiddenMagicPower": {
     "NAME": "禁咒",
     "DESCRIPTIONS": [
-      "每 回收 一个 人偶 ，失去 #b%d 层 计划妥当 。"
+      "每 生成 一个 人偶 ，失去 #b%d 层 计划妥当 。"
     ]
   },
 
   "AliceMargatroid:SemiAutomatonPower": {
     "NAME": "半自主人偶",
     "DESCRIPTIONS": [
-      "生成 下一个 人偶 时，使其 行动 #b%d 次。"
+      "生成 下一个 人偶 后，使其 行动 #b%d 次。"
+    ]
+  },
+
+  "AliceMargatroid:GeyserPower": {
+    "NAME": "间歇泉",
+    "DESCRIPTIONS": [
+      "从卡牌中获得的 格挡 增加 #b%d%% 。"
+    ]
+  },
+
+  "AliceMargatroid:TauntedPower": {
+    "NAME": "嘲讽",
+    "DESCRIPTIONS": [
+      "#b%d 回合内，只能攻击从右至左的第 #b%d 个 人偶 栏位。"
+    ]
+  },
+
+  "AliceMargatroid:UnlockMysticPower": {
+    "NAME": "神秘解放",
+    "DESCRIPTIONS": [
+      "每当你触发 #y指令 效果时，获得 [E] ，并抽 #b1 张牌。 NL 每种卡名限一次。",
+      "已触发过效果的牌： NL "
     ]
   }
 }

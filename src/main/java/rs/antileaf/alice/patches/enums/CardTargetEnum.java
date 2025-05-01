@@ -8,7 +8,7 @@ public class CardTargetEnum {
 	public static AbstractCard.CardTarget DOLL, DOLL_OR_EMPTY_SLOT, DOLL_OR_EMPTY_SLOT_OR_NONE, DOLL_OR_NONE;
 
 	@SpireEnum
-//	@Deprecated
+	@Deprecated
 	public static AbstractCard.CardTarget DOLL_OR_ENEMY, DOLL_OR_EMPTY_SLOT_OR_ENEMY;
 	
 	public static boolean isDollTarget(AbstractCard.CardTarget target) {

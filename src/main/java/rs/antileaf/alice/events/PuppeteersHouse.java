@@ -17,7 +17,6 @@ import com.megacrit.cardcrawl.helpers.CardLibrary;
 import com.megacrit.cardcrawl.localization.EventStrings;
 import com.megacrit.cardcrawl.rewards.RewardItem;
 import rs.antileaf.alice.cards.alice.*;
-import rs.antileaf.alice.cards.deprecated.WillOWisp;
 import rs.antileaf.alice.patches.enums.AbstractPlayerEnum;
 import rs.antileaf.alice.relics.BlackTeaRelic;
 import rs.antileaf.alice.relics.ShanghaiDollRelic;
@@ -69,7 +68,6 @@ public class PuppeteersHouse extends PhasedEvent {
 			CollapsingWorlds.ID,
 			SurpriseSpring.ID,
 			AliceInWonderland.ID,
-			WillOWisp.ID,
 			MaliceSpark.ID,
 	};
 
@@ -119,6 +117,9 @@ public class PuppeteersHouse extends PhasedEvent {
 				}
 			}
 		}
+
+		if (this.charType == CharType.ALICE)
+			rewards.forEach(AbstractCard::upgrade);
 
 		return rewards;
 	}

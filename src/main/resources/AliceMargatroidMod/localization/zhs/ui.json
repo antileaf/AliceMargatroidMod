@@ -38,5 +38,12 @@
     "TEXT": [
       "基础生命值为 #b%d 点。"
     ]
+  },
+
+  "AliceMargatroid:UnlockSignature": {
+    "TEXT": [
+      "解锁异画！",
+      "提示：每通过一幕（终幕除外），就可以解锁一个异画。"
+    ]
   }
 }

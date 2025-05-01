@@ -23,7 +23,7 @@ public class Sale extends AbstractAliceCard {
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 0;
-	private static final int GOLD = 8;
+	private static final int GOLD = 12;
 	private static final int UPGRADE_PLUS_GOLD = 4;
 	
 	public Sale() {
@@ -41,7 +41,10 @@ public class Sale extends AbstractAliceCard {
 		
 		this.magicNumber = this.baseMagicNumber = GOLD;
 		this.exhaust = true;
-		
+
+		this.tags.add(CardTags.HEALING);
+
+		this.isCommandCard = true;
 		this.tags.add(CardTagEnum.ALICE_COMMAND);
 
 		this.targetIcons.add(AliceTargetIcon.DOLL);

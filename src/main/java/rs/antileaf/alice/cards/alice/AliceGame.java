@@ -40,7 +40,9 @@ public class AliceGame extends AbstractAliceCard {
 
 		this.retain = this.selfRetain = true;
 		this.exhaust = true;
-		
+
+		this.isCommandCard = true;
+		this.tags.add(CardTagEnum.ALICE_COMMAND);
 		this.tags.add(CardTagEnum.ALICE_DOLL_ACT);
 
 		this.targetIcons.add(AliceTargetIcon.DOLL);

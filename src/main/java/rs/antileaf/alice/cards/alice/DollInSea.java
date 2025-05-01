@@ -23,7 +23,7 @@ public class DollInSea extends AbstractAliceCard {
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
-	private static final int MAGIC = 2;
+	private static final int MAGIC = 4;
 	private static final int UPGRADE_PLUS_MAGIC = 4;
 	
 	public DollInSea() {
@@ -52,12 +52,12 @@ public class DollInSea extends AbstractAliceCard {
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
 		for (AbstractDoll doll : DollManager.get().getDolls())
-			if (doll instanceof ShanghaiDoll || doll instanceof KyotoDoll)
-				this.addToBot(new IncreaseDollMaxHealthAction(doll, this.magicNumber));
-
-		for (AbstractDoll doll : DollManager.get().getDolls())
 			if (!(doll instanceof EmptyDollSlot))
 				this.addToBot(new HealDollAction(doll, doll.maxHP));
+
+		for (AbstractDoll doll : DollManager.get().getDolls())
+			if (doll instanceof ShanghaiDoll || doll instanceof KyotoDoll)
+				this.addToBot(new IncreaseDollMaxHealthAction(doll, this.magicNumber));
 	}
 	
 	@Override

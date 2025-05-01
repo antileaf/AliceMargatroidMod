@@ -13,6 +13,7 @@ import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.powers.AbstractAlicePower;
 import rs.antileaf.alice.utils.AliceMiscHelper;
 
+@Deprecated
 public class SpiritualPowerPower extends AbstractAlicePower {
 	public static final String POWER_ID = SpiritualPowerPower.class.getSimpleName();
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);

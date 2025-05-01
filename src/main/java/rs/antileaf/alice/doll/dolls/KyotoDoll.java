@@ -5,6 +5,7 @@ import com.megacrit.cardcrawl.actions.common.DamageAllEnemiesAction;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.helpers.ImageMaster;
 import rs.antileaf.alice.action.doll.DollGainBlockAction;
 import rs.antileaf.alice.action.doll.HealDollAction;
 import rs.antileaf.alice.doll.AbstractDoll;
@@ -22,7 +23,7 @@ public class KyotoDoll extends AbstractDoll {
 	private static final AliceDollStrings dollStrings = AliceDollStrings.get(ID);
 	
 	public static final int MAX_HP = 8;
-//	public static final int ACT_AMOUNT = 3;
+//	public static final int PASSIVE_AMOUNT = 4;
 	
 	public KyotoDoll() {
 		super(
@@ -37,6 +38,8 @@ public class KyotoDoll extends AbstractDoll {
 		
 		this.passiveAmountType = DollAmountType.MAGIC;
 		this.actAmountType = DollAmountType.MAGIC;
+
+		this.tipImg = ImageMaster.loadImage(AliceHelper.getImgFilePath("UI", "Icon_Heal"));
 	}
 	
 	@Override
@@ -56,41 +59,22 @@ public class KyotoDoll extends AbstractDoll {
 	
 	@Override
 	public void onAct() {
-		int[] matrix = DollDamageInfo.createDamageMatrix(
-				this.HP / 2,
-				this,
-				DollAmountType.DAMAGE,
-				DollAmountTime.PASSIVE);
-
-		this.specialBuffer = Arrays.stream(matrix).sum();
-
-		AliceHelper.addActionToBuffer(new DamageAllEnemiesAction(
-				AbstractDungeon.player,
-				matrix,
-				DamageInfo.DamageType.THORNS,
-				AbstractGameAction.AttackEffect.FIRE,
-				true
-		));
-		
-//		this.highlightActValue();
+		AliceHelper.addActionToBuffer(new HealDollAction(this, Math.max(1, this.maxHP / 2)));
 	}
 
 	@Override
 	public void onSpecialAct() {
 		this.onAct();
 
-		AliceHelper.addActionToBuffer(new DollGainBlockAction(this, this.specialBuffer));
-		this.specialBuffer = 0;
+		int[] matrix = DollDamageInfo.createDamageMatrix(
+				this.HP,
+				this,
+				DollAmountType.DAMAGE,
+				DollAmountTime.PASSIVE);
+
+		AliceHelper.addActionToBuffer(new DollGainBlockAction(this, Arrays.stream(matrix).sum()));
 	}
-	
-	@Override
-	public void onEndOfTurn() {
-		int amount = (this.maxHP - this.HP) / 2;
-		
-		if (amount > 0)
-			AliceHelper.addActionToBuffer(new HealDollAction(this, amount));
-	}
-	
+
 //	@Override
 //	public void postOtherDollDestroyed(AbstractDoll doll) {
 //		if (doll instanceof EmptyDollSlot)
@@ -98,7 +82,35 @@ public class KyotoDoll extends AbstractDoll {
 //		else
 //			AliceSpireKit.addToBot(new DollActAction(this));
 //	}
-	
+
+	@Override
+	public void onLoseHP(int amount) {
+//		AliceHelper.addToTop(new IncreaseDollMaxHealthAction(this, amount, true));
+	}
+
+	@Override
+	public void heal(int amount) {
+		int overHeal = this.HP + amount - this.maxHP;
+
+		super.heal(amount);
+
+		if (overHeal > 0) {
+			int[] matrix = DollDamageInfo.createDamageMatrix(
+					overHeal,
+					this,
+					DollAmountType.DAMAGE,
+					DollAmountTime.PASSIVE);
+
+			AliceHelper.addToTop(new DamageAllEnemiesAction(
+					AbstractDungeon.player,
+					matrix,
+					DamageInfo.DamageType.THORNS,
+					AbstractGameAction.AttackEffect.FIRE,
+					true
+			));
+		}
+	}
+
 	@Override
 	public void updateDescriptionImpl() {
 		this.passiveDescription = String.format(dollStrings.PASSIVE_DESCRIPTION, this.coloredPassiveAmount());

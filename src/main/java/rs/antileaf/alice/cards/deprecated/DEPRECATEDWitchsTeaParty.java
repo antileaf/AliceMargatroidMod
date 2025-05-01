@@ -16,7 +16,6 @@ import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.strings.AliceCardNoteStrings;
 import rs.antileaf.alice.utils.AliceConfigHelper;
 import rs.antileaf.alice.utils.AliceHelper;
-import theLibrarian.characters.TheLibrarian;
 
 import java.util.ArrayList;
 
@@ -74,8 +73,8 @@ public class DEPRECATEDWitchsTeaParty extends AbstractAliceCard {
 		if (AliceConfigHelper.enableWitchsTeaPartyFeature()) {
 			if (AliceHelper.isMarisaModAvailable() && !(p instanceof Marisa))
 				colors.add(ThMod.patches.AbstractCardEnum.MARISA_COLOR);
-			if (AliceHelper.isPatchouliModAvailable() && !(p instanceof TheLibrarian))
-				colors.add(TheLibrarian.Enums.PATCHOULI_LAVENDER);
+//			if (AliceHelper.isPatchouliModAvailable() && !(p instanceof TheLibrarian))
+//				colors.add(TheLibrarian.Enums.PATCHOULI_LAVENDER);
 		}
 		
 //		if (!(p instanceof AliceMargatroid))

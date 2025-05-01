@@ -18,7 +18,7 @@ public class SuspiciousCard extends CustomRelic {
 				ID,
 				ImageMaster.loadImage(IMG),
 				ImageMaster.loadImage(IMG_OTL),
-				RelicTier.UNCOMMON,
+				RelicTier.RARE,
 				LandingSound.FLAT
 		);
 		

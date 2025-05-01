@@ -6,6 +6,7 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.random.Random;
 import rs.antileaf.alice.action.common.AliceDiscoverAction;
 import rs.antileaf.alice.action.doll.SpawnDollAction;
 import rs.antileaf.alice.cards.AbstractAliceCard;
@@ -61,6 +62,23 @@ public class ClawMachine extends AbstractAliceCard implements ConditionalExhaust
 		this.choices.add(HouraiDoll.SIMPLE_NAME);
 	}
 
+	public int getBits() {
+		int bits = 0;
+
+		if (this.choices.contains(NetherlandsDoll.SIMPLE_NAME))
+			bits |= 1;
+		if (this.choices.contains(FranceDoll.SIMPLE_NAME))
+			bits |= 2;
+		if (this.choices.contains(HouraiDoll.SIMPLE_NAME))
+			bits |= 4;
+
+		return bits;
+	}
+
+	public String predict(Random rng) {
+		return this.choices.get(rng.random(this.choices.size() - 1));
+	}
+
 	@Override
 	public void triggerOnExhaust() {
 		this.resumeChoices();
@@ -69,7 +87,7 @@ public class ClawMachine extends AbstractAliceCard implements ConditionalExhaust
 
 	@Override
 	public void initializeDescription() {
-		AliceHelper.logger.info("ClawMachine.initializeDescription: choices = {}", this.choices);
+//		AliceHelper.logger.info("ClawMachine.initializeDescription: choices = {}", this.choices);
 		if (this.choices == null)
 			return;
 
@@ -118,15 +136,16 @@ public class ClawMachine extends AbstractAliceCard implements ConditionalExhaust
 					(card) -> {
 						if (card instanceof CreateDoll) {
 							String clz = ((CreateDoll) card).dollClazz;
-							AliceHelper.logger.info("ClawMachine.use: clz = {}", clz);
+//							AliceHelper.logger.info("ClawMachine.use: clz = {}", clz);
 
 							AbstractDoll doll = AbstractDoll.newInst(clz);
 							this.addToTop(new SpawnDollAction(doll, index));
 
 							this.choices.remove(clz);
 							this.initializeDescription();
-						} else
-							AliceHelper.logger.info("ClawMachine.use: card is not CreateDoll!");
+						}
+//						else
+//							AliceHelper.logger.info("ClawMachine.use: card is not CreateDoll!");
 					},
 					cardStrings.EXTENDED_DESCRIPTION[0],
 					false

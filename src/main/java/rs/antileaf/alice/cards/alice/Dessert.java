@@ -51,17 +51,18 @@ public class Dessert extends AbstractAliceCard {
 //		AliceSpireKit.log("Dessert.triggerOnOtherCardPlayed: Triggered.");
 		
 		if (!AbstractDungeon.player.hand.contains(this)) {
-			AliceHelper.logger.info("Dessert.triggerOnOtherCardPlayed: This card is not in player's hand.");
+//			AliceHelper.logger.info("Dessert.triggerOnOtherCardPlayed: This card is not in player's hand.");
 			return;
 		}
 		
 		if (!AbstractDungeon.player.hand.contains(c)) {
-			AliceHelper.logger.info("Dessert.triggerOnOtherCardPlayed: The other card is not in player's hand.");
+//			AliceHelper.logger.info("Dessert.triggerOnOtherCardPlayed: The other card is not in player's hand.");
 			return;
 		}
 		
 		if (!AbstractDungeon.player.hand.isEmpty() &&
-				AbstractDungeon.player.hand.getTopCard() == c) {
+				(AbstractDungeon.player.hand.getTopCard() == c ||
+						AbstractDungeon.player.hand.getBottomCard() == c)) {
 //			this.use(AbstractDungeon.player, null);
 //			this.addToBot(new DiscardSpecificCardAction(this));
 //			this.flash();
@@ -96,13 +97,17 @@ public class Dessert extends AbstractAliceCard {
 			boolean shouldShowIcon = false;
 			
 			if (AbstractDungeon.player.hand.contains(this)) {
+				AbstractCard leftmost = AbstractDungeon.player.hand.getBottomCard();
 				AbstractCard rightmost = AbstractDungeon.player.hand.getTopCard(); // 显然不可能是空的
 				
 				AbstractCard selected = AbstractDungeon.player.hoveredCard;
 				if (selected == null && rightmost.isHoveredInHand(0.1F))
 					selected = rightmost;
+
+				if (selected == null && leftmost.isHoveredInHand(0.1F))
+					selected = leftmost;
 				
-				if (selected == rightmost)
+				if (selected == leftmost || selected == rightmost)
 					shouldShowIcon = true;
 			}
 			

@@ -13,7 +13,6 @@ import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
-import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
 import rs.antileaf.alice.targeting.AliceHoveredTargets;
 import rs.antileaf.alice.targeting.AliceTargetIcon;
@@ -43,8 +42,6 @@ public class ProtectiveSpell extends AbstractAliceCard {
 		);
 		
 		this.block = this.baseBlock = BLOCK;
-		
-		this.tags.add(CardTagEnum.ALICE_COMMAND);
 
 		this.targetIcons.add(AliceTargetIcon.ALICE);
 		this.targetIcons.add(AliceTargetIcon.DOLL);

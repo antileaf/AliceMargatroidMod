@@ -2,6 +2,7 @@ package rs.antileaf.alice.doll.dolls;
 
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.helpers.ImageMaster;
 import rs.antileaf.alice.action.doll.DollGainBlockAction;
 import rs.antileaf.alice.action.doll.DollLoseBlockAction;
 import rs.antileaf.alice.action.doll.MoveDollAction;
@@ -16,7 +17,7 @@ public class FranceDoll extends AbstractDoll {
 	public static final String ID = SIMPLE_NAME;
 	private static final AliceDollStrings dollStrings = AliceDollStrings.get(ID);
 	
-	public static final int MAX_HP = 8;
+	public static final int MAX_HP = 10;
 	public static final int ACT_AMOUNT = 5;
 	
 	public FranceDoll() {
@@ -32,6 +33,8 @@ public class FranceDoll extends AbstractDoll {
 		
 //		this.passiveAmountType = DollAmountType.BLOCK;
 		this.actAmountType = DollAmountType.BLOCK;
+
+		this.tipImg = ImageMaster.loadImage(AliceHelper.getImgFilePath("UI", "Icon_Defend"));
 	}
 	
 	@Override
@@ -48,7 +51,7 @@ public class FranceDoll extends AbstractDoll {
 	public int getBaseHP() {
 		return MAX_HP;
 	}
-	
+
 	@Override
 	public void onAct() {
 		int dest = -1;
@@ -56,8 +59,12 @@ public class FranceDoll extends AbstractDoll {
 			for (int i = 0; i < DollManager.get().getDolls().size(); i++) {
 				AbstractDoll doll = DollManager.get().getDolls().get(i);
 				if (!(doll instanceof FranceDoll) && doll.getOverflowedDamage() > 0) {
-					dest = i;
-					break;
+					if (doll.calcTotalDamageAboutToTake() > this.calcTotalDamageAboutToTake()) {
+						if (dest == -1 || doll.calcTotalDamageAboutToTake() >
+								DollManager.get().getDolls().get(dest).calcTotalDamageAboutToTake()) {
+							dest = i;
+						}
+					}
 				}
 			}
 		}
@@ -76,7 +83,9 @@ public class FranceDoll extends AbstractDoll {
 	@Override
 	public void onStartOfTurn() {
 		this.addToBot(new DollLoseBlockAction(this, this.block));
-		this.addToBot(new DollGainBlockAction(this, AbstractDungeon.player.currentBlock));
+
+		if (AbstractDungeon.player.currentBlock > 0)
+			this.addToBot(new DollGainBlockAction(this, AbstractDungeon.player.currentBlock));
 	}
 	
 //	public void triggerPassiveEffect(int amount) {

@@ -3,6 +3,7 @@ package rs.antileaf.alice.doll.dolls;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.powers.DexterityPower;
 import com.megacrit.cardcrawl.powers.StrengthPower;
 import rs.antileaf.alice.doll.AbstractDoll;
@@ -32,6 +33,8 @@ public class NetherlandsDoll extends AbstractDoll {
 		
 		this.passiveAmountType = DollAmountType.OTHERS;
 		this.actAmountType = DollAmountType.OTHERS;
+
+		this.tipImg = ImageMaster.loadImage(AliceHelper.getImgFilePath("UI", "Icon_Buff"));
 	}
 	
 	@Override

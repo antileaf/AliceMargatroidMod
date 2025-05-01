@@ -1,6 +1,7 @@
 package rs.antileaf.alice.cards.alice;
 
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
+import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -35,7 +36,7 @@ public class DollOfRoundTable extends AbstractAliceCard {
 				CardType.SKILL,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
 				CardRarity.UNCOMMON,
-				CardTarget.NONE
+				CardTarget.SELF
 		);
 		
 		this.block = this.baseBlock = BLOCK;
@@ -51,6 +52,8 @@ public class DollOfRoundTable extends AbstractAliceCard {
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
+		this.addToBot(new GainBlockAction(p, this.block));
+
 		for (AbstractDoll doll : DollManager.get().getDolls())
 			if (!(doll instanceof EmptyDollSlot))
 				this.addToBot(new DollGainBlockAction(doll, this.block));

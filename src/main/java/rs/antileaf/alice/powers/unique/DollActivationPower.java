@@ -24,7 +24,7 @@ public class DollActivationPower extends AbstractAlicePower {
 		
 		this.type = PowerType.BUFF;
 		this.updateDescription();
-		this.initializeImage(null);
+		this.initializeImage(SIMPLE_NAME);
 	}
 	
 	@Override

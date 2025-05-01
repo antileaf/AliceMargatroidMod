@@ -5,6 +5,7 @@ import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.unique.PoisonLoseHpAction;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.PoisonPower;
 import rs.antileaf.alice.doll.AbstractDoll;
@@ -33,6 +34,8 @@ public class Su_san extends AbstractDoll {
 		
 		this.passiveAmountType = DollAmountType.MAGIC;
 		this.actAmountType = DollAmountType.MAGIC;
+
+		this.tipImg = ImageMaster.loadImage(AliceHelper.getImgFilePath("UI", "Icon_Poison"));
 	}
 	
 	@Override

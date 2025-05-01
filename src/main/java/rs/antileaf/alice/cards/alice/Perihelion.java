@@ -8,12 +8,16 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import rs.antileaf.alice.AliceMargatroidMod;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.utils.AliceHelper;
 
 public class Perihelion extends AbstractAliceCard {
+	private static final Logger logger = LogManager.getLogger(Perihelion.class.getName());
+
 	public static final String SIMPLE_NAME = Perihelion.class.getSimpleName();
 	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
@@ -87,28 +91,36 @@ public class Perihelion extends AbstractAliceCard {
 	
 	@Override
 	public void applyPowers() {
+		super.applyPowers();
+
 		if (this.shouldTriggerEffect()) {
-			int originalBaseDamage = this.baseDamage;
-			this.baseDamage *= this.magicNumber;
-			super.applyPowers();
-			this.baseDamage = originalBaseDamage;
+			this.isDamageModified = false;
+
+			for (int i = 0; i < this.multiDamage.length; i++) {
+				this.multiDamage[i] *= this.magicNumber;
+				this.isDamageModified |= this.multiDamage[i] != this.baseDamage;
+			}
+
+			this.damage *= this.magicNumber;
 			this.isDamageModified = this.damage != this.baseDamage;
 		}
-		else
-			super.applyPowers();
 	}
 	
 	@Override
 	public void calculateCardDamage(AbstractMonster mo) {
+		super.calculateCardDamage(mo);
+
 		if (this.shouldTriggerEffect()) {
-			int originalBaseDamage = this.baseDamage;
-			this.baseDamage *= this.magicNumber;
-			super.calculateCardDamage(mo);
-			this.baseDamage = originalBaseDamage;
+			this.isDamageModified = false;
+
+			for (int i = 0; i < this.multiDamage.length; i++) {
+				this.multiDamage[i] *= this.magicNumber;
+				this.isDamageModified |= this.multiDamage[i] != this.baseDamage;
+			}
+
+			this.damage *= this.magicNumber;
 			this.isDamageModified = this.damage != this.baseDamage;
 		}
-		else
-			super.calculateCardDamage(mo);
 	}
 	
 	@Override
@@ -139,9 +151,9 @@ public class Perihelion extends AbstractAliceCard {
 		if (c instanceof Perihelion)
 			((Perihelion) c).setInitialState(this);
 		else {
-			AliceHelper.log("makeStatEquivalentCopy returned a card that is not an instance of Perihelion!");
-			AliceHelper.log("Original card: " + this);
-			AliceHelper.log("Copy: " + c);
+			logger.info("makeStatEquivalentCopy returned a card that is not an instance of Perihelion!");
+			logger.info("Original card: {}", this);
+			logger.info("Copy: {}", c);
 		}
 		
 		return c;

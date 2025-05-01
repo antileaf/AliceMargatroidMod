@@ -29,7 +29,7 @@ public class MaidensBunrakuPower extends AbstractAlicePower implements OnDollOpe
 		
 		this.type = PowerType.BUFF;
 		this.updateDescription();
-		this.initializeImage(null);
+		this.initializeImage(SIMPLE_NAME);
 	}
 	
 	@Override

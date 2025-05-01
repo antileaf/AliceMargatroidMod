@@ -3,15 +3,19 @@ package rs.antileaf.alice.patches.doll;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.evacipated.cardcrawl.modthespire.patcher.PatchingException;
-import com.megacrit.cardcrawl.actions.GameActionManager;
+import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.AbstractCreature;
+import com.megacrit.cardcrawl.monsters.MonsterGroup;
 import com.megacrit.cardcrawl.rooms.RestRoom;
 import javassist.CannotCompileException;
 import javassist.CtBehavior;
+import rs.antileaf.alice.action.utils.AnonymousAction;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.doll.DollManager;
 import rs.antileaf.alice.utils.AliceHelper;
+
+import java.util.WeakHashMap;
 
 @SuppressWarnings("unused")
 public class DollMechanicsPatch {
@@ -134,11 +138,14 @@ public class DollMechanicsPatch {
 		}
 	}
 	
-	@SpirePatch(clz = GameActionManager.class, method = "callEndOfTurnActions")
+//	@SpirePatch(clz = GameActionManager.class, method = "callEndOfTurnActions")
+	@SpirePatch(clz = MonsterGroup.class, method = "queueMonsters")
 	public static class EndOfTurnLockDamageTargetPatch {
 		@SpirePrefixPatch
-		public static void Prefix(GameActionManager _inst) {
-			DollManager.get().onEndOfTurnLockDamageTarget();
+		public static void Postfix(MonsterGroup _inst) {
+			AliceHelper.addToBot(new AnonymousAction(() -> {
+				DollManager.get().onEndOfTurnLockDamageTarget();
+			}));
 		}
 	}
 	
@@ -173,4 +180,21 @@ public class DollMechanicsPatch {
 //			AliceSpireKit.log(DollDamageApplyPowersPatch.class, "Patched damage = " + info.output);
 //		}
 //	}
+
+	@SpirePatch(clz = DamageInfo.class, method = SpirePatch.CLASS)
+	public static class DamageInfoField {
+		public static WeakHashMap<DamageInfo, Boolean> blockedByDoll = new WeakHashMap<>();
+	}
+
+	@SpirePatch(clz = AbstractPlayer.class, method = "damage",
+			paramtypez = {DamageInfo.class})
+	public static class OnDamagedDoNotShowEffectPatch {
+		@SpireInsertPatch(rlocs = {162, 164, 170})
+		public static SpireReturn<Void> Insert(AbstractPlayer _inst, DamageInfo info) {
+			if (DamageInfoField.blockedByDoll.getOrDefault(info, false))
+				return SpireReturn.Return(null);
+			else
+				return SpireReturn.Continue();
+		}
+	}
 }

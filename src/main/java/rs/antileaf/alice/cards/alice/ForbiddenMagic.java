@@ -19,7 +19,7 @@ public class ForbiddenMagic extends AbstractAliceCard {
 	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 
-	private static final int COST = 2;
+	private static final int COST = 1;
 	private static final int MAGIC = 7;
 
 	public ForbiddenMagic() {
@@ -44,7 +44,8 @@ public class ForbiddenMagic extends AbstractAliceCard {
 				.filter(d -> d instanceof EmptyDollSlot)
 				.count();
 
-		this.addToBot((new ApplyPowerAction(p, p, new RetainCardPower(p, amount))));
+		if (amount > 0)
+			this.addToBot((new ApplyPowerAction(p, p, new RetainCardPower(p, amount))));
 
 		this.addToBot(new ApplyPowerAction(p, p, new ForbiddenMagicPower(1)));
 	}

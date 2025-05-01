@@ -7,6 +7,8 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.localization.TutorialStrings;
 
+import java.util.Arrays;
+
 public class AliceTutorialHelper {
 	private static TutorialStrings generated = null;
 	
@@ -45,6 +47,9 @@ public class AliceTutorialHelper {
 //		generated.TEXT = res.toArray(new String[0]);
 
 		generated = tutorialStrings;
+		generated.TEXT = (String[]) Arrays.stream(generated.TEXT)
+				.limit(3)
+				.toArray(String[]::new);
 		
 //		Map<String, TutorialStrings> map = ReflectionHacks.getPrivateStatic(
 //				LocalizedStrings.class, "tutorials");
@@ -58,7 +63,7 @@ public class AliceTutorialHelper {
 			generateTutorial();
 		
 		Texture[] images = new Texture[generated.TEXT.length];
-		for (int i = 0; i < images.length; i++)
+		for (int i = 0; i < 3; i++)
 			images[i] = ImageMaster.loadImage(
 					AliceHelper.getImgFilePath("tutorial", "" + (i + 1))
 			);

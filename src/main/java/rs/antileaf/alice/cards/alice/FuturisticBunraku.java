@@ -9,6 +9,7 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.doll.AbstractDoll;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
+import rs.antileaf.alice.patches.enums.CardTagEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
 import rs.antileaf.alice.powers.unique.FuturisticBunrakuPower;
 import rs.antileaf.alice.targeting.AliceTargetIcon;
@@ -36,6 +37,9 @@ public class FuturisticBunraku extends AbstractAliceCard {
 		);
 
 		this.exhaust = true;
+
+		this.isCommandCard = true;
+		this.tags.add(CardTagEnum.ALICE_COMMAND);
 
 		this.targetIcons.add(AliceTargetIcon.DOLL);
 	}

@@ -20,8 +20,9 @@ public class RedHairedNetherlandsDoll extends AbstractAliceCard {
 	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
-	private static final int COST = 0;
-	
+	private static final int COST = 1;
+	private static final int UPGRADED_COST = 0;
+
 	public RedHairedNetherlandsDoll() {
 		super(
 				ID,
@@ -57,8 +58,9 @@ public class RedHairedNetherlandsDoll extends AbstractAliceCard {
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
-			this.isInnate = true;
-			this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
+			this.upgradeBaseCost(UPGRADED_COST);
+//			this.isInnate = true;
+//			this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
 			this.initializeDescription();
 		}
 	}

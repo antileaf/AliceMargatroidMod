@@ -23,7 +23,7 @@ public class ForbiddenMagicPower extends AbstractAlicePower implements OnDollOpe
 		
 		this.type = PowerType.DEBUFF;
 		this.updateDescription();
-		this.initializeImage(null);
+		this.initializeImage(SIMPLE_NAME);
 	}
 	
 	@Override

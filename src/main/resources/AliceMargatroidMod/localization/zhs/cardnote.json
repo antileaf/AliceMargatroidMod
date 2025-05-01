@@ -13,7 +13,7 @@
     "EXTENDED_DESCRIPTION": ["上回合开始时 #r没有 手牌。", "上回合开始时，共有 #b%d 张手牌（不包括“书签”）："]
   },
   
-  "AliceMargatroid:LuminousShanghaiDoll": {
+  "AliceMargatroid:DEPLuminousShanghaiDoll": {
     "DESCRIPTION": "这次 行动 #r不会 再次触发此效果。"
   },
   

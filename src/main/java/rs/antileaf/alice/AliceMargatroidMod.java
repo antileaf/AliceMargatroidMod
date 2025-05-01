@@ -7,6 +7,7 @@ import basemod.abstracts.CustomSavable;
 import basemod.abstracts.DynamicVariable;
 import basemod.eventUtil.AddEventParams;
 import basemod.eventUtil.EventUtils;
+import basemod.helpers.CardBorderGlowManager;
 import basemod.helpers.RelicType;
 import basemod.interfaces.*;
 import com.badlogic.gdx.Gdx;
@@ -22,11 +23,13 @@ import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.dungeons.TheCity;
 import com.megacrit.cardcrawl.helpers.CardHelper;
+import com.megacrit.cardcrawl.helpers.CardLibrary;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.localization.*;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
+import me.antileaf.signature.utils.SignatureHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import rs.antileaf.alice.cards.AbstractAliceCard;
@@ -39,11 +42,15 @@ import rs.antileaf.alice.doll.dolls.EmptyDollSlot;
 import rs.antileaf.alice.events.LilyOfTheValleyFlowerField;
 import rs.antileaf.alice.events.PuppeteersHouse;
 import rs.antileaf.alice.icon.AliceCustomIcon;
+import rs.antileaf.alice.patches.doll.DollMechanicsPatch;
 import rs.antileaf.alice.patches.enums.AbstractCardEnum;
 import rs.antileaf.alice.patches.enums.AbstractPlayerEnum;
 import rs.antileaf.alice.patches.enums.CardTargetEnum;
+import rs.antileaf.alice.patches.enums.LibraryTypeEnum;
 import rs.antileaf.alice.potions.ConcentrationPotion;
 import rs.antileaf.alice.potions.WeavingPotion;
+import rs.antileaf.alice.powers.unique.UnlockMysticPower;
+import rs.antileaf.alice.prediction.PredictionInitializer;
 import rs.antileaf.alice.relics.*;
 import rs.antileaf.alice.save.AliceSaveData;
 import rs.antileaf.alice.strings.*;
@@ -465,11 +472,11 @@ public class AliceMargatroidMod implements
 						.eventType(EventUtils.EventType.NORMAL)
 						.create()
 		);
+
+		CardBorderGlowManager.addGlowInfo(new UnlockMysticPower.UnlockMysticGlowInfo());
 		
 		AliceHelper.log("Initializing skin select screen...");
 		SkinSelectScreen.init();
-
-		SignatureHelper.initialize();
 
 //		PuppeteersHouse.AliceCardReward.loadIcon();
 //		BaseMod.registerCustomReward(
@@ -489,8 +496,23 @@ public class AliceMargatroidMod implements
 
 		CreateDoll.registerLoopPreview();
 
-		// TODO: This is just for testing. Remove it in official release.
-		SignatureHelper.unlockAll();
+		if (AliceHelper.isRandomPredictionModAvailable())
+			(new PredictionInitializer()).initialize();
+
+		if (!AliceConfigHelper.hasSignatureChecked()) {
+			for (AbstractCard card : CardLibrary.getCardList(LibraryTypeEnum.ALICE_MARGATROID_COLOR))
+				if (card instanceof AbstractAliceCard) {
+					AbstractAliceCard ac = (AbstractAliceCard) card;
+
+					if (ac.hasSignature && !SignatureHelper.isUnlocked(ac.cardID) &&
+							AliceConfigHelper.isOldVersionSignatureUnlocked(ac.cardID)) {
+						logger.info("Auto unlocking card : {}", ac);
+						SignatureHelper.unlock(ac.cardID, true);
+					}
+				}
+
+			AliceConfigHelper.setSignatureChecked(true);
+		}
 	}
 	
 	@Override
@@ -525,6 +547,8 @@ public class AliceMargatroidMod implements
 			AbstractDoll doll = DollManager.get().getDolls().get(index);
 			if (doll instanceof EmptyDollSlot)
 				return amount;
+
+			DollMechanicsPatch.DamageInfoField.blockedByDoll.put(damageInfo, true);
 			
 			int remaining = doll.onPlayerDamaged(amount);
 			boolean destroyed = DollManager.get().dollTakesDamage(doll, amount - remaining);

@@ -1,28 +1,36 @@
 package rs.antileaf.alice.ui;
 
-import com.badlogic.gdx.Gdx;
+import basemod.ReflectionHacks;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.helpers.FontHelper;
-import com.megacrit.cardcrawl.helpers.Hitbox;
-import com.megacrit.cardcrawl.helpers.ImageMaster;
+import com.megacrit.cardcrawl.helpers.*;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
+import com.megacrit.cardcrawl.screens.charSelect.CharacterOption;
+import com.megacrit.cardcrawl.unlock.UnlockTracker;
+import me.antileaf.signature.utils.SignatureHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import rs.antileaf.alice.cards.AbstractAliceCard;
 import rs.antileaf.alice.characters.AliceMargatroid;
 import rs.antileaf.alice.patches.enums.AbstractPlayerEnum;
+import rs.antileaf.alice.patches.enums.LibraryTypeEnum;
 import rs.antileaf.alice.strings.AliceSkinStrings;
+import rs.antileaf.alice.utils.AliceAudioMaster;
 import rs.antileaf.alice.utils.AliceConfigHelper;
 import rs.antileaf.alice.utils.AliceHelper;
+import rs.antileaf.alice.utils.EasterEgg;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public class SkinSelectScreen {
 	private static final Logger logger = LogManager.getLogger(SkinSelectScreen.class.getName());
@@ -42,6 +50,67 @@ public class SkinSelectScreen {
 			Input.Keys.B,
 			Input.Keys.A
 	};
+
+	private static final int[] UNLOCK_ALL_SIGNATURE = {
+			Input.Keys.Y,
+			Input.Keys.O,
+			Input.Keys.U,
+			Input.Keys.R,
+			Input.Keys.SPACE,
+			Input.Keys.E,
+			Input.Keys.Y,
+			Input.Keys.E,
+			Input.Keys.S,
+			Input.Keys.SPACE,
+			Input.Keys.A,
+			Input.Keys.R,
+			Input.Keys.E,
+			Input.Keys.SPACE,
+			Input.Keys.S,
+			Input.Keys.H,
+			Input.Keys.I,
+			Input.Keys.N,
+			Input.Keys.I,
+			Input.Keys.N,
+			Input.Keys.G,
+			Input.Keys.SPACE,
+			Input.Keys.D,
+			Input.Keys.I,
+			Input.Keys.A,
+			Input.Keys.M,
+			Input.Keys.O,
+			Input.Keys.N,
+			Input.Keys.D,
+			Input.Keys.S,
+			Input.Keys.PERIOD
+	}; // Your eyes are shining diamonds.
+
+	private static final int[] UNLOCK_A20 = {
+			Input.Keys.W,
+			Input.Keys.H,
+			Input.Keys.E,
+			Input.Keys.R,
+			Input.Keys.E,
+			Input.Keys.SPACE,
+			Input.Keys.A,
+			Input.Keys.L,
+			Input.Keys.L,
+			Input.Keys.SPACE,
+			Input.Keys.M,
+			Input.Keys.I,
+			Input.Keys.R,
+			Input.Keys.A,
+			Input.Keys.C,
+			Input.Keys.L,
+			Input.Keys.E,
+			Input.Keys.S,
+			Input.Keys.SPACE,
+			Input.Keys.B,
+			Input.Keys.E,
+			Input.Keys.G,
+			Input.Keys.I,
+			Input.Keys.N
+	}; // Vol.F. Where All Miracles Begin
 	
 	public static boolean shouldUpdateBackground = false;
 	public static Map<SkinEnum, Skin> skins;
@@ -58,12 +127,90 @@ public class SkinSelectScreen {
 	String title, option;
 	String name, description;
 
-	int konamiIndex = 0;
+//	int konamiIndex = 0;
+//	int easterEggIndex = 0;
+
+	EasterEgg konami, signatureEasterEgg, unlockA20;
 	
 	public SkinSelectScreen() {
 		this.prevHb = new Hitbox(70.0F * Settings.scale, 70.0F * Settings.scale);
 		this.nextHb = new Hitbox(70.0F * Settings.scale, 70.0F * Settings.scale);
 		this.sunglassesHb = new Hitbox(240.0F * Settings.scale, 80.0F * Settings.scale);
+
+		this.konami = new EasterEgg(KONAMI_CODE,
+				() -> {
+					AliceConfigHelper.setSunglassesUnlocked(true);
+					AliceConfigHelper.setSunglassesEnabled(true);
+					AliceConfigHelper.save();
+
+					CardCrawlGame.sound.play("UNLOCK_PING");
+
+					this.refresh();
+				},
+				(key) -> logger.info("Successfully pressed key: {}",
+						Input.Keys.toString(key)),
+				(key) -> logger.error("Failed to press key: {}",
+						Input.Keys.toString(key))
+		);
+
+		this.signatureEasterEgg = new EasterEgg(UNLOCK_ALL_SIGNATURE,
+				() -> {
+					logger.info("Congratulations! You have unlocked the Easter Egg!");
+
+					for (AbstractCard card : CardLibrary.getCardList(LibraryTypeEnum.ALICE_MARGATROID_COLOR))
+						if (card instanceof AbstractAliceCard) {
+							AbstractAliceCard ac = (AbstractAliceCard) card;
+
+							if (ac.hasSignature && !SignatureHelper.isUnlocked(ac.cardID)) {
+								SignatureHelper.unlock(ac.cardID, true);
+								SignatureHelper.enable(ac.cardID, true);
+
+								logger.info("Unlocked card: {}", ac.cardID);
+							}
+						}
+
+					CardCrawlGame.sound.play(AliceAudioMaster.EASTER_EGG);
+				}
+		);
+
+		this.unlockA20 = new EasterEgg(UNLOCK_A20,
+				() -> {
+					logger.info("Vol.F. Where All Miracles Begin");
+
+					AbstractPlayer character = CardCrawlGame.characterManager.getCharacter(
+							AbstractPlayerEnum.ALICE_MARGATROID_PLAYER_CLASS);
+					Prefs pref = character.getPrefs();
+
+					if (pref.getInteger("WIN_COUNT", 0) <= 0)
+						pref.putInteger("WIN_COUNT", 1);
+
+					if (pref.getInteger("ASCENSION_LEVEL", 1) == 20)
+						logger.info("Already unlocked A20");
+					else {
+						pref.putInteger("ASCENSION_LEVEL", 20);
+						pref.putInteger("LAST_ASCENSION_LEVEL", 20);
+						logger.info("Unlocked A20");
+					}
+
+					pref.flush();
+					character.refreshCharStat();
+
+					CardCrawlGame.mainMenuScreen.charSelectScreen.isAscensionMode = true;
+
+					CardCrawlGame.mainMenuScreen.charSelectScreen.options.stream()
+									.filter(o -> o.c instanceof AliceMargatroid)
+											.forEach(o -> {
+												ReflectionHacks.setPrivate(o, CharacterOption.class,
+														"maxAscensionLevel", 20);
+
+												o.incrementAscensionLevel(20);
+											});
+
+					Stream.of(new String[] { "CROW", "DONUT", "WIZARD" })
+							.forEach(UnlockTracker::markBossAsSeen);
+
+					CardCrawlGame.sound.play(AliceAudioMaster.ARIS_COMMON_SKILL);
+				});
 	}
 	
 	public void loadAnimation(String atlas, String skeleton, float scale) {
@@ -119,7 +266,7 @@ public class SkinSelectScreen {
 		if (CardCrawlGame.chosenCharacter == AbstractPlayerEnum.ALICE_MARGATROID_PLAYER_CLASS) {
 			this.prevHb.update();
 			this.nextHb.update();
-			
+
 			SkinEnum prev = SkinEnum.prev(this.cur), next = SkinEnum.next(this.cur);
 			SkinEnum temp = this.cur;
 
@@ -148,7 +295,7 @@ public class SkinSelectScreen {
 			}
 
 			if (temp != this.cur && (temp == SkinEnum.BA) != (this.cur == SkinEnum.BA))
-					CardCrawlGame.sound.play(this.getSoundKey());
+				CardCrawlGame.sound.play(this.getSoundKey());
 
 			if (AliceConfigHelper.isSunglassesUnlocked()) {
 				this.sunglassesHb.update();
@@ -164,7 +311,7 @@ public class SkinSelectScreen {
 					this.refresh();
 				}
 			}
-			
+
 			if (InputHelper.justClickedLeft) {
 				if (this.prevHb.hovered)
 					this.prevHb.clickStarted = true;
@@ -174,62 +321,14 @@ public class SkinSelectScreen {
 					this.sunglassesHb.clickStarted = true;
 			}
 
-			if (konamiIndex < KONAMI_CODE.length) {
-				boolean pressed = false;
-				for (int key : KONAMI_CODE) {
-					if (Gdx.input.isKeyJustPressed(key)) {
-						pressed = true;
-						break;
-					}
-				}
-
-				if (pressed) {
-					int cur = KONAMI_CODE[konamiIndex];
-					boolean match = Gdx.input.isKeyJustPressed(cur);
-
-					for (int key : KONAMI_CODE)
-						if (key != cur && Gdx.input.isKeyJustPressed(key)) {
-							match = false;
-							break;
-						}
-
-					if (match) {
-						konamiIndex++;
-//						CardCrawlGame.sound.play("RELIC_DROP_MAGICAL");
-						logger.info("Successfully pressed key: {}", Input.Keys.toString(cur));
-					}
-					else {
-						konamiIndex = 0;
-//						int roll = MathUtils.random(2);
-//						if (roll == 0) {
-//							CardCrawlGame.sound.play("VO_MERCHANT_2A");
-//						} else if (roll == 1) {
-//							CardCrawlGame.sound.play("VO_MERCHANT_2B");
-//						} else {
-//							CardCrawlGame.sound.play("VO_MERCHANT_2C");
-//						}
-						logger.info("Mismatched key: {}", Input.Keys.toString(cur));
-					}
-
-					if (konamiIndex == KONAMI_CODE.length) {
-						AliceConfigHelper.setSunglassesUnlocked(true);
-						AliceConfigHelper.setSunglassesEnabled(true);
-						AliceConfigHelper.save();
-
-						CardCrawlGame.sound.play("UNLOCK_PING");
-
-						this.refresh();
-
-						konamiIndex = 0;
-					}
-				}
-
-			}
-			else
-				konamiIndex = 0;
+			this.konami.updateInput();
+			this.signatureEasterEgg.updateInput();
+			this.unlockA20.updateInput();
 		}
 		else {
-			konamiIndex = 0;
+			this.konami.clear();
+			this.signatureEasterEgg.clear();
+			this.unlockA20.clear();
 		}
 	}
 	

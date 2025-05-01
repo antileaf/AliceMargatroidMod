@@ -2,7 +2,7 @@
   "AliceMargatroid:SkinSelectScreen": {
     "TEXT": [
       "Skin Select",
-      ""
+      "Sunglasses"
     ]
   },
 
@@ -37,6 +37,13 @@
   "AliceMargatroid:DollHPDescription": {
     "TEXT": [
       "Base HP: #b%d ."
+    ]
+  },
+
+  "AliceMargatroid:UnlockSignature": {
+    "TEXT": [
+      "Signature Unlocked!",
+      "Tip: For each Act completed (except 4th Act), you can unlock a signature."
     ]
   }
 }

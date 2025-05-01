@@ -39,8 +39,7 @@ public class Housework extends AbstractAliceCard {
 				CardRarity.COMMON,
 				CardTargetEnum.DOLL_OR_EMPTY_SLOT
 		);
-		
-		this.tags.add(CardTagEnum.ALICE_COMMAND);
+
 		this.tags.add(CardTagEnum.ALICE_DOLL_ACT);
 
 		this.targetIcons.add(AliceTargetIcon.SLOT);

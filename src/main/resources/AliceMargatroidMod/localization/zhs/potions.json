@@ -2,7 +2,7 @@
   "WeavingPotion": {
     "NAME": "编织药水",
     "DESCRIPTIONS": [
-      "生成 #b%d 个随机 #y人偶 。"
+      "在空栏位中生成 #b%d 个随机 #y人偶 。"
     ]
   },
   

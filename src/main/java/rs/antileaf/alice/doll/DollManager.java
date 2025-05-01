@@ -27,6 +27,7 @@ import rs.antileaf.alice.doll.dolls.FranceDoll;
 import rs.antileaf.alice.doll.dolls.NetherlandsDoll;
 import rs.antileaf.alice.doll.interfaces.OnDollOperateHook;
 import rs.antileaf.alice.powers.unique.ArtfulChanterPower;
+import rs.antileaf.alice.powers.unique.TauntedPower;
 import rs.antileaf.alice.utils.AliceHelper;
 
 import java.util.ArrayList;
@@ -177,8 +178,8 @@ public class DollManager {
 		doll.heal(amount);
 	}
 
-	public void increaseMaxHealth(AbstractDoll doll, int amount) {
-		doll.increaseMaxHealth(amount);
+	public void increaseMaxHealth(AbstractDoll doll, int amount, boolean isEmpty) {
+		doll.increaseMaxHealth(amount, isEmpty);
 	}
 	
 	public void updatePreservedBlock() {
@@ -217,14 +218,30 @@ public class DollManager {
 			return;
 		}
 		
-		for (AbstractDoll doll : this.dolls)
-			doll.updateDamageAboutToTake(-1, 0);
-		
+		for (AbstractDoll doll : this.dolls) {
+			doll.setDamageAboutToTake(-1, 0);
+			doll.setTaunt(false);
+		}
+
 		this.damageTarget.clear();
+
+		for (AbstractMonster m : AbstractDungeon.getMonsters().monsters)
+			if (!m.isDeadOrEscaped()) {
+				 for (int i = 1; i <= MAX_DOLL_SLOTS; i++)
+					 if (m.hasPower(TauntedPower.POWER_ID + "_" + i)) {
+						 this.damageTarget.put(m, i - 1);
+
+						 if (dolls.get(i - 1) != null)
+							 dolls.get(i - 1).setTaunt(true);
+						 
+						 break;
+					 }
+			}
+
 		for (int i = 0; i < MAX_DOLL_SLOTS; i++) {
 			AbstractMonster monster = AliceHelper.getMonsterByIndex(i);
 			
-			if (monster == null)
+			if (monster == null || this.damageTarget.containsKey(monster))
 				continue;
 			
 			int index = i;
@@ -251,6 +268,9 @@ public class DollManager {
 			}
 			
 			int index = this.damageTarget.get(monster);
+
+//			AliceHelper.logger.info("monster = " + monster.name + ", index = " + index);
+
 			int damage = -1, count = 0;
 			
 			if (monster.intent == AbstractMonster.Intent.ATTACK ||
@@ -271,7 +291,7 @@ public class DollManager {
 			}
 			
 			if (this.dolls.get(index) != null)
-				this.dolls.get(index).updateDamageAboutToTake(damage, count);
+				this.dolls.get(index).addDamageAboutToTake(damage, count);
 			else
 				AliceHelper.log(this.getClass(), "doll is null");
 		}

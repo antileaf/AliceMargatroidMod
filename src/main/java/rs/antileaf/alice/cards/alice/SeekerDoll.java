@@ -43,7 +43,8 @@ public class SeekerDoll extends AbstractAliceCard {
 		
 		this.magicNumber = this.baseMagicNumber = MAGIC;
 		this.secondaryMagicNumber = this.baseSecondaryMagicNumber = MAGIC2;
-		
+
+		this.isCommandCard = true;
 		this.tags.add(CardTagEnum.ALICE_COMMAND);
 		this.tags.add(CardTagEnum.ALICE_DOLL_ACT);
 

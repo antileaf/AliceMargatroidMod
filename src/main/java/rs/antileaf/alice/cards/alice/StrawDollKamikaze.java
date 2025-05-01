@@ -44,6 +44,9 @@ public class StrawDollKamikaze extends AbstractAliceCard {
 	public void use(AbstractPlayer p, AbstractMonster m) {
 		this.addToBot(new ApplyPowerAction(p, p, new BlurPower(p, this.magicNumber)));
 
+//		if (!this.upgraded)
+//			this.addToBot(new MakeTempCardInDrawPileAction(new Retrace(), 1, true, true));
+//		else
 		this.addToBot(new MakeTempCardInHandAction(new Retrace()));
 	}
 	
@@ -57,6 +60,7 @@ public class StrawDollKamikaze extends AbstractAliceCard {
 		if (!this.upgraded) {
 			this.upgradeName();
 			this.upgradeMagicNumber(UPGRADE_PLUS_MAGIC);
+//			this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
 			this.initializeDescription();
 		}
 	}

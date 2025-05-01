@@ -37,7 +37,7 @@ public class FuturisticBunrakuPower extends AbstractAlicePower implements NonSta
 		
 		this.type = PowerType.BUFF;
 		this.updateDescription();
-		this.initializeImage(null);
+		this.initializeImage(SIMPLE_NAME);
 	}
 	
 	@Override

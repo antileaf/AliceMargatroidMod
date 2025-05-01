@@ -54,6 +54,14 @@
     </dependency>
 
     <dependency>
+      <groupId>me.antileaf</groupId>
+      <artifactId>SignatureLib</artifactId>
+      <version>newest</version>
+      <scope>system</scope>
+      <systemPath>${Steam.path}/common/SlayTheSpire/mods/SignatureLib.jar</systemPath>
+    </dependency>
+
+    <dependency>
       <groupId>ThMod</groupId>
       <artifactId>STS_ThMod_MRS</artifactId>
       <version>0.15.4</version>
@@ -62,19 +70,19 @@
     </dependency>
 
     <dependency>
-      <groupId>theLibrarian</groupId>
-      <artifactId>PatchouliMod</artifactId>
-      <version>1.1.4</version>
+      <groupId>randomNumberPredictionMaster</groupId>
+      <artifactId>RandomNumberPredictionMaster</artifactId>
+      <version>newest</version>
       <scope>system</scope>
-      <systemPath>${Steam.path}/workshop/content/646570/2599715637/PatchouliMod.jar</systemPath>
+      <systemPath>${Steam.path}/workshop/content/646570/3423569652/RandomNumberPredictionMaster.jar</systemPath>
     </dependency>
 
 <!--    <dependency>-->
-<!--      <groupId>com.blanktheevil</groupId>-->
-<!--      <artifactId>better-debug</artifactId>-->
-<!--      <version>newest</version>-->
+<!--      <groupId>theLibrarian</groupId>-->
+<!--      <artifactId>PatchouliMod</artifactId>-->
+<!--      <version>1.1.4</version>-->
 <!--      <scope>system</scope>-->
-<!--      <systemPath>${Steam.path}/workshop/content/646570/2351301825/better-debug.jar</systemPath>-->
+<!--      <systemPath>${Steam.path}/workshop/content/646570/2599715637/PatchouliMod.jar</systemPath>-->
 <!--    </dependency>-->
 
     <dependency>
