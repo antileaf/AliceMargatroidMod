@@ -373,7 +373,7 @@
 
   "AliceMargatroid:UnlockMystic": {
     "NAME": "Unlock Mystic",
-    "DESCRIPTION": "Whenever you trigger alicemargatroid:Command, gain [E], and draw 1 card. NL Each unique name of cards can only trigger this once. NL Not stackable, instead reset triggered names."
+    "DESCRIPTION": "Whenever you trigger alicemargatroid:Command, gain [E] , and draw 1 card. NL Each unique name of cards can only trigger this once. NL Not stackable, instead reset triggered names."
   },
 
   "AliceMargatroid:SuicideSquad": {

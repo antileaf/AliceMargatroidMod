@@ -21,7 +21,7 @@
   
   {
     "NAMES": ["Command", "command"],
-    "DESCRIPTION": "#gExtra effects triggered if targeting a #yDoll when played."
+    "DESCRIPTION": "#gExtra effects triggered when played on a #yDoll ."
   },
 
   {

@@ -1,9 +1,9 @@
 {
   "AliceMargatroidModRaw": {
     "TEXT": [
-      "爱丽丝可以操控 #y人偶 ， #y人偶 们会帮助爱丽丝进行战斗，提供各种功能。 NL 爱丽丝固定拥有七个人偶栏位，每个栏位按照 #y从右至左 的顺序，依次承受 #y从左至右 的一个敌人的 #r攻击伤害 ，溢出伤害由爱丽丝承受。 NL （简而言之，最近对最近） NL 与原版的 #b充能球 不同， #y人偶 之间可以存在空位。",
-      "#y人偶 造成的伤害和获得的格挡不受爱丽丝的 #y虚弱 或 #y脆弱 影响，但 #y人偶 造成的伤害可以受到目标的 #r易伤 影响。 NL NL #y人偶 上方的 #r红色 数字代表其即将受到的伤害，内侧的括号内 #r 红色 数字代表爱丽丝即将承受的溢出伤害。",
-      "爱丽丝的部分卡牌可以选择 #y人偶 或栏位作为目标，它们的可选目标会以图标的形式标记在在卡牌的右侧。 NL 鼠标悬停在卡牌上时，会显示可选目标的文字描述。",
+      "Alice can control #yDolls, helping her in battle. NL Alice has 7 Doll slots，each #yfrom #yright #yto #yleft receives #rattack damage from an enemy #yfrom #yleft #yto #right. NL (In short, the closest corresponds to the closest.) NL Unlike #bOrbs from original game, there can be gaps between #yDolls.",
+      "Damage and Block from #yDolls will not be affected by #yWeak or #yFrail, but their damage can be affected by enemies' #rVulnerable. NL NL The #rRed number above a #yDoll indicates damage it will receive, and the bracketed #rRed number indicates overflow damage Alice will receive.",
+      "Some Alice cards can be played on #yDolls or slots. NL The available targets will be displayed at its right border. NL When hovering over a card, the tip of available targets will be shown.",
       "爱丽丝总共有 7 种 #y人偶 ，每种 #y人偶 都有不同的效果。 NL NL （七色的人偶使有七种人偶很合理吧！）",
       "教程到此为止，如果想重新观看教程，可以在主菜单设置中重新打开，或是在战斗内右键点击初始遗物查看。 NL 如果有任何问题，欢迎在群内反馈。 NL NL 祝玩得愉快！"
     ]

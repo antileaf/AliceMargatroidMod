@@ -9,29 +9,29 @@
   "AliceMargatroid:DollWarPower": {
     "NAME": "Doll War",
     "DESCRIPTIONS": [
-      "Whenever a #yDoll is #yPlaced, increase its Max HP by #b%d."
+      "Whenever a #yDoll is #yPlaced , increase its Max HP by #b%d."
     ]
   },
 
   "AliceMargatroid:DollJudgePower": {
     "NAME": "Doll Judgement",
     "DESCRIPTIONS": [
-      "Whenever a #yDoll is #yRecycled, Alice gains #b%d%% of its Block."
+      "Whenever a #yDoll is #yRecycled , Alice gains #b%d%% of its #yBlock ."
     ]
   },
 
   "AliceMargatroid:CallToDollsPower": {
     "NAME": "Call To Dolls",
     "DESCRIPTIONS": [
-      "In #b%d turn(s), receive #b50%% more damage from #yDolls."
+      "In #b%d turn(s), receive #b50%% more damage from #yDolls ."
     ]
   },
 
   "AliceMargatroid:DollActivationPower": {
     "NAME": "Doll Activation",
     "DESCRIPTIONS": [
-      "At the end of your turn, your rightmost #yDoll #Acts once.",
-      "At the end of your turn, your rightmost", "#yDolls each #Act once."
+      "At the end of your turn, your rightmost #yDoll #yActs once.",
+      "At the end of your turn, your rightmost", "#yDolls each #yAct once."
     ]
   },
   
@@ -53,14 +53,14 @@
   "AliceMargatroid:MaidensBunrakuPower": {
     "NAME": "Maiden's Bunraku",
     "DESCRIPTIONS": [
-      "Whenever a #yDoll #yActs, it gains #b%d Block."
+      "Whenever a #yDoll #yActs , it gains #b%d #yBlock ."
     ]
   },
   
   "AliceMargatroid:UsokaePower": {
     "NAME": "Usokae",
     "DESCRIPTIONS": [
-      "For each enemy, if there is a alicemargatroid:Doll in the corresponding slot, negate all debuffs from that enemy."
+      "For each enemy, if there is a #yDoll in the corresponding slot, negate all debuffs from that enemy."
     ]
   },
   
@@ -74,28 +74,28 @@
   "AliceMargatroid:ArtfulChanterPower": {
     "NAME": "Artful Chanter",
     "DESCRIPTIONS": [
-      "Whenever a alicemargatroid:Doll is alicemargatroid:Placed, if there is already a alicemargatroid:Doll in the same slot, the newer alicemargatroid:Doll alicemargatroid:Acts #b%d extra time(s)."
+      "Whenever a #yDoll is #yPlaced , if there is already a #yDoll in the same slot, let the newer #yDoll #yAct #b%d extra time(s)."
     ]
   },
   
   "AliceMargatroid:MagicianRayPower": {
     "NAME": "Magician Ray",
     "DESCRIPTIONS": [
-      "At the end of next turn, lose #b%d #yStrength."
+      "At the end of next turn, lose #b%d #yStrength ."
     ]
   },
   
   "AliceMargatroid:LuminousShanghaiDollPower": {
     "NAME": "Luminous Shanghai Doll",
     "DESCRIPTIONS": [
-      "Whenever a non- #yShanghai #yDoll #yActs, let a random #yShanghai #yDoll #yAct #b%d extra time(s)."
+      "Whenever a non- #yShanghai #yDoll #yActs , let a random #yShanghai #yDoll #yAct #b%d extra time(s)."
     ]
   },
   
   "AliceMargatroid:SeaOfSubconsciousnessPower": {
     "NAME": "Sea of Subconsciousness",
     "DESCRIPTIONS": [
-      "After playing a card in hand, if there is a alicemargatroid:Doll with the same order as the card, it alicemargatroid:Acts #b%d time(s)."
+      "After playing a card in hand, if there is a #yDoll with the same order as the card, it #yActs #b%d time(s)."
     ]
   },
   
@@ -109,35 +109,35 @@
   "AliceMargatroid:PrincessFormPower": {
     "NAME": "Princess Form",
     "DESCRIPTIONS": [
-      "Whenever you play a 1-cost card, add #b%d copy(ies) with alicemargatroid:Phantom to your hand. NL alicemargatroid:Phantom cards do not trigger this effect."
+      "For every 3 1-cost cards played, add #b%d 0-cost copy(ies) of the 3rd one with #yPhantom to your hand."
     ]
   },
 
   "AliceMargatroid:FuturisticBunrakuPower": {
     "NAME": "Futuristic Bunraku",
     "DESCRIPTIONS": [
-      "This turn, whenever you play a card, %s #yActs once. NL At the end of this turn, #yRecycle %s."
+      "This turn, whenever you play a card, %s #yActs once. NL At the end of this turn, #yRecycle %s ."
     ]
   },
 
   "AliceMargatroid:ForbiddenMagicPower": {
     "NAME": "Forbidden Magic",
     "DESCRIPTIONS": [
-      "Whenever a #yDoll is #Placed, lose #b%d #yalicemargatroid:Well_Laid_Plans."
+      "Whenever a #yDoll is #yPlaced , lose #b%d #yWell #yLaid #yPlans ."
     ]
   },
 
   "AliceMargatroid:SemiAutomatonPower": {
     "NAME": "Semi-Automaton",
     "DESCRIPTIONS": [
-      "After you #yPlace next #yDoll, let it #yAct #b%d times."
+      "After you #yPlace next #yDoll , let it #yAct #b%d times."
     ]
   },
 
   "AliceMargatroid:GeyserPower": {
     "NAME": "Geyser",
     "DESCRIPTIONS": [
-      "Increase Block gained from cards by #b%d%%."
+      "Increase #yBlock gained from cards by #b%d%% ."
     ]
   },
 
@@ -151,7 +151,7 @@
   "AliceMargatroid:UnlockMysticPower": {
     "NAME": "Unlock Mystic",
     "DESCRIPTIONS": [
-      "Whenever you trigger #yCommand, gain [E], and draw #b1 cards. NL Each unique name of cards can only trigger this once.",
+      "Whenever you trigger #yCommand , gain [E] , and draw #b1 card(s). NL Each unique name of cards can only trigger this once.",
       "Triggered cards: NL "
     ]
   }

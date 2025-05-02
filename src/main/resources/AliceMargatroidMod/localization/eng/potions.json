@@ -1,15 +1,15 @@
 {
-  "WeavingPotion": {
+  "AliceMargatroid:WeavingPotion": {
     "NAME": "Weaving Potion",
     "DESCRIPTIONS": [
       "#yPlace #b%d random #yDolls in empty slots."
     ]
   },
   
-  "ConcentrationPotion": {
+  "AliceMargatroid:ConcentrationPotion": {
     "NAME": "Concentration Potion",
     "DESCRIPTIONS": [
-      "All #yDolls #yAct once."
+      "All #yDolls #yAct #b%d time(s)."
     ]
   },
 

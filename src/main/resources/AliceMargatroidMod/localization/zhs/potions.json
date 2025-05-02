@@ -1,15 +1,15 @@
 {
-  "WeavingPotion": {
+  "AliceMargatroid:WeavingPotion": {
     "NAME": "编织药水",
     "DESCRIPTIONS": [
       "在空栏位中生成 #b%d 个随机 #y人偶 。"
     ]
   },
   
-  "ConcentrationPotion": {
+  "AliceMargatroid:ConcentrationPotion": {
     "NAME": "专注药水",
     "DESCRIPTIONS": [
-      "所有 #y人偶 #y行动 一次。"
+      "所有 #y人偶 #y行动 #b%d 次。"
     ]
   },
 

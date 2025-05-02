@@ -4,7 +4,7 @@
     "FLAVOR": "Said to record magic that can't be used by humans.",
     "DESCRIPTIONS": [
       "At the start of each combat, #yalicemargatroid:Place a #yalicemargatroid:Shanghai_Doll in the rightmost slot.",
-      "#yalicemargatroid:Activate: Re-open tutorial."
+      "#yalicemargatroid:Activate : Re-open tutorial."
     ]
   },
   
@@ -12,7 +12,7 @@
     "NAME": "Suspicious Card",
     "FLAVOR": "A card found in black market. There is a Shanghai Doll painted on it.",
     "DESCRIPTIONS": [
-      "#yShanghai #yDolls now hits ALL enemies."
+      "#yShanghai #yDolls now hit ALL enemies."
     ]
   },
   
