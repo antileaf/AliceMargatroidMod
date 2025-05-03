@@ -382,7 +382,8 @@ public class AliceMargatroidMod implements
 	public void receiveOnBattleStart(AbstractRoom room) {
 		DollManager.get().initPreBattle();
 		Bookmark.clearCache();
-		if (AliceConfigHelper.shouldOpenTutorial()) {
+		if (AbstractDungeon.player instanceof AliceMargatroid &&
+				AliceConfigHelper.shouldOpenTutorial()) {
 			AliceTutorialHelper.openTutorial();
 			AliceConfigHelper.setShouldOpenTutorial(false);
 			AliceConfigHelper.save();

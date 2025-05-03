@@ -52,7 +52,11 @@ public class UnlockSignaturePatch {
 						.anyMatch(cc -> cc.cardID.equals(c.cardID)))
 				.collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
 
-		locked.removeAll(inDeck);
+		ArrayList<AbstractAliceCard> toRemove = locked.stream()
+				.filter(c -> inDeck.stream()
+						.anyMatch(cc -> cc.cardID.equals(c.cardID)))
+				.collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+		locked.removeAll(toRemove);
 
 		logger.info("inDeck: {}", inDeck);
 		logger.info("locked: {}", locked);
