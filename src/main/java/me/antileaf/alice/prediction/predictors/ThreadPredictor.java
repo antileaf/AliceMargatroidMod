@@ -16,7 +16,6 @@ public class ThreadPredictor extends AbstractPredictor {
 	@Override
 	public void update(Object o) {
 		if (o instanceof AbstractCard) {
-
 			AbstractCard card = (AbstractCard) o;
 			Random rng = this.predictedRandom.copy();
 

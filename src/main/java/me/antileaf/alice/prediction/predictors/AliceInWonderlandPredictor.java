@@ -17,7 +17,7 @@ public class AliceInWonderlandPredictor extends AbstractPredictor {
 	@Override
 	public void update(Object o) {
 		if (o instanceof AbstractCard) {
-			ArrayList<AbstractCard> list = new ArrayList();
+			ArrayList<AbstractCard> list = new ArrayList<>();
 
 			for(AbstractCard c : AbstractDungeon.srcCommonCardPool.group) {
 				if (!c.hasTag(AbstractCard.CardTags.HEALING))
@@ -35,11 +35,15 @@ public class AliceInWonderlandPredictor extends AbstractPredictor {
 			}
 
 			AbstractCard card = (AbstractCard) o;
-			Random rng = this.predictedRandom.copy();
 
 			this.cardsToPreview.clear();
 
-			for (int i = 0; i < Math.max(6, AbstractDungeon.player.hand.size()); i++) {
+			if (list.isEmpty())
+				return;
+
+			Random rng = this.predictedRandom.copy();
+
+			for (int i = 0; i < Math.max(7, AbstractDungeon.player.hand.size()); i++) {
 				AbstractCard c = list.get(rng.random(list.size() - 1)).makeCopy();
 
 				if (card.upgraded)

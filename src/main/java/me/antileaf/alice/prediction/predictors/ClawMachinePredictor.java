@@ -42,6 +42,8 @@ public class ClawMachinePredictor extends AbstractPredictor {
 			return res;
 		}
 
+		this.bits = 0;
+
 		return false;
 	}
 
@@ -54,7 +56,10 @@ public class ClawMachinePredictor extends AbstractPredictor {
 			this.cardsToPreview.clear();
 
 			if (!card.upgraded) {
-				this.cardsToPreview.add(new CreateDoll(card.predict(rng)));
+				String predict = card.predict(rng);
+
+				if (predict != null)
+					this.cardsToPreview.add(new CreateDoll(predict));
 			}
 		}
 	}

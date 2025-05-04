@@ -4,8 +4,14 @@
       "Alice can control #yDolls, helping her in battle. NL Alice has 7 Doll slots，each #yfrom #yright #yto #yleft receives #rattack damage from an enemy #yfrom #yleft #yto #right. NL (In short, the closest corresponds to the closest.) NL Unlike #bOrbs from original game, there can be gaps between #yDolls.",
       "Damage and Block from #yDolls will not be affected by #yWeak or #yFrail, but their damage can be affected by enemies' #rVulnerable. NL NL The #rRed number above a #yDoll indicates damage it will receive, and the bracketed #rRed number indicates overflow damage Alice will receive.",
       "Some Alice cards can be played on #yDolls or slots. NL The available targets will be displayed at its right border. NL When hovering over a card, the tip of available targets will be shown.",
-      "爱丽丝总共有 7 种 #y人偶 ，每种 #y人偶 都有不同的效果。 NL NL （七色的人偶使有七种人偶很合理吧！）",
-      "教程到此为止，如果想重新观看教程，可以在主菜单设置中重新打开，或是在战斗内右键点击初始遗物查看。 NL 如果有任何问题，欢迎在群内反馈。 NL NL 祝玩得愉快！"
+      "qwq",
+      "pwp"
+    ]
+  },
+
+  "AliceMargatroid:Tips": {
+    "TEXT": [
+      "Some interesting things may happen if you input a famous code in Alice's character selection screen."
     ]
   }
 }

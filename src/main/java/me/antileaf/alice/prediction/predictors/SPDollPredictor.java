@@ -55,14 +55,17 @@ public class SPDollPredictor extends AbstractPredictor {
 		if (o instanceof AbstractCard) {
 			this.cardsToPreview.clear();
 
-			AbstractCard card = (AbstractCard) o;
-			Random rng = this.predictedRandom.copy();
-
 			ArrayList<Integer> indices = new ArrayList<>();
 			for (int i = 0; i < DollManager.get().getDolls().size(); i++) {
 				if (DollManager.get().getDolls().get(i) instanceof EmptyDollSlot)
 					indices.add(i);
 			}
+
+			if (indices.isEmpty())
+				return;
+
+			AbstractCard card = (AbstractCard) o;
+			Random rng = this.predictedRandom.copy();
 
 			int count = Math.min(indices.size(), card.magicNumber);
 

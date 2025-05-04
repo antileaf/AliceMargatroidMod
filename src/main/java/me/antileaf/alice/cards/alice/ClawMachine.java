@@ -76,6 +76,9 @@ public class ClawMachine extends AbstractAliceCard implements ConditionalExhaust
 	}
 
 	public String predict(Random rng) {
+		if (this.choices.isEmpty())
+			return null;
+
 		return this.choices.get(rng.random(this.choices.size() - 1));
 	}
 

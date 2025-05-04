@@ -45,6 +45,9 @@ public class RevelationPredictor extends AbstractPredictor {
 			return res;
 		}
 
+		this.upgraded = false;
+		this.hash = 0;
+
 		return false;
 	}
 
@@ -62,8 +65,9 @@ public class RevelationPredictor extends AbstractPredictor {
 					if (c.type == AbstractCard.CardType.ATTACK && c != card)
 						attacks.add(c);
 
-				this.cardsToPreview.add(attacks.get(rng.random(attacks.size() - 1))
-						.makeStatEquivalentCopy());
+				if (!attacks.isEmpty())
+					this.cardsToPreview.add(attacks.get(rng.random(attacks.size() - 1))
+							.makeStatEquivalentCopy());
 			}
 		}
 	}
