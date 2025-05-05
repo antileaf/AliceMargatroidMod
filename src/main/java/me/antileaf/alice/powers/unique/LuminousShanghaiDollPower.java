@@ -58,7 +58,7 @@ public class LuminousShanghaiDollPower extends AbstractAlicePower implements OnD
 			if (!shanghaiDolls.isEmpty()) {
 				AbstractDoll target = shanghaiDolls.get(AbstractDungeon.cardRandomRng.random(shanghaiDolls.size() - 1));
 				for (int i = 0; i < this.amount; i++)
-					this.addToTop(new DollActAction(target, true));
+					this.addToTop(new DollActAction(target));
 				this.flash();
 			}
 		}

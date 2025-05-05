@@ -1272,4 +1272,21 @@ public abstract class AbstractDoll extends CustomOrb {
 		descriptions.put(dollID, res);
 		return res;
 	}
+
+	public static class DollActModifier {
+		public boolean theSetup = false;
+		public boolean dollAmbush = false;
+
+		public static DollActModifier setup() {
+			DollActModifier modifier = new DollActModifier();
+			modifier.theSetup = true;
+			return modifier;
+		}
+
+		public static DollActModifier ambush() {
+			DollActModifier modifier = new DollActModifier();
+			modifier.dollAmbush = true;
+			return modifier;
+		}
+	}
 }

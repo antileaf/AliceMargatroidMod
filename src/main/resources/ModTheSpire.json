@@ -11,6 +11,6 @@
   "optional_dependencies": [
     "TS05_Marisa", "RandomNumberPredictionMaster"
   ],
-  "version": "1.0.2",
+  "version": "1.0.3",
   "sts_version": "${SlayTheSpire.version}"
 }

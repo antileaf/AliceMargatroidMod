@@ -11,14 +11,20 @@ import me.antileaf.alice.doll.DollManager;
 import me.antileaf.alice.doll.enums.DollAmountType;
 import me.antileaf.alice.strings.AliceDollStrings;
 import me.antileaf.alice.utils.AliceHelper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class FranceDoll extends AbstractDoll {
+	private static final Logger logger = LogManager.getLogger(FranceDoll.class.getName());
+
 	public static final String SIMPLE_NAME = FranceDoll.class.getSimpleName();
 	public static final String ID = SIMPLE_NAME;
 	private static final AliceDollStrings dollStrings = AliceDollStrings.get(ID);
 	
 	public static final int MAX_HP = 10;
 	public static final int ACT_AMOUNT = 5;
+
+	private boolean duringSpecialAct = false;
 	
 	public FranceDoll() {
 		super(
@@ -54,30 +60,39 @@ public class FranceDoll extends AbstractDoll {
 
 	@Override
 	public void onAct() {
-		int dest = -1;
-		if (this.getOverflowedDamage() <= 0) {
-			for (int i = 0; i < DollManager.get().getDolls().size(); i++) {
-				AbstractDoll doll = DollManager.get().getDolls().get(i);
-				if (!(doll instanceof FranceDoll) && doll.getOverflowedDamage() > 0) {
-					if (doll.calcTotalDamageAboutToTake() > this.calcTotalDamageAboutToTake()) {
-						if (dest == -1 || doll.calcTotalDamageAboutToTake() >
-								DollManager.get().getDolls().get(dest).calcTotalDamageAboutToTake()) {
-							dest = i;
+		if (!this.duringSpecialAct) { // 如果不是人偶伏兵引起的行动，才会试图移动
+			int dest = -1;
+			if (this.getOverflowedDamage() <= 0) {
+				for (int i = 0; i < DollManager.get().getDolls().size(); i++) {
+					AbstractDoll doll = DollManager.get().getDolls().get(i);
+					if (!(doll instanceof FranceDoll) && doll.getOverflowedDamage() > 0) {
+						if (doll.calcTotalDamageAboutToTake() > this.calcTotalDamageAboutToTake()) {
+							if (dest == -1 || doll.calcTotalDamageAboutToTake() >
+									DollManager.get().getDolls().get(dest).calcTotalDamageAboutToTake()) {
+								dest = i;
+							}
 						}
 					}
 				}
 			}
-		}
-		
-		if (dest != -1) {
-			if (DollManager.get().getDolls().get(dest) != this)
-				AliceHelper.addActionToBuffer(new MoveDollAction(this, dest));
-			else
-				AliceHelper.logger.info("FranceDoll.onAct: dest == this");
+
+			if (dest != -1) {
+				if (DollManager.get().getDolls().get(dest) != this)
+					AliceHelper.addActionToBuffer(new MoveDollAction(this, dest));
+				else
+					logger.warn("FranceDoll.onAct: dest == this");
+			}
 		}
 
 		AliceHelper.addActionToBuffer(new DollGainBlockAction(this, this.actAmount));
 		this.highlightActValue();
+	}
+
+	@Override
+	public void onSpecialAct() { // 正常来说只有即将被回收时触发人偶伏兵才会是特殊行动
+		this.duringSpecialAct = true;
+		this.onAct();
+		this.duringSpecialAct = false;
 	}
 	
 	@Override

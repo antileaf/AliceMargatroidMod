@@ -4,30 +4,32 @@ import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import me.antileaf.alice.doll.AbstractDoll;
 import me.antileaf.alice.doll.DollManager;
 import me.antileaf.alice.patches.enums.ActionTypeEnum;
-import me.antileaf.alice.utils.AliceHelper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class DollActAction extends AbstractGameAction {
+	private static final Logger logger = LogManager.getLogger(DollActAction.class.getName());
+
 	private static final float DURATION = 0.1F;
 	private final AbstractDoll doll;
-	private final boolean isSpecial;
+	private final AbstractDoll.DollActModifier modifier;
 	
-	public DollActAction(AbstractDoll doll, boolean isSpecial) {
+	public DollActAction(AbstractDoll doll, AbstractDoll.DollActModifier modifier) {
 		this.doll = doll;
-		this.isSpecial = isSpecial;
+		this.modifier = modifier;
 		this.actionType = ActionTypeEnum.DOLL_OPERATE;
 		this.duration = DURATION;
 	}
 	
 	public DollActAction(AbstractDoll doll) {
-		this(doll, false);
+		this(doll, new AbstractDoll.DollActModifier());
 	}
 	
 	@Override
 	public void update() {
 		if (!DollManager.get().contains(this.doll)) {
-			AliceHelper.log(this.getClass(),
-					"DollActAction.update(): DollManager does not contain " +
-							this.doll.getClass().getSimpleName() + "!");
+			logger.warn("DollActAction.update(): DollManager does not contain {}!",
+					this.doll.getClass().getSimpleName());
 			this.isDone = true;
 			return;
 		}
@@ -50,9 +52,9 @@ public class DollActAction extends AbstractGameAction {
 		
 		if (this.isDone) {
 			if (DollManager.get().contains(this.doll))
-				DollManager.get().dollAct(this.doll, this.isSpecial);
+				DollManager.get().dollAct(this.doll, this.modifier);
 			else
-				AliceHelper.log("DollActAction.update() : There may be a bug in DollManager.");
+				logger.warn("DollActAction.update() : There may be a bug in DollManager.");
 		}
 	}
 }

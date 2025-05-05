@@ -10,12 +10,13 @@ import me.antileaf.alice.utils.AliceHelper;
 public class RecycleDollAction extends AbstractGameAction {
 	private final AbstractDoll doll;
 	private final AbstractDoll newDoll;
+	@Deprecated
 	private final boolean isSpecial;
 	
 	public RecycleDollAction(AbstractDoll doll, AbstractDoll newDoll, boolean isSpecial) {
 		this.doll = doll;
 		this.newDoll = newDoll;
-		this.isSpecial = isSpecial;
+		this.isSpecial = false; // isSpecial;
 		this.actionType = ActionTypeEnum.DOLL_OPERATE;
 	}
 	
@@ -33,10 +34,11 @@ public class RecycleDollAction extends AbstractGameAction {
 			if (!this.isSpecial && AbstractDungeon.player.hasPower(DollAmbushPower.POWER_ID)) {
 				int count = AbstractDungeon.player.getPower(DollAmbushPower.POWER_ID).amount;
 				for (int i = 0; i < count; i++)
-					AliceHelper.addActionToBuffer(new DollActAction(doll));
+					AliceHelper.addActionToBuffer(new DollActAction(this.doll,
+							AbstractDoll.DollActModifier.ambush()));
 			}
 			
-			AliceHelper.addActionToBuffer(new RecycleDollInternalAction(doll, newDoll));
+			AliceHelper.addActionToBuffer(new RecycleDollInternalAction(this.doll, this.newDoll));
 			AliceHelper.commitBuffer();
 			
 			this.isDone = true;

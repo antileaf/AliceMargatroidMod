@@ -3,13 +3,10 @@ package me.antileaf.alice.powers.deprecated;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
-import com.megacrit.cardcrawl.actions.common.DrawCardAction;
-import com.megacrit.cardcrawl.actions.common.GainEnergyAction;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.PowerStrings;
 import com.megacrit.cardcrawl.vfx.combat.PlasmaOrbPassiveEffect;
-import me.antileaf.alice.action.doll.RecycleDollAction;
 import me.antileaf.alice.doll.AbstractDoll;
 import me.antileaf.alice.doll.DollManager;
 import me.antileaf.alice.doll.dolls.EmptyDollSlot;
@@ -18,6 +15,7 @@ import me.antileaf.alice.effects.common.AliceDrawLineEffect;
 import me.antileaf.alice.powers.AbstractAlicePower;
 import me.antileaf.alice.utils.AliceHelper;
 
+@Deprecated
 public class MagicConduitPower extends AbstractAlicePower implements OnDollOperateHook {
 	public static final String SIMPLE_NAME = MagicConduitPower.class.getSimpleName();
 	public static final String POWER_ID = AliceHelper.makeID(SIMPLE_NAME);
@@ -65,17 +63,17 @@ public class MagicConduitPower extends AbstractAlicePower implements OnDollOpera
 		if (DollManager.get().getDolls().size() == DollManager.MAX_DOLL_SLOTS
 				&& DollManager.get().getDolls().get(DollManager.MAX_DOLL_SLOTS - 1) == doll) {
 			this.flash();
-			AliceHelper.addActionsToTop(
-					new RecycleDollAction(doll, null, true),
-					new GainEnergyAction(this.amount) {
-						@Override
-						public void update() {
-							super.update();
-							this.isDone = true;
-						}
-					},
-					new DrawCardAction(this.amount)
-			);
+//			AliceHelper.addActionsToTop(
+//					new RecycleDollAction(doll, null, true),
+//					new GainEnergyAction(this.amount) {
+//						@Override
+//						public void update() {
+//							super.update();
+//							this.isDone = true;
+//						}
+//					},
+//					new DrawCardAction(this.amount)
+//			);
 		}
 	}
 	

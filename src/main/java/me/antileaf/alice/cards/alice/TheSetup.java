@@ -48,7 +48,7 @@ public class TheSetup extends AbstractAliceCard {
 	public void use(AbstractPlayer p, AbstractMonster m) {
 		for (AbstractDoll doll : DollManager.get().getDolls())
 			if (!(doll instanceof EmptyDollSlot) && doll.calcTotalDamageAboutToTake() != -1)
-				this.addToBot(new DollActAction(doll, this.upgraded));
+				this.addToBot(new DollActAction(doll, AbstractDoll.DollActModifier.setup()));
 	}
 	
 	@Override

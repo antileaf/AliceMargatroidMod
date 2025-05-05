@@ -23,9 +23,7 @@ import me.antileaf.alice.cards.AbstractAliceCard;
 import me.antileaf.alice.cards.alice.SevenColoredPuppeteer;
 import me.antileaf.alice.cards.deprecated.DollMagic;
 import me.antileaf.alice.characters.AliceMargatroid;
-import me.antileaf.alice.doll.dolls.EmptyDollSlot;
-import me.antileaf.alice.doll.dolls.FranceDoll;
-import me.antileaf.alice.doll.dolls.NetherlandsDoll;
+import me.antileaf.alice.doll.dolls.*;
 import me.antileaf.alice.doll.interfaces.OnDollOperateHook;
 import me.antileaf.alice.patches.enums.CardTargetEnum;
 import me.antileaf.alice.powers.unique.ArtfulChanterPower;
@@ -500,7 +498,7 @@ public class DollManager {
 		this.update();
 	}
 	
-	public void dollAct(AbstractDoll doll, boolean isSpecial) {
+	public void dollAct(AbstractDoll doll, AbstractDoll.DollActModifier modifier) {
 		assert this.dolls.contains(doll);
 
 		for (AbstractRelic relic : this.owner.relics)
@@ -512,7 +510,14 @@ public class DollManager {
 				((OnDollOperateHook) power).preDollAct(doll);
 		
 		doll.applyPower();
-		if (isSpecial)
+
+		boolean special = false;
+		if (modifier.theSetup)
+			special = (doll instanceof ShanghaiDoll || doll instanceof KyotoDoll);
+		else if (modifier.dollAmbush)
+			special = doll instanceof FranceDoll;
+
+		if (special)
 			doll.onSpecialAct();
 		else
 			doll.onAct();
