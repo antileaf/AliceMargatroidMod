@@ -37,6 +37,8 @@ public class ShanghaiDoll extends AbstractDoll {
 
 	@Deprecated
 	public int charge = 0;
+
+	private AbstractMonster preferred = null;
 	
 	public ShanghaiDoll() {
 		super(
@@ -141,7 +143,8 @@ public class ShanghaiDoll extends AbstractDoll {
 		this.charge = 0;
 		
 		if (!AbstractDungeon.player.hasRelic(SuspiciousCard.ID)) {
-			AbstractMonster m = AliceHelper.getMonsterWithLeastHP();
+			AbstractMonster m = this.preferred != null && !this.preferred.isDeadOrEscaped() ?
+					this.preferred : AliceHelper.getMonsterWithLeastHP();
 			
 			if (m != null) {
 				DollDamageInfo info = new DollDamageInfo(this.actAmount, this,
@@ -153,7 +156,7 @@ public class ShanghaiDoll extends AbstractDoll {
 						AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
 			}
 		}
-		else {
+		else { // 有人偶动力学
 			if (AbstractDungeon.getMonsters().monsters.stream()
 					.filter(m -> !m.isDeadOrEscaped())
 					.count() > 1)
@@ -181,11 +184,18 @@ public class ShanghaiDoll extends AbstractDoll {
 	}
 
 	@Override
-	public void onSpecialAct() {
+	public void onSpecialAct(DollActModifier modifier) {
+		if (modifier.preferredTarget != null)
+			this.preferred = modifier.preferredTarget;
+
 		this.onAct();
 
-		AliceHelper.addActionToBuffer(new DollGainBlockAction(this, this.specialBuffer));
-		this.specialBuffer = 0;
+		this.preferred = null;
+
+		if (modifier.theSetup) {
+			AliceHelper.addActionToBuffer(new DollGainBlockAction(this, this.specialBuffer));
+			this.specialBuffer = 0;
+		}
 	}
 	
 	@Override

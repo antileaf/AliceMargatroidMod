@@ -16,16 +16,21 @@ import me.antileaf.alice.patches.enums.CardTagEnum;
 import me.antileaf.alice.patches.enums.CardTargetEnum;
 import me.antileaf.alice.targeting.AliceTargetIcon;
 import me.antileaf.alice.utils.AliceHelper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ReturningDolls extends AbstractAliceCard {
+	private static final Logger logger = LogManager.getLogger(ReturningDolls.class.getName());
+
 	public static final String SIMPLE_NAME = ReturningDolls.class.getSimpleName();
 	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
 	private static final int DRAW = 2;
-	private static final int MAGIC2 = 1;
-	private static final int UPGRADE_PLUS_MAGIC2 = 1;
+	private static final int UPGRADE_PLUS_DRAW = 1;
+//	private static final int MAGIC2 = 1;
+//	private static final int UPGRADE_PLUS_MAGIC2 = 1;
 	
 	public ReturningDolls() {
 		super(
@@ -41,7 +46,7 @@ public class ReturningDolls extends AbstractAliceCard {
 		);
 		
 		this.magicNumber = this.baseMagicNumber = DRAW;
-		this.secondaryMagicNumber = this.baseSecondaryMagicNumber = MAGIC2;
+//		this.secondaryMagicNumber = this.baseSecondaryMagicNumber = MAGIC2;
 
 		this.isCommandCard = true;
 		this.tags.add(CardTagEnum.ALICE_COMMAND);
@@ -111,11 +116,16 @@ public class ReturningDolls extends AbstractAliceCard {
 			this.addToBot(new RecycleDollAction(doll));
 			this.addToBot(new DrawCardAction(this.magicNumber));
 
-			for (int i = 0; i < this.secondaryMagicNumber; i++)
-				this.addToBot(new MakeTempCardInHandAction(new Retrace()));
+//			for (int i = 0; i < this.secondaryMagicNumber; i++)
+
+			AbstractCard retrace = new Retrace();
+			if (this.upgraded)
+				retrace.upgrade();
+
+			this.addToBot(new MakeTempCardInHandAction(retrace));
 		}
 		else
-			AliceHelper.logger.info("ReturningDolls.use(): doll is null!");
+			logger.warn("ReturningDolls.use(): doll is null!");
 	}
 	
 	@Override
@@ -127,8 +137,12 @@ public class ReturningDolls extends AbstractAliceCard {
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
-			this.upgradeSecondaryMagicNumber(UPGRADE_PLUS_MAGIC2);
+			this.upgradeMagicNumber(UPGRADE_PLUS_DRAW);
+//			this.upgradeSecondaryMagicNumber(UPGRADE_PLUS_MAGIC2);
+			this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
 			this.initializeDescription();
+
+			this.cardsToPreview.upgrade();
 		}
 	}
 }

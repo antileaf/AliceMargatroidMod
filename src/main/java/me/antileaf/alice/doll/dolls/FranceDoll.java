@@ -89,10 +89,14 @@ public class FranceDoll extends AbstractDoll {
 	}
 
 	@Override
-	public void onSpecialAct() { // 正常来说只有即将被回收时触发人偶伏兵才会是特殊行动
-		this.duringSpecialAct = true;
+	public void onSpecialAct(DollActModifier modifier) { // 正常来说只有即将被回收时触发人偶伏兵才会是特殊行动
+		if (modifier.dollAmbush)
+			this.duringSpecialAct = true;
+
 		this.onAct();
-		this.duringSpecialAct = false;
+
+		if (modifier.dollAmbush)
+			this.duringSpecialAct = false;
 	}
 	
 	@Override

@@ -21,10 +21,11 @@ public class ReturnInanimateness extends AbstractAliceCard {
 	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
-	private static final int COST = 3;
-	private static final int UPGRADED_COST = 2;
+	private static final int COST = 2;
+//	private static final int UPGRADED_COST = 2;
 	private static final int DAMAGE = 4;
-	
+	private static final int UPGRADE_PLUS_DMG = 1;
+
 	public ReturnInanimateness() {
 		super(
 				ID,
@@ -100,7 +101,8 @@ public class ReturnInanimateness extends AbstractAliceCard {
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
-			this.upgradeBaseCost(UPGRADED_COST);
+//			this.upgradeBaseCost(UPGRADED_COST);
+			this.upgradeDamage(UPGRADE_PLUS_DMG);
 			this.initializeDescription();
 		}
 	}

@@ -23,7 +23,9 @@ import me.antileaf.alice.cards.AbstractAliceCard;
 import me.antileaf.alice.cards.alice.SevenColoredPuppeteer;
 import me.antileaf.alice.cards.deprecated.DollMagic;
 import me.antileaf.alice.characters.AliceMargatroid;
-import me.antileaf.alice.doll.dolls.*;
+import me.antileaf.alice.doll.dolls.EmptyDollSlot;
+import me.antileaf.alice.doll.dolls.FranceDoll;
+import me.antileaf.alice.doll.dolls.NetherlandsDoll;
 import me.antileaf.alice.doll.interfaces.OnDollOperateHook;
 import me.antileaf.alice.patches.enums.CardTargetEnum;
 import me.antileaf.alice.powers.unique.ArtfulChanterPower;
@@ -511,14 +513,14 @@ public class DollManager {
 		
 		doll.applyPower();
 
-		boolean special = false;
-		if (modifier.theSetup)
-			special = (doll instanceof ShanghaiDoll || doll instanceof KyotoDoll);
-		else if (modifier.dollAmbush)
-			special = doll instanceof FranceDoll;
+//		boolean special = false;
+//		if (modifier.theSetup)
+//			special = (doll instanceof ShanghaiDoll || doll instanceof KyotoDoll);
+//		else if (modifier.dollAmbush)
+//			special = doll instanceof FranceDoll;
 
-		if (special)
-			doll.onSpecialAct();
+		if (modifier != null)
+			doll.onSpecialAct(modifier);
 		else
 			doll.onAct();
 		

@@ -21,7 +21,7 @@ public class CollapsingWorlds extends AbstractAliceCard implements ConditionalEx
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 2;
-	private static final int DAMAGE = 16;
+	private static final int DAMAGE = 18;
 	private static final int UPGRADED_COST = 1;
 
 	public boolean exhaustThisTime = false;

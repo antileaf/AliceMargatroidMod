@@ -67,8 +67,7 @@
   
   "AliceMargatroid:WarFlag": {
     "NAME": "战旗",
-    "DESCRIPTION": "alicemargatroid:指令 ：爱丽丝和其它 alicemargatroid:人偶 获得等同于目标 alicemargatroid:人偶 一半的 格挡 。",
-    "UPGRADE_DESCRIPTION": "alicemargatroid:指令 ：目标 alicemargatroid:人偶 alicemargatroid:行动 !M! 次，然后爱丽丝和其它 alicemargatroid:人偶 获得等同于目标 alicemargatroid:人偶 一半的 格挡 。"
+    "DESCRIPTION": "alicemargatroid:指令 ：目标人偶 alicemargatroid:行动 !M! 次，然后爱丽丝和其它 alicemargatroid:人偶 获得等同于目标 alicemargatroid:人偶 一半的 格挡 。"
   },
   
   "AliceMargatroid:DollAmbush": {
@@ -145,7 +144,8 @@
 
   "AliceMargatroid:ReturningDolls": {
     "NAME": "人偶归巢",
-    "DESCRIPTION": "alicemargatroid:指令 ： alicemargatroid:回收 目标 alicemargatroid:人偶 ，抽 !M! 张牌，并将 !aliceM2! 张 *折回 加入你的手牌。"
+    "DESCRIPTION": "alicemargatroid:指令 ： alicemargatroid:回收 目标 alicemargatroid:人偶 ，抽 !M! 张牌，并将一张 *折回 加入你的手牌。",
+    "UPGRADE_DESCRIPTION": "alicemargatroid:指令 ： alicemargatroid:回收 目标 alicemargatroid:人偶 ，抽 !M! 张牌，并将一张 *折回+ 加入你的手牌。"
   },
   
   "AliceMargatroid:SPDoll": {
@@ -166,7 +166,7 @@
   
   "AliceMargatroid:DollLances": {
     "NAME": "人偶千枪",
-    "DESCRIPTION": "造成 !D! 点伤害。 NL 每有一个 alicemargatroid:上海人偶 ，再重复一次。",
+    "DESCRIPTION": "造成 !D! 点伤害。 NL 所有 alicemargatroid:上海人偶 alicemargatroid:行动 !M! 次，优先攻击目标敌人。",
     "EXTENDED_DESCRIPTION": ["（造成 !M! 次伤害。）"]
   },
   
@@ -211,8 +211,8 @@
   
   "AliceMargatroid:TheSetup": {
     "NAME": "设置",
-    "DESCRIPTION": "所有即将受到攻击的 alicemargatroid:人偶 alicemargatroid:行动 一次。",
-    "UPGRADE_DESCRIPTION": "所有即将受到攻击的 alicemargatroid:人偶 alicemargatroid:行动 一次。 NL 如果是 alicemargatroid:上海人偶 或 alicemargatroid:京都人偶 ，还会获得等同于造成伤害的 格挡 。",
+    "DESCRIPTION": "所有即将受到攻击的 alicemargatroid:人偶 alicemargatroid:行动 一次。 NL 如果是 alicemargatroid:上海人偶 或 alicemargatroid:京都人偶 ，还会获得等同于造成伤害的 格挡 。",
+    "UPGRADE_DESCRIPTION": "所有对位有敌人的 alicemargatroid:人偶 alicemargatroid:行动 一次。 NL 如果是 alicemargatroid:上海人偶 或 alicemargatroid:京都人偶 ，还会获得等同于造成伤害的 格挡 。",
     "FLAVOR": "“虚伪，爱丽丝。这是文明中最大的美德。”"
   },
   

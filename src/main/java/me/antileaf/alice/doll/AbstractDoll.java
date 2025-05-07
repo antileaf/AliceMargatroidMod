@@ -15,6 +15,7 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.*;
 import com.megacrit.cardcrawl.localization.UIStrings;
+import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 import com.megacrit.cardcrawl.powers.StrengthPower;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
@@ -514,7 +515,7 @@ public abstract class AbstractDoll extends CustomOrb {
 	// The buffer will be committed in DollManager.dollAct().
 	public abstract void onAct();
 
-	public void onSpecialAct() {
+	public void onSpecialAct(DollActModifier modifier) {
 		this.onAct();
 	}
 	
@@ -1276,6 +1277,7 @@ public abstract class AbstractDoll extends CustomOrb {
 	public static class DollActModifier {
 		public boolean theSetup = false;
 		public boolean dollAmbush = false;
+		public AbstractMonster preferredTarget = null;
 
 		public static DollActModifier setup() {
 			DollActModifier modifier = new DollActModifier();
@@ -1286,6 +1288,12 @@ public abstract class AbstractDoll extends CustomOrb {
 		public static DollActModifier ambush() {
 			DollActModifier modifier = new DollActModifier();
 			modifier.dollAmbush = true;
+			return modifier;
+		}
+
+		public static DollActModifier preferred(AbstractMonster monster) {
+			DollActModifier modifier = new DollActModifier();
+			modifier.preferredTarget = monster;
 			return modifier;
 		}
 	}

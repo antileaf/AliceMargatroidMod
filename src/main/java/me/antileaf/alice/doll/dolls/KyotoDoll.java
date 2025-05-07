@@ -63,16 +63,18 @@ public class KyotoDoll extends AbstractDoll {
 	}
 
 	@Override
-	public void onSpecialAct() {
+	public void onSpecialAct(DollActModifier modifier) {
 		this.onAct();
 
-		int[] matrix = DollDamageInfo.createDamageMatrix(
-				this.HP,
-				this,
-				DollAmountType.DAMAGE,
-				DollAmountTime.PASSIVE);
+		if (modifier.theSetup) {
+			int[] matrix = DollDamageInfo.createDamageMatrix(
+					this.HP,
+					this,
+					DollAmountType.DAMAGE,
+					DollAmountTime.PASSIVE);
 
-		AliceHelper.addActionToBuffer(new DollGainBlockAction(this, Arrays.stream(matrix).sum()));
+			AliceHelper.addActionToBuffer(new DollGainBlockAction(this, Arrays.stream(matrix).sum()));
+		}
 	}
 
 //	@Override

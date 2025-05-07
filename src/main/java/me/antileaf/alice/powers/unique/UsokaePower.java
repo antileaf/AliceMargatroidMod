@@ -10,10 +10,15 @@ import com.megacrit.cardcrawl.powers.AbstractPower;
 import me.antileaf.alice.doll.AbstractDoll;
 import me.antileaf.alice.doll.DollManager;
 import me.antileaf.alice.doll.dolls.EmptyDollSlot;
+import me.antileaf.alice.patches.misc.UsokaeCompatibilityPatch;
 import me.antileaf.alice.powers.AbstractAlicePower;
 import me.antileaf.alice.utils.AliceHelper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class UsokaePower extends AbstractAlicePower implements OnReceivePowerPower {
+	private static final Logger logger = LogManager.getLogger(UsokaePower.class.getName());
+
 	public static final String SIMPLE_NAME = UsokaePower.class.getSimpleName();
 	public static final String POWER_ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
@@ -37,6 +42,20 @@ public class UsokaePower extends AbstractAlicePower implements OnReceivePowerPow
 	@Override
 	public boolean onReceivePower(AbstractPower power, AbstractCreature target, AbstractCreature source) {
 		// Returning false will negate the power
+
+		if (UsokaeCompatibilityPatch.patched.containsKey(power)) {
+			int index = UsokaeCompatibilityPatch.patched.get(power);
+			if (index != -1) {
+				AbstractDoll doll = DollManager.get().getDolls().get(index);
+				if (doll != null) {
+					logger.info("patched, index = {}", index);
+					return doll instanceof EmptyDollSlot;
+				}
+			}
+
+			logger.warn("This should not be reachable.");
+			return true;
+		}
 
 		if (target != this.owner || !(source instanceof AbstractMonster) || power.type != PowerType.DEBUFF)
 			return true;

@@ -40,15 +40,33 @@ public class TheSetup extends AbstractAliceCard {
 		return AliceHoveredTargets.fromDolls(DollManager.get().getDolls().stream()
 				.filter(doll -> doll != slot)
 				.filter(doll -> !(doll instanceof EmptyDollSlot))
-				.filter(doll -> doll.calcTotalDamageAboutToTake() != -1)
+				.filter(doll -> {
+					if (!this.upgraded)
+						return doll.calcTotalDamageAboutToTake() != -1;
+					else
+						return DollManager.get().damageTarget.values()
+								.stream()
+								.anyMatch(i -> DollManager.get().getDolls().get(i) == doll);
+				})
 				.toArray(AbstractDoll[]::new));
 	}
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
 		for (AbstractDoll doll : DollManager.get().getDolls())
-			if (!(doll instanceof EmptyDollSlot) && doll.calcTotalDamageAboutToTake() != -1)
-				this.addToBot(new DollActAction(doll, AbstractDoll.DollActModifier.setup()));
+			if (!(doll instanceof EmptyDollSlot)) {
+				boolean flag = false;
+
+				if (!this.upgraded)
+					flag = doll.calcTotalDamageAboutToTake() != -1;
+				else
+					flag = DollManager.get().damageTarget.values()
+							.stream()
+							.anyMatch(i -> DollManager.get().getDolls().get(i) == doll);
+
+				if (flag)
+					this.addToBot(new DollActAction(doll, AbstractDoll.DollActModifier.setup()));
+			}
 	}
 	
 	@Override

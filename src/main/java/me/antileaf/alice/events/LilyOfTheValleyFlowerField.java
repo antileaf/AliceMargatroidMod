@@ -67,10 +67,10 @@ public class LilyOfTheValleyFlowerField extends PhasedEvent {
 						}));
 
 		// OPTIONS[2] 都是“离开”
-		this.registerPhase(LEAVE_WITH_SUSAN, new TextPhase(eventStrings.DESCRIPTIONS[3])
+		this.registerPhase(LEAVE_WITH_FLOWERS, new TextPhase(eventStrings.DESCRIPTIONS[3])
 				.addOption(eventStrings.OPTIONS[2], (i) -> this.openMap()));
 
-		this.registerPhase(LEAVE_WITH_FLOWERS, new TextPhase(eventStrings.DESCRIPTIONS[4])
+		this.registerPhase(LEAVE_WITH_SUSAN, new TextPhase(eventStrings.DESCRIPTIONS[4])
 				.addOption(eventStrings.OPTIONS[2], (i) -> this.openMap()));
 
 		this.transitionKey(INTRO);

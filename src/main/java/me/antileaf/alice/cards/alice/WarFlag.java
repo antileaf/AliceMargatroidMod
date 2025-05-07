@@ -25,7 +25,8 @@ public class WarFlag extends AbstractAliceCard {
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
-	private static final int MAGIC = 2;
+	private static final int MAGIC = 1;
+	private static final int UPGRADE_PLUS_MAGIC = 1;
 	
 	public WarFlag() {
 		super(
@@ -44,6 +45,7 @@ public class WarFlag extends AbstractAliceCard {
 
 		this.isCommandCard = true;
 		this.tags.add(CardTagEnum.ALICE_COMMAND);
+		this.tags.add(CardTagEnum.ALICE_DOLL_ACT);
 
 		this.targetIcons.add(AliceTargetIcon.DOLL);
 	}
@@ -54,10 +56,9 @@ public class WarFlag extends AbstractAliceCard {
 		
 		if (doll == null)
 			return;
-		
-		if (this.upgraded)
-			for (int i = 0; i < this.magicNumber; i++)
-				this.addToBot(new DollActAction(doll));
+
+		for (int i = 0; i < this.magicNumber; i++)
+			this.addToBot(new DollActAction(doll));
 		
 		this.addToBot(new AnonymousAction(() -> {
 			if (DollManager.get().contains(doll)) {
@@ -86,8 +87,8 @@ public class WarFlag extends AbstractAliceCard {
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
-			this.tags.add(CardTagEnum.ALICE_DOLL_ACT);
-			this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
+			this.upgradeMagicNumber(UPGRADE_PLUS_MAGIC);
+//			this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
 			this.initializeDescription();
 		}
 	}

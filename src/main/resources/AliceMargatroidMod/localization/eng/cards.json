@@ -59,8 +59,7 @@
   
   "AliceMargatroid:WarFlag": {
     "NAME": "War Flag",
-    "DESCRIPTION": "alicemargatroid:Command: Alice and other alicemargatroid:Dolls gain Block equal to half of target alicemargatroid:Doll.",
-    "UPGRADE_DESCRIPTION": "alicemargatroid:Command: Target alicemargatroid:Doll alicemargatroid:Acts !M! times, then Alice and other alicemargatroid:Dolls gain Block equal to half of target alicemargatroid:Doll."
+    "DESCRIPTION": "{@@}alicemargatroid:Command: target alicemargatroid:Doll alicemargatroid:Acts !M! time{!M!|>1=s}, then Alice and other alicemargatroid:Dolls gain Block equal to half of target alicemargatroid:Doll."
   },
   
   "AliceMargatroid:DollAmbush": {
@@ -126,7 +125,8 @@
 
   "AliceMargatroid:ReturningDolls": {
     "NAME": "Returning Dolls",
-    "DESCRIPTION": "{@@}alicemargatroid:Command: alicemargatroid:Recycle target alicemargatroid:Doll, draw !M! cards, then add !aliceM2! *Retrace{!aliceM2!|>1=s} into your hand."
+    "DESCRIPTION": "alicemargatroid:Command: alicemargatroid:Recycle target alicemargatroid:Doll, draw !M! cards, then add a *Retrace into your hand.",
+    "UPGRADE_DESCRIPTION": "alicemargatroid:Command: alicemargatroid:Recycle target alicemargatroid:Doll, draw !M! cards, then add a *Retrace+ into your hand."
   },
   
   "AliceMargatroid:SPDoll": {
@@ -136,7 +136,7 @@
 
   "AliceMargatroid:DollLances": {
     "NAME": "Doll Lances",
-    "DESCRIPTION": "Deal !D! damage. NL Repeat 1 extra time for each alicemargatroid:Shanghai_Doll you have.",
+    "DESCRIPTION": "{@@}Deal !D! damage. NL All alicemargatroid:Shanghai_Dolls alicemargatroid:Act !M! time{!M!|>1=s}, prioritizing to attack the target.",
     "EXTENDED_DESCRIPTION": ["(!M! times in total.)"]
   },
   
@@ -169,8 +169,8 @@
   
   "AliceMargatroid:TheSetup": {
     "NAME": "The Setup",
-    "DESCRIPTION": "All alicemargatroid:Dolls about to be attacked alicemargatroid:Act once.",
-    "UPGRADE_DESCRIPTION": "All alicemargatroid:Dolls about to be attacked alicemargatroid:Act once. NL alicemargatroid:Shanghai_Dolls and alicemargatroid:Kyoto_Dolls will also gain Block equal to damage dealt."
+    "DESCRIPTION": "All alicemargatroid:Dolls about to be attacked alicemargatroid:Act once. NL alicemargatroid:Shanghai_Dolls and alicemargatroid:Kyoto_Dolls will also gain Block equal to damage dealt.",
+    "UPGRADE_DESCRIPTION": "All alicemargatroid:Dolls with an enemy against its slot alicemargatroid:Act once. NL alicemargatroid:Shanghai_Dolls and alicemargatroid:Kyoto_Dolls will also gain Block equal to damage dealt."
   },
   
   "AliceMargatroid:Sale": {

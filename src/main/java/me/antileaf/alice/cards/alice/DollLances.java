@@ -8,10 +8,14 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import me.antileaf.alice.action.doll.DollActAction;
+import me.antileaf.alice.action.utils.AnonymousAction;
 import me.antileaf.alice.cards.AbstractAliceCard;
+import me.antileaf.alice.doll.AbstractDoll;
 import me.antileaf.alice.doll.DollManager;
 import me.antileaf.alice.doll.dolls.ShanghaiDoll;
 import me.antileaf.alice.patches.enums.AbstractCardEnum;
+import me.antileaf.alice.targeting.AliceHoveredTargets;
 import me.antileaf.alice.utils.AliceHelper;
 
 public class DollLances extends AbstractAliceCard {
@@ -21,9 +25,9 @@ public class DollLances extends AbstractAliceCard {
 	
 	private static final int COST = 1;
 	private static final int DAMAGE = 6;
-	private static final int UPGRADE_PLUS_DAMAGE = 2;
-//	private static final int MAGIC = 0;
-//	private static final int UPGRADE_PLUS_MAGIC = 1;
+//	private static final int UPGRADE_PLUS_DAMAGE = 2;
+	private static final int MAGIC = 1;
+	private static final int UPGRADE_PLUS_MAGIC = 1;
 	
 	public DollLances() {
 		super(
@@ -39,25 +43,18 @@ public class DollLances extends AbstractAliceCard {
 		);
 		
 		this.damage = this.baseDamage = DAMAGE;
-//		this.magicNumber = this.baseMagicNumber = MAGIC;
+		this.magicNumber = this.baseMagicNumber = MAGIC;
 	}
 	
-//	@Override
-//	public AliceHoveredTargets getHoveredTargets(AbstractMonster mon, AbstractDoll slot) {
-//		AliceHoveredTargets o = new AliceHoveredTargets();
-//		o.dolls = DollManager.get().getDolls().stream()
-//				.filter(doll -> doll != slot)
-//				.filter(doll -> doll instanceof ShanghaiDoll)
-//				.toArray(AbstractDoll[]::new);
-//
-//		if (!this.upgraded)
-//			return o;
-//
-//		if (mon == null)
-//			o.monsters = AbstractDungeon.getMonsters().monsters.toArray(new AbstractMonster[0]);
-//
-//		return o;
-//	}
+	@Override
+	public AliceHoveredTargets getHoveredTargets(AbstractMonster mon, AbstractDoll slot) {
+		AliceHoveredTargets o = new AliceHoveredTargets();
+		o.dolls = DollManager.get().getDolls().stream()
+				.filter(doll -> doll instanceof ShanghaiDoll)
+				.toArray(AbstractDoll[]::new);
+
+		return o;
+	}
 	
 //	public AbstractGameAction getAction() {
 //		return new AnonymousAction(() -> {
@@ -68,23 +65,23 @@ public class DollLances extends AbstractAliceCard {
 //		});
 //	}
 
-	@Override
-	public void applyPowers() {
-		this.baseMagicNumber = this.magicNumber = 1 + (int) DollManager.get().getDolls().stream()
-				.filter(doll -> doll instanceof ShanghaiDoll)
-				.count();
-
-		super.applyPowers();
-
-		this.rawDescription = cardStrings.DESCRIPTION + " NL " + cardStrings.EXTENDED_DESCRIPTION[0];
-		this.initializeDescription();
-	}
-
-	@Override
-	public void onMoveToDiscard() {
-		this.rawDescription = cardStrings.DESCRIPTION;
-		this.initializeDescription();
-	}
+//	@Override
+//	public void applyPowers() {
+//		this.baseMagicNumber = this.magicNumber = 1 + (int) DollManager.get().getDolls().stream()
+//				.filter(doll -> doll instanceof ShanghaiDoll)
+//				.count();
+//
+//		super.applyPowers();
+//
+//		this.rawDescription = cardStrings.DESCRIPTION + " NL " + cardStrings.EXTENDED_DESCRIPTION[0];
+//		this.initializeDescription();
+//	}
+//
+//	@Override
+//	public void onMoveToDiscard() {
+//		this.rawDescription = cardStrings.DESCRIPTION;
+//		this.initializeDescription();
+//	}
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
@@ -115,15 +112,25 @@ public class DollLances extends AbstractAliceCard {
 //
 //		this.addToBot(this.getAction());
 
-		int count = 1 + (int) DollManager.get().getDolls().stream()
-				.filter(doll -> doll instanceof ShanghaiDoll)
-				.count();
+//		int count = 1 + (int) DollManager.get().getDolls().stream()
+//				.filter(doll -> doll instanceof ShanghaiDoll)
+//				.count();
+//
+//		for (int i = 0; i < count; i++)
+		this.addToBot(new DamageAction(
+				m,
+				new DamageInfo(p, this.damage, this.damageTypeForTurn),
+				AbstractGameAction.AttackEffect.SLASH_HORIZONTAL));
 
-		for (int i = 0; i < count; i++)
-			this.addToBot(new DamageAction(
-					m,
-					new DamageInfo(p, this.damage, this.damageTypeForTurn),
-					AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
+		this.addToBot(new AnonymousAction(() -> {
+			for (AbstractDoll doll : DollManager.get().getDolls())
+				if (doll instanceof ShanghaiDoll)
+					for (int i = 0; i < this.magicNumber; i++)
+						AliceHelper.addActionToBuffer(new DollActAction(doll,
+								AbstractDoll.DollActModifier.preferred(m)));
+
+			AliceHelper.commitBuffer();
+		}));
 	}
 	
 	@Override
@@ -135,8 +142,8 @@ public class DollLances extends AbstractAliceCard {
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
-			this.upgradeDamage(UPGRADE_PLUS_DAMAGE);
-//			this.upgradeMagicNumber(UPGRADE_PLUS_MAGIC);
+//			this.upgradeDamage(UPGRADE_PLUS_DAMAGE);
+			this.upgradeMagicNumber(UPGRADE_PLUS_MAGIC);
 //			this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
 //			this.target = CardTargetEnum.DOLL_OR_EMPTY_SLOT_OR_NONE;
 			this.initializeDescription();
