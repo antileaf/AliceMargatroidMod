@@ -37,8 +37,6 @@ public class ShanghaiDoll extends AbstractDoll {
 
 	@Deprecated
 	public int charge = 0;
-
-	private AbstractMonster preferred = null;
 	
 	public ShanghaiDoll() {
 		super(
@@ -134,23 +132,26 @@ public class ShanghaiDoll extends AbstractDoll {
 	}
 	
 	@Override
-	public void onAct() {
+	public void onAct(DollActModifier modifier) {
 		this.highlightActValue();
 		
-		int tmpBase = this.baseActAmount;
-		this.baseActAmount += this.charge * this.passiveAmount;
+//		int tmpBase = this.baseActAmount;
+//		this.baseActAmount += this.charge * this.passiveAmount;
 		this.applyPower();
-		this.charge = 0;
+//		this.charge = 0;
+
+		int totalDamage = 0;
 		
 		if (!AbstractDungeon.player.hasRelic(SuspiciousCard.ID)) {
-			AbstractMonster m = this.preferred != null && !this.preferred.isDeadOrEscaped() ?
-					this.preferred : AliceHelper.getMonsterWithLeastHP();
+			AbstractMonster m = modifier.preferredTarget != null &&
+					!modifier.preferredTarget.isDeadOrEscaped() ?
+					modifier.preferredTarget : AliceHelper.getMonsterWithLeastHP();
 			
 			if (m != null) {
 				DollDamageInfo info = new DollDamageInfo(this.actAmount, this,
-						DollAmountType.DAMAGE, DollAmountTime.ACT);
+						DollAmountType.DAMAGE, DollAmountTime.ACT, modifier);
 
-				this.specialBuffer = info.output;
+				totalDamage = info.output;
 
 				AliceHelper.addActionToBuffer(new DollDamageAction(m, info,
 						AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
@@ -163,12 +164,10 @@ public class ShanghaiDoll extends AbstractDoll {
 				AbstractDungeon.player.getRelic(SuspiciousCard.ID).flash();
 
 			int[] matrix = DollDamageInfo.createDamageMatrix(
-					this.actAmount,
-					this,
-					this.actAmountType,
-					DollAmountTime.ACT);
+					this.actAmount, this, this.actAmountType,
+					DollAmountTime.ACT, modifier);
 
-			this.specialBuffer = Arrays.stream(matrix).sum();
+			totalDamage = Arrays.stream(matrix).sum();
 			
 			AliceHelper.addActionToBuffer(new DamageAllEnemiesAction(
 					AbstractDungeon.player,
@@ -179,23 +178,11 @@ public class ShanghaiDoll extends AbstractDoll {
 			));
 		}
 		
-		this.baseActAmount = tmpBase;
-		this.applyPower();
-	}
+//		this.baseActAmount = tmpBase;
+//		this.applyPower();
 
-	@Override
-	public void onSpecialAct(DollActModifier modifier) {
-		if (modifier.preferredTarget != null)
-			this.preferred = modifier.preferredTarget;
-
-		this.onAct();
-
-		this.preferred = null;
-
-		if (modifier.theSetup) {
-			AliceHelper.addActionToBuffer(new DollGainBlockAction(this, this.specialBuffer));
-			this.specialBuffer = 0;
-		}
+		if (modifier.theSetup)
+			AliceHelper.addActionToBuffer(new DollGainBlockAction(this, totalDamage));
 	}
 	
 	@Override

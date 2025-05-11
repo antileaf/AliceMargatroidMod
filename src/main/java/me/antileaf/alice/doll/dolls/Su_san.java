@@ -71,7 +71,7 @@ public class Su_san extends AbstractDoll {
 	}
 	
 	@Override
-	public void onAct() {
+	public void onAct(DollActModifier modifier) {
 		for (AbstractMonster m : AbstractDungeon.getMonsters().monsters)
 			if (!m.isDeadOrEscaped() && m.hasPower(PoisonPower.POWER_ID))
 				AliceHelper.addActionToBuffer(new PoisonLoseHpAction(

@@ -49,7 +49,7 @@ public class DEPRECATEDLondonDoll extends AbstractDoll {
 	}
 	
 	@Override
-	public void onAct() {
+	public void onAct(DollActModifier modifier) {
 //		int pos = -1;
 //		for (int i = 0; i < DollManager.get().getDolls().size(); i++) {
 //			AbstractDoll doll = DollManager.get().getDolls().get(i);
@@ -138,7 +138,7 @@ public class DEPRECATEDLondonDoll extends AbstractDoll {
 //	}
 	
 	private void onRecycleOrDestroyed() {
-		this.onAct();
+		this.onAct(new DollActModifier());
 	}
 	
 	@Override

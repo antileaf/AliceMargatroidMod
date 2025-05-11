@@ -136,7 +136,7 @@
 
   "AliceMargatroid:DollLances": {
     "NAME": "Doll Lances",
-    "DESCRIPTION": "{@@}Deal !D! damage. NL All alicemargatroid:Shanghai_Dolls alicemargatroid:Act !M! time{!M!|>1=s}, prioritizing to attack the target.",
+    "DESCRIPTION": "{@@}Deal !D! damage. NL All alicemargatroid:Shanghai_Dolls alicemargatroid:Act !M! time{!M!|>1=s}, prioritizing to attack the target, but only deal half damage.",
     "EXTENDED_DESCRIPTION": ["(!M! times in total.)"]
   },
   

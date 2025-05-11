@@ -69,6 +69,7 @@ public abstract class AbstractDoll extends CustomOrb {
 	protected DollAmountType passiveAmountType = DollAmountType.MAGIC;
 	protected DollAmountType actAmountType = DollAmountType.MAGIC;
 
+	@Deprecated
 	protected int specialBuffer = 0;
 	
 	protected int damageAboutToTake = 0;
@@ -513,10 +514,11 @@ public abstract class AbstractDoll extends CustomOrb {
 	
 	// All actions added by onAct() should call addActionToBuffer.
 	// The buffer will be committed in DollManager.dollAct().
-	public abstract void onAct();
+	public abstract void onAct(DollActModifier modifier);
 
+	@Deprecated
 	public void onSpecialAct(DollActModifier modifier) {
-		this.onAct();
+		this.onAct(modifier);
 	}
 	
 	public void postSpawn() {}
@@ -559,6 +561,10 @@ public abstract class AbstractDoll extends CustomOrb {
 		doll.maxHP = this.maxHP;
 		doll.HP = this.HP;
 		doll.block = this.block;
+
+		if (doll.block > 0)
+			doll.gainBlockAnimation();
+
 		doll.healthBarUpdatedEvent();
 
 		return doll;
@@ -811,8 +817,10 @@ public abstract class AbstractDoll extends CustomOrb {
 						FontHelper.cardEnergyFont_L,
 						"(" + this.overflowedDamage + ")",
 						(this.cX + AbstractDungeon.player.drawX) / 2.0F,
-						(this.cY + this.bobEffect.y / 2.0F + NUM_Y_OFFSET + 50.0F * Settings.scale +
-								AbstractDungeon.player.drawY + AbstractDungeon.player.hb.height / 2.0F) / 2.0F,
+						MathUtils.lerp(this.cY + this.bobEffect.y / 2.0F +
+								NUM_Y_OFFSET + 50.0F * Settings.scale,
+								AbstractDungeon.player.drawY + AbstractDungeon.player.hb.height / 2.0F,
+								0.6F),
 						Color.RED,
 						this.fontScale
 				);
@@ -1278,6 +1286,7 @@ public abstract class AbstractDoll extends CustomOrb {
 		public boolean theSetup = false;
 		public boolean dollAmbush = false;
 		public AbstractMonster preferredTarget = null;
+		public boolean halfDamage = false;
 
 		public static DollActModifier setup() {
 			DollActModifier modifier = new DollActModifier();
@@ -1295,6 +1304,11 @@ public abstract class AbstractDoll extends CustomOrb {
 			DollActModifier modifier = new DollActModifier();
 			modifier.preferredTarget = monster;
 			return modifier;
+		}
+
+		public DollActModifier halfDamage() {
+			this.halfDamage = true;
+			return this;
 		}
 	}
 }

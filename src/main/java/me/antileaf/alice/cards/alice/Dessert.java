@@ -13,6 +13,7 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import me.antileaf.alice.action.utils.AnonymousAction;
 import me.antileaf.alice.cards.AbstractAliceCard;
 import me.antileaf.alice.patches.enums.AbstractCardEnum;
 import me.antileaf.alice.utils.AliceHelper;
@@ -68,7 +69,10 @@ public class Dessert extends AbstractAliceCard {
 //			this.flash();
 //			this.addToBot(new AlicePlayACardAction(this, AbstractDungeon.player.hand, null, false));
 
-			this.addToBot(new NewQueueCardAction(this, true, false, true));
+			this.addToBot(new AnonymousAction(() -> {
+				if (AbstractDungeon.player.hand.contains(this))
+					this.addToBot(new NewQueueCardAction(this, true, false, true));
+			}));
 		}
 	}
 	

@@ -53,7 +53,7 @@ public class NetherlandsDoll extends AbstractDoll {
 	}
 	
 	@Override
-	public void onAct() {
+	public void onAct(DollActModifier modifier) {
 		if (!this.shouldAddDex) {
 			AliceHelper.addActionToBuffer(new ApplyPowerAction(
 					AbstractDungeon.player,

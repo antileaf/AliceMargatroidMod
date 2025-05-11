@@ -59,7 +59,7 @@ public class DEPRECATEDHouraiDoll extends AbstractDoll {
 	}
 	
 	@Override
-	public void onAct() {
+	public void onAct(DollActModifier modifier) {
 		AliceHelper.addActionToBuffer(new DollGainBlockAction(this, this.actAmount));
 		AliceHelper.addActionToBuffer(new AnonymousAction(() -> {
 			int total = 0;

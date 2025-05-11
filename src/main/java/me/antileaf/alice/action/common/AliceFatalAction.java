@@ -60,8 +60,8 @@ public class AliceFatalAction extends AbstractGameAction {
 				
 				this.target.damage(this.damageInfo);
 				
-				if ((this.target.isDying || this.target.currentHealth <= 0) &&
-						!this.target.halfDead && (this.ignoreMinion || !this.target.hasPower("Minion")))
+				if ((this.target.isDying || this.target.halfDead || this.target.currentHealth <= 0) &&
+						(this.ignoreMinion || !this.target.hasPower("Minion")))
 					this.callback.accept(true);
 				else
 					this.callback.accept(false);

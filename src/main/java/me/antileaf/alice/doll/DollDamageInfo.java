@@ -8,27 +8,42 @@ import com.megacrit.cardcrawl.powers.AbstractPower;
 import me.antileaf.alice.doll.enums.DollAmountTime;
 import me.antileaf.alice.doll.enums.DollAmountType;
 import me.antileaf.alice.doll.interfaces.PlayerOrEnemyDollAmountModHook;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class DollDamageInfo extends DamageInfo {
+	private static final Logger logger = LogManager.getLogger(DollDamageInfo.class.getName());
+
 	public AbstractDoll doll;
 	public DollAmountType amountType;
 	public DollAmountTime amountTime;
+	public AbstractDoll.DollActModifier modifier;
 	
-	public DollDamageInfo(int base, AbstractDoll doll, DollAmountType amountType, DollAmountTime amountTime) {
+	public DollDamageInfo(int base, AbstractDoll doll, DollAmountType amountType, DollAmountTime amountTime,
+						  AbstractDoll.DollActModifier modifier) {
 		super(AbstractDungeon.player, base, DamageType.THORNS);
 		
 		this.doll = doll;
 		this.amountType = amountType;
 		this.amountTime = amountTime;
+		this.modifier = modifier;
+	}
+
+	public DollDamageInfo(int base, AbstractDoll doll, DollAmountType amountType, DollAmountTime amountTime) {
+		this(base, doll, amountType, amountTime, new AbstractDoll.DollActModifier());
 	}
 	
 	@Override
 	public void applyPowers(AbstractCreature owner, AbstractCreature target) {
+		if (!owner.isPlayer)
+			logger.error("DollDamageInfo.applyPowers() called with non-player owner");
+
 		this.output = this.base;
 		this.isModified = false;
 		float res = (float) this.output;
-		
-		assert owner.isPlayer : "DollDamageInfo.applyPowers() called with non-player owner";
+
+		if (this.modifier.halfDamage)
+			res *= 0.5F;
 		
 //		for (AbstractPower power : owner.powers)
 //			if (power instanceof PlayerDollAmountModPower)
@@ -69,15 +84,22 @@ public class DollDamageInfo extends DamageInfo {
 	}
 	
 	public static int[] createDamageMatrix(int baseDamage, AbstractDoll doll,
-	                                       DollAmountType amountType, DollAmountTime amountTime) {
+	                                       DollAmountType amountType, DollAmountTime amountTime,
+										   AbstractDoll.DollActModifier modifier) {
 		int[] res = new int[AbstractDungeon.getMonsters().monsters.size()];
 		
 		for (int i = 0; i < res.length; i++) {
-			DollDamageInfo info = new DollDamageInfo(baseDamage, doll, amountType, amountTime);
+			DollDamageInfo info = new DollDamageInfo(baseDamage, doll, amountType, amountTime, modifier);
 			info.applyPowers(AbstractDungeon.player, AbstractDungeon.getMonsters().monsters.get(i));
 			res[i] = info.output;
 		}
 		
 		return res;
+	}
+
+	public static int[] createDamageMatrix(int baseDamage, AbstractDoll doll,
+	                                       DollAmountType amountType, DollAmountTime amountTime) {
+		return createDamageMatrix(baseDamage, doll, amountType, amountTime,
+				new AbstractDoll.DollActModifier());
 	}
 }

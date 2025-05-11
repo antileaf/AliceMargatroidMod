@@ -24,7 +24,7 @@ public class FranceDoll extends AbstractDoll {
 	public static final int MAX_HP = 10;
 	public static final int ACT_AMOUNT = 5;
 
-	private boolean duringSpecialAct = false;
+//	private boolean duringSpecialAct = false;
 	
 	public FranceDoll() {
 		super(
@@ -59,8 +59,8 @@ public class FranceDoll extends AbstractDoll {
 	}
 
 	@Override
-	public void onAct() {
-		if (!this.duringSpecialAct) { // 如果不是人偶伏兵引起的行动，才会试图移动
+	public void onAct(DollActModifier modifier) {
+		if (!modifier.dollAmbush) { // 如果不是人偶伏兵引起的行动，才会试图移动
 			int dest = -1;
 			if (this.getOverflowedDamage() <= 0) {
 				for (int i = 0; i < DollManager.get().getDolls().size(); i++) {
@@ -88,16 +88,16 @@ public class FranceDoll extends AbstractDoll {
 		this.highlightActValue();
 	}
 
-	@Override
-	public void onSpecialAct(DollActModifier modifier) { // 正常来说只有即将被回收时触发人偶伏兵才会是特殊行动
-		if (modifier.dollAmbush)
-			this.duringSpecialAct = true;
-
-		this.onAct();
-
-		if (modifier.dollAmbush)
-			this.duringSpecialAct = false;
-	}
+//	@Override
+//	public void onSpecialAct(DollActModifier modifier) { // 正常来说只有即将被回收时触发人偶伏兵才会是特殊行动
+//		if (modifier.dollAmbush)
+//			this.duringSpecialAct = true;
+//
+//		this.onAct();
+//
+//		if (modifier.dollAmbush)
+//			this.duringSpecialAct = false;
+//	}
 	
 	@Override
 	public void onStartOfTurn() {

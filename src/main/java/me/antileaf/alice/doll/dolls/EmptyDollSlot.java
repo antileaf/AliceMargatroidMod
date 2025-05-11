@@ -7,9 +7,12 @@ import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.orbs.AbstractOrb;
 import me.antileaf.alice.doll.AbstractDoll;
 import me.antileaf.alice.strings.AliceDollStrings;
-import me.antileaf.alice.utils.AliceHelper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class EmptyDollSlot extends AbstractDoll {
+	private static final Logger logger = LogManager.getLogger(EmptyDollSlot.class.getName());
+
 	public static final String SIMPLE_NAME = EmptyDollSlot.class.getSimpleName();
 //	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);
 	public static final String ID = SIMPLE_NAME;
@@ -102,7 +105,7 @@ public class EmptyDollSlot extends AbstractDoll {
 	@Override
 	public boolean takeDamage(int amount) {
 		if (amount > 0)
-			AliceHelper.log(EmptyDollSlot.class, "EmptyDollSlot.takeDamage() called!");
+			logger.warn("EmptyDollSlot.takeDamage() called!");
 		
 		return false;
 	}
@@ -114,13 +117,13 @@ public class EmptyDollSlot extends AbstractDoll {
 	
 	@Override
 	public int getBaseHP() {
-		AliceHelper.log("EmptyDollSlot.getBaseHP() called.");
+		logger.warn("EmptyDollSlot.getBaseHP() called.");
 		return 0;
 	}
 	
 	@Override
-	public void onAct() {
-		AliceHelper.log(EmptyDollSlot.class, "EmptyDollSlot.onAct() called!");
+	public void onAct(DollActModifier modifier) {
+		logger.warn("EmptyDollSlot.onAct() called!");
 	}
 	
 	@Override
@@ -141,7 +144,7 @@ public class EmptyDollSlot extends AbstractDoll {
 	
 	@Override
 	public void triggerActAnimation() {
-		AliceHelper.log(EmptyDollSlot.class, "EmptyDollSlot.triggerActAnimation() called!");
+		logger.warn("EmptyDollSlot.triggerActAnimation() called!");
 	}
 	
 	@Override

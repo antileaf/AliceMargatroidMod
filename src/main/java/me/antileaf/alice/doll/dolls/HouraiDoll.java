@@ -52,7 +52,7 @@ public class HouraiDoll extends AbstractDoll {
 	}
 	
 	@Override
-	public void onAct() {
+	public void onAct(DollActModifier modifier) {
 		AliceHelper.addActionToBuffer(new DrawCardAction(this.actAmount));
 	}
 	

@@ -519,10 +519,11 @@ public class DollManager {
 //		else if (modifier.dollAmbush)
 //			special = doll instanceof FranceDoll;
 
-		if (modifier != null)
-			doll.onSpecialAct(modifier);
-		else
-			doll.onAct();
+		if (modifier == null)
+			logger.warn("modifier == null. Although this will not cause any problem, you should check the code.");
+
+		doll.onAct(modifier != null ? modifier :
+				new AbstractDoll.DollActModifier());
 		
 		this.applyPowers();
 		

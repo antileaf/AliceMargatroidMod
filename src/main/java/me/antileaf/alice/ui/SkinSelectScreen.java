@@ -118,13 +118,15 @@ public class SkinSelectScreen {
 	public static SkinSelectScreen inst;
 	
 	public Hitbox prevHb, nextHb, sunglassesHb;
-	
-	boolean unlocked = false;
+
+	@Deprecated
+	boolean unlocked = true;
 	SkinEnum cur;
 	
 	Texture img;
 	
 	String title, option;
+	String thanks, alsoTry;
 	String name, description;
 
 //	int konamiIndex = 0;
@@ -375,8 +377,6 @@ public class SkinSelectScreen {
 				1.25F
 		);
 		
-		sb.draw(this.img, centerX - this.img.getWidth() / 2.0F, centerY - this.img.getHeight() / 2.0F);
-		
 		FontHelper.renderFontCentered(sb,
 				FontHelper.cardTitleFont,
 				this.name,
@@ -394,6 +394,29 @@ public class SkinSelectScreen {
 				Color.WHITE,
 				0.85F
 		);
+
+		if (this.getSkinEnum() == SkinEnum.BA) {
+			FontHelper.renderFontCentered(sb,
+					FontHelper.cardTitleFont,
+					this.thanks,
+					centerX,
+					centerY + 250.0F * Settings.scale,
+					Color.WHITE,
+					0.85F
+			);
+
+			FontHelper.renderFontCentered(sb,
+					FontHelper.cardTitleFont,
+					this.alsoTry,
+					centerX,
+					centerY + 220.0F * Settings.scale,
+					Color.WHITE,
+					0.85F
+			);
+		}
+
+		sb.setColor(Color.WHITE);
+		sb.draw(this.img, centerX - this.img.getWidth() / 2.0F, centerY - this.img.getHeight() / 2.0F);
 
 		if (AliceConfigHelper.isSunglassesUnlocked()) {
 			float x = centerX + 20.0F * Settings.scale;
@@ -515,6 +538,10 @@ public class SkinSelectScreen {
 				AliceHelper.makeID(SkinSelectScreen.class.getSimpleName())).TEXT[0];
 		inst.option = CardCrawlGame.languagePack.getUIString(
 				AliceHelper.makeID(SkinSelectScreen.class.getSimpleName())).TEXT[1];
+		inst.thanks = CardCrawlGame.languagePack.getUIString(
+				AliceHelper.makeID(SkinSelectScreen.class.getSimpleName())).TEXT[2];
+		inst.alsoTry = CardCrawlGame.languagePack.getUIString(
+				AliceHelper.makeID(SkinSelectScreen.class.getSimpleName())).TEXT[3];
 		
 //		findAliceAndSetSkin();
 	}

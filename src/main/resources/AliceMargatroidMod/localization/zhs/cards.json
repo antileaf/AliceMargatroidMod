@@ -166,7 +166,7 @@
   
   "AliceMargatroid:DollLances": {
     "NAME": "人偶千枪",
-    "DESCRIPTION": "造成 !D! 点伤害。 NL 所有 alicemargatroid:上海人偶 alicemargatroid:行动 !M! 次，优先攻击目标敌人。",
+    "DESCRIPTION": "造成 !D! 点伤害。 NL 所有 alicemargatroid:上海人偶 alicemargatroid:行动 !M! 次，优先攻击目标敌人，但只会造成一半伤害。",
     "EXTENDED_DESCRIPTION": ["（造成 !M! 次伤害。）"]
   },
   
