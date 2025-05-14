@@ -9,6 +9,7 @@ import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.PowerTip;
+import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import me.antileaf.alice.action.utils.AnonymousAction;
 import me.antileaf.alice.patches.enums.AbstractPlayerEnum;
@@ -71,9 +72,12 @@ public class ShanghaiDollRelic extends CustomRelic {
 			this.flash();
 			this.addToBot(new RelicAboveCreatureAction(AbstractDungeon.player, this));
 			this.addToBot(new AnonymousAction(() -> {
-				this.addToTop(new DamageAction(AliceHelper.getMonsterWithLeastHP(),
-						new DamageInfo(AbstractDungeon.player, DAMAGE, DamageInfo.DamageType.THORNS),
-						AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
+				AbstractMonster m = AliceHelper.getMonsterWithLeastHP();
+
+				if (m != null)
+					this.addToTop(new DamageAction(m,
+							new DamageInfo(AbstractDungeon.player, DAMAGE, DamageInfo.DamageType.THORNS),
+							AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
 			}));
 		}
 	}

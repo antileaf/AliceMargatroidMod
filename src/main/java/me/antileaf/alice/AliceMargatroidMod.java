@@ -476,7 +476,7 @@ public class AliceMargatroidMod implements
 
 		CardBorderGlowManager.addGlowInfo(new UnlockMysticPower.UnlockMysticGlowInfo());
 		
-		AliceHelper.log("Initializing skin select screen...");
+		logger.info("Initializing skin select screen...");
 		SkinSelectScreen.init();
 
 //		PuppeteersHouse.AliceCardReward.loadIcon();
@@ -516,6 +516,8 @@ public class AliceMargatroidMod implements
 
 			AliceConfigHelper.setSignatureChecked(true);
 		}
+
+		SignatureHelper.registerEasyUnlock(new AliceEasyUnlock());
 	}
 	
 	@Override
