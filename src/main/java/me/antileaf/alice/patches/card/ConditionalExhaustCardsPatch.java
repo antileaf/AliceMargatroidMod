@@ -9,17 +9,21 @@ import com.megacrit.cardcrawl.random.Random;
 import javassist.CannotCompileException;
 import javassist.CtBehavior;
 import me.antileaf.alice.cards.interfaces.ConditionalExhaustCard;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
 
 @SuppressWarnings("unused")
 public class ConditionalExhaustCardsPatch {
+	private static final Logger logger = LogManager.getLogger(ConditionalExhaustCardsPatch.class.getName());
+
 	@SpirePatch(
 			clz = UseCardAction.class,
 			method = "update"
 	)
 	public static class UseCardActionUpdatePatch {
-		public static class Locator extends SpireInsertLocator {
+		private static class Locator extends SpireInsertLocator {
 			@Override
 			public int[] Locate(CtBehavior ctBehavior) throws CannotCompileException, PatchingException {
 				int[] a = LineFinder.findAllInOrder(ctBehavior,
@@ -41,6 +45,18 @@ public class ConditionalExhaustCardsPatch {
 				return;
 			
 			_inst.exhaustCard |= ((ConditionalExhaustCard) ___targetCard).shouldExhaust();
+		}
+
+		@SpireInsertPatch(rloc = 48, localvars = {"spoonProc"})
+		public static void SpoonInsert(UseCardAction _inst, AbstractCard ___targetCard,
+									   @ByRef boolean[] spoonProc) {
+			if (___targetCard instanceof ConditionalExhaustCard &&
+					((ConditionalExhaustCard) ___targetCard).ignoreSpoon()) {
+				if (spoonProc[0])
+					logger.info("Spoon proc ignored for {}", ___targetCard.cardID);
+
+				spoonProc[0] = false;
+			}
 		}
 	}
 }

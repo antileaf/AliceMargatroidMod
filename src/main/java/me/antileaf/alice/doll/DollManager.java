@@ -4,6 +4,7 @@ import basemod.ReflectionHacks;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.Settings;
@@ -15,7 +16,6 @@ import com.megacrit.cardcrawl.powers.AbstractPower;
 import com.megacrit.cardcrawl.powers.BlurPower;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import me.antileaf.alice.action.doll.DollActAction;
-import me.antileaf.alice.action.doll.MoveDollAction;
 import me.antileaf.alice.action.doll.RecycleDollAction;
 import me.antileaf.alice.action.doll.SpawnDollInternalAction;
 import me.antileaf.alice.action.utils.AnonymousAction;
@@ -393,7 +393,7 @@ public class DollManager {
 			doll.updateHealthBar();
 	}
 	
-	public void spawnDoll(AbstractDoll doll, int index) {
+	public void spawnDoll(AbstractDoll doll, int index, AbstractGameAction followUpAction) {
 		this.activate();
 
 		if (doll instanceof NetherlandsDoll)
@@ -419,31 +419,46 @@ public class DollManager {
 		boolean artfulChanter = false;
 		
 		if (index == -1) {
-			AliceHelper.addActionToBuffer(new RecycleDollAction(this.dolls.get(MAX_DOLL_SLOTS - 1)));
-			AliceHelper.addActionToBuffer(new AnonymousAction(() -> {
-				AbstractDoll left = this.dolls.get(MAX_DOLL_SLOTS - 1);
-				if (!(left instanceof EmptyDollSlot))
-					AliceHelper.addActionToBuffer(new RecycleDollAction(left));
-				
-				AliceHelper.addActionToBuffer(new MoveDollAction(this.dolls.get(MAX_DOLL_SLOTS - 1), 0));
-				AliceHelper.commitBuffer();
-			}));
+//			AliceHelper.addActionToBuffer(new RecycleDollAction(this.dolls.get(MAX_DOLL_SLOTS - 1)));
+//			AliceHelper.addActionToBuffer(new AnonymousAction(() -> {
+//				AbstractDoll left = this.dolls.get(MAX_DOLL_SLOTS - 1);
+//				if (!(left instanceof EmptyDollSlot))
+//					AliceHelper.addActionToBuffer(new RecycleDollAction(left));
+//
+//				AliceHelper.addActionToBuffer(new MoveDollAction(this.dolls.get(MAX_DOLL_SLOTS - 1), 0));
+//				AliceHelper.commitBuffer();
+//			}));
 //			for (int i = MAX_DOLL_SLOTS - 1; i > 0; i--)
 //				this.dolls.set(i, this.dolls.get(i - 1));
-			index = 0;
+
+			for (int i = 0; i < MAX_DOLL_SLOTS; i++)
+				if (this.dolls.get(i) instanceof EmptyDollSlot) {
+					index = i;
+					break;
+				}
 		}
 		else if (!(this.dolls.get(index) instanceof EmptyDollSlot)) {
 			AliceHelper.addActionToBuffer(new RecycleDollAction(this.dolls.get(index), doll));
 			artfulChanter = true;
 		}
+
+		if (index == -1) {
+			logger.info("DollManager.spawnDoll: No empty slot found. Cannot spawn doll.");
+			return;
+		}
 		
 		assert index >= 0 && index < MAX_DOLL_SLOTS;
 		
 		AliceHelper.addActionToBuffer(new SpawnDollInternalAction(doll, index));
+
+		if (followUpAction != null)
+			AliceHelper.addActionToBuffer(followUpAction);
+
 		if (artfulChanter)
 			AliceHelper.addActionToBuffer(new AnonymousAction(() -> {
 				this.triggerArtfulChanter(doll);
 			}));
+
 		AliceHelper.commitBuffer();
 	}
 	

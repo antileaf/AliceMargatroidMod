@@ -12,7 +12,6 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import me.antileaf.alice.action.doll.SpawnDollAction;
 import me.antileaf.alice.cards.AbstractAliceCard;
 import me.antileaf.alice.doll.AbstractDoll;
-import me.antileaf.alice.doll.DollManager;
 import me.antileaf.alice.patches.enums.AbstractCardEnum;
 import me.antileaf.alice.utils.AliceHelper;
 
@@ -47,12 +46,12 @@ public class Thread extends AbstractAliceCard {
 	public void use(AbstractPlayer p, AbstractMonster m) {
 		this.addToBot(new DamageCallbackAction(m, new DamageInfo(p, this.damage, this.damageTypeForTurn),
 				AbstractGameAction.AttackEffect.SLASH_HORIZONTAL, (amount) -> {
-			AliceHelper.log(this.getClass(), "Thread damage callback " + amount);
+//			AliceHelper.log(this.getClass(), "Thread damage callback " + amount);
 			
 			if (amount > 0) {
-				if (DollManager.get().hasEmptySlot())
-					AliceHelper.addActionsToTop(new DrawCardAction(this.magicNumber),
-							new SpawnDollAction(AbstractDoll.getRandomDoll(), -1));
+//				if (DollManager.get().hasEmptySlot())
+				AliceHelper.addActionsToTop(new DrawCardAction(this.magicNumber),
+						new SpawnDollAction(AbstractDoll.getRandomDoll(), -1));
 			}
 		}));
 	}

@@ -62,27 +62,37 @@ public class DollArmy extends AbstractAliceCard {
 								((FuturisticBunrakuPower) power).doll == doll);
 		
 		if (doll != null && !(doll instanceof EmptyDollSlot)) {
-			int count = this.magicNumber;
-			
-			for (int i = 0; i < DollManager.get().getDolls().size(); i++)
-				if (DollManager.get().getDolls().get(i) != doll
-						&& DollManager.get().getDolls().get(i) instanceof EmptyDollSlot) {
-					int pos = i;
-					this.addToBot(new AnonymousAction(() -> {
-						if (DollManager.get().getDolls().get(pos) instanceof EmptyDollSlot) {
-							AbstractDoll copy = doll.makeStatEquivalentCopy();
+//			int count = this.magicNumber;
+//
+//			for (int i = 0; i < DollManager.get().getDolls().size(); i++)
+//				if (DollManager.get().getDolls().get(i) != doll
+//						&& DollManager.get().getDolls().get(i) instanceof EmptyDollSlot) {
+//					int pos = i;
+//					this.addToBot(new AnonymousAction(() -> {
+//						if (DollManager.get().getDolls().get(pos) instanceof EmptyDollSlot) {
+//							AbstractDoll copy = doll.makeStatEquivalentCopy();
+//
+//							this.addToTop(new SpawnDollAction(copy, pos));
+//
+//							if (futuristic)
+//								this.addToBot(new ApplyPowerAction(p, p,
+//										new FuturisticBunrakuPower(copy)));
+//						}
+//					}));
+//
+//					if (--count <= 0)
+//						break;
+//				}
 
-							this.addToTop(new SpawnDollAction(copy, pos));
-
-							if (futuristic)
-								this.addToBot(new ApplyPowerAction(p, p,
+			for (int i = 0; i < this.magicNumber; i++) {
+				AbstractDoll copy = doll.makeStatEquivalentCopy();
+				this.addToBot(new SpawnDollAction(copy, -1, futuristic ?
+						new AnonymousAction(() -> {
+							if (DollManager.get().getDolls().contains(copy))
+								this.addToTop(new ApplyPowerAction(p, p,
 										new FuturisticBunrakuPower(copy)));
-						}
-					}));
-					
-					if (--count <= 0)
-						break;
-				}
+						}) : null));
+			}
 		}
 	}
 	

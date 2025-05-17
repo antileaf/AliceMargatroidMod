@@ -9,12 +9,18 @@ public class SpawnDollAction extends AbstractGameAction {
 	private static final float DURATION = 0.1F;
 	private final AbstractDoll doll;
 	private final int index;
+	private final AbstractGameAction followUpAction;
 	
-	public SpawnDollAction(AbstractDoll doll, int index) {
+	public SpawnDollAction(AbstractDoll doll, int index, AbstractGameAction followUpAction) {
 		this.doll = doll;
 		this.index = index;
+		this.followUpAction = followUpAction;
 		this.actionType = ActionTypeEnum.DOLL_OPERATE;
 		this.duration = DURATION;
+	}
+
+	public SpawnDollAction(AbstractDoll doll, int index) {
+		this(doll, index, null);
 	}
 	
 	@Override
@@ -37,7 +43,7 @@ public class SpawnDollAction extends AbstractGameAction {
 		
 		if (this.isDone) {
 //			AliceSpireKit.log(this.getClass(), "this.isDone!");
-			DollManager.get().spawnDoll(this.doll, this.index);
+			DollManager.get().spawnDoll(this.doll, this.index, this.followUpAction);
 		}
 	}
 }

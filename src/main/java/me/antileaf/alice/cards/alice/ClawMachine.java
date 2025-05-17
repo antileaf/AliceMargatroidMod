@@ -123,6 +123,11 @@ public class ClawMachine extends AbstractAliceCard implements ConditionalExhaust
 	public boolean shouldExhaust() {
 		return this.choices.isEmpty();
 	}
+
+	@Override
+	public boolean ignoreSpoon() {
+		return true;
+	}
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
