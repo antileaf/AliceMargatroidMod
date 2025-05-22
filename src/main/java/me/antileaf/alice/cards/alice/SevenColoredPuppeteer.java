@@ -1,9 +1,12 @@
 package me.antileaf.alice.cards.alice;
 
 import basemod.helpers.TooltipInfo;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
+import com.megacrit.cardcrawl.actions.animations.VFXAction;
 import com.megacrit.cardcrawl.actions.common.DamageAllEnemiesAction;
+import com.megacrit.cardcrawl.actions.utility.WaitAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.CardGroup;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
@@ -14,11 +17,13 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import me.antileaf.alice.cards.AbstractAliceCard;
 import me.antileaf.alice.doll.AbstractDoll;
 import me.antileaf.alice.doll.DollManager;
+import me.antileaf.alice.effects.jigen.StarlightEffect;
 import me.antileaf.alice.patches.enums.AbstractCardEnum;
 import me.antileaf.alice.strings.AliceCardNoteStrings;
 import me.antileaf.alice.strings.AliceLanguageStrings;
 import me.antileaf.alice.utils.AliceHelper;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 
 public class SevenColoredPuppeteer extends AbstractAliceCard {
@@ -26,6 +31,16 @@ public class SevenColoredPuppeteer extends AbstractAliceCard {
 	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	private static final AliceCardNoteStrings cardNoteStrings = AliceCardNoteStrings.get(ID);
+
+	private static final Color[] colors = {
+			new Color(0xFF7C80FF),
+			new Color(0xED7D31FF),
+			new Color(0xFFC000FF),
+			new Color(0x70AD47FF),
+			new Color(0x5B9BD5FF),
+			new Color(0xB953FFFF),
+			Color.WHITE
+	};
 	
 	private static final int COST = 7;
 	private static final int DAMAGE = 7;
@@ -137,17 +152,52 @@ public class SevenColoredPuppeteer extends AbstractAliceCard {
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
 		this.calculateCardDamage(null);
-		
-		for (int i = 0; i < this.magicNumber; i++)
+
+		ArrayList<Integer> indexes = new ArrayList<>();
+		for (int i = 0; i < this.magicNumber; i++) {
+			int index = MathUtils.random(0, colors.length - 1);
+			while (indexes.contains(index))
+				index = MathUtils.random(0, colors.length - 1);
+			indexes.add(index);
+		}
+
+		this.addToBot(new WaitAction(0.2F));
+
+		for(int i = 0; i < this.magicNumber; i++) {
+			for (AbstractMonster mo : AbstractDungeon.getMonsters().monsters)
+				if (!mo.isDeadOrEscaped()) {
+					Color color = colors[indexes.get(i)].cpy();
+//					color.r *= MathUtils.random(0.8F, 1.2F);
+//					if (color.r > 1.0F)
+//						color.r = 1.0F;
+//					color.g *= MathUtils.random(0.8F, 1.2F);
+//					if (color.g > 1.0F)
+//						color.g = 1.0F;
+//					color.b *= MathUtils.random(0.8F, 1.2F);
+//					if (color.b > 1.0F)
+//						color.b = 1.0F;
+					color.a = 0.7F;
+
+					AliceHelper.addActionToBuffer(new VFXAction(new StarlightEffect(
+							colors[indexes.get(i)].cpy(),
+							MathUtils.random(360.0F), mo,
+							i * -0.01F + 0.12F)));
+				}
+
+			AliceHelper.addActionToBuffer(new WaitAction(0.08F));
+
+			AliceHelper.commitBuffer();
+
 			this.addToBot(new DamageAllEnemiesAction(
 					p,
 					this.multiDamage,
 					this.damageTypeForTurn,
-					MathUtils.randomBoolean() ?
-							AbstractGameAction.AttackEffect.SLASH_DIAGONAL :
-							AbstractGameAction.AttackEffect.FIRE,
+					AbstractGameAction.AttackEffect.FIRE,
 					true
-			));
+			) {{ this.duration = 0.0F; }});
+
+			this.addToBot(new WaitAction(0.09F));
+		}
 	}
 	
 	@Override

@@ -416,7 +416,12 @@ public class SkinSelectScreen {
 		}
 
 		sb.setColor(Color.WHITE);
-		sb.draw(this.img, centerX - this.img.getWidth() / 2.0F, centerY - this.img.getHeight() / 2.0F);
+		float width = this.img.getWidth() * Settings.scale / 1.3F;
+		float height = this.img.getHeight() * Settings.scale / 1.3F;
+		sb.draw(this.img,
+				centerX - width / 2.0F,
+				centerY - height / 2.0F,
+				width, height);
 
 		if (AliceConfigHelper.isSunglassesUnlocked()) {
 			float x = centerX + 20.0F * Settings.scale;

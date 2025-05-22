@@ -63,20 +63,27 @@ public class Lantern extends AbstractAliceCard {
 //						}
 
 					for (int i = 0; i < 3 && i < p.drawPile.size(); i++) {
-						AbstractCard card = p.drawPile.group.get(i);
+						AbstractCard card = p.drawPile.group.get(i).makeSameInstanceOf();
+						card.angle = 0.0F;
 						cards.add(card);
 					}
 					
 					return cards;
 				},
-				(card) -> {
-					if (AbstractDungeon.player.hand.size() >= BaseMod.MAX_HAND_SIZE) {
-						AbstractDungeon.player.drawPile.moveToDiscardPile(card);
-						AbstractDungeon.player.createHandIsFullDialog();
-					} else {
-						AbstractDungeon.player.drawPile.moveToHand(card);
-						card.setCostForTurn(card.costForTurn - 1);
-					}
+				(selected) -> {
+					for (AbstractCard card : AbstractDungeon.player.drawPile.group)
+						if (card.uuid == selected.uuid) {
+							if (AbstractDungeon.player.hand.size() >= BaseMod.MAX_HAND_SIZE) {
+								AbstractDungeon.player.drawPile.moveToDiscardPile(card);
+								AbstractDungeon.player.createHandIsFullDialog();
+							}
+							else {
+								AbstractDungeon.player.drawPile.moveToHand(card);
+								card.setCostForTurn(card.costForTurn - 1);
+							}
+
+							break;
+						}
 				},
 				cardStrings.EXTENDED_DESCRIPTION[0],
 				false

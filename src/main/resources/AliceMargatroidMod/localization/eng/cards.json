@@ -152,8 +152,8 @@
   
   "AliceMargatroid:Barrier": {
     "NAME": "Barrier",
-    "DESCRIPTION": "Alice or target alicemargatroid:Doll gains !B! Block. NL alicemargatroid:Command: target alicemargatroid:Doll alicemargatroid:Acts once.",
-    "UPGRADE_DESCRIPTION": "Alice or target alicemargatroid:Doll gains !B! Block. NL alicemargatroid:Command: target alicemargatroid:Doll alicemargatroid:Acts once. NL Discarded after played !stslib:persist! (instead of 1) times."
+    "DESCRIPTION": "Alice or target alicemargatroid:Doll gains !B! Block. NL Place a card from your discard pile on top of your draw pile.",
+    "UPGRADE_DESCRIPTION": "Alice or target alicemargatroid:Doll gains !B! Block. NL Place a card from your discard pile on top of your draw pile. NL Discarded after played !stslib:persist! (instead of 1) times."
   },
   
   "AliceMargatroid:DollOfRoundTable": {

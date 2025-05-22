@@ -194,8 +194,8 @@
   
   "AliceMargatroid:Barrier": {
     "NAME": "屏障",
-    "DESCRIPTION": "爱丽丝或目标 alicemargatroid:人偶 获得 !B! 点 格挡 。 NL alicemargatroid:指令 ：目标 alicemargatroid:人偶 alicemargatroid:行动 一次。",
-    "UPGRADE_DESCRIPTION": "爱丽丝或目标 alicemargatroid:人偶 获得 !B! 点 格挡 。 NL alicemargatroid:指令 ：目标 alicemargatroid:人偶 alicemargatroid:行动 一次。 NL 使用 !stslib:persist! 次后，才会进入弃牌堆。"
+    "DESCRIPTION": "爱丽丝或目标 alicemargatroid:人偶 获得 !B! 点 格挡 。 NL 将弃牌堆中的一张牌放到抽牌堆的顶部。",
+    "UPGRADE_DESCRIPTION": "爱丽丝或目标 alicemargatroid:人偶 获得 !B! 点 格挡 。 NL 将弃牌堆中的一张牌放到抽牌堆的顶部。 NL 使用 !stslib:persist! 次后，才会进入弃牌堆。"
   },
   
   "AliceMargatroid:DollOfRoundTable": {

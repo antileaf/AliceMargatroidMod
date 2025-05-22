@@ -2,18 +2,17 @@ package me.antileaf.alice.cards.alice;
 
 import com.evacipated.cardcrawl.mod.stslib.fields.cards.AbstractCard.PersistFields;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
+import com.megacrit.cardcrawl.actions.unique.DiscardPileToTopOfDeckAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import me.antileaf.alice.action.doll.DollActAction;
 import me.antileaf.alice.action.doll.DollGainBlockAction;
 import me.antileaf.alice.cards.AbstractAliceCard;
 import me.antileaf.alice.doll.AbstractDoll;
 import me.antileaf.alice.doll.dolls.EmptyDollSlot;
 import me.antileaf.alice.patches.enums.AbstractCardEnum;
-import me.antileaf.alice.patches.enums.CardTagEnum;
 import me.antileaf.alice.patches.enums.CardTargetEnum;
 import me.antileaf.alice.targeting.AliceHoveredTargets;
 import me.antileaf.alice.targeting.AliceTargetIcon;
@@ -25,7 +24,7 @@ public class Barrier extends AbstractAliceCard {
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
-	private static final int BLOCK = 6;
+	private static final int BLOCK = 8;
 	private static final int UPGRADE_PLUS_BLOCK = 2;
 	
 	public Barrier() {
@@ -43,9 +42,9 @@ public class Barrier extends AbstractAliceCard {
 		
 		this.block = this.baseBlock = BLOCK;
 
-		this.isCommandCard = true;
-		this.tags.add(CardTagEnum.ALICE_COMMAND);
-		this.tags.add(CardTagEnum.ALICE_DOLL_ACT);
+//		this.isCommandCard = true;
+//		this.tags.add(CardTagEnum.ALICE_COMMAND);
+//		this.tags.add(CardTagEnum.ALICE_DOLL_ACT);
 
 		this.targetIcons.add(AliceTargetIcon.ALICE);
 		this.targetIcons.add(AliceTargetIcon.DOLL);
@@ -63,12 +62,12 @@ public class Barrier extends AbstractAliceCard {
 	public void use(AbstractPlayer p, AbstractMonster m) {
 		AbstractDoll doll = this.getTargetedDoll();
 		
-		if (doll != null) {
+		if (doll != null)
 			this.addToBot(new DollGainBlockAction(doll, this.block));
-			this.addToBot(new DollActAction(doll));
-		}
 		else
 			this.addToBot(new GainBlockAction(p, p, this.block));
+
+		this.addToBot(new DiscardPileToTopOfDeckAction(p));
 	}
 	
 	@Override

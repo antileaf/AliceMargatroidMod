@@ -8,6 +8,7 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import me.antileaf.alice.action.doll.RecycleDollAction;
+import me.antileaf.alice.action.utils.AnonymousAction;
 import me.antileaf.alice.cards.AbstractAliceCard;
 import me.antileaf.alice.doll.AbstractDoll;
 import me.antileaf.alice.patches.enums.AbstractCardEnum;
@@ -54,10 +55,11 @@ public class Masterpiece extends AbstractAliceCard {
 		AbstractDoll doll = DollTargeting.getTarget(this);
 		
 		if (doll != null) {
-			int bonus = doll.HP;
 			this.addToBot(new RecycleDollAction(doll));
-			
-			this.addToBot(new GainBlockAction(p, p, this.block + bonus));
+
+			this.addToBot(new AnonymousAction(() -> {
+				this.addToTop(new GainBlockAction(p, p, this.block + doll.HP));
+			}));
 			this.addToBot(new DrawCardAction(p, this.magicNumber));
 		}
 	}

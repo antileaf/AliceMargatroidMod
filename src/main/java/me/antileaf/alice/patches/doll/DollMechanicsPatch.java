@@ -6,7 +6,7 @@ import com.evacipated.cardcrawl.modthespire.patcher.PatchingException;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.AbstractCreature;
-import com.megacrit.cardcrawl.monsters.MonsterGroup;
+import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.rooms.RestRoom;
 import javassist.CannotCompileException;
 import javassist.CtBehavior;
@@ -121,7 +121,7 @@ public class DollMechanicsPatch {
 		@SpirePostfixPatch
 		public static void Postfix(AbstractCreature _inst) {
 			if (_inst instanceof AbstractPlayer) {
-				AliceHelper.log("Hide health bar!");
+//				AliceHelper.log("Hide health bar!");
 				for (AbstractDoll doll : DollManager.getInstance((AbstractPlayer) _inst).getDolls()) {
 					doll.hideHealthBar();
 				}
@@ -138,11 +138,10 @@ public class DollMechanicsPatch {
 		}
 	}
 	
-//	@SpirePatch(clz = GameActionManager.class, method = "callEndOfTurnActions")
-	@SpirePatch(clz = MonsterGroup.class, method = "queueMonsters")
+	@SpirePatch(clz = AbstractRoom.class, method = "endTurn")
 	public static class EndOfTurnLockDamageTargetPatch {
-		@SpirePrefixPatch
-		public static void Postfix(MonsterGroup _inst) {
+		@SpireInsertPatch(rloc = 24)
+		public static void Insert(AbstractRoom _inst) {
 			AliceHelper.addToBot(new AnonymousAction(() -> {
 				DollManager.get().onEndOfTurnLockDamageTarget();
 			}));
