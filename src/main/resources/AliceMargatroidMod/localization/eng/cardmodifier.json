@@ -8,5 +8,10 @@
     "NAME": "Revelation",
     "DESCRIPTION": "After being played, let %s in your hand gain #b2 bonus base damage, and gain %s effect.",
     "EXTENDED_DESCRIPTION": ["a random Attack", "all Attacks"]
+  },
+
+  "AliceMargatroid:ForbiddenMagicVFXCardModifier": {
+    "NAME": "#pForbidden #pMagic",
+    "DESCRIPTION": "#yCommand : target #yDoll #yActs #b%d time(s), and #yExhaust."
   }
 }

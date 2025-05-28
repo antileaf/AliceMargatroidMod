@@ -26,7 +26,7 @@ public class DollLances extends AbstractAliceCard {
 	private static final int COST = 1;
 	private static final int DAMAGE = 6;
 //	private static final int UPGRADE_PLUS_DAMAGE = 3;
-	private static final int MAGIC = 2;
+	private static final int MAGIC = 1;
 	private static final int UPGRADE_PLUS_MAGIC = 1;
 	
 	public DollLances() {
@@ -124,10 +124,14 @@ public class DollLances extends AbstractAliceCard {
 
 		this.addToBot(new AnonymousAction(() -> {
 			for (AbstractDoll doll : DollManager.get().getDolls())
-				if (doll instanceof ShanghaiDoll)
-					for (int i = 0; i < this.magicNumber; i++)
+				if (doll instanceof ShanghaiDoll) {
+					AliceHelper.addActionToBuffer(new DollActAction(doll,
+							AbstractDoll.DollActModifier.preferred(m)));
+
+					for (int i = 1; i < this.magicNumber; i++)
 						AliceHelper.addActionToBuffer(new DollActAction(doll,
 								AbstractDoll.DollActModifier.preferred(m).halfDamage()));
+				}
 
 			AliceHelper.commitBuffer();
 		}));
@@ -144,7 +148,7 @@ public class DollLances extends AbstractAliceCard {
 			this.upgradeName();
 //			this.upgradeDamage(UPGRADE_PLUS_DAMAGE);
 			this.upgradeMagicNumber(UPGRADE_PLUS_MAGIC);
-//			this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
+			this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
 //			this.target = CardTargetEnum.DOLL_OR_EMPTY_SLOT_OR_NONE;
 			this.initializeDescription();
 		}

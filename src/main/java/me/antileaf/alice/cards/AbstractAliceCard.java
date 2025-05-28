@@ -37,6 +37,8 @@ public abstract class AbstractAliceCard extends AbstractSecondaryVariablesCard {
 	protected String cardSign = null;
 	public final ArrayList<AliceTargetIcon> targetIcons = new ArrayList<>();
 
+	public boolean dollTarget = false;
+	public boolean hardCodedForbiddenMagic = false;
 	public boolean isCommandCard = false;
 	
 	public AbstractAliceCard(
@@ -90,6 +92,15 @@ public abstract class AbstractAliceCard extends AbstractSecondaryVariablesCard {
 		TooltipInfo note = this.getNote();
 		if (note != null)
 			result.add(note);
+
+//		if (this.dollTarget && AliceHelper.isInBattle() && AbstractDungeon.player.hasPower(ForbiddenMagicPower.POWER_ID)) {
+//			PowerStrings ps = CardCrawlGame.languagePack.getPowerStrings(ForbiddenMagicPower.POWER_ID);
+//			result.add(new TooltipInfo(
+//					ps.DESCRIPTIONS[1],
+//					String.format(ps.DESCRIPTIONS[2],
+//							AbstractDungeon.player.getPower(ForbiddenMagicPower.POWER_ID).amount)
+//			));
+//		}
 		
 		return result;
 	}
@@ -195,7 +206,7 @@ public abstract class AbstractAliceCard extends AbstractSecondaryVariablesCard {
 		this.renderCardSign(sb, this.current_x, this.current_y, 400.0F, this.drawScale);
 	}
 
-	private void drawOnCard(SpriteBatch sb, Texture img, float xPos, float yPos, Vector2 offset,
+	public void drawOnCard(SpriteBatch sb, Texture img, float xPos, float yPos, Vector2 offset,
 							float width, float height, float alpha, float drawScale, float scaleModifier) {
 		if (this.angle != 0.0F)
 			offset.rotate(this.angle);
@@ -270,6 +281,16 @@ public abstract class AbstractAliceCard extends AbstractSecondaryVariablesCard {
 
 //		this.updateIconsHb();
 //		this.iconsHb.render(sb);
+
+//		if (AliceHelper.isInBattle() && this.dollTarget &&
+//				AbstractDungeon.player.hasPower(ForbiddenMagicPower.POWER_ID)) {
+//			this.drawOnCard(sb,
+//					ForbiddenMagicPower.ICON,
+//					this.current_x, this.current_y,
+//					new Vector2(X_OFFSET, Y_OFFSET * 2.0F),
+//					128.0F, 128.0F,
+//					1.0F, this.drawScale, 0.6F);
+//		}
 	}
 
 	@Override

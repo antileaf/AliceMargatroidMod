@@ -12,6 +12,7 @@ public class AliceAudioMaster {
 	public static final String ARIS_COMMON_SKILL = "AliceMargatroid:ARIS_COMMON_SKILL";
 	public static final String ALICE_IN_WONDERLAND = "AliceMargatroid:ALICE_IN_WONDERLAND";
 	public static final String RESURGENCE = "AliceMargatroid:RESURGENCE";
+	public static final String PPKP = "AliceMargatroid:PPKP";
 	
 	public static void init() {
 		BaseMod.addAudio(CHAR_SELECT_1, "AliceMargatroidMod/audio/charSelect/SELECT_ALICE1.wav");
@@ -24,5 +25,6 @@ public class AliceAudioMaster {
 		BaseMod.addAudio(ARIS_COMMON_SKILL, "AliceMargatroidMod/audio/charSelect/CommonSkill.ogg");
 		BaseMod.addAudio(ALICE_IN_WONDERLAND, "AliceMargatroidMod/audio/effects/AliceInWonderland.wav");
 		BaseMod.addAudio(RESURGENCE, "AliceMargatroidMod/audio/effects/Resurgence.wav");
+		BaseMod.addAudio(PPKP, "AliceMargatroidMod/audio/effects/PPKP.wav");
 	}
 }

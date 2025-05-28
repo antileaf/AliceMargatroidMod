@@ -42,6 +42,8 @@ public class Barrier extends AbstractAliceCard {
 		
 		this.block = this.baseBlock = BLOCK;
 
+		this.dollTarget = true;
+
 //		this.isCommandCard = true;
 //		this.tags.add(CardTagEnum.ALICE_COMMAND);
 //		this.tags.add(CardTagEnum.ALICE_DOLL_ACT);

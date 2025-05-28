@@ -54,6 +54,17 @@ public class UnlockMysticPower extends AbstractAlicePower {
 							.orElse("");
 	}
 
+	private static boolean checkIsCommandCard(AbstractCard card) {
+		if (card instanceof AbstractAliceCard) {
+			AbstractAliceCard ac = (AbstractAliceCard) card;
+
+			return ac.isCommandCard ||
+					(ac.dollTarget && AbstractDungeon.player.hasPower(ForbiddenMagicPower.POWER_ID));
+		}
+
+		return false;
+	}
+
 	@Override
 	public void onUseCard(AbstractCard card, UseCardAction action) {
 		if (card instanceof AbstractAliceCard) {
@@ -62,7 +73,7 @@ public class UnlockMysticPower extends AbstractAlicePower {
 //			if (ac.isCommandCard)
 //				logger.info("Command Card: {}, target = {}", ac.cardID, ac.getTargetedDoll());
 
-			if (ac.isCommandCard && ac.getTargetedDoll() != null) {
+			if (checkIsCommandCard(card) && ac.getTargetedDoll() != null) {
 //				logger.info("triggered command effect");
 
 				if (!this.triggered.contains(ac.cardID)) {
@@ -86,8 +97,8 @@ public class UnlockMysticPower extends AbstractAlicePower {
 
 		@Override
 		public boolean test(AbstractCard card) {
-			return card instanceof AbstractAliceCard && ((AbstractAliceCard) card).isCommandCard &&
-					AbstractDungeon.player != null && AliceHelper.isInBattle() &&
+			return AbstractDungeon.player != null && AliceHelper.isInBattle() &&
+					checkIsCommandCard(card) &&
 					AbstractDungeon.player.hasPower(UnlockMysticPower.POWER_ID) &&
 					!((UnlockMysticPower) AbstractDungeon.player.getPower(UnlockMysticPower.POWER_ID))
 							.triggered.contains(card.cardID);

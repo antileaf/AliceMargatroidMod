@@ -38,6 +38,7 @@ public class FuturisticBunraku extends AbstractAliceCard {
 
 		this.exhaust = true;
 
+		this.dollTarget = true;
 		this.isCommandCard = true;
 		this.tags.add(CardTagEnum.ALICE_COMMAND);
 

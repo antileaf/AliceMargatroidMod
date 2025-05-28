@@ -10,7 +10,11 @@ public class CardTagEnum {
 	
 	@SpireEnum
 	public static AbstractCard.CardTags ALICE_COMMAND;
-	
+
+//	@SpireEnum
+//	public static AbstractCard.CardTags DOLL_TARGET;
+
+	@Deprecated
 	@SpireEnum
 	public static AbstractCard.CardTags ALICE_DOLL_ACT;
 }

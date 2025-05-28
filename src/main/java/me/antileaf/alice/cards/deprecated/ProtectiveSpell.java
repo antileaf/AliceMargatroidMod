@@ -1,4 +1,4 @@
-package me.antileaf.alice.cards.alice;
+package me.antileaf.alice.cards.deprecated;
 
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -19,6 +19,7 @@ import me.antileaf.alice.targeting.AliceTargetIcon;
 import me.antileaf.alice.targeting.handlers.DollOrNoneTargeting;
 import me.antileaf.alice.utils.AliceHelper;
 
+@Deprecated
 public class ProtectiveSpell extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = ProtectiveSpell.class.getSimpleName();
 	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
@@ -42,6 +43,8 @@ public class ProtectiveSpell extends AbstractAliceCard {
 		);
 		
 		this.block = this.baseBlock = BLOCK;
+
+		this.dollTarget = true;
 
 		this.targetIcons.add(AliceTargetIcon.ALICE);
 		this.targetIcons.add(AliceTargetIcon.DOLL);

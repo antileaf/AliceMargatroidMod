@@ -40,7 +40,7 @@ public class SoldierOfCross extends AbstractAliceCard {
 				cardStrings.DESCRIPTION,
 				CardType.SKILL,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
-				CardRarity.UNCOMMON,
+				CardRarity.COMMON,
 				CardTargetEnum.DOLL_OR_NONE
 		);
 		
@@ -48,6 +48,7 @@ public class SoldierOfCross extends AbstractAliceCard {
 		this.magicNumber = this.baseMagicNumber = MAGIC;
 
 		this.isCommandCard = true;
+		this.dollTarget = true;
 		this.tags.add(CardTagEnum.ALICE_COMMAND);
 
 		this.targetIcons.add(AliceTargetIcon.ALICE);

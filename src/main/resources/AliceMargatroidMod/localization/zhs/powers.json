@@ -230,6 +230,15 @@
   "AliceMargatroid:ForbiddenMagicPower": {
     "NAME": "禁咒",
     "DESCRIPTIONS": [
+      "本回合，所有可以对 人偶 打出的牌获得“ #y指令 ：目标人偶 #y行动 #b%d 次，并 #y消耗 。”效果。",
+      "WWW",
+      "WWWWWW"
+    ]
+  },
+
+  "AliceMargatroid:ForbiddenMagicPower_Old": {
+    "NAME": "禁咒",
+    "DESCRIPTIONS": [
       "每 生成 一个 人偶 ，失去 #b%d 层 计划妥当 。"
     ]
   },

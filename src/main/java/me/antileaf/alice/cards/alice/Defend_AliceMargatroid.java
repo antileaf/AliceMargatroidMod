@@ -39,6 +39,9 @@ public class Defend_AliceMargatroid extends AbstractAliceCard {
 		);
 		
 		this.block = this.baseBlock = BLOCK;
+
+		this.dollTarget = true;
+
 		this.tags.add(CardTags.STARTER_DEFEND);
 
 		this.targetIcons.add(AliceTargetIcon.ALICE);

@@ -28,7 +28,6 @@ public class SPDollPredictor extends AbstractPredictor {
 			return true;
 
 		if (AliceHelper.isInBattle()) {
-
 			int newBits = 0;
 			for (int i = 0; i < DollManager.MAX_DOLL_SLOTS; i++)
 				if (!(DollManager.get().getDolls().get(i) instanceof EmptyDollSlot))

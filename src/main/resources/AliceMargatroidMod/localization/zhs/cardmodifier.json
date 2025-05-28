@@ -8,5 +8,10 @@
     "NAME": "启示",
     "DESCRIPTION": "打出此牌后，使手牌中 %s 攻击牌的基础伤害提高 #b%d 点，并获得 %s 效果。",
     "EXTENDED_DESCRIPTION": ["的一张随机", "所有"]
+  },
+
+  "AliceMargatroid:ForbiddenMagicVFXCardModifier": {
+    "NAME": "#p禁咒",
+    "DESCRIPTION": "#y指令 ：目标人偶 #y行动 #b%d 次，并 #y消耗 。"
   }
 }

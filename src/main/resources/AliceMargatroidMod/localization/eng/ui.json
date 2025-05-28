@@ -47,5 +47,11 @@
       "Signature Unlocked!",
       "Tip: For each Act completed (except 4th Act), you can unlock a signature."
     ]
+  },
+
+  "AliceMargatroid:PPKP": {
+    "TEXT": [
+      "Panpankapan!"
+    ]
   }
 }

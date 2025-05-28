@@ -7,6 +7,7 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import me.antileaf.alice.action.doll.DollActAction;
 import me.antileaf.alice.action.doll.RecycleDollAction;
 import me.antileaf.alice.action.utils.AnonymousAction;
 import me.antileaf.alice.cards.AbstractAliceCard;
@@ -14,6 +15,7 @@ import me.antileaf.alice.doll.AbstractDoll;
 import me.antileaf.alice.patches.enums.AbstractCardEnum;
 import me.antileaf.alice.patches.enums.CardTagEnum;
 import me.antileaf.alice.patches.enums.CardTargetEnum;
+import me.antileaf.alice.powers.unique.ForbiddenMagicPower;
 import me.antileaf.alice.targeting.AliceTargetIcon;
 import me.antileaf.alice.targeting.handlers.DollTargeting;
 import me.antileaf.alice.utils.AliceHelper;
@@ -44,6 +46,8 @@ public class Masterpiece extends AbstractAliceCard {
 		this.block = this.baseBlock = BLOCK;
 		this.magicNumber = this.baseMagicNumber = DRAW;
 
+		this.dollTarget = true;
+		this.hardCodedForbiddenMagic = true;
 		this.isCommandCard = true;
 		this.tags.add(CardTagEnum.ALICE_COMMAND);
 
@@ -55,6 +59,12 @@ public class Masterpiece extends AbstractAliceCard {
 		AbstractDoll doll = DollTargeting.getTarget(this);
 		
 		if (doll != null) {
+			if (p.hasPower(ForbiddenMagicPower.POWER_ID)) {
+				int amount = p.getPower(ForbiddenMagicPower.POWER_ID).amount;
+				for (int i = 0; i < amount; i++)
+					this.addToBot(new DollActAction(doll, AbstractDoll.DollActModifier.ambush()));
+			}
+
 			this.addToBot(new RecycleDollAction(doll));
 
 			this.addToBot(new AnonymousAction(() -> {

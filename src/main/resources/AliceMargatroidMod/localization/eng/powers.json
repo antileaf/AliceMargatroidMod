@@ -123,7 +123,9 @@
   "AliceMargatroid:ForbiddenMagicPower": {
     "NAME": "Forbidden Magic",
     "DESCRIPTIONS": [
-      "Whenever a #yDoll is #yPlaced , lose #b%d #yWell #yLaid #yPlans ."
+      "This turn, cards which can be played on #yDolls gain \" #yCommand : target #yDoll #yActs #b%d time(s), and #yExhaust. \" effect.",
+      "WWW",
+      "WWWWWW"
     ]
   },
 

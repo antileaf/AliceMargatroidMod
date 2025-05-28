@@ -101,7 +101,7 @@ public class CardTargetIconsPatch {
 					AbstractAliceCard card = (AbstractAliceCard) _inst;
 
 					card.renderTargetIcons(sb);
-//				AliceTargetIconTipHelper.render(sb, card);
+//					AliceTargetIconTipHelper.render(sb, card);
 				}
 			}
 		}

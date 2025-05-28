@@ -46,8 +46,7 @@ public class PuppeteersHouse extends PhasedEvent {
 			Pause.ID,
 			Hail.ID,
 			SpectreMystery.ID,
-			TheSouthernCross.ID,
-			ProtectiveSpell.ID
+			TheSouthernCross.ID
 	};
 
 	public static final String[] UNCOMMON_CARDS = new String[]{

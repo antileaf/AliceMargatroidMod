@@ -44,6 +44,8 @@ public class Collector extends AbstractAliceCard {
 		if (AliceHelper.isInBattle())
 			this.applyPowers();
 
+		this.dollTarget = true;
+
 		this.targetIcons.add(AliceTargetIcon.ALICE);
 		this.targetIcons.add(AliceTargetIcon.DOLL);
 	}

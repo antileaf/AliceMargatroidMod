@@ -40,9 +40,11 @@ public class Pause extends AbstractAliceCard {
 				CardRarity.COMMON,
 				CardTargetEnum.DOLL_OR_NONE
 		);
-		
+
 		this.block = this.baseBlock = BLOCK;
 		this.magicNumber = this.baseMagicNumber = MAGIC;
+
+		this.dollTarget = true;
 
 		this.targetIcons.add(AliceTargetIcon.ALICE);
 		this.targetIcons.add(AliceTargetIcon.DOLL);

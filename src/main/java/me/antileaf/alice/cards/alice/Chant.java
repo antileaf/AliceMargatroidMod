@@ -46,6 +46,8 @@ public class Chant extends AbstractAliceCard {
 		
 		this.block = this.baseBlock = BLOCK;
 		this.magicNumber = this.baseMagicNumber = MAGIC;
+
+		this.dollTarget = true;
 		
 		this.tags.add(CardTagEnum.ALICE_DOLL_ACT);
 

@@ -136,8 +136,8 @@
 
   "AliceMargatroid:DollLances": {
     "NAME": "Doll Lances",
-    "DESCRIPTION": "{@@}Deal !D! damage. NL All alicemargatroid:Shanghai_Dolls alicemargatroid:Act !M! time{!M!|>1=s}, prioritizing to attack the target, but only deal half damage.",
-    "EXTENDED_DESCRIPTION": ["(!M! times in total.)"]
+    "DESCRIPTION": "{@@}Deal !D! damage. NL All alicemargatroid:Shanghai_Dolls alicemargatroid:Act !M! time{!M!|>1=s}, prioritizing to attack the target.",
+    "UPGRADE_DESCRIPTION": "{@@}Deal !D! damage. NL All alicemargatroid:Shanghai_Dolls alicemargatroid:Act !M! time{!M!|>1=s}, prioritizing to attack the target, but only deal half damage the second time."
   },
   
   "AliceMargatroid:Ultimatum": {
@@ -352,8 +352,7 @@
 
   "AliceMargatroid:ForbiddenMagic": {
     "NAME": "Forbidden Magic",
-    "DESCRIPTION": "Gain 1 alicemargatroid:Well_Laid_Plans for each empty alicemargatroid:Doll slot. NL Whenever a alicemargatroid:Doll is alicemargatroid:Placed, lose 1 alicemargatroid:Well_Laid_Plans.",
-    "UPGRADE_DESCRIPTION": "Gain !M! alicemargatroid:Well_Laid_Plans. NL Whenever a alicemargatroid:Doll is alicemargatroid:Placed, lose 1 alicemargatroid:Well_Laid_Plans."
+    "DESCRIPTION": "{@@}This turn, cards which can be played on alicemargatroid:Dolls gain \" alicemargatroid:Command: target alicemargatroid:Doll alicemargatroid:Acts !M! time{!M!|>1=s}, then Exhaust. \" effect."
   },
 
   "AliceMargatroid:SemiAutomaton": {
@@ -380,7 +379,12 @@
     "NAME": "Suicide Squad",
     "DESCRIPTION": "alicemargatroid:Command: Deal !D! damage to corresponding enemy of target alicemargatroid:Doll; target alicemargatroid:Doll gains !B! Block, heal !M! HP, increase its Max HP by !M!."
   },
-  
+
+  "AliceMargatroid:DollArrangement": {
+    "NAME": "Doll Arrangement",
+    "DESCRIPTION": "alicemargatroid:Place a alicemargatroid:Doll you do not have at random. NL Repeat this in empty slots, until you have at least !M! alicemargatroid:Dolls. NL All alicemargatroid:Dolls gain !B! Block.",
+    "UPGRADE_DESCRIPTION": "alicemargatroid:Place a alicemargatroid:Doll you do not have at random. NL Repeat this in empty slots, until you have at least !M! alicemargatroid:Dolls. NL Alice and all alicemargatroid:Dolls gain !B! Block."
+  },
 
   "AliceMargatroid:VivaciousShanghaiDoll": {
     "NAME": "Vivacious Shanghai Doll",

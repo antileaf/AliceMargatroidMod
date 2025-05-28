@@ -166,7 +166,8 @@
   
   "AliceMargatroid:DollLances": {
     "NAME": "人偶千枪",
-    "DESCRIPTION": "造成 !D! 点伤害。 NL 所有 alicemargatroid:上海人偶 alicemargatroid:行动 !M! 次，优先攻击目标敌人，但只会造成一半伤害。",
+    "DESCRIPTION": "造成 !D! 点伤害。 NL 所有 alicemargatroid:上海人偶 alicemargatroid:行动 !M! 次，优先攻击目标敌人。",
+    "UPGRADE_DESCRIPTION": "造成 !D! 点伤害。 NL 所有 alicemargatroid:上海人偶 alicemargatroid:行动 !M! 次，优先攻击目标敌人，但第二次 alicemargatroid:行动 只会造成一半伤害。",
     "EXTENDED_DESCRIPTION": ["（造成 !M! 次伤害。）"]
   },
   
@@ -456,8 +457,7 @@
 
   "AliceMargatroid:ForbiddenMagic": {
     "NAME": "禁咒",
-    "DESCRIPTION": "当前每有一个空的 alicemargatroid:人偶 栏位，获得1层 alicemargatroid:计划妥当 。 NL 之后，每 alicemargatroid:生成 一个 alicemargatroid:人偶 ，失去1层 alicemargatroid:计划妥当 。",
-    "UPGRADE_DESCRIPTION": "获得 !M! 层 alicemargatroid:计划妥当 。 NL 之后，每 alicemargatroid:生成 一个 alicemargatroid:人偶 ，失去1层 alicemargatroid:计划妥当 。"
+    "DESCRIPTION": "本回合，所有可以对 alicemargatroid:人偶 打出的牌获得“ alicemargatroid:指令 ：目标 alicemargatroid:人偶 alicemargatroid:行动 M! 次，并 消耗 。”效果。"
   },
 
   "AliceMargatroid:SemiAutomaton": {
@@ -483,6 +483,12 @@
   "AliceMargatroid:SuicideSquad": {
     "NAME": "敢死小分队",
     "DESCRIPTION": "alicemargatroid:指令 ：对目标 alicemargatroid:人偶 对应的敌人造成 !D! 点伤害，并且目标 alicemargatroid:人偶 获得 !B! 点 格挡 ，恢复 !M! 点生命，最大生命值增加 !M! 点。"
+  },
+
+  "AliceMargatroid:DollArrangement": {
+    "NAME": "人偶置操",
+    "DESCRIPTION": "随机 alicemargatroid:生成 一个你没有的 alicemargatroid:人偶 ，并在空栏位中重复 alicemargatroid:生成 ，直到你至少有 !M! 个 alicemargatroid:人偶 。 NL 所有 alicemargatroid:人偶 获得 !B! 点 格挡 。",
+    "UPGRADE_DESCRIPTION": "随机 alicemargatroid:生成 一个你没有的 alicemargatroid:人偶 ，并在空栏位中重复 alicemargatroid:生成 ，直到你至少有 !M! 个 alicemargatroid:人偶 。 NL 爱丽丝和所有 alicemargatroid:人偶 获得 !B! 点 格挡 。"
   },
   
   

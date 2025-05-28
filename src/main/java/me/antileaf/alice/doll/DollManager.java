@@ -765,6 +765,12 @@ public class DollManager {
 				types.add(doll.getID());
 		return types.size();
 	}
+
+	public int getDollCount() {
+		return (int) this.dolls.stream()
+				.filter(doll -> !(doll instanceof EmptyDollSlot))
+				.count();
+	}
 	
 	public void triggerArtfulChanter(AbstractDoll doll) {
 		if (this.owner.hasPower(ArtfulChanterPower.POWER_ID)) {

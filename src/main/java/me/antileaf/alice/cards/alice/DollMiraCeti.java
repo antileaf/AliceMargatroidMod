@@ -40,6 +40,7 @@ public class DollMiraCeti extends AbstractAliceCard {
 		
 		this.magicNumber = this.baseMagicNumber = MAGIC;
 
+		this.dollTarget = true;
 		this.isCommandCard = true;
 		this.tags.add(CardTagEnum.ALICE_COMMAND);
 		this.tags.add(CardTagEnum.ALICE_DOLL_ACT);
