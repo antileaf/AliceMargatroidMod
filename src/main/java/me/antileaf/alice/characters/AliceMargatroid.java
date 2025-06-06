@@ -1,8 +1,11 @@
 package me.antileaf.alice.characters;
 
+import basemod.ReflectionHacks;
 import basemod.abstracts.CustomPlayer;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -12,11 +15,13 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.EnergyManager;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.cutscenes.CutscenePanel;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.events.city.Vampires;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.ScreenShake;
 import com.megacrit.cardcrawl.localization.CharacterStrings;
+import com.megacrit.cardcrawl.rooms.RestRoom;
 import com.megacrit.cardcrawl.screens.CharSelectInfo;
 import com.megacrit.cardcrawl.unlock.UnlockTracker;
 import me.antileaf.alice.AliceMargatroidMod;
@@ -27,6 +32,7 @@ import me.antileaf.alice.cards.alice.Strike_AliceMargatroid;
 import me.antileaf.alice.patches.enums.AbstractCardEnum;
 import me.antileaf.alice.patches.enums.AbstractPlayerEnum;
 import me.antileaf.alice.relics.AlicesGrimoire;
+import me.antileaf.alice.relics.SwordOfLight_Supernova;
 import me.antileaf.alice.ui.SkinSelectScreen;
 import me.antileaf.alice.utils.AliceConfigHelper;
 import me.antileaf.alice.utils.AliceHelper;
@@ -54,6 +60,9 @@ public class AliceMargatroid extends CustomPlayer {
 	private static final String ORB_VFX = "AliceMargatroidMod/img/UI/AliceMargatroid/vfx.png";
 	private static final float[] LAYER_SPEED =
 			{0.0F, -16.0F, 0.0F, 20.0F, 0.0F};
+
+	private static final Texture SWORD_OF_LIGHT = ImageMaster.loadImage(
+			AliceHelper.getImgFilePath("char/AliceMargatroid", "Sword"));
 	
 	public AliceMargatroid(String name) {
 		super(
@@ -271,6 +280,26 @@ public class AliceMargatroid extends CustomPlayer {
 //	public void setSkin(SkinSelectScreen.Skin skin) {
 //		this.shouldUpdateSkin = skin;
 //	}
+
+	@Override
+	public void render(SpriteBatch sb) {
+		super.render(sb);
+
+		if (!(AbstractDungeon.getCurrRoom() instanceof RestRoom) &&
+				!(boolean) ReflectionHacks.getPrivate(this, AbstractPlayer.class, "renderCorpse") &&
+				(SkinSelectScreen.inst.getSkinEnum() == SkinSelectScreen.SkinEnum.BA ||
+						SkinSelectScreen.inst.getSkinEnum() == SkinSelectScreen.SkinEnum.MAID) &&
+				this.hasRelic(SwordOfLight_Supernova.ID)) {
+			sb.setColor(Color.WHITE);
+			sb.draw(SWORD_OF_LIGHT,
+					this.drawX - SWORD_OF_LIGHT.getWidth() / 2.0F * Settings.scale + this.animX,
+					this.drawY + (SWORD_OF_LIGHT.getWidth() - this.img.getWidth()) / 2.0F * Settings.scale,
+					SWORD_OF_LIGHT.getWidth() * Settings.scale,
+					SWORD_OF_LIGHT.getHeight() * Settings.scale,
+					0, 0, SWORD_OF_LIGHT.getWidth(), SWORD_OF_LIGHT.getHeight(),
+					this.flipHorizontal, this.flipVertical);
+		}
+	}
 	
 	public void updateSkin() {
 		SkinSelectScreen.Skin skin = SkinSelectScreen.inst.getSkin();

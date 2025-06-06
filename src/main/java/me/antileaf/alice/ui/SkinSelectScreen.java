@@ -253,14 +253,17 @@ public class SkinSelectScreen {
 	}
 
 	public String getSoundKey() {
-		if (SkinSelectScreen.inst.getSkinEnum() != SkinSelectScreen.SkinEnum.BA)
+		if (SkinSelectScreen.inst.getSkinEnum() != SkinSelectScreen.SkinEnum.BA &&
+				SkinSelectScreen.inst.getSkinEnum() != SkinSelectScreen.SkinEnum.MAID)
 			return "AliceMargatroid:CHAR_SELECT_" + MathUtils.random(1, 3);
-		else
+		else if (SkinSelectScreen.inst.getSkinEnum() == SkinSelectScreen.SkinEnum.BA)
 			return "AliceMargatroid:ARIS_SELECT_" + MathUtils.random(1, 2);
+		else
+			return "AliceMargatroid:ARIS_MAID_SELECT_" + MathUtils.random(1, 2);
 	}
 	
 	public String getPortrait() {
-		AliceHelper.log("Skin: " + this.cur);
+		logger.info("Skin: {}", this.cur);
 		return skins.get(this.cur).background;
 	}
 	
@@ -296,7 +299,8 @@ public class SkinSelectScreen {
 				}
 			}
 
-			if (temp != this.cur && (temp == SkinEnum.BA) != (this.cur == SkinEnum.BA))
+			if (temp != this.cur && !((temp == SkinEnum.ORIGINAL || temp == SkinEnum.MS) &&
+					(this.cur == SkinEnum.ORIGINAL || this.cur == SkinEnum.MS)))
 				CardCrawlGame.sound.play(this.getSoundKey());
 
 			if (AliceConfigHelper.isSunglassesUnlocked()) {
@@ -534,6 +538,17 @@ public class SkinSelectScreen {
 				AliceHelper.getImgFilePath("char/AliceMargatroid", "aris_shoulder"),
 				AliceHelper.getImgFilePath("char/AliceMargatroid", "aris_corpse")
 		));
+
+		AliceSkinStrings maid = AliceSkinStrings.get(SkinEnum.MAID.name().toLowerCase());
+		assert(maid != null);
+		skins.put(SkinEnum.MAID, new Skin(
+				maid.NAME,
+				maid.DESCRIPTION,
+				AliceHelper.getImgFilePath("charSelect/AliceMargatroid", "maid"),
+				AliceHelper.getImgFilePath("char/AliceMargatroid", "aris_maid"),
+				AliceHelper.getImgFilePath("char/AliceMargatroid", "aris_maid_shoulder"),
+				AliceHelper.getImgFilePath("char/AliceMargatroid", "aris_maid_corpse")
+		));
 		
 		inst.unlocked = AliceConfigHelper.isAliceSkinSelectionUnlocked();
 		inst.cur = SkinEnum.valueOf(AliceConfigHelper.getAliceSkinChosen());
@@ -554,7 +569,8 @@ public class SkinSelectScreen {
 	public enum SkinEnum {
 		ORIGINAL,
 		MS, // Mystic Square
-		BA; // Blue Archive
+		BA, // Blue Archive
+		MAID; // Aris (Maid)
 		
 		public static SkinEnum prev(SkinEnum skin) {
 			if (skin.ordinal() == 0)

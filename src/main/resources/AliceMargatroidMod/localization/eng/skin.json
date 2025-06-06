@@ -12,5 +12,10 @@
   "BA": {
     "NAME": "Tendou Aris",
     "DESCRIPTION": "Aris from Kivotos."
+  },
+
+  "MAID": {
+    "NAME": "Tendou Aris (Maid)",
+    "DESCRIPTION": "Aris in a maid outfit for some reason."
   }
 }
