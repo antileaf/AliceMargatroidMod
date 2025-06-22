@@ -28,7 +28,6 @@ import me.antileaf.alice.doll.dolls.FranceDoll;
 import me.antileaf.alice.doll.dolls.NetherlandsDoll;
 import me.antileaf.alice.doll.interfaces.OnDollOperateHook;
 import me.antileaf.alice.patches.enums.CardTargetEnum;
-import me.antileaf.alice.powers.unique.ArtfulChanterPower;
 import me.antileaf.alice.powers.unique.TauntedPower;
 import me.antileaf.alice.utils.AliceHelper;
 import org.apache.logging.log4j.LogManager;
@@ -69,10 +68,12 @@ public class DollManager {
 	public static class Stats {
 		public HashSet<String> placedThisCombat = new HashSet<>();
 		public HashMap<String, Integer> actCountThisCombat = new HashMap<>();
+		public HashSet<String> recycledOrDestroyedThisCombat = new HashSet<>();
 		
 		void clear() {
 			this.placedThisCombat = new HashSet<>();
 			this.actCountThisCombat = new HashMap<>();
+			this.recycledOrDestroyedThisCombat = new HashSet<>();
 		}
 		
 		void onDollPlaced(AbstractDoll doll) {
@@ -86,6 +87,14 @@ public class DollManager {
 		void onDollAct(AbstractDoll doll) {
 			this.actCountThisCombat.put(doll.getID(),
 					this.actCountThisCombat.getOrDefault(doll.getID(), 0) + 1);
+		}
+
+		void onDollRecycled(AbstractDoll doll) {
+			this.recycledOrDestroyedThisCombat.add(doll.getID());
+		}
+
+		void onDollDestroyed(AbstractDoll doll) {
+			this.recycledOrDestroyedThisCombat.add(doll.getID());
 		}
 		
 		int getMaxActCount() {
@@ -416,7 +425,7 @@ public class DollManager {
 
 		logger.info("index = {}", index);
 		
-		boolean artfulChanter = false;
+//		boolean artfulChanter = false;
 		
 		if (index == -1) {
 //			AliceHelper.addActionToBuffer(new RecycleDollAction(this.dolls.get(MAX_DOLL_SLOTS - 1)));
@@ -439,7 +448,7 @@ public class DollManager {
 		}
 		else if (!(this.dolls.get(index) instanceof EmptyDollSlot)) {
 			AliceHelper.addActionToBuffer(new RecycleDollAction(this.dolls.get(index), doll));
-			artfulChanter = true;
+//			artfulChanter = true;
 		}
 
 		if (index == -1) {
@@ -454,10 +463,10 @@ public class DollManager {
 		if (followUpAction != null)
 			AliceHelper.addActionToBuffer(followUpAction);
 
-		if (artfulChanter)
-			AliceHelper.addActionToBuffer(new AnonymousAction(() -> {
-				this.triggerArtfulChanter(doll);
-			}));
+//		if (artfulChanter)
+//			AliceHelper.addActionToBuffer(new AnonymousAction(() -> {
+//				this.triggerArtfulChanter(doll);
+//			}));
 
 		AliceHelper.commitBuffer();
 	}
@@ -562,7 +571,7 @@ public class DollManager {
 				((DollMagic) card).postDollAct();
 		
 		AliceHelper.commitBuffer();
-		AliceHelper.logger.info("DollManager.dollAct(): Commited buffer here!");
+//		logger.info("DollManager.dollAct(): Commited buffer here!");
 		
 		this.stats.onDollAct(doll);
 		
@@ -606,6 +615,8 @@ public class DollManager {
 			}
 		
 		AliceHelper.commitBuffer();
+
+		this.stats.onDollRecycled(doll);
 		
 		this.update();
 	}
@@ -638,6 +649,8 @@ public class DollManager {
 			}
 		
 		AliceHelper.commitBuffer();
+
+		this.stats.onDollDestroyed(doll);
 		
 		this.update();
 	}
@@ -771,15 +784,16 @@ public class DollManager {
 				.filter(doll -> !(doll instanceof EmptyDollSlot))
 				.count();
 	}
-	
+
+	@Deprecated
 	public void triggerArtfulChanter(AbstractDoll doll) {
-		if (this.owner.hasPower(ArtfulChanterPower.POWER_ID)) {
-			ArtfulChanterPower power = (ArtfulChanterPower) AbstractDungeon.player.getPower(ArtfulChanterPower.POWER_ID);
-			power.flash();
-			
-			for (int i = 0; i < power.amount; i++)
-				AliceHelper.addToTop(new DollActAction(doll));
-		}
+//		if (this.owner.hasPower(ArtfulChanterPower.POWER_ID)) {
+//			ArtfulChanterPower power = (ArtfulChanterPower) AbstractDungeon.player.getPower(ArtfulChanterPower.POWER_ID);
+//			power.flash();
+//
+//			for (int i = 0; i < power.amount; i++)
+//				AliceHelper.addToTop(new DollActAction(doll));
+//		}
 	}
 	
 //	public Formation getFormation() {

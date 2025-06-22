@@ -13,11 +13,11 @@ import me.antileaf.alice.utils.AliceHelper;
 
 public class ArtfulChanter extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = ArtfulChanter.class.getSimpleName();
-	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
+	public static final String ID = AliceHelper.makeID(SIMPLE_NAME + "_V2");
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
-	private static final int COST = 1;
-	private static final int UPGRADED_COST = 0;
+	private static final int COST = 2;
+	private static final int UPGRADED_COST = 1;
 	private static final int MAGIC = 1;
 	
 	public ArtfulChanter() {

@@ -3,6 +3,7 @@ package me.antileaf.alice.cards.alice;
 import basemod.helpers.TooltipInfo;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
+import com.evacipated.cardcrawl.mod.stslib.cards.interfaces.OnObtainCard;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.animations.VFXAction;
 import com.megacrit.cardcrawl.actions.common.DamageAllEnemiesAction;
@@ -26,7 +27,7 @@ import me.antileaf.alice.utils.AliceHelper;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class SevenColoredPuppeteer extends AbstractAliceCard {
+public class SevenColoredPuppeteer extends AbstractAliceCard implements OnObtainCard {
 	public static final String SIMPLE_NAME = SevenColoredPuppeteer.class.getSimpleName();
 	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
@@ -74,6 +75,13 @@ public class SevenColoredPuppeteer extends AbstractAliceCard {
 			this.updateCost(-1);
 			this.reduced++;
 		}
+	}
+
+	@Override
+	public void onObtainCard() {
+		this.cost = this.costForTurn = COST;
+		this.isCostModified = false;
+		this.reduced = 0;
 	}
 	
 	public void updateStats(DollManager.Stats stats) {

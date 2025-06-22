@@ -46,13 +46,15 @@ public class SeaOfSubconsciousnessPower extends AbstractAlicePower {
 		if (AbstractDungeon.player.hand.contains(card)) {
 			int index = AbstractDungeon.player.hand.group.indexOf(card);
 			if (index < DollManager.get().getDolls().size())
-				this.addToBot(new AnonymousAction(() -> {
+			this.addToBot(new AnonymousAction(() -> {
 					int i = DollManager.get().getDolls().size() - index - 1;
 					if (i >= 0 && i < DollManager.get().getDolls().size()) {
 						AbstractDoll doll = DollManager.get().getDolls().get(i);
 						if (!(doll instanceof EmptyDollSlot)) {
 							this.flash();
-							this.addToTop(new DollActAction(doll));
+
+							for (int j = 0; j < this.amount; j++)
+								this.addToTop(new DollActAction(doll));
 						}
 					}
 					else

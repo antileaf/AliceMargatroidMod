@@ -74,7 +74,9 @@
   "AliceMargatroid:ArtfulChanterPower": {
     "NAME": "Artful Chanter",
     "DESCRIPTIONS": [
-      "Whenever a #yDoll is #yPlaced , if there is already a #yDoll in the same slot, let the newer #yDoll #yAct #b%d extra time(s)."
+      "Whenever a #yDoll is #yPlaced , if that kind of #yDoll has been #yRecycled or destroyed this combat, let it #yAct #b%d time(s).",
+      "There is no #yDoll #yRecycled or destroyed this combat.",
+      "#yDolls #yRecycled or destroyed this combat:"
     ]
   },
   

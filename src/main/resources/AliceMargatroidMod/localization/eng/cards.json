@@ -266,9 +266,9 @@
     "DESCRIPTION": "alicemargatroid:Command: target alicemargatroid:Doll alicemargatroid:Acts !aliceM2! times. NL If this is the first time *Seeker *Doll is played this turn, it alicemargatroid:Acts additionally 1 time."
   },
   
-  "AliceMargatroid:ArtfulChanter": {
+  "AliceMargatroid:ArtfulChanter_V2": {
     "NAME": "Artful Chanter",
-    "DESCRIPTION": "Whenever a alicemargatroid:Doll is alicemargatroid:Placed, if there is already a alicemargatroid:Doll in the same slot, the newer alicemargatroid:Doll alicemargatroid:Acts 1 extra time."
+    "DESCRIPTION": "Whenever a alicemargatroid:Doll is alicemargatroid:Placed, if that kind of alicemargatroid:Doll has been alicemargatroid:Recycled or destroyed this combat, let it alicemargatroid:Act once."
   },
   
   "AliceMargatroid:Masterpiece": {
