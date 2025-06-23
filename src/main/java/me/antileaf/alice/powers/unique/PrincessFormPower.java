@@ -10,6 +10,7 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.localization.PowerStrings;
+import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import me.antileaf.alice.cardmodifier.PhantomCardModifier;
 import me.antileaf.alice.utils.AliceHelper;
 
@@ -17,6 +18,9 @@ public class PrincessFormPower extends TwoAmountPower {
 	public static final String SIMPLE_NAME = PrincessFormPower.class.getSimpleName();
 	public static final String POWER_ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
+
+	private AbstractCard last = null;
+	private AbstractCard copy = null;
 
 	public PrincessFormPower(int amount) {
 		this.name = powerStrings.NAME;
@@ -47,7 +51,10 @@ public class PrincessFormPower extends TwoAmountPower {
 	}
 
 	@Override
-	public void onUseCard(AbstractCard card, UseCardAction action) {
+	public void onPlayCard(AbstractCard card, AbstractMonster monster) {
+		this.last = null;
+		this.copy = null;
+
 		if (card.costForTurn == 1 || (card.cost == -1 && card.energyOnUse == 1)) {
 			this.amount2++;
 
@@ -56,16 +63,24 @@ public class PrincessFormPower extends TwoAmountPower {
 			}
 
 			if (this.amount2 >= 3) {
-				this.flash();
-
-				AbstractCard copy = card.makeStatEquivalentCopy();
-				copy.setCostForTurn(0);
-				CardModifierManager.addModifier(copy, new PhantomCardModifier());
-
-				this.addToBot(new MakeTempCardInHandAction(copy, this.amount));
+				this.last = card;
+				this.copy = card.makeStatEquivalentCopy();
 
 				this.amount2 -= 3;
 			}
 		}
+	}
+
+	@Override
+	public void onUseCard(AbstractCard card, UseCardAction action) {
+		if (card == this.last && this.copy != null) {
+			this.flash();
+			this.copy.setCostForTurn(0);
+			CardModifierManager.addModifier(this.copy, new PhantomCardModifier());
+			this.addToBot(new MakeTempCardInHandAction(this.copy, this.amount));
+		}
+
+		this.last = null;
+		this.copy = null;
 	}
 }
