@@ -342,8 +342,8 @@
   
   "AliceMargatroid:AliceGame": {
     "NAME": "爱丽丝游戏",
-    "DESCRIPTION": "保留 。 alicemargatroid:指令 ： alicemargatroid:回收 除目标 alicemargatroid:人偶 以外的所有 alicemargatroid:人偶 ，每 alicemargatroid:回收 一个，使目标 alicemargatroid:人偶 alicemargatroid:行动 一次。 NL 消耗 。",
-    "UPGRADE_DESCRIPTION": "保留 。 alicemargatroid:指令 ： alicemargatroid:回收 除目标 alicemargatroid:人偶 以外的所有 alicemargatroid:人偶 ，每 alicemargatroid:回收 一个，使目标 alicemargatroid:人偶 alicemargatroid:行动 一次。"
+    "DESCRIPTION": "保留 。 alicemargatroid:指令 ： alicemargatroid:回收 除目标 alicemargatroid:人偶 以外的所有 alicemargatroid:人偶 ，使目标 alicemargatroid:人偶 alicemargatroid:行动 一次。 NL 本次每 alicemargatroid:回收 一个，额外 alicemargatroid:行动 一次。 NL 消耗 。",
+    "UPGRADE_DESCRIPTION": "保留 。 alicemargatroid:指令 ： alicemargatroid:回收 除目标 alicemargatroid:人偶 以外的所有 alicemargatroid:人偶 ，使目标 alicemargatroid:人偶 alicemargatroid:行动 一次。 NL 本次每 alicemargatroid:回收 一个，额外 alicemargatroid:行动 一次。"
   },
   
   "AliceMargatroid:SeekerDoll": {
@@ -418,7 +418,8 @@
   
   "AliceMargatroid:DollInSea": {
     "NAME": "海中的人偶",
-    "DESCRIPTION": "所有 alicemargatroid:人偶 的生命值恢复至满。 NL 所有 alicemargatroid:上海人偶 和 alicemargatroid:京都人偶 的最大生命增加 !M! 点 。"
+    "DESCRIPTION": "所有 alicemargatroid:人偶 恢复一半最大生命。 NL 所有 alicemargatroid:上海人偶 和 alicemargatroid:京都人偶 的最大生命增加 !M! 点 。",
+    "UPGRADE_DESCRIPTION": "所有 alicemargatroid:人偶 恢复所有生命。 NL 所有 alicemargatroid:上海人偶 和 alicemargatroid:京都人偶 的最大生命增加 !M! 点 。"
   },
 
   "AliceMargatroid:ClawMachine": {

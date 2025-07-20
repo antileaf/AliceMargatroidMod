@@ -20,7 +20,7 @@
     "NAME": "Alice's Dark Grimoire",
     "FLAVOR": "Said to record \"ultimate magic\" that can't be used by humans.",
     "DESCRIPTIONS": [
-      "Replaces #rAlice's #rGrimoire. For each present #yalicemargatroid:Doll , increase the Max HP of newly #yalicemargatroid:Placed #yalicemargatroid:Doll by #b4.",
+      "Replaces #rAlice's #rGrimoire. For each present #yalicemargatroid:Doll , increase the Max HP of newly #yalicemargatroid:Placed #yalicemargatroid:Doll by #b3.",
       "#yalicemargatroid:Activate: Re-open tutorial."
     ]
   },

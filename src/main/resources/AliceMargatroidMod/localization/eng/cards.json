@@ -257,8 +257,8 @@
   
   "AliceMargatroid:AliceGame": {
     "NAME": "Alice Game",
-    "DESCRIPTION": "Retain. alicemargatroid:Command: alicemargatroid:Recycle all alicemargatroid:Dolls except target alicemargatroid:doll, then target alicemargatroid:Doll alicemargatroid:Acts once for each alicemargatroid:Doll alicemargatroid:Recycled. NL Exhaust.",
-    "UPGRADE_DESCRIPTION": "Retain. alicemargatroid:Command: alicemargatroid:Recycle all alicemargatroid:Dolls except target alicemargatroid:doll, then target alicemargatroid:Doll alicemargatroid:Acts once for each alicemargatroid:Doll alicemargatroid:Recycled."
+    "DESCRIPTION": "Retain. alicemargatroid:Command: alicemargatroid:Recycle all alicemargatroid:Dolls except target alicemargatroid:doll, then target alicemargatroid:Doll alicemargatroid:Acts once. NL For each alicemargatroid:Doll alicemargatroid:Recycled this time, it alicemargatroid:Acts additionally 1 time. NL Exhaust.",
+    "UPGRADE_DESCRIPTION": "Retain. alicemargatroid:Command: alicemargatroid:Recycle all alicemargatroid:Dolls except target alicemargatroid:doll, then target alicemargatroid:Doll alicemargatroid:Acts once. NL For each alicemargatroid:Doll alicemargatroid:Recycled this time, it alicemargatroid:Acts additionally 1 time."
   },
   
   "AliceMargatroid:SeekerDoll": {
@@ -319,7 +319,8 @@
   
   "AliceMargatroid:DollInSea": {
     "NAME": "Doll In Sea",
-    "DESCRIPTION": "Heal all alicemargatroid:Dolls to full. NL Raise the Max HP of all alicemargatroid:Shanghai_Dolls and alicemargatroid:Kyoto_Dolls by !M!."
+    "DESCRIPTION": "All alicemargatroid:Dolls heal half of their Max HP. NL Raise the Max HP of all alicemargatroid:Shanghai_Dolls and alicemargatroid:Kyoto_Dolls by !M!.",
+    "UPGRADE_DESCRIPTION": "All alicemargatroid:Dolls heal all of their HP. NL Raise the Max HP of all alicemargatroid:Shanghai_Dolls and alicemargatroid:Kyoto_Dolls by !M!."
   },
 
   "AliceMargatroid:ClawMachine": {

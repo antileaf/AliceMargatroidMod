@@ -20,7 +20,7 @@
     "NAME": "爱丽丝的黑暗魔法书",
     "FLAVOR": "据说记载着人类无法使用的「究极的魔法」。",
     "DESCRIPTIONS": [
-      "替换 #r爱丽丝的魔法书 。每有一个 #yalicemargatroid:人偶 ，新 #yalicemargatroid:生成 的 #yalicemargatroid:人偶 的最大生命值就提高 #b4 点。",
+      "替换 #r爱丽丝的魔法书 。每有一个 #yalicemargatroid:人偶 ，新 #yalicemargatroid:生成 的 #yalicemargatroid:人偶 的最大生命值就提高 #b3 点。",
       "#yalicemargatroid:激活 ：重新打开新手教程。"
     ]
   },

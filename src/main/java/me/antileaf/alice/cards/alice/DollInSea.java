@@ -24,7 +24,7 @@ public class DollInSea extends AbstractAliceCard {
 	
 	private static final int COST = 1;
 	private static final int MAGIC = 4;
-	private static final int UPGRADE_PLUS_MAGIC = 4;
+	private static final int UPGRADE_PLUS_MAGIC = 2;
 	
 	public DollInSea() {
 		super(
@@ -53,7 +53,7 @@ public class DollInSea extends AbstractAliceCard {
 	public void use(AbstractPlayer p, AbstractMonster m) {
 		for (AbstractDoll doll : DollManager.get().getDolls())
 			if (!(doll instanceof EmptyDollSlot))
-				this.addToBot(new HealDollAction(doll, doll.maxHP));
+				this.addToBot(new HealDollAction(doll, this.upgraded ? doll.maxHP : doll.maxHP / 2));
 
 		for (AbstractDoll doll : DollManager.get().getDolls())
 			if (doll instanceof ShanghaiDoll || doll instanceof KyotoDoll)
@@ -70,6 +70,7 @@ public class DollInSea extends AbstractAliceCard {
 		if (!this.upgraded) {
 			this.upgradeName();
 			this.upgradeMagicNumber(UPGRADE_PLUS_MAGIC);
+			this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
 			this.initializeDescription();
 		}
 	}

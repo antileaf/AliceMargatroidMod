@@ -66,7 +66,7 @@ public class AliceGame extends AbstractAliceCard {
 					}));
 				}
 			
-			for (int i = 0; i < count; i++)
+			for (int i = 0; i < count + 1; i++)
 				this.addToBot(new DollActAction(doll));
 		}
 	}

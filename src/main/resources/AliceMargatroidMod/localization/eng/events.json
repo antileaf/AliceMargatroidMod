@@ -2,7 +2,7 @@
   "AliceMargatroid:SensoryStone": {
     "NAME": "Alice-SensoryStone",
     "DESCRIPTIONS": [
-      "#y~Snowy night.~ NL NL It should have been the season when cherry blossoms fell like snowflakes, yet all that filled the vision was true snow. NL You gently captured one of the snowflakes, feeling it slowly melt in your palm. NL NL By chance, you encountered a familiar person in #rred #rand #rwhite. NL \"Who’d ever call you an old friend -- ~#ythe #yseven-colored #ymagic #yfool~ like you?\" NL \"Is this how you greet old friend? NL After so long, you should at least—\" NL NL \"As a gift for our reunion… I’ll ~#rtake #ryour #rlife~ !\""
+      "#y~Snowy night.~ NL NL It should have been the season when cherry blossoms fell like snowflakes, yet all that filled the vision was true snow. NL You gently captured one of the snowflakes, feeling it slowly melt in your palm. NL NL By chance, you encountered a familiar person in #rred #rand #rwhite. NL \"Who’d ever call you an old friend -- #y~the~ #y~seven-colored~ #y~magic~ #y~fool~ like you?\" NL \"Is this how you greet old friend? NL After so long, you should at least—\" NL NL \"As a gift for our reunion… I’ll #r~take~ #r~your~ #r~life~ !\""
     ]
   },
   
@@ -13,7 +13,7 @@
       "An #p@unusual@ atmosphere gripped the air. NL With growing unease, you lowered your gaze and hurried away from that ominous place.",
       "As you got closer, you recognized the girl: Medicine Melancholy, a youkai born from a discarded doll left in the flower fields. NL NL \"Someone’s here… Can you take #ySu-san out to play?\" NL NL Yet what exactly did she mean by \"Su-san\"?",
       "You accepted a cluster of lilies of the valley from her hands, a sweet smell greets the nose. NL Yet within moments, a wave of #b~daze~ and #r@pain@ surged through your body. NL You recalled with a belated realization: lilies of the valley are #p~toxic~ . NL NL However, the slight toxicity is not fatal. NL After taking a short break, you continue on.",
-      "You waved at the ~#rmysterious #rcreature~ beside her. NL In response, it #b~timidly~ edged closer to you, hid behind your back. NL NL After bidding farewell to Medicine, you continued your journey with her good friend."
+      "You waved at the #r~mysterious~ #r~creature~ beside her. NL In response, it #b~timidly~ edged closer to you, hid behind your back. NL NL After bidding farewell to Medicine, you continued your journey with her good friend."
     ],
     "OPTIONS": [
       "[Enter]",
@@ -25,43 +25,43 @@
     ]
   },
 
-  "AliceMargatroid:Puppeteersmansion": {
-    "NAME": "Puppeteers mansion",
+  "AliceMargatroid:PuppeteersHouse": {
+    "NAME": "Puppeteers Mansion",
     "DESCRIPTIONS": [
-      "You arrived a neat Western-style mansion. NL Through the parted curtains, you glimpsed of ~#btiny #bfigures~ working busily. NL NL At the deserted spire, this structure radiated an almost theatrical discordance. NL You felt #y~curious~, stepped closer to the door.",
-      "The main door opened slowly, revealing a girl who has a #ydelicate appearance resembling a doll. NL After ~taking a closer look~ at you, she invited you into this mansion. NL NL Busy #ydolls worked everywhere, all performed their duties in an orderly manner, as if they were #galive . NL You sat down at the round table.",
+      "You arrived a neat Western-style mansion. NL Through the parted curtains, you glimpsed of #b~tiny~ #b~figures~ working busily. NL NL At the deserted spire, this structure radiated an almost theatrical discordance. NL You felt #y~curious~ , stepped closer to the door.",
+      "The main door opened slowly, revealing a girl who has a #ydelicate appearance resembling a doll. NL After ~taking~ ~a~ ~closer~ ~look~ at you, she invited you into this mansion. NL NL Busy #ydolls worked everywhere, all performed their duties in an orderly manner, as if they were #galive . NL You sat down at the round table.",
       "During the conversation, the doll in your backpack suddenly ran out. NL The girl noticed it and waved to the doll, but the doll didn't respond and continued to circle around you. NL NL \"The child got lost a few days ago, I searched everywhere but couldn't find it. NL I didn't expect it to appear next to you! NL Can you return it to me?\"",
       "You touched the doll's head, gestured for it to return to the girl's side. NL NL The girl held it in her arms, revealing a #ycontented smile. NL \"Thank you, this child is very important to me.\" NL NL In exchange, the girl asked you what #grewards you want.",
       "You hesitated for a long time, obviously you don't want to return it. NL NL The girl saw through your thoughts, smiled faintly: NL \"No need to worry. The little one seems quite taken with you. If you don't want part ways with it, I won't force you. Just take good care of it.\" NL NL You nodded, continued talking with the girl, until nightfall.",
       "There seem to be many #ybooks in the girl's bookshelf. NL You told her you wanted to borrow books, she nodded and said that you could choose freely. NL NL After browsing through it, you took out a few books that you were interested in and thanked her.",
       "You felt a little tired, wanted to take a rest here. NL The girl nodded, #bskillfully waved her hands. After a moment, two dolls brought you a cup of freshly brewed black tea. NL NL You savored the black tea carefully, enjoyed the #bpeaceful time.",
-      "After bidding farewell to the girl, you left the mansion. NL NL Not far from the mansion, you #rsuddenly remembered something and turned to look back. NL To your shock, there was no mansion behind you -- only a ~#rdesolate #rstretch #rof #rruins~ . NL NL As you recalled what had just happened, you felt #b~dazed~ .",
+      "After bidding farewell to the girl, you left the mansion. NL NL Not far from the mansion, you #rsuddenly remembered something and turned to look back. NL To your shock, there was no mansion behind you -- only a #r~desolate~ #r~stretch~ #r~of~ #r~ruins~ . NL NL As you recalled what had just happened, you felt #b~dazed~ .",
 
-      "You arrived a #y~familiar~ Western-style mansion. NL Through the parted curtains, you glimpsed of ~#btiny #bfigures~ working busily. NL NL You realized that the mansion in front of you is no different from the one you live in. NL You felt #y~doubt~, stepped closer to the door.",
-      "The main door opened slightly, a petite girl with a #ydelicate appearance resembling a doll cautiously poked her head out. NL You felt surprised -- the girl was a mirror of your past #y~self~ . NL After ~taking a closer look~ at you, she invited you into this mansion. NL NL You skillfully drove to the round table and sat down, observed the familiar scenery all around.",
+      "You arrived a #y~familiar~ Western-style mansion. NL Through the parted curtains, you glimpsed of #b~tiny~ #b~figures~ working busily. NL NL You realized that the mansion in front of you is no different from the one you live in. NL You felt #y~doubt~ , stepped closer to the door.",
+      "The main door opened slightly, a petite girl with a #ydelicate appearance resembling a doll cautiously poked her head out. NL You felt surprised -- the girl was a mirror of your past #y~self~ . NL After ~taking~ ~a~ ~closer~ ~look~ at you, she invited you into this mansion. NL NL You skillfully drove to the round table and sat down, observed the familiar scenery all around.",
       "The girl resurrected memories of days long past, you tirelessly transform dolls without sleeping or eating. NL You took out the old Shanghai doll you found before, returned it to the girl.",
-      "The doll slowly ~flew~ into the girl's arms. The girl held it with a surprised smile. NL NL In exchange, the girl asked you ~in a whisper~ what #grewards you want.",
+      "The doll slowly ~flew~ into the girl's arms. The girl held it with a surprised smile. NL NL In exchange, the girl asked you ~in~ ~a~ ~whisper~ what #grewards you want.",
       "Looking at the several ~bulky~ magic books on the bookshelf, you recalled the time of hard cultivation as a human. NL After scanning, your gaze locked onto a magic book that you had read a long time ago. NL NL You picked up that book, revisited its mysteries. NL You recalled some magic from the book that you haven't used in a long time.",
       "You smiled and asked the girl to brew a cup of black tea. NL The girl nodded timidly, ~clumsily~ started to manipulate dolls. After a moment, a cup of black tea was brought to the table. NL NL You savored the black tea in unhurried sips, your gaze lingering on the girl, until she lowered head with a flush on her face.",
-      "Seeing the girl had returned to her desk, immersed in her studies, you quietly left the mansion. NL NL Not far from the mansion, you #rsuddenly remembered something and turned to look back. NL To your shock, there was no mansion behind you -- only a ~#rdesolate #rstretch #rof #rruins~ . NL NL As you recalled what had just happened, you felt emotional.",
+      "Seeing the girl had returned to her desk, immersed in her studies, you quietly left the mansion. NL NL Not far from the mansion, you #rsuddenly remembered something and turned to look back. NL To your shock, there was no mansion behind you -- only a #r~desolate~ #r~stretch~ #r~of~ #r~ruins~ . NL NL As you recalled what had just happened, you felt emotional.",
 
-      "You arrived a neat Western-style mansion. NL Through the parted curtains, you glimpsed of ~#bdolls~ working busily. NL NL At the deserted spire, this structure radiated an almost theatrical discordance. NL You recognized it as Alice's mansion, stepped closer to the door.",
+      "You arrived a neat Western-style mansion. NL Through the parted curtains, you glimpsed of #b~dolls~ working busily. NL NL At the deserted spire, this structure radiated an almost theatrical discordance. NL You recognized it as Alice's mansion, stepped closer to the door.",
       "You push open the door and walked in. \"Excuse me\". NL \"Ah, Marisa...Before you come in, can you knock first?\" NL NL Busy dolls worked everywhere. NL You originally wanted to tease them, yet Alice’s piercing gaze from the sidelines made you give up. NL Alice led you to sit down at the round table, talked about the recent anecdotes in gensokyo.",
       "The doll you found before suddenly ran out. NL But before the doll flew into Alice's arms, you caught it back. NL NL Alice pretended to be angry: NL \"I thought this child got lost, but I didn't expect it to be stolen by you again! Return it now!\"",
       "You made a funny face, let go of the doll, the doll immediately hid behind Alice. NL Alice still looked angry, but after hearing you explain that the doll was really picked up, she stopped pursuing it. NL NL \"Ah, since you’re here….\" She clapped her hands lightly. \"Shanghai, Hourai, prepare the tea.\"",
       "You held the doll tightly and didn't want to return it to Alice. NL NL Alice pretended to be even angrier, but you could tell she wasn't really blaming you. Instead, she was a little happy. NL NL You promised Alice that you would take good care of the doll. After chatting with her for a while, you left.",
       "There are many #pprofound magic books in Alice's bookshelf, it's just another treasure trove besides the library of the Scarlet Devil Mansion. NL You walked to the bookshelf, took out a few books of interest, and wanted to leave immediately. NL NL Alice heaved a sigh helplessly. \"Return the books or I'll beat you up,\" she said, but still walked you to the door.",
       "You agreed to Alice while casually placing your hands on the table. NL After a moment, Shanghai and Hourai brought you a cup of freshly brewed black tea. NL NL You slowly savor the black tea while chatting with Alice.",
-      "After bidding farewell to Alice, you left the mansion. NL NL Not far from the mansion, you #rsuddenly remembered something and turned to look back. NL To your shock, there was no mansion behind you -- only a ~#rdesolate #rstretch #rof #rruins~ . NL NL As you recalled what had just happened, you felt #b~confused~ .",
+      "After bidding farewell to Alice, you left the mansion. NL NL Not far from the mansion, you #rsuddenly remembered something and turned to look back. NL To your shock, there was no mansion behind you -- only a #r~desolate~ #r~stretch~ #r~of~ #r~ruins~ . NL NL As you recalled what had just happened, you felt #b~confused~ .",
 
-      "You arrived a neat Western-style mansion. NL Through the parted curtains, you glimpsed of ~#btiny #bfigures~ working busily. NL NL At the deserted spire, this structure radiated an almost theatrical discordance. NL You recognized it as Alice's mansion, stepped closer to the door.",
+      "You arrived a neat Western-style mansion. NL Through the parted curtains, you glimpsed of #b~tiny~ #b~figures~ working busily. NL NL At the deserted spire, this structure radiated an almost theatrical discordance. NL You recognized it as Alice's mansion, stepped closer to the door.",
       "The main door opened slowly, the puppeteer who has a #ydelicate appearance resembling a doll. NL %s NL After exchanging pleasantries, she invited you into the mansion. NL NL Busy #ydolls worked everywhere, all performed their duties in an orderly manner. NL You sat down at the round table, talked about the recent anecdotes in gensokyo.",
       "During the conversation, the doll you previously found suddenly ran out. NL Alice noticed it and waved to the doll, but the doll didn't respond and continued to circle around you. NL NL \"The child got lost a few days ago, I searched everywhere but couldn't find it. NL I didn't expect it to appear next to you! NL Can you return it to me?\"",
       "You touched the doll's head, gestured for it to return to Alice's side. NL NL Alice held it in her arms, revealing a #ghappy smile. NL \"Thank you, this child is very important to me.\" NL NL In exchange, Alice asked you what #grewards you want.",
       "You held the doll in your arms, indicated that you didn't want to return it. NL NL Alice smiled faintly. NL \"The little one seems quite taken with you.\" NL NL The doll in your arms nodded, you continued the conversation with Alice, until nightfall.",
       "There are many #pprofound magic books in Alice's bookshelf. NL You told her you wanted to borrow books, she nodded and said that you could choose freely. NL NL After browsing through it, you took out a few books that you were interested in and thanked her.",
-      "\"Nothing calls for me today, I want to linger here a while.\" NL Alice smiled, #bskillfully waved her hands. After a moment, two dolls brought you a cup of freshly brewed black tea. NL NL You savored the black tea comfortably, enjoed the #bpeaceful afternoon tea.",
-      "After bidding farewell to Alice, you left the mansion. NL NL Not far from the mansion, you #rsuddenly remembered something and turned to look back. NL To your shock, there was no mansion behind you -- only a ~#rdesolate #rstretch #rof #rruins~ . NL NL As you recalled what had just happened, you felt #b~confused~ .",
+      "\"Nothing calls for me today, I want to linger here a while.\" NL Alice smiled, #bskillfully waved her hands. After a moment, two dolls brought you a cup of freshly brewed black tea. NL NL You savored the black tea comfortably, enjoyed the #bpeaceful afternoon tea.",
+      "After bidding farewell to Alice, you left the mansion. NL NL Not far from the mansion, you #rsuddenly remembered something and turned to look back. NL To your shock, there was no mansion behind you -- only a #r~desolate~ #r~stretch~ #r~of~ #r~ruins~ . NL NL As you recalled what had just happened, you felt #b~confused~ .",
 
       "What books do you want to borrow?",
       "What books do you want to read?",
@@ -97,7 +97,7 @@
     ]
   },
 
-  "AliceMargatroid:Puppeteersmansion_Greetings": {
+  "AliceMargatroid:PuppeteersHouse_Greetings": {
     "NAME": "人偶洋馆寒暄语",
     "DESCRIPTIONS": [],
     "OPTIONS": []
