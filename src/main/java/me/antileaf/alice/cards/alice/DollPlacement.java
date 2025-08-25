@@ -25,7 +25,7 @@ public class DollPlacement extends AbstractAliceCard {
 	
 	private static final int COST = 1;
 	private static final int DAMAGE = 5;
-	private static final int UPGRADED_COST = 0;
+	private static final int UPGRADE_PLUS_DMG = 3;
 	
 	public DollPlacement() {
 		super(
@@ -76,7 +76,7 @@ public class DollPlacement extends AbstractAliceCard {
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
-			this.upgradeBaseCost(UPGRADED_COST);
+			this.upgradeDamage(UPGRADE_PLUS_DMG);
 			this.initializeDescription();
 		}
 	}

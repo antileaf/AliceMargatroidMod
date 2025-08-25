@@ -13,11 +13,13 @@ import com.megacrit.cardcrawl.localization.PowerStrings;
 import me.antileaf.alice.cards.AbstractAliceCard;
 import me.antileaf.alice.powers.AbstractAlicePower;
 import me.antileaf.alice.utils.AliceHelper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.TreeSet;
 
 public class UnlockMysticPower extends AbstractAlicePower {
-//	private static final Logger logger = LogManager.getLogger(UnlockMysticPower.class);
+	private static final Logger logger = LogManager.getLogger(UnlockMysticPower.class);
 
 	public static final String SIMPLE_NAME = UnlockMysticPower.class.getSimpleName();
 	public static final String POWER_ID = AliceHelper.makeID(SIMPLE_NAME);
@@ -49,7 +51,16 @@ public class UnlockMysticPower extends AbstractAlicePower {
 		if (!this.triggered.isEmpty())
 			this.description += " NL " + powerStrings.DESCRIPTIONS[1] +
 					this.triggered.stream()
-							.map(id -> CardLibrary.getCard(id).name)
+							.map(id -> {
+								AbstractCard c = CardLibrary.getCard(id);
+								if (c == null) {
+									logger.warn("Card with ID {} not found in CardLibrary", id);
+									return (AliceHelper.getLangShort().equals("zhs") ?
+											"未知卡牌" : "Unknown Card") + " (" + id + ")";
+								}
+
+								return c.name;
+							})
 							.reduce((a, b) -> a + " NL " + b)
 							.orElse("");
 	}

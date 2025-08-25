@@ -93,11 +93,11 @@ public class PuppeteersHouse extends PhasedEvent {
 		for (int i = 0; i < 3; i++) {
 			boolean ok = false;
 			while (!ok) {
-				int roll = AbstractDungeon.cardRng.random(99);
+				int roll = AbstractDungeon.cardRng.random(99 - 55) + 55;
 				String id;
 
 				if (this.charType == CharType.ALICE) {
-					if (roll < 55)
+					if (roll < 55) // Not possible
 						id = AbstractDungeon.getCard(AbstractCard.CardRarity.COMMON).cardID;
 					else if (roll < 85)
 						id = AbstractDungeon.getCard(AbstractCard.CardRarity.UNCOMMON).cardID;

@@ -26,7 +26,7 @@ public class Masterpiece extends AbstractAliceCard {
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 0;
-	private static final int BLOCK = 3;
+	private static final int BLOCK = 4;
 	private static final int DRAW = 1;
 	private static final int UPGRADE_PLUS_BLOCK = 3;
 	

@@ -24,8 +24,7 @@ public class DollCrusader extends AbstractAliceCard {
 	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
-	private static final int COST = 2;
-	private static final int UPGRADED_COST = 1;
+	private static final int COST = 1;
 //	private static final int MAGIC = 1;
 	
 	public DollCrusader() {
@@ -37,11 +36,12 @@ public class DollCrusader extends AbstractAliceCard {
 				cardStrings.DESCRIPTION,
 				CardType.SKILL,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
-				CardRarity.COMMON,
+				CardRarity.UNCOMMON,
 				CardTarget.NONE
 		);
 		
 //		this.magicNumber = this.baseMagicNumber = MAGIC;
+		this.exhaust = true;
 		
 		this.tags.add(CardTagEnum.ALICE_DOLL_ACT);
 	}
@@ -87,8 +87,8 @@ public class DollCrusader extends AbstractAliceCard {
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
-//			this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
-			this.upgradeBaseCost(UPGRADED_COST);
+			this.exhaust = false;
+			this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
 			this.initializeDescription();
 		}
 	}

@@ -18,7 +18,8 @@ public class DollAmbush extends AbstractAliceCard {
 	
 	private static final int COST = 1;
 	private static final int MAGIC = 1;
-	private static final int UPGRADE_PLUS_MAGIC = 1;
+//	private static final int UPGRADE_PLUS_MAGIC = 1;
+	private static final int UPGRADED_COST = 0;
 	
 	public DollAmbush() {
 		super(
@@ -51,7 +52,8 @@ public class DollAmbush extends AbstractAliceCard {
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
-			this.upgradeMagicNumber(UPGRADE_PLUS_MAGIC);
+//			this.upgradeMagicNumber(UPGRADE_PLUS_MAGIC);
+			this.upgradeBaseCost(UPGRADED_COST);
 			this.initializeDescription();
 		}
 	}

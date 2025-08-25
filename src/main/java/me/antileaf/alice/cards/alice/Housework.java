@@ -71,10 +71,16 @@ public class Housework extends AbstractAliceCard {
 				this.addToBot(new DollActAction(slot));
 			
 			int index = DollManager.get().getDolls().indexOf(slot);
-			if (index > 0)
-				this.addToBot(new DollActAction(DollManager.get().getDolls().get(index - 1)));
-			if (index < DollManager.get().getDolls().size() - 1)
-				this.addToBot(new DollActAction(DollManager.get().getDolls().get(index + 1)));
+			if (index > 0) {
+				AbstractDoll prev = DollManager.get().getDolls().get(index - 1);
+				if (!(prev instanceof EmptyDollSlot))
+					this.addToBot(new DollActAction(prev));
+			}
+			if (index < DollManager.get().getDolls().size() - 1) {
+				AbstractDoll next = DollManager.get().getDolls().get(index + 1);
+				if (!(next instanceof EmptyDollSlot))
+					this.addToBot(new DollActAction(next));
+			}
 		}
 	}
 	

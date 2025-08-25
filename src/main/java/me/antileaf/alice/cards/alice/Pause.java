@@ -24,10 +24,11 @@ public class Pause extends AbstractAliceCard {
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 2;
-	private static final int BLOCK = 12;
+	private static final int BLOCK = 14;
 	private static final int MAGIC = 2;
-	private static final int UPGRADE_PLUS_BLOCK = 4;
-	
+	private static final int UPGRADE_PLUS_BLOCK = 2;
+	private static final int UPGRADE_PLUS_MAGIC = 1;
+
 	public Pause() {
 		super(
 				ID,
@@ -87,6 +88,7 @@ public class Pause extends AbstractAliceCard {
 		if (!this.upgraded) {
 			this.upgradeName();
 			this.upgradeBlock(UPGRADE_PLUS_BLOCK);
+			this.upgradeMagicNumber(UPGRADE_PLUS_MAGIC);
 			this.initializeDescription();
 		}
 	}

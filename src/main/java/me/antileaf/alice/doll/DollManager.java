@@ -269,7 +269,7 @@ public class DollManager {
 		}
 		
 		if (!AliceHelper.isInBattle()) {
-			logger.warn("DollManager: Not in battle. Maybe you used some debugging tools?");
+//			logger.warn("DollManager: Not in battle. Maybe you used some debugging tools?");
 			return;
 		}
 		
