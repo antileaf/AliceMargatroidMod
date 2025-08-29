@@ -50,7 +50,7 @@ public class SuicideSquad extends AbstractAliceCard {
 				cardStrings.DESCRIPTION,
 				CardType.ATTACK,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
-				CardRarity.UNCOMMON,
+				CardRarity.COMMON,
 				CardTargetEnum.DOLL
 		);
 		
@@ -60,6 +60,7 @@ public class SuicideSquad extends AbstractAliceCard {
 		this.block = this.baseBlock = BLOCK;
 		this.magicNumber = this.baseMagicNumber = MAGIC;
 
+		this.dollTarget = true;
 		this.isCommandCard = true;
 		this.tags.add(CardTagEnum.ALICE_COMMAND);
 

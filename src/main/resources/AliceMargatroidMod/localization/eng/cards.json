@@ -85,7 +85,7 @@
   
   "AliceMargatroid:DollCremation": {
     "NAME": "Doll Cremation",
-    "DESCRIPTION": "Ethereal. NL alicemargatroid:Recycle your rightmost alicemargatroid:Doll, deal !D! damage.",
+    "DESCRIPTION": "Ethereal. NL Deal !D! damage. NL alicemargatroid:Recycle your rightmost alicemargatroid:Doll (if any).",
     "EXTENDED_DESCRIPTION": ["I have #rNo Dolls."]
   },
   

@@ -10,7 +10,6 @@ import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import me.antileaf.alice.action.doll.RecycleDollAction;
 import me.antileaf.alice.cards.AbstractAliceCard;
-import me.antileaf.alice.doll.AbstractDoll;
 import me.antileaf.alice.doll.DollManager;
 import me.antileaf.alice.doll.dolls.EmptyDollSlot;
 import me.antileaf.alice.patches.enums.AbstractCardEnum;
@@ -66,34 +65,28 @@ public class DollCremation extends AbstractAliceCard {
 //		return AliceHoveredTargets.NONE;
 //	}
 	
-	@Override
-	public boolean canUse(AbstractPlayer p, AbstractMonster m) {
-		if (!super.canUse(p, m))
-			return false;
-		
-		if (!DollManager.get().hasDoll()) {
-			this.cantUseMessage = cardStrings.EXTENDED_DESCRIPTION[0];
-			return false;
-		}
-		
-		return true;
-	}
+//	@Override
+//	public boolean canUse(AbstractPlayer p, AbstractMonster m) {
+//		if (!super.canUse(p, m))
+//			return false;
+//
+//		if (!DollManager.get().hasDoll()) {
+//			this.cantUseMessage = cardStrings.EXTENDED_DESCRIPTION[0];
+//			return false;
+//		}
+//
+//		return true;
+//	}
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
-		AbstractDoll doll = this.getTargetedDoll();
-		if (doll == null)
-			doll = DollManager.get().getDolls().stream()
-					.filter(d -> !(d instanceof EmptyDollSlot))
-					.findFirst()
-					.orElse(null);
-		
-		if (doll != null) {
-			this.addToBot(new RecycleDollAction(doll));
+		this.addToBot(new DamageAction(m, new DamageInfo(p, this.damage, this.damageTypeForTurn),
+				AbstractGameAction.AttackEffect.FIRE));
 
-			this.addToBot(new DamageAction(m, new DamageInfo(p, this.damage, this.damageTypeForTurn),
-					AbstractGameAction.AttackEffect.FIRE));
-		}
+		DollManager.get().getDolls().stream()
+				.filter(d -> !(d instanceof EmptyDollSlot))
+				.findFirst()
+				.ifPresent(doll -> this.addToBot(new RecycleDollAction(doll)));
 	}
 	
 	@Override

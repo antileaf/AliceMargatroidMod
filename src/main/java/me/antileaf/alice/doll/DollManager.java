@@ -371,7 +371,7 @@ public class DollManager {
 	
 	public void update() {
 		if (!AliceHelper.isInBattle()) {
-			logger.info("DollManager.update: Not in battle. Maybe you used some debugging tools?");
+//			logger.info("DollManager.update: Not in battle. Maybe you used some debugging tools?");
 			return;
 		}
 

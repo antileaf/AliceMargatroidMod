@@ -3,6 +3,7 @@ package me.antileaf.alice.cards.alice;
 import basemod.BaseMod;
 import com.badlogic.gdx.graphics.Color;
 import com.megacrit.cardcrawl.actions.common.ExhaustAction;
+import com.megacrit.cardcrawl.actions.common.MakeTempCardInHandAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -10,7 +11,6 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.vfx.BorderLongFlashEffect;
-import me.antileaf.alice.action.utils.AnonymousAction;
 import me.antileaf.alice.cards.AbstractAliceCard;
 import me.antileaf.alice.patches.enums.AbstractCardEnum;
 import me.antileaf.alice.utils.AliceAudioMaster;
@@ -59,14 +59,14 @@ public class AliceInWonderland extends AbstractAliceCard {
 		CardCrawlGame.sound.play(AliceAudioMaster.ALICE_IN_WONDERLAND);
 
 		int count = (int) IntStream.range(0, p.hand.size()).filter(i -> p.hand.group.get(i) != this).count();
+		for (int i = 0; i < count; i++)
+			this.addToBot(new MakeTempCardInHandAction(this.getCard()));
 
-		this.addToBot(new AnonymousAction(() -> {
-			for (int i = 0; i < count; i++)
-				p.hand.addToTop(this.getCard());
-
-			p.hand.refreshHandLayout();
-			p.hand.applyPowers();
-		}));
+//		this.addToBot(new AnonymousAction(() -> {
+//
+//			p.hand.refreshHandLayout();
+//			p.hand.applyPowers();
+//		}));
 
 //		this.addToBot(new AnonymousAction(() -> {
 //			AlicePokerCardsDroppingEffect effect = new AlicePokerCardsDroppingEffect(0.6F, 2.5F,

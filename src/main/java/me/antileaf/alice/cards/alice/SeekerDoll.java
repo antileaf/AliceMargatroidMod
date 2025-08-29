@@ -37,7 +37,7 @@ public class SeekerDoll extends AbstractAliceCard {
 				cardStrings.DESCRIPTION,
 				CardType.SKILL,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
-				CardRarity.UNCOMMON,
+				CardRarity.COMMON,
 				CardTargetEnum.DOLL
 		);
 		

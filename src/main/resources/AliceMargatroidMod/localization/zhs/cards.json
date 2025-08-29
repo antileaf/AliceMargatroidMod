@@ -93,7 +93,7 @@
   
   "AliceMargatroid:DollCremation": {
     "NAME": "人偶火葬",
-    "DESCRIPTION": "虚无 。 NL alicemargatroid:回收 最右侧的 alicemargatroid:人偶 ，造成 !D! 点伤害。",
+    "DESCRIPTION": "虚无 。 NL 造成 !D! 点伤害。 NL alicemargatroid:回收 最右侧的 alicemargatroid:人偶 （如果有）。",
     "EXTENDED_DESCRIPTION": ["我 #r没有 人偶 。"]
   },
   
