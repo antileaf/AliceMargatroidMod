@@ -1,4 +1,4 @@
-package me.antileaf.alice.patches.misc;
+package me.antileaf.alice.patches.misc.easter;
 
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.evacipated.cardcrawl.modthespire.patcher.PatchingException;

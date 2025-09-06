@@ -8,7 +8,7 @@ import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import me.antileaf.alice.cards.AbstractAliceCard;
 import me.antileaf.alice.doll.AbstractDoll;
-import me.antileaf.alice.patches.card.LoopSCVPreviewCardsPatch;
+import me.antileaf.alice.patches.card.interfaces.LoopSCVPreviewCardsPatch;
 import me.antileaf.alice.utils.AliceHelper;
 
 import java.util.Arrays;

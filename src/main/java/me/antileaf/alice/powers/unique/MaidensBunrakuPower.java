@@ -47,7 +47,8 @@ public class MaidensBunrakuPower extends AbstractAlicePower implements OnDollOpe
 //	public void atStartOfTurn() {
 //		this.addToBot(new RemoveSpecificPowerAction(this.owner, this.owner, this));
 //	}
-	
+
+	@SuppressWarnings("unchecked")
 	@Override
 	public void preDollAct(AbstractDoll doll) {
 		Object effect = ReflectionHacks.getPrivate(this, AbstractPower.class, "effect");

@@ -1,4 +1,4 @@
-package me.antileaf.alice.patches.card;
+package me.antileaf.alice.patches.card.interfaces;
 
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.evacipated.cardcrawl.modthespire.patcher.PatchingException;

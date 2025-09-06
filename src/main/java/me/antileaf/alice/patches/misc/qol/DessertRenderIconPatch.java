@@ -1,4 +1,4 @@
-package me.antileaf.alice.patches.misc;
+package me.antileaf.alice.patches.misc.qol;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;

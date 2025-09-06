@@ -1,4 +1,4 @@
-package me.antileaf.alice.patches.misc;
+package me.antileaf.alice.patches.misc.easter;
 
 import basemod.ReflectionHacks;
 import com.badlogic.gdx.graphics.Color;

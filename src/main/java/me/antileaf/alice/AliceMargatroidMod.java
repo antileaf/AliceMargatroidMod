@@ -441,7 +441,7 @@ public class AliceMargatroidMod implements
 		CustomTargeting.registerCustomTargeting(CardTargetEnum.DOLL_OR_EMPTY_SLOT_OR_ENEMY, new DollOrEmptySlotOrEnemyTargeting());
 		CustomTargeting.registerCustomTargeting(CardTargetEnum.DOLL_OR_NONE, new DollOrNoneTargeting());
 		
-		BaseMod.addPotion(WeavingPotion.class, Color.YELLOW, Color.GOLD.cpy(), Color.CLEAR, WeavingPotion.ID,
+		BaseMod.addPotion(WeavingPotion.class, Color.YELLOW, Color.GOLD, Color.CLEAR, WeavingPotion.ID,
 				AbstractPlayerEnum.ALICE_MARGATROID_PLAYER_CLASS);
 		BaseMod.addPotion(ConcentrationPotion.class, Color.ROYAL, Color.BLUE, Color.CLEAR, ConcentrationPotion.ID,
 				AbstractPlayerEnum.ALICE_MARGATROID_PLAYER_CLASS);

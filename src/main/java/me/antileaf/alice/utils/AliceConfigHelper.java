@@ -13,6 +13,8 @@ import com.megacrit.cardcrawl.helpers.CardLibrary;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import me.antileaf.alice.cards.deprecated.DEPRECATEDWitchsTeaParty;
 import me.antileaf.alice.cards.marisa.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -20,6 +22,8 @@ import java.util.Map;
 import java.util.Properties;
 
 public class AliceConfigHelper {
+	private static final Logger logger = LogManager.getLogger(AliceConfigHelper.class.getName());
+
 	public static final String SHOULD_OPEN_TUTORIAL = "shouldOpenTutorial";
 	public static final String ENABLE_SPELL_CARD_SIGN_DISPLAY = "enableSpellCardSignDisplay";
 	public static final String ENABLE_CARD_TARGET_ICONS = "enableCardTargetIcons";
@@ -37,7 +41,7 @@ public class AliceConfigHelper {
 	public static final String SUNGLASSES_ENABLED = "sunglassesEnabled";
 	
 	public static SpireConfig conf = null;
-	public static Map<String, String> strings;
+	public static Map<String, String[]> strings;
 	public static ModLabel skinLabel;
 	
 	public static void loadConfig() {
@@ -56,7 +60,7 @@ public class AliceConfigHelper {
 			
 			conf = new SpireConfig(AliceHelper.getModID(), "config", defaults);
 		} catch (IOException e) {
-			AliceHelper.log("AliceConfigHelper.initialize", "Failed to load config.");
+			logger.info("initialize(): Failed to load config.");
 		}
 	}
 	
@@ -161,7 +165,7 @@ public class AliceConfigHelper {
 	public static void setAliceSkinChosen(String skin) {
 		conf.setString(SKIN_CHOSEN, skin);
 		if (skinLabel != null)
-			skinLabel.text = strings.get(SKIN_CHOSEN) + skin;
+			skinLabel.text = strings.get(SKIN_CHOSEN)[0] + skin;
 	}
 
 	public static boolean isOldVersionSignatureUnlocked(String id) {
@@ -174,11 +178,13 @@ public class AliceConfigHelper {
 //		save();
 //	}
 
+	@Deprecated
 	public static boolean isSignatureEnabled(String id) {
 		String key = SIGNATURE_ENABLED + id;
 		return conf.has(key) && conf.getBool(key);
 	}
 
+	@Deprecated
 	public static void setSignatureEnabled(String id, boolean enabled) {
 		conf.setBool(SIGNATURE_ENABLED + id, enabled);
 		save();
@@ -213,7 +219,7 @@ public class AliceConfigHelper {
 		try {
 			conf.save();
 		} catch (IOException e) {
-			AliceHelper.log("AliceConfigHelper.save", "Failed to save config.");
+			logger.info("save(): Failed to save config.");
 		}
 	}
 	
@@ -223,12 +229,12 @@ public class AliceConfigHelper {
 		Gson gson = new Gson();
 		String json = Gdx.files.internal(AliceHelper.getLocalizationFilePath("config"))
 				.readString(String.valueOf(StandardCharsets.UTF_8));
-		strings = gson.fromJson(json, (new TypeToken<Map<String, String>>() {}).getType());
+		strings = gson.fromJson(json, (new TypeToken<Map<String, String[]>>() {}).getType());
 		
 		float y = 700.0F;
-		
+
 		ModLabeledToggleButton tutorialButton = new ModLabeledToggleButton(
-				strings.get(SHOULD_OPEN_TUTORIAL),
+				strings.get(SHOULD_OPEN_TUTORIAL)[0],
 				350.0F,
 				y,
 				Settings.CREAM_COLOR,
@@ -245,7 +251,8 @@ public class AliceConfigHelper {
 		y -= 50.0F;
 		
 		ModLabeledToggleButton spellCardButton = new ModLabeledToggleButton(
-				strings.get(ENABLE_SPELL_CARD_SIGN_DISPLAY),
+				strings.get(ENABLE_SPELL_CARD_SIGN_DISPLAY)[0],
+				strings.get(ENABLE_SPELL_CARD_SIGN_DISPLAY)[1],
 				350.0F,
 				y,
 				Settings.CREAM_COLOR,
@@ -262,7 +269,8 @@ public class AliceConfigHelper {
 		y -= 50.0F;
 
 		ModLabeledToggleButton enableCardTargetIconsButton = new ModLabeledToggleButton(
-				strings.get(ENABLE_CARD_TARGET_ICONS),
+				strings.get(ENABLE_CARD_TARGET_ICONS)[0],
+				strings.get(ENABLE_CARD_TARGET_ICONS)[1],
 				350.0F,
 				y,
 				Settings.CREAM_COLOR,
@@ -279,7 +287,8 @@ public class AliceConfigHelper {
 		y -= 50.0F;
 
 		ModLabeledToggleButton useAlternativeMarisaCardImageButton = new ModLabeledToggleButton(
-				strings.get(ENABLE_ALTERNATIVE_MARISA_CARD_IMAGE),
+				strings.get(ENABLE_ALTERNATIVE_MARISA_CARD_IMAGE)[0],
+				strings.get(ENABLE_ALTERNATIVE_MARISA_CARD_IMAGE)[1],
 				350.0F,
 				y,
 				Settings.CREAM_COLOR,
@@ -296,7 +305,8 @@ public class AliceConfigHelper {
 		y -= 50.0F;
 		
 		ModLabeledToggleButton usePackMasterStyleMarisaCardsButton = new ModLabeledToggleButton(
-				strings.get(USE_PACK_MASTER_STYLE_MARISA_CARDS),
+				strings.get(USE_PACK_MASTER_STYLE_MARISA_CARDS)[0],
+				strings.get(USE_PACK_MASTER_STYLE_MARISA_CARDS)[1],
 				350.0F,
 				y,
 				Settings.CREAM_COLOR,
@@ -330,7 +340,8 @@ public class AliceConfigHelper {
 //		y -= 50.0F;
 
 		ModLabeledToggleButton enableShanghaiDollEventForOtherCharactersButton = new ModLabeledToggleButton(
-				strings.get(ENABLE_SHANGHAI_DOLL_EVENT_FOR_OTHER_CHARACTERS),
+				strings.get(ENABLE_SHANGHAI_DOLL_EVENT_FOR_OTHER_CHARACTERS)[0],
+				strings.get(ENABLE_SHANGHAI_DOLL_EVENT_FOR_OTHER_CHARACTERS)[1],
 				350.0F,
 				y,
 				Settings.CREAM_COLOR,
@@ -347,7 +358,7 @@ public class AliceConfigHelper {
 		y -= 50.0F;
 		
 		ModLabeledToggleButton enableDebuggingButton = new ModLabeledToggleButton(
-				strings.get(ENABLE_DEBUGGING),
+				strings.get(ENABLE_DEBUGGING)[0],
 				350.0F,
 				y,
 				Settings.CREAM_COLOR,
@@ -392,7 +403,7 @@ public class AliceConfigHelper {
 			y -= 50.0F;
 			
 			skinLabel = new ModLabel(
-					strings.get(SKIN_CHOSEN) + getAliceSkinChosen(),
+					strings.get(SKIN_CHOSEN)[0] + getAliceSkinChosen(),
 					350.0F,
 					y,
 					Settings.CREAM_COLOR,

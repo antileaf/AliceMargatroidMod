@@ -1,4 +1,4 @@
-package me.antileaf.alice.patches.misc;
+package me.antileaf.alice.patches.card.specific;
 
 public class SevenColoredPuppeteerConfusionPatch {
 //	@SpirePatch(

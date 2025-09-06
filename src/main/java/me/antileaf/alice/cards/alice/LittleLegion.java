@@ -16,7 +16,6 @@ import me.antileaf.alice.patches.enums.CardTagEnum;
 import me.antileaf.alice.patches.enums.CardTargetEnum;
 import me.antileaf.alice.targeting.AliceHoveredTargets;
 import me.antileaf.alice.targeting.AliceTargetIcon;
-import me.antileaf.alice.targeting.handlers.DollOrNoneTargeting;
 import me.antileaf.alice.utils.AliceHelper;
 
 public class LittleLegion extends AbstractAliceCard {
@@ -63,7 +62,7 @@ public class LittleLegion extends AbstractAliceCard {
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
-		AbstractDoll doll = DollOrNoneTargeting.getTarget(this);
+		AbstractDoll doll = this.getTargetedDoll();
 		
 		this.calculateCardDamage(null);
 		this.addToBot(new DamageAllEnemiesAction(p, this.multiDamage, this.damageTypeForTurn,

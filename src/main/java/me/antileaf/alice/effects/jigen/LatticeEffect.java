@@ -36,8 +36,8 @@ public class LatticeEffect extends AbstractGameEffect {
         this.rotation = MathUtils.random(0.0F, 360.0F);
         this.scale = MathUtils.random(0.3F, 0.5F) * Settings.scale;
         float a = MathUtils.random(0.0F, 360.0F);
-        this.vX = 1500.0F * (float)Math.cos((double)a) * Settings.scale;
-        this.vY = 1500.0F * (float)Math.sin((double)a) * Settings.scale;
+        this.vX = 1500.0F * (float)Math.cos(a) * Settings.scale;
+        this.vY = 1500.0F * (float)Math.sin(a) * Settings.scale;
         this.acc = MathUtils.random(1500.0F, 2200.0F) * Settings.scale;
     }
 

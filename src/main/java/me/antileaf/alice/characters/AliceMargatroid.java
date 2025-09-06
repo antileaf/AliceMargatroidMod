@@ -78,10 +78,10 @@ public class AliceMargatroid extends CustomPlayer {
 		this.dialogX = (this.drawX + 0.0F * Settings.scale); // set location for text bubbles
 		this.dialogY = (this.drawY + 220.0F * Settings.scale); // you can just copy these values
 		
-		AliceHelper.logger.info("init Alice Margatroid");
+//		AliceHelper.logger.info("init Alice Margatroid");
 		
 		this.initializeClass(
-				"AliceMargatroidMod/img/char/AliceMargatroid/alice.png",
+				"AliceMargatroidMod/img/char/AliceMargatroid/original.png",
 				ALICE_SHOULDER_2, // required call to load textures and setup energy/loadout
 				ALICE_SHOULDER_1,
 				ALICE_CORPSE,

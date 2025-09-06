@@ -16,7 +16,6 @@ import me.antileaf.alice.patches.enums.AbstractCardEnum;
 import me.antileaf.alice.patches.enums.CardTargetEnum;
 import me.antileaf.alice.targeting.AliceHoveredTargets;
 import me.antileaf.alice.targeting.AliceTargetIcon;
-import me.antileaf.alice.targeting.handlers.DollOrNoneTargeting;
 import me.antileaf.alice.utils.AliceHelper;
 
 @Deprecated
@@ -60,7 +59,7 @@ public class ProtectiveSpell extends AbstractAliceCard {
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
-		final AbstractDoll target = DollOrNoneTargeting.getTarget(this);
+		final AbstractDoll target = this.getTargetedSlot();
 		
 		if (target == null)
 			this.addToBot(new AnonymousAction(() -> {

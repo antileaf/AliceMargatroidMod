@@ -154,7 +154,7 @@ public class Dessert extends AbstractAliceCard {
 				float topOfCard = this.current_y + height;
 				float spacing = 50.0F * Settings.scale;
 				float centerY = topOfCard + spacing;
-				float sin = (float) Math.sin((double) (this.angle / 180.0F * Math.PI));
+				float sin = (float) Math.sin((this.angle / 180.0F * Math.PI));
 				float xOffset = sin * width;
 				sb.draw(
 						icon,

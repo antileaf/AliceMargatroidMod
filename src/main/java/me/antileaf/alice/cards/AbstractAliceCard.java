@@ -27,6 +27,8 @@ import me.antileaf.alice.targeting.handlers.*;
 import me.antileaf.alice.utils.AliceConfigHelper;
 import me.antileaf.alice.utils.AliceHelper;
 import me.antileaf.signature.utils.SignatureHelper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +36,8 @@ import java.util.List;
 import static me.antileaf.alice.AliceMargatroidMod.ALICE_PUPPETEER_FLAVOR;
 
 public abstract class AbstractAliceCard extends AbstractSecondaryVariablesCard {
+	private static final Logger logger = LogManager.getLogger(AbstractAliceCard.class.getName());
+	
 	protected String cardSign = null;
 	public final ArrayList<AliceTargetIcon> targetIcons = new ArrayList<>();
 
@@ -155,10 +159,10 @@ public abstract class AbstractAliceCard extends AbstractSecondaryVariablesCard {
 			return false;
 		
 		if (this.target == CardTargetEnum.DOLL) {
-			if (!DollManager.get().hasDoll() && DollTargeting.getTarget(this) == null) {
+			if (!DollManager.get().hasDoll() /* && DollTargeting.getTarget(this) == null */) {
 				this.cantUseMessage = CardCrawlGame.languagePack
 						.getUIString(AliceHelper.makeID("NoDollDialog")).TEXT[0];
-				AliceHelper.log("cantUseMessage: " + this.cantUseMessage);
+				logger.debug("cantUseMessage: {}", this.cantUseMessage);
 
 				// TODO: There may be a bug in stslib. Fix it later.
 				return false;

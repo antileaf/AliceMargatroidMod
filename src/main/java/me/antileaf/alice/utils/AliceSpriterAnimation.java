@@ -120,7 +120,7 @@ public class AliceSpriterAnimation extends AbstractAnimation {
 		}
 
 		public void draw(Timeline.Key.Object object) {
-			Sprite sprite = (Sprite)this.loader.get(object.ref);
+			Sprite sprite = this.loader.get(object.ref);
 			float newPivotX = sprite.getWidth() * object.pivot.x;
 			float newX = object.position.x - newPivotX;
 			float newPivotY = sprite.getHeight() * object.pivot.y;

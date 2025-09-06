@@ -749,6 +749,44 @@ public class DollManager {
 		
 		return null;
 	}
+	
+	public AbstractDoll getPrevDoll(AbstractDoll doll) {
+		if (doll == null || !this.dolls.contains(doll))
+			return null;
+		
+		int index = this.dolls.indexOf(doll);
+		for (int i = index - 1; i >= 0; i--)
+			if (!(this.dolls.get(i) instanceof EmptyDollSlot))
+				return this.dolls.get(i);
+		
+		return null;
+	}
+	
+	public AbstractDoll getNextDoll(AbstractDoll doll) {
+		if (doll == null || !this.dolls.contains(doll))
+			return null;
+		
+		int index = this.dolls.indexOf(doll);
+		for (int i = index + 1; i < MAX_DOLL_SLOTS; i++)
+			if (!(this.dolls.get(i) instanceof EmptyDollSlot))
+				return this.dolls.get(i);
+		
+		return null;
+	}
+	
+	public AbstractDoll getFirstDoll() {
+		for (AbstractDoll doll : this.dolls)
+			if (!(doll instanceof EmptyDollSlot))
+				return doll;
+		return null;
+	}
+	
+	public AbstractDoll getLastDoll() {
+		for (int i = MAX_DOLL_SLOTS - 1; i >= 0; i--)
+			if (!(this.dolls.get(i) instanceof EmptyDollSlot))
+				return this.dolls.get(i);
+		return null;
+	}
 
 	public AbstractMonster[] getCorrespondingEnemies(AbstractDoll slot) {
 		return AbstractDungeon.getMonsters().monsters.stream()

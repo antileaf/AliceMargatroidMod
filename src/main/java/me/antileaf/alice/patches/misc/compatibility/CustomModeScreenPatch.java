@@ -1,4 +1,4 @@
-package me.antileaf.alice.patches.misc;
+package me.antileaf.alice.patches.misc.compatibility;
 
 import basemod.BaseMod;
 import com.evacipated.cardcrawl.modthespire.lib.*;

@@ -1,6 +1,7 @@
 package me.antileaf.alice.ui;
 
 import basemod.ReflectionHacks;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -12,6 +13,7 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.*;
+import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.screens.charSelect.CharacterOption;
 import com.megacrit.cardcrawl.unlock.UnlockTracker;
@@ -20,10 +22,7 @@ import me.antileaf.alice.characters.AliceMargatroid;
 import me.antileaf.alice.patches.enums.AbstractPlayerEnum;
 import me.antileaf.alice.patches.enums.LibraryTypeEnum;
 import me.antileaf.alice.strings.AliceSkinStrings;
-import me.antileaf.alice.utils.AliceAudioMaster;
-import me.antileaf.alice.utils.AliceConfigHelper;
-import me.antileaf.alice.utils.AliceHelper;
-import me.antileaf.alice.utils.EasterEgg;
+import me.antileaf.alice.utils.*;
 import me.antileaf.signature.utils.SignatureHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,7 +34,9 @@ import java.util.stream.Stream;
 public class SkinSelectScreen {
 	private static final Logger logger = LogManager.getLogger(SkinSelectScreen.class.getName());
 
+	@Deprecated
 	public static final String SAVABLE_KEY = "alice_margatroid_skin";
+	
 	private static final float MAN = -1000.0F;
 
 	private static final int[] KONAMI_CODE = {
@@ -149,10 +150,11 @@ public class SkinSelectScreen {
 
 					this.refresh();
 				},
-				(key) -> logger.info("Successfully pressed key: {}",
+				(key) -> logger.debug("Successfully pressed key: {}",
 						Input.Keys.toString(key)),
-				(key) -> logger.error("Failed to press key: {}",
-						Input.Keys.toString(key))
+				(key) -> logger.debug("Failed to press key: {}",
+						Input.Keys.toString(key)),
+				true
 		);
 
 		this.signatureEasterEgg = new EasterEgg(UNLOCK_ALL_SIGNATURE,
@@ -276,11 +278,28 @@ public class SkinSelectScreen {
 			SkinEnum temp = this.cur;
 
 			if (prev != null) {
-				if (this.prevHb.justHovered)
-					CardCrawlGame.sound.play("UI_HOVER");
-
-				if (this.prevHb.clicked) {
-					this.prevHb.clicked = false;
+				boolean clicked = false;
+				
+				if (!Settings.isControllerMode) {
+					if (this.prevHb.justHovered)
+						CardCrawlGame.sound.play("UI_HOVER");
+					
+					if (this.prevHb.clicked) {
+						clicked = true;
+						this.prevHb.clicked = false;
+					}
+				}
+				else {
+					if (!AliceControllerHelper.isRightTriggerPressed()) {
+						if (CInputActionSet.up.isJustPressed() || CInputActionSet.altUp.isJustPressed()) {
+							CInputActionSet.up.unpress();
+							CInputActionSet.altUp.unpress();
+							clicked = true;
+						}
+					}
+				}
+				
+				if (clicked) {
 					CardCrawlGame.sound.play("UI_CLICK_1");
 					this.cur = prev;
 					this.refresh();
@@ -288,11 +307,28 @@ public class SkinSelectScreen {
 			}
 
 			if (next != null) {
-				if (this.nextHb.justHovered)
-					CardCrawlGame.sound.play("UI_HOVER");
-
-				if (this.nextHb.clicked) {
-					this.nextHb.clicked = false;
+				boolean clicked = false;
+				
+				if (!Settings.isControllerMode) {
+					if (this.nextHb.justHovered)
+						CardCrawlGame.sound.play("UI_HOVER");
+					
+					if (this.nextHb.clicked) {
+						clicked = true;
+						this.nextHb.clicked = false;
+					}
+				}
+				else {
+					if (!AliceControllerHelper.isRightTriggerPressed()) {
+						if (CInputActionSet.down.isJustPressed() || CInputActionSet.altDown.isJustPressed()) {
+							CInputActionSet.down.unpress();
+							CInputActionSet.altDown.unpress();
+							clicked = true;
+						}
+					}
+				}
+				
+				if (clicked) {
 					CardCrawlGame.sound.play("UI_CLICK_1");
 					this.cur = next;
 					this.refresh();
@@ -305,12 +341,28 @@ public class SkinSelectScreen {
 
 			if (AliceConfigHelper.isSunglassesUnlocked()) {
 				this.sunglassesHb.update();
+				
+				boolean clicked = false;
 
-				if (this.sunglassesHb.justHovered)
-					CardCrawlGame.sound.play("UI_HOVER");
-
-				if (this.sunglassesHb.clicked) {
-					this.sunglassesHb.clicked = false;
+				if (!Settings.isControllerMode) {
+					if (this.sunglassesHb.justHovered)
+						CardCrawlGame.sound.play("UI_HOVER");
+					
+					if (this.sunglassesHb.clicked) {
+						clicked = true;
+						this.sunglassesHb.clicked = false;
+					}
+				}
+				else {
+					if (!AliceControllerHelper.isRightTriggerPressed()) {
+						if (CInputActionSet.peek.isJustPressed()) {
+							CInputActionSet.peek.unpress();
+							clicked = true;
+						}
+					}
+				}
+				
+				if (clicked) {
 					CardCrawlGame.sound.play("UI_CLICK_1");
 					AliceConfigHelper.setSunglassesEnabled(!AliceConfigHelper.isSunglassesEnabled());
 					AliceConfigHelper.save();
@@ -426,6 +478,8 @@ public class SkinSelectScreen {
 				centerX - width / 2.0F,
 				centerY - height / 2.0F,
 				width, height);
+		
+		final float CONTROLLER_IMG_OFFSET = 60.0F * Settings.scale;
 
 		if (AliceConfigHelper.isSunglassesUnlocked()) {
 			float x = centerX + 20.0F * Settings.scale;
@@ -446,6 +500,20 @@ public class SkinSelectScreen {
 					centerY - 260.0F * Settings.scale,
 					this.sunglassesHb.hovered ? Settings.BLUE_TEXT_COLOR : Color.WHITE
 			);
+			
+			if (Settings.isControllerMode) {
+				sb.setColor(Color.WHITE);
+				sb.draw(CInputActionSet.peek.getKeyImg(),
+						this.sunglassesHb.x - 32.0F,
+						this.sunglassesHb.cY - 32.0F,
+						32.0F, 32.0F,
+						64.0F, 64.0F,
+						Settings.scale, Settings.scale,
+						0.0F,
+						0, 0,
+						64, 64,
+						false, false);
+			}
 
 			if (AliceConfigHelper.isSunglassesEnabled()) {
 				sb.setColor(Color.WHITE);
@@ -473,6 +541,20 @@ public class SkinSelectScreen {
 					48.0F, 48.0F,
 					Settings.scale, Settings.scale,
 					0.0F, 0, 0, 48, 48, false, false);
+			
+			if (Settings.isControllerMode) {
+				sb.setColor(Color.WHITE);
+				sb.draw(CInputActionSet.up.getKeyImg(),
+						this.prevHb.cX - 32.0F,
+						this.prevHb.cY - CONTROLLER_IMG_OFFSET + 3.0F - 32.0F,
+						32.0F, 32.0F,
+						64.0F, 64.0F,
+						Settings.scale, Settings.scale,
+						0.0F,
+						0, 0,
+						64, 64,
+						false, false);
+			}
 		}
 		
 		if (SkinEnum.next(this.cur) != null) {
@@ -486,10 +568,38 @@ public class SkinSelectScreen {
 					48.0F, 48.0F,
 					Settings.scale, Settings.scale,
 					0.0F, 0, 0, 48, 48, false, false);
+			
+			if (Settings.isControllerMode) {
+				sb.setColor(Color.WHITE);
+				sb.draw(CInputActionSet.down.getKeyImg(),
+						this.nextHb.cX - 32.0F,
+						this.nextHb.cY - CONTROLLER_IMG_OFFSET - 3.0F - 32.0F,
+						32.0F, 32.0F,
+						64.0F, 64.0F,
+						Settings.scale, Settings.scale,
+						0.0F,
+						0, 0,
+						64, 64,
+						false, false);
+			}
 		}
 
 		this.prevHb.render(sb);
 		this.nextHb.render(sb);
+		
+		if (Settings.isControllerMode && Gdx.input.isKeyPressed(Input.Keys.BUTTON_R2)) {
+			sb.setColor(Color.WHITE);
+			sb.draw(CInputActionSet.discardPile.getKeyImg(),
+					this.prevHb.cX - CONTROLLER_IMG_OFFSET - 32.0F,
+					this.prevHb.cY - 32.0F,
+					32.0F, 32.0F,
+					64.0F, 64.0F,
+					Settings.scale, Settings.scale,
+					0.0F,
+					0, 0,
+					64, 64,
+					false, false);
+		}
 	}
 	
 //	private static void findAliceAndSetSkin() {
@@ -550,7 +660,7 @@ public class SkinSelectScreen {
 				AliceHelper.getImgFilePath("char/AliceMargatroid", "aris_maid_corpse")
 		));
 		
-		inst.unlocked = AliceConfigHelper.isAliceSkinSelectionUnlocked();
+		inst.unlocked = true; // AliceConfigHelper.isAliceSkinSelectionUnlocked();
 		inst.cur = SkinEnum.valueOf(AliceConfigHelper.getAliceSkinChosen());
 		
 		inst.refresh();

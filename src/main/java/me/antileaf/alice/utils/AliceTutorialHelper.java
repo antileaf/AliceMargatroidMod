@@ -47,7 +47,7 @@ public class AliceTutorialHelper {
 //		generated.TEXT = res.toArray(new String[0]);
 
 		generated = tutorialStrings;
-		generated.TEXT = (String[]) Arrays.stream(generated.TEXT)
+		generated.TEXT = Arrays.stream(generated.TEXT)
 				.limit(3)
 				.toArray(String[]::new);
 		

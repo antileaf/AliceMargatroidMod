@@ -32,6 +32,8 @@ import me.antileaf.alice.strings.AliceDollStrings;
 import me.antileaf.alice.strings.AliceLanguageStrings;
 import me.antileaf.alice.utils.AliceConfigHelper;
 import me.antileaf.alice.utils.AliceHelper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -39,6 +41,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public abstract class AbstractDoll extends CustomOrb {
+	private static final Logger logger = LogManager.getLogger(AbstractDoll.class.getName());
+
 	public static String[] CREATURE_TEXT = CardCrawlGame.languagePack.getUIString("AbstractCreature").TEXT;
 	private static final float BLOCK_ANIM_TIME = 0.7F;
 	private static final float HB_Y_OFFSET_DIST = 6.0F * Settings.scale;
@@ -389,10 +393,9 @@ public abstract class AbstractDoll extends CustomOrb {
 		boolean showEffect = (this.block > 0);
 		
 		if (amount > this.block)
-			AliceHelper.log(AbstractDoll.class, "AbstractDoll.loseBlock() called with amount > block.");
+			logger.info("loseBlock() called with amount > block.");
+
 		this.block = Math.max(0, this.block - amount);
-		
-		//
 		
 		if (this.block > 0 && amount > 0) {
 			Color col = Color.SCARLET.cpy();
@@ -1162,12 +1165,12 @@ public abstract class AbstractDoll extends CustomOrb {
 //		assert AbstractDoll.class.isAssignableFrom(clazz) : "clazz is not a subclass of Abstract";
 //		assert clazz != null : "clazz is null";
 		if (clazz == null) {
-			AliceHelper.log("AbstractDoll.newInst", "clazz is null");
+			logger.warn("AbstractDoll.newInst: clazz is null");
 			return null;
 		}
 		
 		if (clazz.equals(EmptyDollSlot.ID)) {
-			AliceHelper.log(AbstractDoll.class, "Why newInst(EmptyDollSlot)?");
+			logger.warn("Why newInst(EmptyDollSlot)?");
 			return new EmptyDollSlot();
 		}
 		else if (clazz.equals(ShanghaiDoll.ID)) {
@@ -1189,7 +1192,7 @@ public abstract class AbstractDoll extends CustomOrb {
 			return new Su_san();
 		}
 		else {
-			AliceHelper.log(AbstractDoll.class, "Unknown class: " + clazz);
+			logger.warn("newInst: Unknown class: {}", clazz);
 			return null;
 		}
 	}
@@ -1209,12 +1212,12 @@ public abstract class AbstractDoll extends CustomOrb {
 		String[] remainingClasses = Arrays.stream(dollClasses)
 				.filter(c -> Arrays.stream(exceptClasses).noneMatch(ec -> ec.equals(c)))
 				.toArray(String[]::new);
-		
-		AliceHelper.log(AbstractDoll.class, "Remaining classes: " + Arrays.toString(remainingClasses));
-		AliceHelper.log(AbstractDoll.class, "Except classes: " + Arrays.toString(exceptClasses));
+
+		logger.debug("Remaining classes: {}", Arrays.toString(remainingClasses));
+		logger.debug("Except classes: {}", Arrays.toString(exceptClasses));
 		
 		if (remainingClasses.length == 0) {
-			AliceHelper.log(AbstractDoll.class, "No remaining classes to choose from.");
+			logger.info("No remaining classes to choose from.");
 			return null;
 		}
 		

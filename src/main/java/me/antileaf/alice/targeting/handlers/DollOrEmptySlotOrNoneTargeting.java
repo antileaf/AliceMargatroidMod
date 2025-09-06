@@ -6,6 +6,7 @@ import com.megacrit.cardcrawl.cards.AbstractCard;
 import me.antileaf.alice.doll.AbstractDoll;
 import me.antileaf.alice.doll.DollManager;
 
+@Deprecated
 public class DollOrEmptySlotOrNoneTargeting extends TargetingHandler<AbstractDoll> {
 	public static AbstractDoll getTarget(AbstractCard card) {
 		return CustomTargeting.getCardTarget(card);

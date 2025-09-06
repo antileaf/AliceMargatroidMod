@@ -1,4 +1,4 @@
-package me.antileaf.alice.patches.misc;
+package me.antileaf.alice.patches.misc.easter;
 
 @SuppressWarnings("unused")
 public class CultistMaskPatch {
