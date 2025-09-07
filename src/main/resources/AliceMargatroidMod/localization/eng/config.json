@@ -1,12 +1,46 @@
 {
-  "shouldOpenTutorial": "Re-open tutorials",
-  "enableSpellCardSignDisplay": "Display card Signs (i.e. War Sign, Blue Sign)",
-  "enableCardTargetIcons": "Display icons for available targets",
-  "enableAlternativeMarisaCardImage": "Use Alternative Portrait for Marisa Cards (Only for derivatives of \"Friend's Help\")",
-  "usePackMasterStyleMarisaCards": "Use Pack Master styled Marisa cards (requires restarting)",
-  "enableWitchsTeaPartyFeature": "Enable feature for \"Witchs' Tea Party\"",
-  "enableShanghaiDollEventForOtherCharacters": "Enable Shanghai Doll event for other characters",
-  "enableDebugging": "Debugging (requires restarting)",
-  "skinSelectionUnlocked": "Unlock Skin Select",
-  "skinChosen": "Current Skin:"
+  "shouldOpenTutorial": [
+    "Re-open tutorials"
+  ],
+
+  "enableSpellCardSignDisplay": [
+    "Display Signs",
+    "Display Signs for spell cards, e.g.: #yElegant #ySign 「Spring Kyoto Doll」."
+  ],
+
+  "enableCardTargetIcons": [
+    "Display target icons",
+    "Display target icons on cards that can be played on dolls."
+  ],
+
+  "enableAlternativeMarisaCardImage": [
+    "Use alternative art for Marisa cards (Only for derivatives of \"Friend's Help\")",
+    "Replace derivatives of \"Friend's Help\" with different artworks."
+  ],
+
+  "usePackMasterStyleMarisaCards": [
+    "Use Pack Master styled Marisa cards (requires restart)",
+    "Use Pack Master styled energy icons and card borders for Marisa cards. NL You can turn this off if you don't like this style."
+  ],
+
+  "enableWitchsTeaPartyFeature": [
+    "Enable feature for \"Witchs' Tea Party\""
+  ],
+
+  "enableShanghaiDollEventForOtherCharacters": [
+    "Enable Shanghai Doll event for other characters",
+    "Allow characters other than Alice to encounter Shanghai Doll and trigger related events."
+  ],
+
+  "enableDebugging": [
+    "Enable Debugging (requires restart)"
+  ],
+
+  "skinSelectionUnlocked": [
+    "Unlock skin selection"
+  ],
+
+  "skinChosen": [
+    "Current skin:"
+  ]
 }
