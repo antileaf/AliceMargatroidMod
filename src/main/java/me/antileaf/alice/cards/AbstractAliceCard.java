@@ -154,17 +154,18 @@ public abstract class AbstractAliceCard extends AbstractSecondaryVariablesCard {
 	}
 
 	@Override
-	 public boolean canUse(AbstractPlayer p, AbstractMonster m) {
+	public boolean canUse(AbstractPlayer p, AbstractMonster m) {
 		if (!super.canUse(p, m))
 			return false;
+		
+//		logger.info("canUse: name = {}", this.name);
 		
 		if (this.target == CardTargetEnum.DOLL) {
 			if (!DollManager.get().hasDoll() /* && DollTargeting.getTarget(this) == null */) {
 				this.cantUseMessage = CardCrawlGame.languagePack
 						.getUIString(AliceHelper.makeID("NoDollDialog")).TEXT[0];
-				logger.debug("cantUseMessage: {}", this.cantUseMessage);
+//				logger.info("cantUseMessage: {}", this.cantUseMessage);
 
-				// TODO: There may be a bug in stslib. Fix it later.
 				return false;
 			}
 		}
