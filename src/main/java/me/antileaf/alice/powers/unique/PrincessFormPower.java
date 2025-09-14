@@ -1,6 +1,8 @@
 package me.antileaf.alice.powers.unique;
 
+import basemod.ReflectionHacks;
 import basemod.helpers.CardModifierManager;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.evacipated.cardcrawl.mod.stslib.powers.abstracts.TwoAmountPower;
 import com.megacrit.cardcrawl.actions.common.MakeTempCardInHandAction;
@@ -11,8 +13,14 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.localization.PowerStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.powers.AbstractPower;
+import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
+import com.megacrit.cardcrawl.vfx.combat.GainPowerEffect;
+import com.megacrit.cardcrawl.vfx.combat.SilentGainPowerEffect;
 import me.antileaf.alice.cardmodifier.PhantomCardModifier;
 import me.antileaf.alice.utils.AliceHelper;
+
+import java.util.ArrayList;
 
 public class PrincessFormPower extends TwoAmountPower {
 	public static final String SIMPLE_NAME = PrincessFormPower.class.getSimpleName();
@@ -21,6 +29,9 @@ public class PrincessFormPower extends TwoAmountPower {
 
 	private AbstractCard last = null;
 	private AbstractCard copy = null;
+	
+	private float pulseTimer = 0.0F;
+	private boolean sfx = false;
 
 	public PrincessFormPower(int amount) {
 		this.name = powerStrings.NAME;
@@ -59,7 +70,12 @@ public class PrincessFormPower extends TwoAmountPower {
 			this.amount2++;
 
 			if (this.amount2 == 2) {
-				// TODO: pulse
+				this.pulseTimer = 0.0F;
+				this.sfx = true;
+			}
+			else {
+				this.pulseTimer = 1.0F;
+				this.sfx = false;
 			}
 
 			if (this.amount2 >= 3) {
@@ -82,5 +98,28 @@ public class PrincessFormPower extends TwoAmountPower {
 
 		this.last = null;
 		this.copy = null;
+	}
+	
+	@Override
+	public void update(int slot) {
+		super.update(slot);
+		
+		if (this.amount2 == 2) {
+			this.pulseTimer -= Gdx.graphics.getDeltaTime();
+			
+			if (this.pulseTimer < 0.0F) {
+				ArrayList<AbstractGameEffect> effects = ReflectionHacks.getPrivate(this,
+						AbstractPower.class, "effect");
+				
+				if (this.sfx) {
+					effects.add(new GainPowerEffect(this));
+					this.sfx = false;
+				}
+				else
+					effects.add(new SilentGainPowerEffect(this));
+				
+				this.pulseTimer = 1.0F;
+			}
+		}
 	}
 }
