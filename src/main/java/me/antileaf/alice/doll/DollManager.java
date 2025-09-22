@@ -28,6 +28,7 @@ import me.antileaf.alice.doll.dolls.FranceDoll;
 import me.antileaf.alice.doll.dolls.NetherlandsDoll;
 import me.antileaf.alice.doll.interfaces.OnDollOperateHook;
 import me.antileaf.alice.patches.enums.CardTargetEnum;
+import me.antileaf.alice.patches.misc.qol.FasterDollActionsPatch;
 import me.antileaf.alice.powers.unique.TauntedPower;
 import me.antileaf.alice.utils.AliceHelper;
 import org.apache.logging.log4j.LogManager;
@@ -569,6 +570,8 @@ public class DollManager {
 		for (AbstractCard card : this.owner.discardPile.group)
 			if (card instanceof DollMagic)
 				((DollMagic) card).postDollAct();
+		
+		FasterDollActionsPatch.addAll(AliceHelper.buffer);
 		
 		AliceHelper.commitBuffer();
 //		logger.info("DollManager.dollAct(): Commited buffer here!");

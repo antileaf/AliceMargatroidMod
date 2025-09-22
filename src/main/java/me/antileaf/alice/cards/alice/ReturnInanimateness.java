@@ -40,6 +40,7 @@ public class ReturnInanimateness extends AbstractAliceCard {
 		);
 		
 		this.damage = this.baseDamage = DAMAGE;
+		this.isMultiDamage = true;
 	}
 	
 	@Override
@@ -54,21 +55,49 @@ public class ReturnInanimateness extends AbstractAliceCard {
 	}
 	
 	@Override
-	public void calculateCardDamage(AbstractMonster m) {
-		int tmpBaseDamage = this.baseDamage;
-		this.baseDamage *= this.getMultiplier();
-		super.calculateCardDamage(m);
-		this.baseDamage = tmpBaseDamage;
-		this.isDamageModified = this.damage != this.baseDamage;
+	public void applyPowers() {
+//		int tmpBaseDamage = this.baseDamage;
+//		this.baseDamage *= this.getMultiplier();
+		super.applyPowers();
+//		this.baseDamage = tmpBaseDamage;
+//		this.isDamageModified = this.damage != this.baseDamage;
+		
+		int multiplier = this.getMultiplier();
+		
+		if (multiplier != 1) {
+			this.isDamageModified = false;
+			
+			for (int i = 0; i < this.multiDamage.length; i++) {
+				this.multiDamage[i] *= this.getMultiplier();
+				this.isDamageModified |= this.multiDamage[i] != this.baseDamage;
+			}
+			
+			this.damage *= multiplier;
+			this.isDamageModified = this.damage != this.baseDamage;
+		}
 	}
 	
 	@Override
-	public void applyPowers() {
-		int tmpBaseDamage = this.baseDamage;
-		this.baseDamage *= this.getMultiplier();
-		super.applyPowers();
-		this.baseDamage = tmpBaseDamage;
-		this.isDamageModified = this.damage != this.baseDamage;
+	public void calculateCardDamage(AbstractMonster m) {
+//		int tmpBaseDamage = this.baseDamage;
+//		this.baseDamage *= this.getMultiplier();
+		super.calculateCardDamage(m);
+//		this.baseDamage = tmpBaseDamage;
+//		this.isDamageModified = this.damage != this.baseDamage;
+		
+		int multiplier = this.getMultiplier();
+		
+		if (multiplier != 1) {
+			this.isDamageModified = false;
+			
+			for (int i = 0; i < this.multiDamage.length; i++) {
+				this.multiDamage[i] *= this.getMultiplier();
+				this.isDamageModified |= this.multiDamage[i] != this.baseDamage;
+			}
+			
+			this.damage *= multiplier;
+			this.isDamageModified = this.damage != this.baseDamage;
+		}
 	}
 	
 	@Override

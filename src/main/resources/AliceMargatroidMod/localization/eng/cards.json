@@ -21,13 +21,15 @@
   
   "AliceMargatroid:LittleLegion": {
     "NAME": "Little Legion",
-    "DESCRIPTION": "{@@}Deal !D! damage to ALL enemies. NL alicemargatroid:Command: target alicemargatroid:Doll moves to rightmost, then alicemargatroid:Act !M! time{!M!|>1=s}."
+    "DESCRIPTION": "{@@}Deal !D! damage to ALL enemies. NL alicemargatroid:Command: target alicemargatroid:Doll moves to rightmost, then alicemargatroid:Act !M! time{!M!|>1=s}.",
+    "SIGN": "War Sign"
   },
   
   "AliceMargatroid:DollCrusader": {
     "NAME": "Doll Crusader",
     "DESCRIPTION": "alicemargatroid:Recycle all alicemargatroid:Dolls, then alicemargatroid:Place a random alicemargatroid:Doll in their original slots. NL All alicemargatroid:Dolls alicemargatroid:Act once. NL Exhaust.",
-    "UPGRADE_DESCRIPTION": "alicemargatroid:Recycle all alicemargatroid:Dolls, then alicemargatroid:Place a random alicemargatroid:Doll in their original slots. NL All alicemargatroid:Dolls alicemargatroid:Act once."
+    "UPGRADE_DESCRIPTION": "alicemargatroid:Recycle all alicemargatroid:Dolls, then alicemargatroid:Place a random alicemargatroid:Doll in their original slots. NL All alicemargatroid:Dolls alicemargatroid:Act once.",
+    "SIGN": "Sign II"
   },
   
   "AliceMargatroid:Thread": {
@@ -55,7 +57,8 @@
   "AliceMargatroid:SurpriseSpring": {
     "NAME": "Surprise Spring",
     "DESCRIPTION": "Gain [E]. NL Heal !M! HP. NL Draw !aliceM2! card, and Upgrade it this combat. NL Exhaust.",
-    "UPGRADE_DESCRIPTION": "Gain [E] [E]. NL Heal !M! HP. NL Draw !aliceM2! cards, and Upgrade them this combat. NL Exhaust."
+    "UPGRADE_DESCRIPTION": "Gain [E] [E]. NL Heal !M! HP. NL Draw !aliceM2! cards, and Upgrade them this combat. NL Exhaust.",
+    "SIGN": "Spring Sign"
   },
   
   "AliceMargatroid:WarFlag": {
@@ -70,7 +73,8 @@
   
   "AliceMargatroid:DollWar": {
     "NAME": "Dolls' War",
-    "DESCRIPTION": "Whenever a alicemargatroid:Doll is alicemargatroid:Placed, raise its Max HP by !M!."
+    "DESCRIPTION": "Whenever a alicemargatroid:Doll is alicemargatroid:Placed, raise its Max HP by !M!.",
+    "SIGN": "War Command"
   },
 
   "AliceMargatroid:DollJudge": {
@@ -159,7 +163,8 @@
   
   "AliceMargatroid:DollOfRoundTable": {
     "NAME": "Doll of Round Table",
-    "DESCRIPTION": "Alice and all alicemargatroid:Dolls gain !B! Block. NL You cannot gain Block from cards this turn. NL Exhaust."
+    "DESCRIPTION": "Alice and all alicemargatroid:Dolls gain !B! Block. NL You cannot gain Block from cards this turn. NL Exhaust.",
+    "SIGN": "Knight"
   },
   
   "AliceMargatroid:Dessert": {
@@ -188,7 +193,7 @@
   "AliceMargatroid:AliceInWonderland": {
     "NAME": "Alice in Wonderland",
     "DESCRIPTION": "Ethereal. NL Exhaust all cards in hand, add equal number of random cards into your hand. NL They cost 1 [E] less this combat.",
-    "UPGRADE_DESCRIPTION": "Ethereal. NL Exhaust all cards in hand, add equal of random Upgraded cards into your hand. NL They cost 1 [E] less this combat.",
+    "UPGRADE_DESCRIPTION": "Ethereal. NL Exhaust all cards in hand, add equal number of random Upgraded cards into your hand. NL They cost 1 [E] less this combat.",
     "FLAVOR": "\"Why is a raven like a writing-desk?\""
   },
   
@@ -200,7 +205,8 @@
   "AliceMargatroid:DollMiraCeti": {
     "NAME": "Doll Mira Ceti",
     "DESCRIPTION": "alicemargatroid:Command: Target alicemargatroid:Doll alicemargatroid:Acts !M!X times.",
-    "UPGRADE_DESCRIPTION": "alicemargatroid:Command: Target alicemargatroid:Doll alicemargatroid:Acts !M!(X+1) times."
+    "UPGRADE_DESCRIPTION": "alicemargatroid:Command: Target alicemargatroid:Doll alicemargatroid:Acts !M!(X+1) times.",
+    "SIGN": "Red Sign"
   },
   
   "AliceMargatroid:Revelation": {
@@ -226,7 +232,8 @@
   
   "AliceMargatroid:MaidensBunraku": {
     "NAME": "Maiden's Bunraku",
-    "DESCRIPTION": "Ethereal. NL Whenever a alicemargatroid:Doll alicemargatroid:Acts, it gains !M! Block."
+    "DESCRIPTION": "Ethereal. NL Whenever a alicemargatroid:Doll alicemargatroid:Acts, it gains !M! Block.",
+    "SIGN": "Puppeteer Sign"
   },
   
   "AliceMargatroid:Usokae": {
@@ -237,12 +244,14 @@
   
   "AliceMargatroid:Tripwire": {
     "NAME": "Tripwire",
-    "DESCRIPTION": "Deal !D! damage for each empty doll slot."
+    "DESCRIPTION": "Deal !D! damage for each empty doll slot.",
+    "SIGN": "Focus Power"
   },
   
   "AliceMargatroid:DevilryLight": {
     "NAME": "Devilry Light",
-    "DESCRIPTION": "Apply !M! Vulnerable to ALL enemies. NL At the start of next turn, apply !M! Weak to ALL enemies."
+    "DESCRIPTION": "Apply !M! Vulnerable to ALL enemies. NL At the start of next turn, apply !M! Weak to ALL enemies.",
+    "SIGN": "Evil Light"
   },
   
   "AliceMargatroid:RefreshingSpringWater": {
@@ -264,12 +273,14 @@
   
   "AliceMargatroid:SeekerDoll": {
     "NAME": "Seeker Doll",
-    "DESCRIPTION": "alicemargatroid:Command: target alicemargatroid:Doll alicemargatroid:Acts !aliceM2! times. NL If this is the first time *Seeker *Doll is played this turn, it alicemargatroid:Acts additionally 1 time."
+    "DESCRIPTION": "alicemargatroid:Command: target alicemargatroid:Doll alicemargatroid:Acts !aliceM2! times. NL If this is the first time *Seeker *Doll is played this turn, it alicemargatroid:Acts additionally 1 time.",
+    "SIGN": "Spy Sign"
   },
   
   "AliceMargatroid:ArtfulChanter_V2": {
     "NAME": "Artful Chanter",
-    "DESCRIPTION": "Whenever a alicemargatroid:Doll is alicemargatroid:Placed, if that kind of alicemargatroid:Doll has been alicemargatroid:Recycled or destroyed this combat, let it alicemargatroid:Act once."
+    "DESCRIPTION": "Whenever a alicemargatroid:Doll is alicemargatroid:Placed, if that kind of alicemargatroid:Doll has been alicemargatroid:Recycled or destroyed this combat, let it alicemargatroid:Act once.",
+    "SIGN": "Sign I"
   },
   
   "AliceMargatroid:Masterpiece": {
@@ -284,7 +295,8 @@
   
   "AliceMargatroid:LuminousShanghaiDoll": {
     "NAME": "Luminous Shanghai Doll",
-    "DESCRIPTION": "Whenever a non- alicemargatroid:Shanghai_Doll alicemargatroid:Acts, let a random alicemargatroid:Shanghai_Doll alicemargatroid:Act once."
+    "DESCRIPTION": "Whenever a non- alicemargatroid:Shanghai_Doll alicemargatroid:Acts, let a random alicemargatroid:Shanghai_Doll alicemargatroid:Act once.",
+    "SIGN": "Malediction"
   },
   
   "AliceMargatroid:TheSouthernCross": {
@@ -310,7 +322,8 @@
   
   "AliceMargatroid:ReturnInanimateness": {
     "NAME": "Return Inanimateness",
-    "DESCRIPTION": "alicemargatroid:Recycle all alicemargatroid:Dolls, deal !D! damage to ALL enemies. NL Double base damage for each different kind of alicemargatroid:Doll you have."
+    "DESCRIPTION": "alicemargatroid:Recycle all alicemargatroid:Dolls, deal !D! damage to ALL enemies. NL Doubles damage for each different kind of alicemargatroid:Doll you have.",
+    "SIGN": "Magipulation"
   },
   
   "AliceMargatroid:SpectreMystery": {
@@ -321,7 +334,8 @@
   "AliceMargatroid:DollInSea": {
     "NAME": "Doll In Sea",
     "DESCRIPTION": "All alicemargatroid:Dolls heal half of their Max HP. NL Raise the Max HP of all alicemargatroid:Shanghai_Dolls and alicemargatroid:Kyoto_Dolls by !M!.",
-    "UPGRADE_DESCRIPTION": "All alicemargatroid:Dolls heal all of their HP. NL Raise the Max HP of all alicemargatroid:Shanghai_Dolls and alicemargatroid:Kyoto_Dolls by !M!."
+    "UPGRADE_DESCRIPTION": "All alicemargatroid:Dolls heal all of their HP. NL Raise the Max HP of all alicemargatroid:Shanghai_Dolls and alicemargatroid:Kyoto_Dolls by !M!.",
+    "SIGN": "Puppeteer Sign"
   },
 
   "AliceMargatroid:ClawMachine": {
@@ -344,12 +358,14 @@
 
   "AliceMargatroid:FuturisticBunraku": {
     "NAME": "Futuristic Bunraku",
-    "DESCRIPTION": "alicemargatroid:Command: This turn, whenever you play a card, target alicemargatroid:Doll alicemargatroid:Acts once; At the end of this turn, alicemargatroid:Recycle it. NL Exhaust."
+    "DESCRIPTION": "alicemargatroid:Command: This turn, whenever you play a card, target alicemargatroid:Doll alicemargatroid:Acts once; At the end of this turn, alicemargatroid:Recycle it. NL Exhaust.",
+    "SIGN": "Doll"
   },
 
   "AliceMargatroid:StrawDollKamikaze": {
     "NAME": "Straw Doll Kamikaze",
-    "DESCRIPTION": "Gain !M! alicemargatroid:Blur. NL Add a *Retrace into your hand. NL ( alicemargatroid:Blur will also work on alicemargatroid:Dolls. )"
+    "DESCRIPTION": "Gain !M! alicemargatroid:Blur. NL Add a *Retrace into your hand. NL ( alicemargatroid:Blur will also work on alicemargatroid:Dolls. )",
+    "SIGN": "Curse Sign"
   },
 
   "AliceMargatroid:ForbiddenMagic": {
@@ -359,7 +375,8 @@
 
   "AliceMargatroid:SemiAutomaton": {
     "NAME": "Semi-Automaton",
-    "DESCRIPTION": "After you alicemargatroid:Place next alicemargatroid:Doll, let it alicemargatroid:Act !M! times. NL Exhaust."
+    "DESCRIPTION": "After you alicemargatroid:Place next alicemargatroid:Doll, let it alicemargatroid:Act !M! times. NL Exhaust.",
+    "SIGN": "Doll"
   },
 
   "AliceMargatroid:Geyser": {
@@ -369,7 +386,8 @@
 
   "AliceMargatroid:SoldierOfCross": {
     "NAME": "Soldier of Cross",
-    "DESCRIPTION": "Alice or target alicemargatroid:Doll gains !B! Block. NL alicemargatroid:Command: *Taunt ALL enemies for !M! turn. *Taunted enemies can only attack the target slot."
+    "DESCRIPTION": "{@@}Alice or target alicemargatroid:Doll gains !B! Block. NL alicemargatroid:Command: *Taunt ALL enemies for !M! turn{!M!|>1=s}. *Taunted enemies can only attack the target slot.",
+    "SIGN": "Sword Sign"
   },
 
   "AliceMargatroid:UnlockMystic": {
@@ -379,7 +397,8 @@
 
   "AliceMargatroid:SuicideSquad": {
     "NAME": "Suicide Squad",
-    "DESCRIPTION": "alicemargatroid:Command: Deal !D! damage to corresponding enemy of target alicemargatroid:Doll; target alicemargatroid:Doll gains !B! Block, heal !M! HP, increase its Max HP by !M!."
+    "DESCRIPTION": "alicemargatroid:Command: Deal !D! damage to corresponding enemy of target alicemargatroid:Doll; target alicemargatroid:Doll gains !B! Block, heal !M! HP, increase its Max HP by !M!.",
+    "SIGN": "Foot Soldiers"
   },
 
   "AliceMargatroid:DollArrangement": {
@@ -390,30 +409,35 @@
 
   "AliceMargatroid:VivaciousShanghaiDoll": {
     "NAME": "Vivacious Shanghai Doll",
-    "DESCRIPTION": "alicemargatroid:Place a alicemargatroid:Shanghai_Doll. NL Let it alicemargatroid:Act !M! times."
+    "DESCRIPTION": "alicemargatroid:Place a alicemargatroid:Shanghai_Doll. NL Let it alicemargatroid:Act !M! times.",
+    "SIGN": "Lance Sign"
   },
 
   "AliceMargatroid:QuietHouraiDoll": {
     "NAME": "Quiet Hourai Doll",
     "DESCRIPTION": "alicemargatroid:Place a alicemargatroid:Hourai_Doll. NL Next turn, draw 1 additional card.",
-    "UPGRADE_DESCRIPTION": "alicemargatroid:Place a alicemargatroid:Hourai_Doll. NL Let it alicemargatroid:Act once. NL Next turn, draw 1 additional card."
+    "UPGRADE_DESCRIPTION": "alicemargatroid:Place a alicemargatroid:Hourai_Doll. NL Let it alicemargatroid:Act once. NL Next turn, draw 1 additional card.",
+    "SIGN": "Elegant Sign"
   },
   
   "AliceMargatroid:SpringKyotoDoll": {
     "NAME": "Spring Kyoto Doll",
     "DESCRIPTION": "alicemargatroid:Place a alicemargatroid:Kyoto_Doll.",
-    "UPGRADE_DESCRIPTION": "alicemargatroid:Place a alicemargatroid:Kyoto_Doll. NL Gain [E]."
+    "UPGRADE_DESCRIPTION": "alicemargatroid:Place a alicemargatroid:Kyoto_Doll. NL Gain [E].",
+    "SIGN": "Elegant Sign"
   },
 
   "AliceMargatroid:RedHairedNetherlandsDoll": {
     "NAME": "Red-haired Dutch Doll",
     "DESCRIPTION": "alicemargatroid:Place a alicemargatroid:Dutch_Doll.",
-    "UPGRADE_DESCRIPTION": "Innate. NL alicemargatroid:Place a alicemargatroid:Dutch_Doll."
+    "UPGRADE_DESCRIPTION": "Innate. NL alicemargatroid:Place a alicemargatroid:Dutch_Doll.",
+    "SIGN": "Scarlet Sign"
   },
 
   "AliceMargatroid:CharitableFranceDoll": {
     "NAME": "Fraternal French Doll",
-    "DESCRIPTION": "alicemargatroid:Place a alicemargatroid:French_Doll. NL Apply !M! Weak to the corresponding enemy of target slot."
+    "DESCRIPTION": "alicemargatroid:Place a alicemargatroid:French_Doll. NL Apply !M! Weak to the corresponding enemy of target slot.",
+    "SIGN": "Blue Sign"
   },
 
 

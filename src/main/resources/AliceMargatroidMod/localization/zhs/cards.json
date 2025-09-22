@@ -21,13 +21,15 @@
   
   "AliceMargatroid:LittleLegion": {
     "NAME": "小小军势",
-    "DESCRIPTION": "对所有敌人造成 !D! 点伤害。 NL alicemargatroid:指令 ：目标 alicemargatroid:人偶 移动至最右侧栏位，并 alicemargatroid:行动 !M! 次。"
+    "DESCRIPTION": "对所有敌人造成 !D! 点伤害。 NL alicemargatroid:指令 ：目标 alicemargatroid:人偶 移动至最右侧栏位，并 alicemargatroid:行动 !M! 次。",
+    "SIGN": "战符"
   },
   
   "AliceMargatroid:DollCrusader": {
     "NAME": "人偶十字军",
     "DESCRIPTION": "alicemargatroid:回收 所有 alicemargatroid:人偶 ，然后在原位置 alicemargatroid:生成 一个随机 alicemargatroid:人偶 。 NL 所有 alicemargatroid:人偶 alicemargatroid:行动 一次。 NL 消耗 。",
-    "UPGRADE_DESCRIPTION": "alicemargatroid:回收 所有 alicemargatroid:人偶 ，然后在原位置 alicemargatroid:生成 一个随机 alicemargatroid:人偶 。 NL 所有 alicemargatroid:人偶 alicemargatroid:行动 一次。"
+    "UPGRADE_DESCRIPTION": "alicemargatroid:回收 所有 alicemargatroid:人偶 ，然后在原位置 alicemargatroid:生成 一个随机 alicemargatroid:人偶 。 NL 所有 alicemargatroid:人偶 alicemargatroid:行动 一次。",
+    "SIGN": "符之二"
   },
   
   "AliceMargatroid:Thread": {
@@ -63,7 +65,8 @@
     "NAME": "惊喜之春",
     "DESCRIPTION": "获得 [E] 。 NL 恢复 !M! 点生命。 NL 抽 !aliceM2! 张牌，将其在本场战斗中 升级 。 NL 消耗 。",
     "UPGRADE_DESCRIPTION": "获得 [E] [E] 。 NL 恢复 !M! 点生命。 NL 抽 !aliceM2! 张牌，将它们在本场战斗中 升级 。 NL 消耗 。",
-    "FLAVOR": "“什么是春度？就是你脑子里究竟有多春的程度啊。”"
+    "FLAVOR": "“什么是春度？就是你脑子里究竟有多春的程度啊。”",
+    "SIGN": "春符"
   },
   
   "AliceMargatroid:WarFlag": {
@@ -78,7 +81,8 @@
   
   "AliceMargatroid:DollWar": {
     "NAME": "人偶战争",
-    "DESCRIPTION": "alicemargatroid:生成 alicemargatroid:人偶 时，使其生命值提高 !M! 点。"
+    "DESCRIPTION": "alicemargatroid:生成 alicemargatroid:人偶 时，使其生命值提高 !M! 点。",
+    "SIGN": "战操"
   },
   
   "AliceMargatroid:DollJudge": {
@@ -202,7 +206,8 @@
   
   "AliceMargatroid:DollOfRoundTable": {
     "NAME": "圆桌人偶",
-    "DESCRIPTION": "爱丽丝和所有 alicemargatroid:人偶 获得 !B! 点 格挡 。 NL 本回合内，无法再从卡牌中获得 格挡 。 NL 消耗 。"
+    "DESCRIPTION": "爱丽丝和所有 alicemargatroid:人偶 获得 !B! 点 格挡 。 NL 本回合内，无法再从卡牌中获得 格挡 。 NL 消耗 。",
+    "SIGN": "骑士"
   },
   
   "AliceMargatroid:Dessert": {
@@ -249,7 +254,8 @@
   
   "AliceMargatroid:Pause": {
     "NAME": "一时停止",
-    "DESCRIPTION": "爱丽丝或目标 alicemargatroid:人偶 获得 !B! 点 格挡 。 NL 下回合多抽 !M! 张牌。"
+    "DESCRIPTION": "爱丽丝或目标 alicemargatroid:人偶 获得 !B! 点 格挡 。 NL 下回合多抽 !M! 张牌。",
+    "SIGNATURE_ILLUSTRATOR": "PID:45525389_p13"
   },
   
   "AliceMargatroid:DEPRECATEDSealOfLight": {
@@ -261,7 +267,8 @@
   "AliceMargatroid:DollMiraCeti": {
     "NAME": "人偶鲸鱼座",
     "DESCRIPTION": "alicemargatroid:指令 ：目标 alicemargatroid:人偶 alicemargatroid:行动 !M! X 次。",
-    "UPGRADE_DESCRIPTION": "alicemargatroid:指令 ：目标 alicemargatroid:人偶 alicemargatroid:行动 !M! (X+1) 次。"
+    "UPGRADE_DESCRIPTION": "alicemargatroid:指令 ：目标 alicemargatroid:人偶 alicemargatroid:行动 !M! (X+1) 次。",
+    "SIGN": "赤符"
   },
   
   "AliceMargatroid:Revelation": {
@@ -310,7 +317,8 @@
   
   "AliceMargatroid:MaidensBunraku": {
     "NAME": "少女文乐",
-    "DESCRIPTION": "虚无 。 NL 每当 alicemargatroid:人偶 alicemargatroid:行动 时，使其获得 !M! 点 格挡 。"
+    "DESCRIPTION": "虚无 。 NL 每当 alicemargatroid:人偶 alicemargatroid:行动 时，使其获得 !M! 点 格挡 。",
+    "SIGN": "操符"
   },
   
   "AliceMargatroid:Usokae": {
@@ -322,12 +330,14 @@
   
   "AliceMargatroid:Tripwire": {
     "NAME": "绊线",
-    "DESCRIPTION": "每有一个空的 alicemargatroid:人偶 栏位，造成 !D! 点伤害。"
+    "DESCRIPTION": "每有一个空的 alicemargatroid:人偶 栏位，造成 !D! 点伤害。",
+    "SIGN": "聚焦"
   },
   
   "AliceMargatroid:DevilryLight": {
     "NAME": "惨虐之光",
-    "DESCRIPTION": "给予所有敌人 !M! 层 易伤 。 NL 下回合开始时，给予所有敌人 !M! 层 虚弱 。"
+    "DESCRIPTION": "给予所有敌人 !M! 层 易伤 。 NL 下回合开始时，给予所有敌人 !M! 层 虚弱 。",
+    "SIGN": "魔光"
   },
   
   "AliceMargatroid:RefreshingSpringWater": {
@@ -349,7 +359,9 @@
   
   "AliceMargatroid:SeekerDoll": {
     "NAME": "探索人偶",
-    "DESCRIPTION": "alicemargatroid:指令 ：目标 alicemargatroid:人偶 alicemargatroid:行动 !aliceM2! 次。 NL 如果是本回合首次打出 *探索人偶 ，额外 alicemargatroid:行动 !M! 次。"
+    "DESCRIPTION": "alicemargatroid:指令 ：目标 alicemargatroid:人偶 alicemargatroid:行动 !aliceM2! 次。 NL 如果是本回合首次打出 *探索人偶 ，额外 alicemargatroid:行动 !M! 次。",
+    "SIGN": "侦符",
+    "SIGNATURE_ILLUSTRATOR": "画师：B站 试作型拾九"
   },
   
   "AliceMargatroid:DEPRECATEDMagicConduit": {
@@ -359,7 +371,8 @@
   
   "AliceMargatroid:ArtfulChanter_V2": {
     "NAME": "狡猾的吟诵者",
-    "DESCRIPTION": "alicemargatroid:生成 alicemargatroid:人偶 时，如果本场战斗中有对应种类的 alicemargatroid:人偶 被 alicemargatroid:回收 或摧毁过，使其 alicemargatroid:行动 一次。"
+    "DESCRIPTION": "alicemargatroid:生成 alicemargatroid:人偶 时，如果本场战斗中有对应种类的 alicemargatroid:人偶 被 alicemargatroid:回收 或摧毁过，使其 alicemargatroid:行动 一次。",
+    "SIGN": "符之一"
   },
   
   "AliceMargatroid:Masterpiece": {
@@ -374,7 +387,8 @@
   
   "AliceMargatroid:LuminousShanghaiDoll": {
     "NAME": "魔彩光的上海人偶",
-    "DESCRIPTION": "每当有非 alicemargatroid:上海人偶 alicemargatroid:行动 时，使一个随机的 alicemargatroid:上海人偶 alicemargatroid:行动 一次。"
+    "DESCRIPTION": "每当有非 alicemargatroid:上海人偶 alicemargatroid:行动 时，使一个随机的 alicemargatroid:上海人偶 alicemargatroid:行动 一次。",
+    "SIGN": "诅咒"
   },
   
   "AliceMargatroid:TheSouthernCross": {
@@ -409,7 +423,8 @@
   
   "AliceMargatroid:ReturnInanimateness": {
     "NAME": "回归虚无",
-    "DESCRIPTION": "alicemargatroid:回收 所有 alicemargatroid:人偶 ，对所有敌人造成 !D! 点伤害。 NL 每有一种不同的 alicemargatroid:人偶 ，基础伤害翻倍。"
+    "DESCRIPTION": "alicemargatroid:回收 所有 alicemargatroid:人偶 ，对所有敌人造成 !D! 点伤害。 NL 每有一种不同的 alicemargatroid:人偶 ，伤害翻倍。",
+    "SIGN": "魔操"
   },
   
   "AliceMargatroid:SpectreMystery": {
@@ -420,7 +435,8 @@
   "AliceMargatroid:DollInSea": {
     "NAME": "海中的人偶",
     "DESCRIPTION": "所有 alicemargatroid:人偶 恢复一半最大生命。 NL 所有 alicemargatroid:上海人偶 和 alicemargatroid:京都人偶 的最大生命增加 !M! 点 。",
-    "UPGRADE_DESCRIPTION": "所有 alicemargatroid:人偶 恢复所有生命。 NL 所有 alicemargatroid:上海人偶 和 alicemargatroid:京都人偶 的最大生命增加 !M! 点 。"
+    "UPGRADE_DESCRIPTION": "所有 alicemargatroid:人偶 恢复所有生命。 NL 所有 alicemargatroid:上海人偶 和 alicemargatroid:京都人偶 的最大生命增加 !M! 点 。",
+    "SIGN": "操符"
   },
 
   "AliceMargatroid:ClawMachine": {
@@ -449,12 +465,14 @@
 
   "AliceMargatroid:FuturisticBunraku": {
     "NAME": "未来文乐",
-    "DESCRIPTION": "alicemargatroid:指令 ：本回合内，每打出一张牌，使目标 alicemargatroid:人偶 alicemargatroid:行动 一次；回合结束时，将其 alicemargatroid:回收 。 NL 消耗 。"
+    "DESCRIPTION": "alicemargatroid:指令 ：本回合内，每打出一张牌，使目标 alicemargatroid:人偶 alicemargatroid:行动 一次；回合结束时，将其 alicemargatroid:回收 。 NL 消耗 。",
+    "SIGN": "人偶"
   },
 
   "AliceMargatroid:StrawDollKamikaze": {
     "NAME": "稻草人偶神风",
-    "DESCRIPTION": "获得 !M! 层 alicemargatroid:残影 。 NL 将一张 *折回 加入你的手牌。 NL （ alicemargatroid:残影 也会作用于 alicemargatroid:人偶 。）"
+    "DESCRIPTION": "获得 !M! 层 alicemargatroid:残影 。 NL 将一张 *折回 加入你的手牌。 NL （ alicemargatroid:残影 也会作用于 alicemargatroid:人偶 。）",
+    "SIGN": "咒符"
   },
 
   "AliceMargatroid:ForbiddenMagic": {
@@ -464,7 +482,8 @@
 
   "AliceMargatroid:SemiAutomaton": {
     "NAME": "半自主人偶",
-    "DESCRIPTION": "alicemargatroid:生成 下一个 alicemargatroid:人偶 后，使其 alicemargatroid:行动 !M! 次。 NL 消耗 。"
+    "DESCRIPTION": "alicemargatroid:生成 下一个 alicemargatroid:人偶 后，使其 alicemargatroid:行动 !M! 次。 NL 消耗 。",
+    "SIGN": "人偶"
   },
 
   "AliceMargatroid:Geyser": {
@@ -474,7 +493,8 @@
 
   "AliceMargatroid:SoldierOfCross": {
     "NAME": "交错的士兵",
-    "DESCRIPTION": "爱丽丝或目标 alicemargatroid:人偶 获得 !B! 点 格挡 。 NL alicemargatroid:指令 ： *嘲讽 所有敌人 !M! 回合，被 *嘲讽 的敌人只能攻击目标栏位。"
+    "DESCRIPTION": "爱丽丝或目标 alicemargatroid:人偶 获得 !B! 点 格挡 。 NL alicemargatroid:指令 ： *嘲讽 所有敌人 !M! 回合，被 *嘲讽 的敌人只能攻击目标栏位。",
+    "SIGN": "剑符"
   },
 
   "AliceMargatroid:UnlockMystic": {
@@ -484,7 +504,8 @@
 
   "AliceMargatroid:SuicideSquad": {
     "NAME": "敢死小分队",
-    "DESCRIPTION": "alicemargatroid:指令 ：对目标 alicemargatroid:人偶 对应的敌人造成 !D! 点伤害，并且目标 alicemargatroid:人偶 获得 !B! 点 格挡 ，恢复 !M! 点生命，最大生命值增加 !M! 点。"
+    "DESCRIPTION": "alicemargatroid:指令 ：对目标 alicemargatroid:人偶 对应的敌人造成 !D! 点伤害，并且目标 alicemargatroid:人偶 获得 !B! 点 格挡 ，恢复 !M! 点生命，最大生命值增加 !M! 点。",
+    "SIGN": "步兵"
   },
 
   "AliceMargatroid:DollArrangement": {
@@ -512,30 +533,35 @@
   
   "AliceMargatroid:VivaciousShanghaiDoll": {
     "NAME": "活泼的上海人偶",
-    "DESCRIPTION": "alicemargatroid:生成 一个 alicemargatroid:上海人偶 ， NL 使其 alicemargatroid:行动 !M! 次。"
+    "DESCRIPTION": "alicemargatroid:生成 一个 alicemargatroid:上海人偶 ， NL 使其 alicemargatroid:行动 !M! 次。",
+    "SIGN": "枪符"
   },
 
   "AliceMargatroid:QuietHouraiDoll": {
     "NAME": "文静的蓬莱人偶",
     "DESCRIPTION": "alicemargatroid:生成 一个 alicemargatroid:蓬莱人偶 。 NL 下回合多抽一张牌。",
-    "UPGRADE_DESCRIPTION": "alicemargatroid:生成 一个 alicemargatroid:蓬莱人偶 ，使其 alicemargatroid:行动 !M! 次。 NL 下回合多抽一张牌。"
+    "UPGRADE_DESCRIPTION": "alicemargatroid:生成 一个 alicemargatroid:蓬莱人偶 ，使其 alicemargatroid:行动 !M! 次。 NL 下回合多抽一张牌。",
+    "SIGN": "雅符"
   },
   
   "AliceMargatroid:SpringKyotoDoll": {
     "NAME": "春之京都人偶",
     "DESCRIPTION": "alicemargatroid:生成 一个 alicemargatroid:京都人偶 。",
-    "UPGRADE_DESCRIPTION": "alicemargatroid:生成 一个 alicemargatroid:京都人偶 。 NL 获得 [E] 。"
+    "UPGRADE_DESCRIPTION": "alicemargatroid:生成 一个 alicemargatroid:京都人偶 。 NL 获得 [E] 。",
+    "SIGN": "雅符"
   },
 
   "AliceMargatroid:RedHairedNetherlandsDoll": {
     "NAME": "红发的荷兰人偶",
     "DESCRIPTION": "alicemargatroid:生成 一个 alicemargatroid:荷兰人偶 。",
-    "UPGRADE_DESCRIPTION": "固有 。 NL alicemargatroid:生成 一个 alicemargatroid:荷兰人偶 。"
+    "UPGRADE_DESCRIPTION": "固有 。 NL alicemargatroid:生成 一个 alicemargatroid:荷兰人偶 。",
+    "SIGN": "红符"
   },
 
   "AliceMargatroid:CharitableFranceDoll": {
     "NAME": "博爱的法兰西人偶",
-    "DESCRIPTION": "alicemargatroid:生成 一个 alicemargatroid:法兰西人偶 。 NL 给予目标栏位对应的敌人 !M! 层 虚弱 。"
+    "DESCRIPTION": "alicemargatroid:生成 一个 alicemargatroid:法兰西人偶 。 NL 给予目标栏位对应的敌人 !M! 层 虚弱 。",
+    "SIGN": "苍符"
   },
   
   "AliceMargatroid:DEPRECATEDMistyLondonDoll": {

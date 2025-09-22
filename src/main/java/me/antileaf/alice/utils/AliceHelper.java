@@ -121,7 +121,7 @@ public abstract class AliceHelper {
 			AliceHelper.addToTop(action);
 	}
 	
-	static ArrayList<AbstractGameAction> buffer = new ArrayList<>();
+	public static final ArrayList<AbstractGameAction> buffer = new ArrayList<>();
 	
 	public static void addActionToBuffer(AbstractGameAction action) {
 		buffer.add(action);

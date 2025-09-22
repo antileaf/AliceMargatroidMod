@@ -30,6 +30,7 @@ public class SoldierOfCross extends AbstractAliceCard {
 	private static final int BLOCK = 9;
 	private static final int MAGIC = 1;
 	private static final int UPGRADE_PLUS_BLOCK = 3;
+	private static final int UPGRADE_PLUS_MAGIC = 1;
 
 	public SoldierOfCross() {
 		super(
@@ -91,6 +92,7 @@ public class SoldierOfCross extends AbstractAliceCard {
 		if (!this.upgraded) {
 			this.upgradeName();
 			this.upgradeBlock(UPGRADE_PLUS_BLOCK);
+			this.upgradeMagicNumber(UPGRADE_PLUS_MAGIC);
 			this.initializeDescription();
 		}
 	}

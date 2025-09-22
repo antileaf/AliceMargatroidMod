@@ -339,7 +339,7 @@ public class AliceMargatroidMod implements
 		
 		logger.info("Loading card cardsign strings...");
 		AliceCardSignStrings.init((new Gson()).fromJson(
-				Gdx.files.internal(AliceHelper.getLocalizationFilePath("cardsign"))
+				Gdx.files.internal(AliceHelper.getLocalizationFilePath("cards"))
 						.readString(String.valueOf(StandardCharsets.UTF_8)),
 				(new TypeToken<Map<String, AliceCardSignStrings>>() {}).getType()));
 		

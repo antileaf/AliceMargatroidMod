@@ -2,7 +2,7 @@ package me.antileaf.alice.utils;
 
 import com.badlogic.gdx.controllers.Controller;
 
-public class AliceControllerHelper { // Implemented in
+public class AliceControllerHelper { // Implemented in ControllerListenerPatch
 	private static float[] axisValues = new float[]{0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F};
 	
 	public static void receiveAxisMoved(Controller controller, int axisCode, float value) {

@@ -68,7 +68,7 @@ public class Perihelion extends AbstractAliceCard {
 		}
 		
 		this.hasBeenInitialized = true;
-		AliceHelper.log("Perihelion has been initialized!");
+		logger.debug("Perihelion has been initialized!");
 	}
 	
 	private boolean shouldTriggerEffect() {
