@@ -18,12 +18,12 @@ public class RecycleDollInternalAction extends AbstractGameAction {
 		this.doll = doll;
 		this.newDoll = newDoll;
 		this.actionType = ActionTypeEnum.DOLL_OPERATE;
-		this.duration = DURATION;
+		this.duration = this.startDuration = DURATION;
 	}
 	
 	@Override
 	public void update() {
-		if (this.duration == DURATION) {
+		if (this.duration == this.startDuration) {
 			if (!DollManager.get().contains(this.doll)) {
 				logger.warn("RecycleDollInternalAction.update(): DollManager does not contain {}!",
 						this.doll.name);

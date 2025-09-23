@@ -28,7 +28,6 @@ import me.antileaf.alice.doll.dolls.FranceDoll;
 import me.antileaf.alice.doll.dolls.NetherlandsDoll;
 import me.antileaf.alice.doll.interfaces.OnDollOperateHook;
 import me.antileaf.alice.patches.enums.CardTargetEnum;
-import me.antileaf.alice.patches.misc.qol.FasterDollActionsPatch;
 import me.antileaf.alice.powers.unique.TauntedPower;
 import me.antileaf.alice.utils.AliceHelper;
 import org.apache.logging.log4j.LogManager;
@@ -37,6 +36,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.WeakHashMap;
 
 public class DollManager {
 	private static final Logger logger = LogManager.getLogger(DollManager.class.getName());
@@ -118,6 +118,9 @@ public class DollManager {
 	public HashMap<AbstractMonster, Integer> damageTarget = new HashMap<>();
 	public boolean isDamageTargetLocked = false;
 	
+	private static final WeakHashMap<AbstractGameAction, Boolean> dollActions = new WeakHashMap<>();
+	private static int dollActionCounter = 0;
+	
 	public DollManager(AbstractPlayer p) {
 		logger.info("DollManager constructor");
 		
@@ -136,6 +139,8 @@ public class DollManager {
 			this.dolls.add(new EmptyDollSlot());
 		
 		this.stats.clear();
+		
+		this.clearDollActions();
 		
 //		this.formation = Formation.NORMAL;
 		
@@ -160,6 +165,8 @@ public class DollManager {
 //		this.totalHouraiPassiveAmount = 0;
 		
 		this.stats.clear();
+		
+		this.clearDollActions();
 	}
 	
 	public boolean isShown() {
@@ -468,6 +475,8 @@ public class DollManager {
 //			AliceHelper.addActionToBuffer(new AnonymousAction(() -> {
 //				this.triggerArtfulChanter(doll);
 //			}));
+		
+		AliceHelper.buffer.forEach(this::addDollAction);
 
 		AliceHelper.commitBuffer();
 	}
@@ -517,6 +526,8 @@ public class DollManager {
 		for (AbstractDoll other : this.dolls)
 			if (other != doll)
 				other.postOtherDollSpawn(doll);
+		
+		AliceHelper.buffer.forEach(this::addDollAction);
 		
 		AliceHelper.commitBuffer();
 		
@@ -571,7 +582,7 @@ public class DollManager {
 			if (card instanceof DollMagic)
 				((DollMagic) card).postDollAct();
 		
-		FasterDollActionsPatch.addAll(AliceHelper.buffer);
+		AliceHelper.buffer.forEach(this::addDollAction);
 		
 		AliceHelper.commitBuffer();
 //		logger.info("DollManager.dollAct(): Commited buffer here!");
@@ -616,6 +627,8 @@ public class DollManager {
 			if (other != doll) {
 				other.postOtherDollRecycled(doll);
 			}
+		
+		AliceHelper.buffer.forEach(this::addDollAction);
 		
 		AliceHelper.commitBuffer();
 
@@ -667,7 +680,10 @@ public class DollManager {
 		this.dolls.set(this.dolls.indexOf(doll), new EmptyDollSlot());
 		this.applyPowers();
 		
+		AliceHelper.buffer.forEach(this::addDollAction);
+		
 		AliceHelper.commitBuffer();
+		
 		this.update();
 	}
 	
@@ -852,5 +868,51 @@ public class DollManager {
 		float x = this.owner.drawX + dist * MathUtils.cosDeg(degree);
 		float y = this.owner.drawY + this.owner.hb.height * 0.6F + dist * MathUtils.sinDeg(degree);
 		return new Vector2(x, y);
+	}
+	
+	public void addDollAction(AbstractGameAction action) {
+		dollActions.put(action, false);
+	}
+	
+	public boolean isDollAction(AbstractGameAction action) {
+		return dollActions.containsKey(action);
+	}
+	
+	public boolean hasApplied(AbstractGameAction action) {
+		return dollActions.get(action);
+	}
+	
+	public void setApplied(AbstractGameAction action) {
+		if (dollActions.containsKey(action))
+			dollActions.put(action, true);
+	}
+	
+	public void addDollActionCounter() {
+		dollActionCounter++;
+	}
+	
+	public float getDollActionSpeed() {
+		final int base = MAX_DOLL_SLOTS;
+		
+		if (dollActionCounter < base)
+			return 1.0F;
+		else if (dollActionCounter < 2 * base)
+			return MathUtils.lerp(1.0F, 0.5F, (dollActionCounter - base) / (float) base);
+		else if (dollActionCounter < 3 * base)
+			return MathUtils.lerp(0.5F, 0.25F, (dollActionCounter - 2 * base) / (float) base);
+		else
+			return 0.25F;
+	}
+	
+	public void applyDollActionSpeed(AbstractGameAction action) {
+		float duration = ReflectionHacks.getPrivate(action, AbstractGameAction.class, "duration");
+		duration *= this.getDollActionSpeed();
+		ReflectionHacks.setPrivate(action, AbstractGameAction.class, "duration", duration);
+		ReflectionHacks.setPrivate(action, AbstractGameAction.class, "startDuration", duration);
+	}
+	
+	public void clearDollActions() {
+		dollActions.clear();
+		dollActionCounter = 0;
 	}
 }

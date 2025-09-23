@@ -393,6 +393,8 @@ public class AliceMargatroidMod implements
 	@Override
 	public void receiveCardUsed(AbstractCard c) {
 //		DollManager.get().debug();
+		logger.debug("receive card used, clearing doll actions");
+		DollManager.get().clearDollActions();
 	}
 	
 	@Override

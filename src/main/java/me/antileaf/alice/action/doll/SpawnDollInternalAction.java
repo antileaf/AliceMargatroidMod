@@ -14,7 +14,7 @@ public class SpawnDollInternalAction extends AbstractGameAction {
 		this.doll = doll;
 		this.index = index;
 		this.actionType = ActionTypeEnum.DOLL_OPERATE;
-		this.duration = DURATION;
+		this.duration = this.startDuration = DURATION;
 	}
 	
 	@Override

@@ -4,9 +4,12 @@ import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import me.antileaf.alice.doll.AbstractDoll;
 import me.antileaf.alice.doll.DollManager;
 import me.antileaf.alice.patches.enums.ActionTypeEnum;
-import me.antileaf.alice.utils.AliceHelper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class DollLoseBlockAction extends AbstractGameAction {
+	private static final Logger logger = LogManager.getLogger(DollLoseBlockAction.class.getName());
+	
 	private static final float DURATION = 0.1F;
 	private final AbstractDoll doll;
 	private int block;
@@ -15,16 +18,15 @@ public class DollLoseBlockAction extends AbstractGameAction {
 		this.doll = doll;
 		this.block = block;
 		this.actionType = ActionTypeEnum.DOLL_OPERATE;
-		this.duration = DURATION;
+		this.duration = this.startDuration = DURATION;
 	}
 	
 	@Override
 	public void update() {
-		if (this.duration == DURATION) {
+		if (this.duration == this.startDuration) {
 			if (!DollManager.get().contains(this.doll)) {
-				AliceHelper.log(this.getClass(),
-						"DollLoseBlockAction.update(): DollManager does not contain " +
-								this.doll.getClass().getSimpleName() + "!");
+				logger.warn("update() (first frame): DollManager does not contain {}!",
+						this.doll.getClass().getSimpleName());
 				this.isDone = true;
 				return;
 			}
@@ -45,9 +47,8 @@ public class DollLoseBlockAction extends AbstractGameAction {
 				DollManager.get().loseBlock(this.doll, this.block);
 			}
 			else
-				AliceHelper.log(this.getClass(),
-						"DollGainBlockAction.update(): DollManager does not contain " +
-								this.doll.getClass().getSimpleName() + "!");
+				logger.warn("update(): DollManager does not contain {}!",
+						this.doll.getClass().getSimpleName());
 		}
 	}
 }

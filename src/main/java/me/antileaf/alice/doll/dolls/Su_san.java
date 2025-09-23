@@ -85,6 +85,15 @@ public class Su_san extends AbstractDoll {
 	}
 	
 	@Override
+	public boolean skipActWaiting() {
+		for (AbstractMonster m : AbstractDungeon.getMonsters().monsters)
+			if (!m.isDeadOrEscaped() && m.hasPower(PoisonPower.POWER_ID))
+				return false;
+		
+		return true;
+	}
+	
+	@Override
 	public void updateDescriptionImpl() {
 		this.passiveDescription = String.format(dollStrings.PASSIVE_DESCRIPTION, this.coloredPassiveAmount());
 		this.actDescription = dollStrings.ACT_DESCRIPTION;

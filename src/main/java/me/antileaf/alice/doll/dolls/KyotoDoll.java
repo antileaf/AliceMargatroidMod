@@ -10,6 +10,7 @@ import me.antileaf.alice.action.doll.DollGainBlockAction;
 import me.antileaf.alice.action.doll.HealDollAction;
 import me.antileaf.alice.doll.AbstractDoll;
 import me.antileaf.alice.doll.DollDamageInfo;
+import me.antileaf.alice.doll.DollManager;
 import me.antileaf.alice.doll.enums.DollAmountTime;
 import me.antileaf.alice.doll.enums.DollAmountType;
 import me.antileaf.alice.strings.AliceDollStrings;
@@ -98,13 +99,15 @@ public class KyotoDoll extends AbstractDoll {
 					DollAmountType.DAMAGE,
 					DollAmountTime.PASSIVE);
 
-			AliceHelper.addToTop(new DamageAllEnemiesAction(
+			AbstractGameAction action = new DamageAllEnemiesAction(
 					AbstractDungeon.player,
 					matrix,
 					DamageInfo.DamageType.THORNS,
 					AbstractGameAction.AttackEffect.FIRE,
 					true
-			));
+			);
+			DollManager.get().addDollAction(action);
+			this.addToTop(action);
 		}
 	}
 

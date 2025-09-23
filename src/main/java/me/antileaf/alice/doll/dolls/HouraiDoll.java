@@ -2,7 +2,9 @@ package me.antileaf.alice.doll.dolls;
 
 import com.megacrit.cardcrawl.actions.common.DrawCardAction;
 import com.megacrit.cardcrawl.actions.common.GainEnergyAction;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
+import com.megacrit.cardcrawl.powers.NoDrawPower;
 import me.antileaf.alice.doll.AbstractDoll;
 import me.antileaf.alice.doll.enums.DollAmountType;
 import me.antileaf.alice.strings.AliceDollStrings;
@@ -54,6 +56,12 @@ public class HouraiDoll extends AbstractDoll {
 	@Override
 	public void onAct(DollActModifier modifier) {
 		AliceHelper.addActionToBuffer(new DrawCardAction(this.actAmount));
+	}
+	
+	@Override
+	public boolean skipActWaiting() {
+		return AbstractDungeon.player.hasPower(NoDrawPower.POWER_ID) ||
+				(AbstractDungeon.player.drawPile.isEmpty() && AbstractDungeon.player.discardPile.isEmpty());
 	}
 	
 	@Override

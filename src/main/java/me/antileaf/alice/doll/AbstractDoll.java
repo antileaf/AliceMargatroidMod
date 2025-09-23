@@ -518,6 +518,10 @@ public abstract class AbstractDoll extends CustomOrb {
 	// All actions added by onAct() should call addActionToBuffer.
 	// The buffer will be committed in DollManager.dollAct().
 	public abstract void onAct(DollActModifier modifier);
+	
+	public boolean skipActWaiting() {
+		return false;
+	}
 
 	@Deprecated
 	public void onSpecialAct(DollActModifier modifier) {

@@ -16,7 +16,7 @@ public class SpawnDollAction extends AbstractGameAction {
 		this.index = index;
 		this.followUpAction = followUpAction;
 		this.actionType = ActionTypeEnum.DOLL_OPERATE;
-		this.duration = DURATION;
+		this.duration = this.startDuration = DURATION;
 	}
 
 	public SpawnDollAction(AbstractDoll doll, int index) {

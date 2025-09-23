@@ -18,7 +18,7 @@ public class DollActAction extends AbstractGameAction {
 		this.doll = doll;
 		this.modifier = modifier;
 		this.actionType = ActionTypeEnum.DOLL_OPERATE;
-		this.duration = DURATION;
+		this.duration = this.startDuration = DURATION;
 	}
 	
 	public DollActAction(AbstractDoll doll) {
@@ -32,6 +32,15 @@ public class DollActAction extends AbstractGameAction {
 					this.doll.getClass().getSimpleName());
 			this.isDone = true;
 			return;
+		}
+		
+		if (this.duration == this.startDuration) {
+			if (DollManager.get().contains(this.doll)) {
+				if (this.doll.skipActWaiting())
+					this.duration = 0.0F;
+			}
+			else
+				logger.warn("DollActAction.update() (skipped): There may be a bug in DollManager.");
 		}
 		
 //		if (this.duration == DURATION) {
