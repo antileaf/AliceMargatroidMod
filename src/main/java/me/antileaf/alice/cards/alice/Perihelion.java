@@ -1,6 +1,7 @@
 package me.antileaf.alice.cards.alice;
 
 import basemod.helpers.CardModifierManager;
+import com.evacipated.cardcrawl.mod.stslib.cards.interfaces.OnObtainCard;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.DamageAllEnemiesAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -8,15 +9,15 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import me.antileaf.alice.AliceMargatroidMod;
 import me.antileaf.alice.cards.AbstractAliceCard;
+import me.antileaf.alice.cards.interfaces.OnCreatedCard;
 import me.antileaf.alice.patches.enums.AbstractCardEnum;
 import me.antileaf.alice.utils.AliceHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class Perihelion extends AbstractAliceCard {
-	private static final Logger logger = LogManager.getLogger(Perihelion.class.getName());
+public class Perihelion extends AbstractAliceCard implements OnObtainCard, OnCreatedCard {
+	private static final Logger logger = LogManager.getLogger(Perihelion.class);
 
 	public static final String SIMPLE_NAME = Perihelion.class.getSimpleName();
 	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
@@ -49,35 +50,53 @@ public class Perihelion extends AbstractAliceCard {
 		this.damage = this.baseDamage = DAMAGE;
 		this.magicNumber = this.baseMagicNumber = MAGIC;
 		this.isMultiDamage = true;
-		
+	}
+	
+	@Override
+	public void onObtainCard() {
 		this.setInitialState(null);
 	}
 	
+	@Override
+	public void onCreated() {
+		if (!this.hasBeenInitialized)
+			this.setInitialState(null);
+	}
+	
 	public void setInitialState(Perihelion other) {
+		if (other != null && !other.hasBeenInitialized)
+			other.setInitialState(null);
+		
+		this.initialCost = COST;
+		
 		if (other == null) {
-			this.initialCost = this.cost;
+//			this.initialCost = this.cost;
 			this.initialBaseDamage = this.baseDamage;
 			this.initialBaseMagicNumber = this.baseMagicNumber;
 			this.initialUpgraded = this.upgraded;
 		}
 		else {
-			this.initialCost = other.cost;
-			this.initialBaseDamage = other.baseDamage;
-			this.initialBaseMagicNumber = other.baseMagicNumber;
-			this.initialUpgraded = other.upgraded;
+//			this.initialCost = other.initialCost;
+			this.initialBaseDamage = other.initialBaseDamage;
+			this.initialBaseMagicNumber = other.initialBaseMagicNumber;
+			this.initialUpgraded = other.initialUpgraded;
 		}
 		
 		this.hasBeenInitialized = true;
 		logger.debug("Perihelion has been initialized!");
+		logger.debug("  initialCost = {}", this.initialCost);
+		logger.debug("  initialBaseDamage = {}", this.initialBaseDamage);
+		logger.debug("  initialBaseMagicNumber = {}", this.initialBaseMagicNumber);
+		logger.debug("  initialUpgraded = {}", this.initialUpgraded);
 	}
 	
 	private boolean shouldTriggerEffect() {
 		if (!this.hasBeenInitialized) {
-			AliceMargatroidMod.logger.warn("Perihelion has not been initialized!");
-			return false;
+			logger.warn("Perihelion has not been initialized!");
+			this.setInitialState(null);
 		}
 		
-		if (this.costForTurn != this.initialCost ||
+		if (((this.isCostModified || isCostModifiedForTurn) ? this.costForTurn : this.cost) != this.initialCost ||
 				this.baseDamage != this.initialBaseDamage ||
 				this.baseMagicNumber != this.initialBaseMagicNumber ||
 				this.upgraded != this.initialUpgraded)
@@ -87,6 +106,14 @@ public class Perihelion extends AbstractAliceCard {
 			return true;
 		
 		return false;
+	}
+	
+	@Override
+	public void triggerOnGlowCheck() {
+		if (this.shouldTriggerEffect())
+			this.glowColor = AbstractCard.GOLD_BORDER_GLOW_COLOR.cpy();
+		else
+			this.glowColor = AbstractCard.BLUE_BORDER_GLOW_COLOR.cpy();
 	}
 	
 	@Override
@@ -124,14 +151,6 @@ public class Perihelion extends AbstractAliceCard {
 	}
 	
 	@Override
-	public void triggerOnGlowCheck() {
-		if (this.shouldTriggerEffect())
-			this.glowColor = AbstractCard.GOLD_BORDER_GLOW_COLOR.cpy();
-		else
-			this.glowColor = AbstractCard.BLUE_BORDER_GLOW_COLOR.cpy();
-	}
-	
-	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
 		this.addToBot(new DamageAllEnemiesAction(p, this.multiDamage, this.damageTypeForTurn,
 				AbstractGameAction.AttackEffect.FIRE));
@@ -139,9 +158,7 @@ public class Perihelion extends AbstractAliceCard {
 	
 	@Override
 	public AbstractCard makeCopy() {
-		Perihelion card = new Perihelion();
-		card.setInitialState(this);
-		return card;
+		return new Perihelion();
 	}
 	
 	@Override
