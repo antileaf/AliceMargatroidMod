@@ -7,6 +7,7 @@ import me.antileaf.alice.action.utils.AnonymousAction;
 import me.antileaf.alice.cards.alice.Bookmark;
 import me.antileaf.alice.utils.AliceHelper;
 
+@SuppressWarnings("unused")
 public class BookmarkCachePatch {
 	@SpirePatch(
 			clz = AbstractPlayer.class,

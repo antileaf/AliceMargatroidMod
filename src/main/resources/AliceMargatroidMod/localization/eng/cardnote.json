@@ -9,8 +9,12 @@
   
   "AliceMargatroid:Bookmark": {
     "TITLE": "State Tracking",
-    "DESCRIPTION": "",
-    "EXTENDED_DESCRIPTION": ["There is #rNo card in hand last turn.", "There are #b%d card(s) last turn (not including #yBookmark ):"]
+    "DESCRIPTION": "If played in the first turn, the hand at the start of the last turn of last combat will be returned.",
+    "EXTENDED_DESCRIPTION": [
+      "There is #rNo card in hand last turn.",
+      "There are #b%d card(s) last turn (not including #yBookmark ):",
+      "There are #b%d card(s) at the start of the last turn of last combat (not including #yBookmark ):"
+    ]
   },
   
   "AliceMargatroid:Perihelion": {

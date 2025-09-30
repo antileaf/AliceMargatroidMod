@@ -372,7 +372,7 @@ public class AliceMargatroidMod implements
 	@Override
 	public void receivePostBattle(AbstractRoom room) {
 		DollManager.get().clearPostBattle();
-		Bookmark.clearCache();
+		Bookmark.postBattle();
 		BaseMod.MAX_HAND_SIZE = BaseMod.DEFAULT_MAX_HAND_SIZE;
 //		SkinSelectScreen.inst.resetCurrentSkin();
 //		AliceSpireKit.log("triggers receivePostBattle()");
@@ -381,7 +381,7 @@ public class AliceMargatroidMod implements
 	@Override
 	public void receiveOnBattleStart(AbstractRoom room) {
 		DollManager.get().initPreBattle();
-		Bookmark.clearCache();
+		Bookmark.onBattleStart();
 		if (AbstractDungeon.player instanceof AliceMargatroid &&
 				AliceConfigHelper.shouldOpenTutorial()) {
 			AliceTutorialHelper.openTutorial();

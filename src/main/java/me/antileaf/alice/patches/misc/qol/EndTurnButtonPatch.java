@@ -94,7 +94,7 @@ public class EndTurnButtonPatch {
 			paramtypez = {SpriteBatch.class, float.class, float.class}
 	)
 	public static class EndTurnGlowEffectPatch {
-		public static class Locator extends SpireInsertLocator {
+		private static class Locator extends SpireInsertLocator {
 			@Override
 			public int[] Locate(CtBehavior ctBehavior) throws CannotCompileException, PatchingException {
 				int[] tmp = LineFinder.findInOrder(ctBehavior,

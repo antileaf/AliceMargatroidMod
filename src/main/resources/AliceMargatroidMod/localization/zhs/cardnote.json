@@ -9,8 +9,12 @@
   
   "AliceMargatroid:Bookmark": {
     "TITLE": "状态追踪",
-    "DESCRIPTION": "",
-    "EXTENDED_DESCRIPTION": ["上回合开始时 #r没有 手牌。", "上回合开始时，共有 #b%d 张手牌（不包括“书签”）："]
+    "DESCRIPTION": "如果在第一回合打出，则会移回上一场战斗的最后一回合开始时的手牌。",
+    "EXTENDED_DESCRIPTION": [
+      "上回合开始时 #r没有 手牌。",
+      "上回合开始时，共有 #b%d 张可以移回的手牌（不包括“书签”）：",
+      "上一场战斗的最后一回合开始时，共有 #b%d 张手牌（不包括“书签”）："
+    ]
   },
   
   "AliceMargatroid:DEPLuminousShanghaiDoll": {

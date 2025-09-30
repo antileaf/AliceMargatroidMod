@@ -1,0 +1,93 @@
+{
+  "EmptyDollSlot": {
+    "NAME": "空人偶栏位",
+    "TYPE": "空栏位",
+    "TAG": "空栏位",
+    "TAG_COLOR": "",
+    "PASSIVE_NAME": "空栏位",
+    "PASSIVE_DESCRIPTION": "这是一个空的人偶栏位。",
+    "ACT_DESCRIPTION": "我说了这是空栏位你二龙吗？"
+  },
+  
+  "Su_san": {
+    "NAME": "铃铃",
+    "TYPE": "特殊人偶",
+    "TAG": "进攻",
+    "TAG_COLOR": "#r",
+    "PASSIVE_NAME": "忧郁",
+    "PASSIVE_DESCRIPTION": "敌人的回合开始时，额外结算一次 #g中毒 。",
+    "ACT_DESCRIPTION": "给予随机敌人 %s 层 #g中毒 。"
+  },
+  
+  "ShanghaiDoll": {
+    "NAME": "上海人偶",
+    "TYPE": "基础人偶",
+    "TAG": "进攻",
+    "TAG_COLOR": "#r",
+    "PASSIVE_NAME": "新月",
+    "PASSIVE_DESCRIPTION": " #y生成 时自动 #y行动 一次。 上海人偶造成的伤害可以享受 #y力量 加成。",
+    "ACT_DESCRIPTION": "对生命值最低的敌人造成 %s 点伤害。",
+    "EXTENDED_DESCRIPTION": ["（当前拥有 %d 点充能。）"]
+  },
+
+  "HouraiDoll": {
+    "NAME": "蓬莱人偶",
+    "TYPE": "强化人偶",
+    "TAG": "支援",
+    "TAG_COLOR": "#g",
+    "PASSIVE_NAME": "群山",
+    "PASSIVE_DESCRIPTION": "被 回收 时，获得 %s 。",
+    "ACT_DESCRIPTION": "抽 %s 张牌。"
+  },
+  
+  "KyotoDoll": {
+    "NAME": "京都人偶",
+    "TYPE": "基础人偶",
+    "TAG": "进攻",
+    "TAG_COLOR": "#r",
+    "PASSIVE_NAME": "落英",
+    "PASSIVE_DESCRIPTION": "恢复溢出的生命时，对所有敌人造成等量伤害。",
+    "ACT_DESCRIPTION": "恢复一半最大生命值。"
+  },
+  
+  "NetherlandsDoll": {
+    "NAME": "荷兰人偶",
+    "TYPE": "强化人偶",
+    "TAG": "支援",
+    "TAG_COLOR": "#g",
+    "PASSIVE_NAME": "罗盘",
+    "PASSIVE_DESCRIPTION": "为爱丽丝提供 %s 点 力量 和 %s 点 敏捷 。 #y生成 其它 荷兰人偶 时， #r改为 使本 人偶 行动 #b2 次。",
+    "ACT_DESCRIPTION": "交替使被动效果的 力量 或 敏捷 增加 #b1 点。"
+  },
+  
+  "FranceDoll": {
+    "NAME": "法兰西人偶",
+    "TYPE": "强化人偶",
+    "TAG": "防御",
+    "TAG_COLOR": "#b",
+    "PASSIVE_NAME": "星砂",
+    "PASSIVE_DESCRIPTION": "回合开始时，将本 人偶 的 格挡 设置为与爱丽丝相同。",
+    "ACT_DESCRIPTION": "前往一个无法完全格挡攻击伤害的位置，并获得 %s 点 格挡 。 NL 不会移动到已经有 法兰西人偶 的位置。"
+  },
+  
+  "DEPRECATEDLondonDoll": {
+    "NAME": "伦敦人偶",
+    "TYPE": "强化人偶",
+    "TAG": "策略",
+    "TAG_COLOR": "#y",
+    "PASSIVE_NAME": "齿轮",
+    "PASSIVE_DESCRIPTION": "被 回收 或破坏时， 行动 一次。",
+    "ACT_DESCRIPTION": "将自身的 格挡 分配给相邻 人偶 ，并使它们 行动 一次。 NL 如果相邻 人偶 是 伦敦人偶 ，则只会获得 格挡 ，不会 行动 。"
+  },
+
+  "DEPRECATEDHouraiDoll": {
+    "NAME": "蓬莱人偶",
+    "TYPE": "基础人偶",
+    "TAG": "支援",
+    "TAG_COLOR": "#g",
+    "PASSIVE_NAME": "群山",
+    "PASSIVE_DESCRIPTION": "每有一个 蓬莱人偶 ，新 生成 的 人偶 的生命值就提高 %s 点。",
+    "ACT_DESCRIPTION": "获得 %s 点 格挡 ，然后重新分配所有人偶的 格挡 ，优先分配给无法格挡所有伤害的人偶和爱丽丝，剩余的均分给所有人偶。",
+    "EXTENDED_DESCRIPTION": ["（当前共 %s 点）"]
+  }
+}

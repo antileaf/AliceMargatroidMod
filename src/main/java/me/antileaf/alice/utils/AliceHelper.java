@@ -137,7 +137,7 @@ public abstract class AliceHelper {
 	}
 	
 	public static boolean isInBattle() {
-		return CardCrawlGame.dungeon != null &&
+		return // CardCrawlGame.dungeon != null &&
 				AbstractDungeon.isPlayerInDungeon() &&
 				AbstractDungeon.currMapNode != null &&
 				AbstractDungeon.getCurrRoom().phase == AbstractRoom.RoomPhase.COMBAT;
