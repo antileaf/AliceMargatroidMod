@@ -15,6 +15,7 @@ import com.megacrit.cardcrawl.localization.MonsterStrings;
 import com.megacrit.cardcrawl.powers.ArtifactPower;
 import com.megacrit.cardcrawl.powers.FrailPower;
 import com.megacrit.cardcrawl.powers.StrengthPower;
+import me.antileaf.alice.action.utils.AnonymousAction;
 import me.antileaf.alice.patches.enums.AbstractPlayerEnum;
 import me.antileaf.alice.relics.ShanghaiDollRelic;
 import me.antileaf.alice.strings.AliceLanguageStrings;
@@ -56,6 +57,11 @@ public class ShanghaiDollAsMonster extends CustomMonster {
 			this.setHp(20, 24);
 		else
 			this.setHp(23, 27);
+		
+		int baseDamage = AbstractDungeon.ascensionLevel >= 2 ? 6 : 5; // + 0~2
+		this.damage.add(new DamageInfo(this, baseDamage));
+		this.damage.add(new DamageInfo(this, baseDamage + 1));
+		this.damage.add(new DamageInfo(this, baseDamage + 2));
 
 		((AliceSpriterAnimation) this.animation).myPlayer.addListener(new ShanghaiListener(this));
 		this.setAnim("Idle");
@@ -80,10 +86,6 @@ public class ShanghaiDollAsMonster extends CustomMonster {
 
 	private int getFrail() {
 		return AbstractDungeon.ascensionLevel >= 17 ? 2 : 1;
-	}
-
-	private int getDamage() {
-		return AbstractDungeon.ascensionLevel >= 2 ? 6 : 5; // + 0~2
 	}
 
 	@Override
@@ -117,7 +119,7 @@ public class ShanghaiDollAsMonster extends CustomMonster {
 		else {
 			if (this.attackedCount + (num % 2) < 3)
 				this.setMove(monsterStrings.MOVES[2], (byte) 2, Intent.ATTACK,
-						this.getDamage() + this.bonusDamage);
+						this.damage.get(this.bonusDamage).base);
 			else
 				this.setMove(monsterStrings.MOVES[3], (byte) 3, Intent.ESCAPE);
 		}
@@ -141,17 +143,18 @@ public class ShanghaiDollAsMonster extends CustomMonster {
 			this.hasWeakened = true;
 		}
 		else if (this.nextMove == 2) {
+			this.setAnim("Attack");
+			
 			this.addToBot(new DamageAction(AbstractDungeon.player,
-					new DamageInfo(this, this.getDamage() + this.bonusDamage,
-							DamageInfo.DamageType.NORMAL),
+					this.damage.get(this.bonusDamage),
 					AbstractGameAction.AttackEffect.FIRE));
 			this.attackedCount++;
-
-			this.setAnim("Attack");
 		}
 		else {
-			this.setAnim("Escape");
-			this.animation.setFlip(false, false);
+			this.addToBot(new AnonymousAction(() -> {
+				this.setAnim("Escape");
+				this.animation.setFlip(false, false);
+			}));
 
 			this.addToBot(new EscapeAction(this));
 		}
