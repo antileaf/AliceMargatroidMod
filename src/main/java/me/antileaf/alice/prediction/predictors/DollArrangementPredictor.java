@@ -69,7 +69,7 @@ public class DollArrangementPredictor extends AbstractPredictor {
 			choices.remove(clazz);
 			this.cardsToPreview.add(new CreateDoll(clazz));
 
-			for (int i = DollManager.get().getDollCount() + 1; i < 3; i++) {
+			for (int i = DollManager.get().getDollCount(); i < 3; i++) {
 				if (choices.isEmpty())
 					break;
 

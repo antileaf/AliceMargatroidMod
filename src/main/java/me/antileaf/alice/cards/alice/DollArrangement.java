@@ -79,7 +79,7 @@ public class DollArrangement extends AbstractAliceCard {
 
 			this.addToBot(new SpawnDollAction(AbstractDoll.newInst(clazz), index));
 
-			for (int i = DollManager.get().getDollCount() + 1; i < 3; i++) {
+			for (int i = DollManager.get().getDollCount() + (slot instanceof EmptyDollSlot ? 1 : 0); i < 3; i++) {
 				if (choices.isEmpty())
 					break;
 

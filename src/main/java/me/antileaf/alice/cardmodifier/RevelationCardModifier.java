@@ -96,6 +96,23 @@ public class RevelationCardModifier extends AbstractCardModifier {
 			}));
 		}
  	}
+
+	@Override
+	public void onInitialApplication(AbstractCard card) {
+		if (this.upgraded) {
+			ArrayList<AbstractCardModifier> toRemove = new ArrayList<>();
+			
+			for (AbstractCardModifier other : CardModifierManager.getModifiers(card, ID)) {
+				if (other instanceof RevelationCardModifier && other != this &&
+						!((RevelationCardModifier) other).upgraded)
+					toRemove.add(other);
+			}
+			
+			for (AbstractCardModifier mod : toRemove)
+				CardModifierManager.removeSpecificModifier(card, mod, false);
+		}
+	}
+	
 	
 	@Override
 	public AbstractCardModifier makeCopy() {

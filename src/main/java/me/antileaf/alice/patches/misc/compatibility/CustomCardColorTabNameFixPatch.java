@@ -18,7 +18,8 @@ public class CustomCardColorTabNameFixPatch {
 			paramtypez = {ColorTabBar.class, SpriteBatch.class, float.class, ColorTabBar.CurrentTab.class},
 			optional = true)
 	public static class ColorTabBarFixRenderPatch {
-		private static UIStrings uiStrings = null;
+		private static UIStrings marisa = null;
+		private static UIStrings medicine = null;
 		
 		private static class Locator extends SpireInsertLocator {
 			@Override
@@ -32,12 +33,19 @@ public class CustomCardColorTabNameFixPatch {
 		public static void Insert(ColorTabBar _inst, SpriteBatch sb, float y, ColorTabBar.CurrentTab tab,
 										   @ByRef String[] tabName) {
 			if (tabName[0].equalsIgnoreCase(AbstractCardEnum.ALICE_MARISA_COLOR.name())) {
-				if (uiStrings == null)
-					uiStrings = CardCrawlGame.languagePack.getUIString(AliceHelper.makeID(
+				if (marisa == null)
+					marisa = CardCrawlGame.languagePack.getUIString(AliceHelper.makeID(
 							AbstractCardEnum.ALICE_MARISA_COLOR.name()));
 				
-				tabName[0] = uiStrings.TEXT[0];
+				tabName[0] = marisa.TEXT[0];
 			}
+//			else if (tabName[0].equalsIgnoreCase(AbstractCardEnum.ALICE_MEDICINE_COLOR.name())) {
+//				if (medicine == null)
+//					medicine = CardCrawlGame.languagePack.getUIString(AliceHelper.makeID(
+//							AbstractCardEnum.ALICE_MEDICINE_COLOR.name()));
+//
+//				tabName[0] = medicine.TEXT[0];
+//			}
 		}
 	}
 }

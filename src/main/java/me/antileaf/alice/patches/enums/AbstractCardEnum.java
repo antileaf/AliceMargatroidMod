@@ -17,4 +17,7 @@ public class AbstractCardEnum {
 	@SpireEnum // (name = "Marisa Derivation")
 	@NoLibraryType
 	public static AbstractCard.CardColor ALICE_MARISA_COLOR;
+	
+//	@SpireEnum
+//	public static AbstractCard.CardColor ALICE_MEDICINE_COLOR;
 }
