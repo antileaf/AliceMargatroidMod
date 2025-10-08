@@ -39,13 +39,13 @@ public class CustomCardColorTabNameFixPatch {
 				
 				tabName[0] = marisa.TEXT[0];
 			}
-//			else if (tabName[0].equalsIgnoreCase(AbstractCardEnum.ALICE_MEDICINE_COLOR.name())) {
-//				if (medicine == null)
-//					medicine = CardCrawlGame.languagePack.getUIString(AliceHelper.makeID(
-//							AbstractCardEnum.ALICE_MEDICINE_COLOR.name()));
-//
-//				tabName[0] = medicine.TEXT[0];
-//			}
+			else if (tabName[0].equalsIgnoreCase(AbstractCardEnum.ALICE_MEDICINE_COLOR.name())) {
+				if (medicine == null)
+					medicine = CardCrawlGame.languagePack.getUIString(AliceHelper.makeID(
+							AbstractCardEnum.ALICE_MEDICINE_COLOR.name()));
+
+				tabName[0] = medicine.TEXT[0];
+			}
 		}
 	}
 }

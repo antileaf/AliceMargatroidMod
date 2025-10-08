@@ -25,8 +25,6 @@ import me.antileaf.alice.utils.AliceTargetIconTipHelper;
 import me.antileaf.signature.patches.scv.SCVPanelPatch;
 import me.antileaf.signature.utils.SignatureHelper;
 
-import static me.antileaf.alice.AliceMargatroidMod.ALICE_PUPPETEER_FLAVOR;
-
 @SuppressWarnings("unused")
 public class CardTargetIconsPatch {
 	private static final float BODY_TEXT_WIDTH = 280.0F * Settings.scale;
@@ -69,7 +67,7 @@ public class CardTargetIconsPatch {
 		sb.draw(ImageMaster.KEYWORD_BODY, x + SHADOW_DIST_X, y - h - BOX_EDGE_H - SHADOW_DIST_Y, BOX_W, h + BOX_EDGE_H);
 		sb.draw(ImageMaster.KEYWORD_BOT, x + SHADOW_DIST_X, y - h - BOX_BODY_H - SHADOW_DIST_Y, BOX_W, BOX_EDGE_H);
 
-		sb.setColor(ALICE_PUPPETEER_FLAVOR);
+		sb.setColor(AbstractAliceCard.ALICE_PUPPETEER_FLAVOR);
 		sb.draw(AliceImageMaster.TIP_TOP, x, y, BOX_W, BOX_EDGE_H);
 		sb.draw(AliceImageMaster.TIP_MID, x, y - h - BOX_EDGE_H, BOX_W, h + BOX_EDGE_H);
 		sb.draw(AliceImageMaster.TIP_BOT, x, y - h - BOX_BODY_H, BOX_W, BOX_EDGE_H);

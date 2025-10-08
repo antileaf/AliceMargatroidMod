@@ -11,6 +11,7 @@ import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.helpers.CardHelper;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.screens.SingleCardViewPopup;
@@ -33,10 +34,10 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-import static me.antileaf.alice.AliceMargatroidMod.ALICE_PUPPETEER_FLAVOR;
-
 public abstract class AbstractAliceCard extends AbstractSecondaryVariablesCard {
 	private static final Logger logger = LogManager.getLogger(AbstractAliceCard.class.getName());
+	
+	public static final Color ALICE_PUPPETEER_FLAVOR = CardHelper.getColor(250,250,210);
 	
 	protected String cardSign = null;
 	public final ArrayList<AliceTargetIcon> targetIcons = new ArrayList<>();

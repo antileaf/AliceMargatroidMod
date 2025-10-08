@@ -18,8 +18,12 @@ import me.antileaf.alice.cards.AbstractAliceCard;
 import me.antileaf.alice.patches.enums.AbstractCardEnum;
 import me.antileaf.alice.utils.AliceHelper;
 import me.antileaf.alice.utils.AliceImageMaster;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Dessert extends AbstractAliceCard {
+	private static final Logger logger = LogManager.getLogger(Dessert.class);
+	
 	public static final String SIMPLE_NAME = Dessert.class.getSimpleName();
 	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
@@ -126,9 +130,9 @@ public class Dessert extends AbstractAliceCard {
 					this.iconTransparency = 0.0F;
 			}
 			
-			if (this.iconTransparency > 0.0F && this.iconTransparency < 1.0F) {
-				AliceHelper.logger.info("Dessert.render: iconTransparency = {}", this.iconTransparency);
-			}
+//			if (this.iconTransparency > 0.0F && this.iconTransparency < 1.0F) {
+//				logger.debug("render: iconTransparency = {}", this.iconTransparency);
+//			}
 			
 			if (this.iconTransparency > 0.0F && AbstractDungeon.player.hand.contains(this)) {
 				Texture icon = AliceImageMaster.DESSERT_ICON;

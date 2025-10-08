@@ -7,25 +7,28 @@ import me.antileaf.alice.monsters.MedicineMelancholy;
 import me.antileaf.alice.patches.enums.AbstractCardEnum;
 import me.antileaf.alice.utils.AliceHelper;
 
-public class MedicineDeadlyPoison extends AbstractMedicineCard {
-	public static final String SIMPLE_NAME = MedicineDeadlyPoison.class.getSimpleName();
+public class MedicineEnvenom extends AbstractMedicineCard {
+	public static final String SIMPLE_NAME = MedicineEnvenom.class.getSimpleName();
 	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
-	private static final int COST = 1;
-	private static final int MAGIC = 5;
-	private static final int UPGRADE_PLUS_MAGIC = 2;
+	private static final int COST = 2;
+	private static final int UPGRADED_COST = 1;
+	private static final int MAGIC = 1;
+	private static final int UPGRADE_PLUS_MAGIC = 1;
 	
-	public MedicineDeadlyPoison() {
+	public int upgradedCount = 0;
+	
+	public MedicineEnvenom() {
 		super(
 				ID,
 				cardStrings.NAME,
-				AliceHelper.getCardImgFilePath("medicine/deadly_poison"),
+				AliceHelper.getCardImgFilePath("medicine/envenom"),
 				COST,
 				cardStrings.DESCRIPTION,
-				CardType.SKILL,
+				CardType.POWER,
 				AbstractCardEnum.ALICE_MEDICINE_COLOR,
-				CardRarity.COMMON,
+				CardRarity.RARE,
 				CardTarget.NONE
 		);
 		
@@ -39,15 +42,24 @@ public class MedicineDeadlyPoison extends AbstractMedicineCard {
 	
 	@Override
 	public CardIntent getIntent() {
-		return new CardIntent().poison(this.magicNumber);
+		return new CardIntent().buff();
+	}
+	
+	@Override
+	public boolean canUpgrade() {
+		return this.upgradedCount < 2;
 	}
 	
 	@Override
 	public void upgrade() {
-		if (!this.upgraded) {
+		if (this.upgradedCount < 2) {
 			this.upgradeName();
-			this.upgradeMagicNumber(UPGRADE_PLUS_MAGIC);
-			this.initializeDescription();
+			this.upgradedCount++;
+			
+			if (this.upgradedCount <= 1)
+				this.upgradeBaseCost(UPGRADED_COST);
+			else
+				this.upgradeMagicNumber(UPGRADE_PLUS_MAGIC);
 		}
 	}
 }

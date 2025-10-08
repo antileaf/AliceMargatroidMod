@@ -23,11 +23,15 @@ import me.antileaf.alice.patches.enums.AbstractCardEnum;
 import me.antileaf.alice.strings.AliceCardNoteStrings;
 import me.antileaf.alice.strings.AliceLanguageStrings;
 import me.antileaf.alice.utils.AliceHelper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 
 public class SevenColoredPuppeteer extends AbstractAliceCard implements OnObtainCard {
+	private static final Logger logger = LogManager.getLogger(SevenColoredPuppeteer.class);
+	
 	public static final String SIMPLE_NAME = SevenColoredPuppeteer.class.getSimpleName();
 	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
@@ -104,7 +108,7 @@ public class SevenColoredPuppeteer extends AbstractAliceCard implements OnObtain
 //			return new TooltipInfo(cardNoteStrings.TITLE, cardNoteStrings.DESCRIPTION);
 		
 		if (cardNoteStrings == null) {
-			AliceHelper.logger.info("SevenColoredPuppeteer.getNote(): No note found for ID: {}!", ID);
+			logger.warn("getNote(): No note found for ID: {}!", ID);
 			return null;
 		}
 		

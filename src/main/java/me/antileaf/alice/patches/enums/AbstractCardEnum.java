@@ -1,6 +1,5 @@
 package me.antileaf.alice.patches.enums;
 
-import basemod.patches.com.megacrit.cardcrawl.screens.compendium.CardLibraryScreen.NoLibraryType;
 import com.evacipated.cardcrawl.modthespire.lib.SpireEnum;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 
@@ -15,9 +14,9 @@ public class AbstractCardEnum {
 //  public static AbstractCard.CardColor ALICE_LOLI_COLOR;
 
 	@SpireEnum // (name = "Marisa Derivation")
-	@NoLibraryType
+//	@NoLibraryType
 	public static AbstractCard.CardColor ALICE_MARISA_COLOR;
 	
-//	@SpireEnum
-//	public static AbstractCard.CardColor ALICE_MEDICINE_COLOR;
+	@SpireEnum
+	public static AbstractCard.CardColor ALICE_MEDICINE_COLOR;
 }

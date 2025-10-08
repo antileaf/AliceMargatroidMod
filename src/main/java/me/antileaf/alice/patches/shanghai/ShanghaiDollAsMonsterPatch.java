@@ -16,11 +16,15 @@ import me.antileaf.alice.monsters.ShanghaiDollAsMonster;
 import me.antileaf.alice.patches.enums.AbstractPlayerEnum;
 import me.antileaf.alice.utils.AliceConfigHelper;
 import me.antileaf.alice.utils.AliceHelper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 
 @SuppressWarnings("unused")
 public class ShanghaiDollAsMonsterPatch {
+	private static final Logger logger = LogManager.getLogger(ShanghaiDollAsMonsterPatch.class);
+	
 	private static final float CHANCE = 0.5F;
 
 	@SpirePatch(
@@ -51,7 +55,7 @@ public class ShanghaiDollAsMonsterPatch {
 					group.monsters.set(index, new ShanghaiDollAsMonster(x, y));
 					louse.dispose();
 
-					AliceHelper.logger.info("Successfully replaced Louse with Shanghai Doll at index {}", index);
+					logger.info("Successfully replaced Louse with Shanghai Doll at index {}", index);
 				}
 			}
 
@@ -77,11 +81,11 @@ public class ShanghaiDollAsMonsterPatch {
 
 		@SpireInsertPatch(locator = Locator.class)
 		public static void Insert(AbstractRoom _inst) {
-			AliceHelper.logger.info("Victory! monsters: {}", _inst.monsters.monsters);
+//			logger.debug("Victory! monsters: {}", _inst.monsters.monsters);
 
 			if (_inst.monsters.monsters.stream().anyMatch(m -> m instanceof ShanghaiDollAsMonster)) {
 				AliceHelper.getSaveData().setHasTriggeredShanghaiDollEvent(true);
-				AliceHelper.logger.info("Shanghai Doll event triggered!");
+				logger.info("Shanghai Doll event triggered!");
 			}
 		}
 	}

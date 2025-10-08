@@ -1,10 +1,13 @@
 package me.antileaf.alice.strings;
 
-import me.antileaf.alice.utils.AliceHelper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Map;
 
 public class AliceCardModifierStrings {
+	private static final Logger logger = LogManager.getLogger(AliceCardModifierStrings.class);
+	
 	public String NAME;
 	public String DESCRIPTION;
 	public String[] EXTENDED_DESCRIPTION = null;
@@ -17,7 +20,7 @@ public class AliceCardModifierStrings {
 	
 	public static AliceCardModifierStrings get(String id) {
 		if (!strings.containsKey(id))
-			AliceHelper.log("AliceCardModifierStrings.get", "No such string: " + id);
+			logger.warn("No such string: {}", id);
 		
 		return strings.get(id);
 	}

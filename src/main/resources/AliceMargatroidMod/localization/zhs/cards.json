@@ -628,6 +628,64 @@
     "NAME": "尻击",
     "DESCRIPTION": "造成 !D! 点伤害，获得未被 格挡 的造成伤害数量的 格挡 。"
   },
+
+
+  "AliceMargatroid:MedicinePoisonedStab": {
+    "NAME": "带毒刺击",
+    "DESCRIPTION": "造成 !D! 点伤害。 NL 给予 !M! 层 中毒 。"
+  },
+
+  "AliceMargatroid:MedicineBane": {
+    "NAME": "灾祸",
+    "DESCRIPTION": "造成 !D! 点伤害。 NL 如果敌人有 中毒 状态 ，则再次造成 !D! 点伤害。"
+  },
+
+  "AliceMargatroid:MedicineDeadlyPoison": {
+    "NAME": "致命毒药",
+    "DESCRIPTION": "给予 !M! 层 中毒 。"
+  },
+
+  "AliceMargatroid:MedicinePiercingWail": {
+    "NAME": "尖啸",
+    "DESCRIPTION": "所有敌人失去 !M! 力量 1回合。 NL 消耗 。"
+  },
+
+  "AliceMargatroid:MedicineOutmaneuver": {
+    "NAME": "抢占先机",
+    "DESCRIPTION": "下一回合获得 [E] [E] 。",
+    "UPGRADE_DESCRIPTION": "下一回合获得 [E] [E] [E] 。"
+  },
+
+  "AliceMargatroid:MedicineInfiniteBlades": {
+    "NAME": "无限刀刃",
+    "DESCRIPTION": "从下回合开始，每回合额外打出一张 *小刀 。"
+  },
+
+  "AliceMargatroid:MedicineCaltrops": {
+    "NAME": "铁蒺藜",
+    "DESCRIPTION": "每当你被攻击时，对攻击者造成 !M! 点伤害。"
+  },
+
+  "AliceMargatroid:MedicineNoxiousFumes": {
+    "NAME": "毒雾",
+    "DESCRIPTION": "从下回合起，每回合结束时，给予所有敌人 !M! 层 中毒 。"
+  },
+
+  "AliceMargatroid:MedicineCripplingPoison": {
+    "NAME": "致残毒云",
+    "DESCRIPTION": "给予所有敌人 !M! 层 中毒 和 !aliceM2! 层 虚弱 。 NL 消耗 。",
+    "UPGRADE_DESCRIPTION": "给予所有敌人 !M! 层 中毒 、 !aliceM2! 层 易伤 和 !aliceM2! 层 虚弱 。 NL 消耗 。"
+  },
+
+  "AliceMargatroid:MedicineEnvenom": {
+    "NAME": "涂毒",
+    "DESCRIPTION": "每有一次攻击造成未被 格挡 的伤害，就给予 !M! 层 中毒 。"
+  },
+
+  "AliceMargatroid:MedicineAfterImage": {
+    "NAME": "余像",
+    "DESCRIPTION": "你每打出一张牌，都获得 !M! 点 格挡 。"
+  },
   
   
   "AliceMargatroid:DEPRECATEDInterlacedRay": {

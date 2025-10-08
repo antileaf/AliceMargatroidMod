@@ -11,8 +11,13 @@ import javassist.CannotCompileException;
 import javassist.CtBehavior;
 import me.antileaf.alice.characters.AliceMargatroid;
 import me.antileaf.alice.utils.AliceHelper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+@SuppressWarnings("unused")
 public class SensoryStonePatch {
+	private static final Logger logger = LogManager.getLogger(SensoryStonePatch.class);
+	
 //	private static float alternateAnimateTimer = 0.0F;
 	
 	@SpirePatch(clz = SensoryStone.class, method = "reward", paramtypez = {int.class})
@@ -21,8 +26,7 @@ public class SensoryStonePatch {
 		public static void Prefix(SensoryStone _inst, int num) {
 			if (num != 0 && AbstractDungeon.isPlayerInDungeon() && AbstractDungeon.player instanceof AliceMargatroid) {
 				_inst.imageEventText.loadImage(AliceHelper.getEventImgFilePath("AliceSensoryStone"));
-				AliceHelper.log("SensoryStonePatch",
-						"Loading image: " + AliceHelper.getEventImgFilePath("AliceSensoryStone"));
+				logger.info("Loading image: {}", AliceHelper.getEventImgFilePath("AliceSensoryStone"));
 				Color new_color = Color.WHITE.cpy();
 				new_color.a = 0.0F;
 				ReflectionHacks.setPrivate(_inst.imageEventText, GenericEventDialog.class,

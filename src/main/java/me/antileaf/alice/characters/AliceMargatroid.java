@@ -36,10 +36,14 @@ import me.antileaf.alice.relics.SwordOfLight_Supernova;
 import me.antileaf.alice.ui.SkinSelectScreen;
 import me.antileaf.alice.utils.AliceConfigHelper;
 import me.antileaf.alice.utils.AliceHelper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 
 public class AliceMargatroid extends CustomPlayer {
+	private static final Logger logger = LogManager.getLogger(AliceMargatroid.class);
+	
 	private static final CharacterStrings characterStrings =
 			CardCrawlGame.languagePack.getCharacterString(AliceMargatroid.class.getSimpleName());
 
@@ -81,7 +85,7 @@ public class AliceMargatroid extends CustomPlayer {
 //		AliceHelper.logger.info("init Alice Margatroid");
 		
 		this.initializeClass(
-				"AliceMargatroidMod/img/char/AliceMargatroid/original.png",
+				"AliceMargatroidMod/img/charSelect/AliceMargatroid/original.png",
 				ALICE_SHOULDER_2, // required call to load textures and setup energy/loadout
 				ALICE_SHOULDER_1,
 				ALICE_CORPSE,
@@ -95,7 +99,7 @@ public class AliceMargatroid extends CustomPlayer {
 		if (SkinSelectScreen.inst != null)
 			this.updateSkin();
 
-		AliceHelper.logger.info("init finish");
+		logger.info("init finish");
 	}
 	
 	public ArrayList<String> getStartingDeck() { // 初始卡组

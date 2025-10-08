@@ -565,14 +565,19 @@ public abstract class AbstractDoll extends CustomOrb {
 
 	public AbstractDoll makeStatEquivalentCopy() {
 		AbstractDoll doll = newInst(this.getID());
-		doll.maxHP = this.maxHP;
-		doll.HP = this.HP;
-		doll.block = this.block;
-
-		if (doll.block > 0)
-			doll.gainBlockAnimation();
-
-		doll.healthBarUpdatedEvent();
+		
+		if (doll != null) {
+			doll.maxHP = this.maxHP;
+			doll.HP = this.HP;
+			doll.block = this.block;
+			
+			if (doll.block > 0)
+				doll.gainBlockAnimation();
+			
+			doll.healthBarUpdatedEvent();
+		}
+		else
+			logger.error("makeStatEquivalentCopy() failed for {}", this.name);
 
 		return doll;
 	}
@@ -1138,7 +1143,7 @@ public abstract class AbstractDoll extends CustomOrb {
 	
 	public static String getName(String clazz) {
 		if (clazz == null) {
-			AliceHelper.log(AbstractDoll.class, "getName() called with null.");
+			logger.warn("getName() called with null.");
 			return "Error";
 		}
 		
@@ -1283,7 +1288,7 @@ public abstract class AbstractDoll extends CustomOrb {
 		else if (dollID.equals(HouraiDoll.ID))
 			res = HouraiDoll.getDescription();
 		else
-			AliceHelper.log(AbstractDoll.class, "getDescription() Unknown doll ID: " + dollID);
+			logger.warn("getDescription() Unknown doll ID: {}", dollID);
 		
 		descriptions.put(dollID, res);
 		return res;

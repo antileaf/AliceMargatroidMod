@@ -36,7 +36,6 @@ public class CallToDollsPower extends AbstractAlicePower implements PlayerOrEnem
 	
 	@Override
 	public void updateDescription() {
-		AliceHelper.log("this.amount = ", this.amount);
 		this.description = String.format(powerStrings.DESCRIPTIONS[0], this.amount);
 	}
 	

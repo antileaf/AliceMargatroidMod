@@ -419,7 +419,7 @@ public class DollManager {
 					for (int i = 0; i < 2; i++)
 						AliceHelper.addToTop(new DollActAction(other));
 
-					AliceHelper.logger.info("There is already a NetherlandsDoll. Triggering its passive effect.");
+					logger.debug("There is already a NetherlandsDoll. Triggering its passive effect.");
 					return;
 				}
 		
@@ -431,7 +431,7 @@ public class DollManager {
 				}
 		}
 
-		logger.info("index = {}", index);
+		logger.debug("index = {}", index);
 		
 //		boolean artfulChanter = false;
 		
@@ -460,7 +460,7 @@ public class DollManager {
 		}
 
 		if (index == -1) {
-			logger.info("DollManager.spawnDoll: No empty slot found. Cannot spawn doll.");
+			logger.warn("DollManager.spawnDoll: No empty slot found. Cannot spawn doll.");
 			return;
 		}
 		

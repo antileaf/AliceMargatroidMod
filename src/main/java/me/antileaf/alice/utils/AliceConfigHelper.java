@@ -94,7 +94,7 @@ public class AliceConfigHelper {
 			if (card instanceof AbstractAliceMarisaCard)
 				((AbstractAliceMarisaCard) card).setImages(id);
 			else
-				AliceHelper.logger.info("AliceConfigHelper.updateAllMarisaCards: Card {} is not an instance of AbstractAliceMarisaCard.", id);
+				logger.warn("AliceConfigHelper.updateAllMarisaCards: Card {} is not an instance of AbstractAliceMarisaCard.", id);
 		}
 	}
 	

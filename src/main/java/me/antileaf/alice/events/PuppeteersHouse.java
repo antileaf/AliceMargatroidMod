@@ -21,11 +21,15 @@ import me.antileaf.alice.patches.enums.AbstractPlayerEnum;
 import me.antileaf.alice.relics.BlackTeaRelic;
 import me.antileaf.alice.relics.ShanghaiDollRelic;
 import me.antileaf.alice.utils.AliceHelper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class PuppeteersHouse extends PhasedEvent {
+	private static final Logger logger = LogManager.getLogger(PuppeteersHouse.class);
+	
 	public static final String SIMPLE_NAME = PuppeteersHouse.class.getSimpleName();
 	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	public static final EventStrings eventStrings = CardCrawlGame.languagePack.getEventString(ID);
@@ -35,7 +39,7 @@ public class PuppeteersHouse extends PhasedEvent {
 			RETURN = "RETURN", REFUSE = "REFUSE",
 			CARD = "CARD", TEA = "TEA", LEAVE = "LEAVE";
 
-	private static enum CharType {
+	private enum CharType {
 		NORMAL, ALICE, MARISA, TOUHOU
 	}
 
@@ -46,7 +50,8 @@ public class PuppeteersHouse extends PhasedEvent {
 			Pause.ID,
 			Hail.ID,
 			SpectreMystery.ID,
-			TheSouthernCross.ID
+			TheSouthernCross.ID,
+			Barrier.ID
 	};
 
 	public static final String[] UNCOMMON_CARDS = new String[]{
@@ -93,9 +98,13 @@ public class PuppeteersHouse extends PhasedEvent {
 		for (int i = 0; i < 3; i++) {
 			boolean ok = false;
 			while (!ok) {
-				int roll = AbstractDungeon.cardRng.random(99 - 55) + 55;
+				int roll;
+				if (this.charType == CharType.ALICE)
+					roll = AbstractDungeon.cardRng.random(99 - 55) + 55;
+				else
+					roll = AbstractDungeon.cardRng.random(99);
+					
 				String id;
-
 				if (this.charType == CharType.ALICE) {
 					if (roll < 55) // Not possible
 						id = AbstractDungeon.getCard(AbstractCard.CardRarity.COMMON).cardID;
@@ -371,7 +380,7 @@ public class PuppeteersHouse extends PhasedEvent {
 					AbstractDungeon.player.loseRelic(ShanghaiDollRelic.ID);
 
 					AliceHelper.getSaveData().setReturnedShanghaiDoll(true);
-					AliceHelper.logger.info("You returned Shanghai Doll to Alice. Thank you!");
+					logger.info("You returned Shanghai Doll to Alice. Thank you!");
 				});
 		if (this.charType != CharType.ALICE)
 			choicePhase.addOption(this.getRefuseOption(), (i) -> this.transitionKey(REFUSE));

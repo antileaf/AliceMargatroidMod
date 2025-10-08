@@ -6,13 +6,16 @@ import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.CardGroup;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import me.antileaf.alice.utils.AliceHelper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public class AliceMoveToHandAction extends AbstractGameAction {
+	private static final Logger logger = LogManager.getLogger(AliceMoveToHandAction.class);
+	
 	private CardGroup source;
 	private final Predicate<AbstractCard> filter;
 	private final Consumer<ArrayList<AbstractCard>> callback;
@@ -44,7 +47,7 @@ public class AliceMoveToHandAction extends AbstractGameAction {
 			}
 			
 			if (source == AbstractDungeon.player.hand) {
-				AliceHelper.log("AliceMoveToHandAction: source is hand???");
+				logger.warn("source is hand???");
 				this.isDone = true;
 				return;
 			}

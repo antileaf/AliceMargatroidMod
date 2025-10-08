@@ -62,13 +62,13 @@ public class UsokaePower extends AbstractAlicePower implements OnReceivePowerPow
 
 		AbstractMonster monster = (AbstractMonster) source;
 		if (!DollManager.get().damageTarget.containsKey(monster)) {
-			AliceHelper.logger.info("UsokaePower: No doll target for monster {}", monster.name);
+			logger.warn("No doll target for monster {}", monster.name);
 			return true;
 		}
 
 		AbstractDoll doll = DollManager.get().getDolls().get(DollManager.get().damageTarget.get(monster));
 		if (doll == null) {
-			AliceHelper.logger.info("UsokaePower: Doll target for monster {} is null", monster.name);
+			logger.warn("Doll target for monster {} is null", monster.name);
 			return true;
 		}
 

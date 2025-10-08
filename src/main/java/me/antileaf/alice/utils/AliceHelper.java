@@ -274,7 +274,7 @@ public abstract class AliceHelper {
 	}
 	
 	private static final String MARISA_MOD_ID = "TS05_Marisa";
-	private static final String PATCHOULI_MOD_ID = "PatchouliMod";
+//	@Deprecated private static final String PATCHOULI_MOD_ID = "PatchouliMod";
 	private static final String RANDOM_PREDICTION_MOD_ID = "RandomNumberPredictionMaster";
 	
 	static HashMap<String, Boolean> modAvailable = new HashMap<>();
@@ -290,9 +290,10 @@ public abstract class AliceHelper {
 		return AliceHelper.isModAvailable(MARISA_MOD_ID);
 	}
 	
-	public static boolean isPatchouliModAvailable() {
-		return AliceHelper.isModAvailable(PATCHOULI_MOD_ID);
-	}
+//	@Deprecated
+//	public static boolean isPatchouliModAvailable() {
+//		return AliceHelper.isModAvailable(PATCHOULI_MOD_ID);
+//	}
 
 	public static boolean isRandomPredictionModAvailable() {
 		return AliceHelper.isModAvailable(RANDOM_PREDICTION_MOD_ID);
@@ -308,5 +309,6 @@ public abstract class AliceHelper {
 		AliceMargatroidMod.logger.info("{} : {}", who.getClass().getSimpleName(), what);
 	}
 	
+	@Deprecated
 	public static final Logger logger = AliceMargatroidMod.logger;
 }

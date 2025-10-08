@@ -21,10 +21,14 @@ import me.antileaf.alice.relics.ShanghaiDollRelic;
 import me.antileaf.alice.strings.AliceLanguageStrings;
 import me.antileaf.alice.utils.AliceHelper;
 import me.antileaf.alice.utils.AliceSpriterAnimation;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.stream.Stream;
 
 public class ShanghaiDollAsMonster extends CustomMonster {
+	private static final Logger logger = LogManager.getLogger(ShanghaiDollAsMonster.class);
+	
 	public static final String SIMPLE_NAME = ShanghaiDollAsMonster.class.getSimpleName();
 	public static final String ID = SIMPLE_NAME;
 	public static final MonsterStrings monsterStrings = CardCrawlGame.languagePack.getMonsterStrings(ID);
@@ -181,13 +185,13 @@ public class ShanghaiDollAsMonster extends CustomMonster {
 		public void animationFinished(Animation animation) {
 			if (!animation.name.equals("Escape") && !animation.name.equals("Idle") && !animation.name.equals("Fall")) {
 				owner.setAnim("Idle");
-				AliceHelper.logger.info("ShanghaiDollAsMonster ended anim {}", animation.name);
+				logger.debug("ShanghaiDollAsMonster ended anim {}", animation.name);
 			}
 		}
 
 		@Override
 		public void animationChanged(Animation a, Animation b) {
-			AliceHelper.logger.info("ShanghaiDollAsMonster changed to anim {}", b.name);
+			logger.debug("ShanghaiDollAsMonster changed to anim {}", b.name);
 		}
 
 		@Override

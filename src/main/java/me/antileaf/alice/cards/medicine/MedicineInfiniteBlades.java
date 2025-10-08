@@ -1,5 +1,6 @@
 package me.antileaf.alice.cards.medicine;
 
+import com.megacrit.cardcrawl.cards.tempCards.Shiv;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import me.antileaf.alice.cards.AbstractMedicineCard;
@@ -18,14 +19,16 @@ public class MedicineInfiniteBlades extends AbstractMedicineCard {
 		super(
 				ID,
 				cardStrings.NAME,
-				null, // AliceHelper.getCardImgFilePath(SIMPLE_NAME),
+				AliceHelper.getCardImgFilePath("medicine/infinite_blades"),
 				COST,
 				cardStrings.DESCRIPTION,
 				CardType.POWER,
-				AbstractCardEnum.ALICE_MARGATROID_COLOR, // TODO
+				AbstractCardEnum.ALICE_MEDICINE_COLOR,
 				CardRarity.UNCOMMON,
 				CardTarget.NONE
 		);
+		
+		this.cardsToPreview = new Shiv();
 	}
 	
 	@Override

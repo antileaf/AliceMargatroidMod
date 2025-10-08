@@ -7,25 +7,25 @@ import me.antileaf.alice.monsters.MedicineMelancholy;
 import me.antileaf.alice.patches.enums.AbstractCardEnum;
 import me.antileaf.alice.utils.AliceHelper;
 
-public class MedicineDeadlyPoison extends AbstractMedicineCard {
-	public static final String SIMPLE_NAME = MedicineDeadlyPoison.class.getSimpleName();
+public class MedicineCaltrops extends AbstractMedicineCard {
+	public static final String SIMPLE_NAME = MedicineCaltrops.class.getSimpleName();
 	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
-	private static final int MAGIC = 5;
+	private static final int MAGIC = 3;
 	private static final int UPGRADE_PLUS_MAGIC = 2;
 	
-	public MedicineDeadlyPoison() {
+	public MedicineCaltrops() {
 		super(
 				ID,
 				cardStrings.NAME,
-				AliceHelper.getCardImgFilePath("medicine/deadly_poison"),
+				AliceHelper.getCardImgFilePath("medicine/caltrops"),
 				COST,
 				cardStrings.DESCRIPTION,
-				CardType.SKILL,
+				CardType.POWER,
 				AbstractCardEnum.ALICE_MEDICINE_COLOR,
-				CardRarity.COMMON,
+				CardRarity.UNCOMMON,
 				CardTarget.NONE
 		);
 		
@@ -39,7 +39,7 @@ public class MedicineDeadlyPoison extends AbstractMedicineCard {
 	
 	@Override
 	public CardIntent getIntent() {
-		return new CardIntent().poison(this.magicNumber);
+		return new CardIntent().buff();
 	}
 	
 	@Override

@@ -89,7 +89,7 @@ public class AliceMargatroidMod implements
 		CustomSavable<AliceSaveData> {
 	public static final String SIMPLE_NAME = AliceMargatroidMod.class.getSimpleName();
 	
-	public static final Logger logger = LogManager.getLogger(AliceMargatroidMod.class.getName());
+public static final Logger logger = LogManager.getLogger(AliceMargatroidMod.class.getName());
 	
 //	private static final String MOD_BADGE = "img/UI/badge.png";
 	
@@ -112,12 +112,13 @@ public class AliceMargatroidMod implements
 	private static final String POWER_CC_PORTRAIT = getCCPortraitPath("power");
 	private static final String ENERGY_ORB_CC_PORTRAIT = getCCPortraitPath("orb");
 	
-	public static final Color ALICE_IMPRESSION_COLOR = CardHelper.getColor(255,215,0);
-	public static final Color ALICE_PUPPETEER_FLAVOR = CardHelper.getColor(250,250,210);
+	public static final Color ALICE_IMPRESSION_COLOR = CardHelper.getColor(255, 215, 0);
 	public static final String CARD_ENERGY_ORB = "AliceMargatroidMod/img/UI/AliceMargatroid/energyOrb.png";
 	
+	public static final Color MEDICINE_IMPRESSION_COLOR = new Color(0.25F, 0.55F, 0.0F, 1.0F);
+	
 	private static final String CHARACTER_BUTTON = "AliceMargatroidMod/img/charSelect/AliceMargatroid/Button.png";
-	private static final String ALICE_PORTRAIT = "AliceMargatroidMod/img/charSelect/AliceMargatroid/alice.png";
+	private static final String ALICE_PORTRAIT = "AliceMargatroidMod/img/charSelect/AliceMargatroid/original.png";
 	
 	private final ArrayList<Keyword> dollKeywords = new ArrayList<>();
 
@@ -127,7 +128,6 @@ public class AliceMargatroidMod implements
 		BaseMod.subscribe(this);
 		BaseMod.addSaveField(AliceMargatroidMod.SIMPLE_NAME + ":SaveData", this);
 
-		logger.info("creating the color : ALICE_COLOR and ALICE_DERIVATION_COLOR");
 		BaseMod.addColor(
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
 				ALICE_IMPRESSION_COLOR,
@@ -146,6 +146,25 @@ public class AliceMargatroidMod implements
 				POWER_CC_PORTRAIT,
 				ENERGY_ORB_CC_PORTRAIT,
 				CARD_ENERGY_ORB
+		);
+		
+		BaseMod.addColor(
+				AbstractCardEnum.ALICE_MEDICINE_COLOR,
+				MEDICINE_IMPRESSION_COLOR,
+				MEDICINE_IMPRESSION_COLOR,
+				MEDICINE_IMPRESSION_COLOR,
+				MEDICINE_IMPRESSION_COLOR,
+				MEDICINE_IMPRESSION_COLOR,
+				MEDICINE_IMPRESSION_COLOR,
+				MEDICINE_IMPRESSION_COLOR,
+				getCCPath("bg_attack_green"),
+				getCCPath("bg_skill_green"),
+				getCCPath("bg_power_green"),
+				getCCPath("card_green_orb"),
+				getCCPortraitPath("bg_attack_green"),
+				getCCPortraitPath("bg_skill_green"),
+				getCCPortraitPath("bg_power_green"),
+				getCCPortraitPath("card_green_orb")
 		);
 		
 		if (!AliceHelper.isMarisaModAvailable()) {
@@ -175,7 +194,7 @@ public class AliceMargatroidMod implements
 	}
 	
 	public void receiveEditCharacters() {
-		logger.info("begin editing characters");
+//		logger.info("begin editing characters");
 
         logger.info("add {}", AbstractPlayerEnum.ALICE_MARGATROID_PLAYER_CLASS.toString());
 		BaseMod.addCharacter(
@@ -184,11 +203,12 @@ public class AliceMargatroidMod implements
 				ALICE_PORTRAIT,
 				AbstractPlayerEnum.ALICE_MARGATROID_PLAYER_CLASS
 		);
-		logger.info("done editing characters");
+		
+//		logger.info("done editing characters");
 	}
 	
 	public void receiveEditRelics() {
-		logger.info("Begin editing relics.");
+//		logger.info("Begin editing relics.");
 		
 		BaseMod.addRelicToCustomPool(
 				new AlicesGrimoire(),
@@ -231,7 +251,7 @@ public class AliceMargatroidMod implements
 				RelicType.SHARED
 		);
 		
-		logger.info("Relics editing finished.");
+//		logger.info("Relics editing finished.");
 	}
 	
 	public void receiveEditCards() {
@@ -239,7 +259,7 @@ public class AliceMargatroidMod implements
 
 		this.loadVariables();
 		
-		logger.info("starting editing cards");
+//		logger.info("starting editing cards");
 
 		new AutoAdd("AliceMargatroidMod")
 				.packageFilter("me.antileaf.alice.cards.alice")
@@ -250,6 +270,11 @@ public class AliceMargatroidMod implements
 				.packageFilter("me.antileaf.alice.cards.colorless")
 				.setDefaultSeen(true)
 				.cards();
+		
+//		new AutoAdd("AliceMargatroidMod")
+//				.packageFilter("me.antileaf.alice.cards.medicine")
+//				.setDefaultSeen(true)
+//				.cards();
 
 		if (!AliceHelper.isMarisaModAvailable()) {
 			new AutoAdd("AliceMargatroidMod")
@@ -258,7 +283,7 @@ public class AliceMargatroidMod implements
 					.cards();
 		}
 		
-		logger.info("done editing cards");
+//		logger.info("done editing cards");
 	}
 
 	@SuppressWarnings("unused")
@@ -273,7 +298,7 @@ public class AliceMargatroidMod implements
 	
 	@Override
 	public void receiveEditKeywords() {
-		logger.info("Setting up custom keywords");
+//		logger.info("Setting up custom keywords");
 
 		String keywordsPath = AliceHelper.getLocalizationFilePath("keywords");
 
@@ -285,14 +310,14 @@ public class AliceMargatroidMod implements
 				continue;
 			}
 
-            logger.info("Loading keyword : {}", key.NAMES[0]);
+//			logger.info("Loading keyword : {}", key.NAMES[0]);
 			BaseMod.addKeyword("alicemargatroid", key.NAMES[0], key.NAMES, key.DESCRIPTION);
 		}
 		
 		logger.info("Loading doll keywords");
 		AliceKeywordsHelper.addDollKeywords(this.dollKeywords);
 		
-		logger.info("Keywords setting finished.");
+//		logger.info("Keywords setting finished.");
 	}
 	
 	@Override
@@ -360,7 +385,7 @@ public class AliceMargatroidMod implements
 	
 	@Override
 	public void receiveAddAudio() {
-		logger.info("Adding audio");
+//		logger.info("Adding audio");
 		AliceAudioMaster.init();
 	}
 	
@@ -414,7 +439,8 @@ public class AliceMargatroidMod implements
 	
 	@Override
 	public void receivePostDungeonInitialize() {
-//		SkinSelectScreen.inst.resetCurrentSkin();
+		logger.info("receive post dungeon initialize. Clearing save data.");
+		saveData = new AliceSaveData();
 	}
 
 	@Override
@@ -501,6 +527,8 @@ public class AliceMargatroidMod implements
 
 		if (AliceHelper.isRandomPredictionModAvailable())
 			(new PredictionInitializer()).initialize();
+		
+		// ---------- Signature ----------
 
 		SignatureHelper.noDebuggingPrefix("AliceMargatroid:");
 
@@ -525,7 +553,7 @@ public class AliceMargatroidMod implements
 	@Override
 	public void receiveOnPlayerTurnStart() {
 //		monstersDestroyedFranceDoll.clear();
-		DollManager.getInstance(AbstractDungeon.player).onStartOfTurn();
+		DollManager.get().onStartOfTurn();
 	}
 	
 	@Override
@@ -545,8 +573,7 @@ public class AliceMargatroidMod implements
 			
 			AbstractMonster monster = (AbstractMonster) damageInfo.owner;
 			if (!DollManager.get().damageTarget.containsKey(monster)) {
-				AliceHelper.log("AliceMargatroidMod.receiveOnPlayerDamaged",
-						"damageTarget does not contain " + monster.name);
+				logger.warn("receiveOnPlayerDamaged: damageTarget does not contain {}", monster.name);
 				return amount;
 			}
 			
@@ -625,13 +652,13 @@ public class AliceMargatroidMod implements
 
 	@Override
 	public AliceSaveData onSave() {
-		logger.info("AliceMargatroidMod.onSave(): {}", serialize(saveData));
+		logger.info("onSave(): {}", serialize(saveData));
 		return saveData;
 	}
 
 	@Override
 	public void onLoad(AliceSaveData saveData) {
-		logger.info("AliceMargatroidMod.onLoad(): {}", serialize(saveData));
+		logger.info("onLoad(): {}", serialize(saveData));
 		if (saveData != null)
 			AliceMargatroidMod.saveData = saveData;
 	}

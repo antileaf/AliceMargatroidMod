@@ -12,11 +12,15 @@ import me.antileaf.alice.action.utils.AnonymousAction;
 import me.antileaf.alice.strings.AliceCardModifierStrings;
 import me.antileaf.alice.strings.AliceLanguageStrings;
 import me.antileaf.alice.utils.AliceHelper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RevelationCardModifier extends AbstractCardModifier {
+	private static final Logger logger = LogManager.getLogger(RevelationCardModifier.class);
+	
 	private static final String SIMPLE_NAME = RevelationCardModifier.class.getSimpleName();
 	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final AliceCardModifierStrings cardModifierStrings = AliceCardModifierStrings.get(ID);
@@ -92,7 +96,7 @@ public class RevelationCardModifier extends AbstractCardModifier {
 				}
 				
 				if (!failed.isEmpty())
-					AliceHelper.log(SIMPLE_NAME + ": Chosen card(s) not in hand: " + failed);
+					logger.warn("Chosen card(s) not in hand: {}", failed);
 			}));
 		}
  	}
