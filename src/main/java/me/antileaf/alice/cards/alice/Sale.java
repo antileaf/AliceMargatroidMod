@@ -25,8 +25,8 @@ public class Sale extends AbstractAliceCard {
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 0;
-	private static final int GOLD = 15;
-	private static final int UPGRADE_PLUS_GOLD = 5;
+	private static final int GOLD = 16;
+	private static final int UPGRADE_PLUS_GOLD = 8;
 	
 	public Sale() {
 		super(

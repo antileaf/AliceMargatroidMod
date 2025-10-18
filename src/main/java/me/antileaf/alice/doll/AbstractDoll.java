@@ -1,29 +1,30 @@
 package me.antileaf.alice.doll;
 
+import basemod.ReflectionHacks;
 import basemod.abstracts.CustomOrb;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.*;
+import com.megacrit.cardcrawl.localization.PowerStrings;
 import com.megacrit.cardcrawl.localization.UIStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import com.megacrit.cardcrawl.powers.AbstractPower;
-import com.megacrit.cardcrawl.powers.StrengthPower;
+import com.megacrit.cardcrawl.powers.*;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.relics.RunicDome;
-import com.megacrit.cardcrawl.vfx.combat.BlockedNumberEffect;
-import com.megacrit.cardcrawl.vfx.combat.FlashAtkImgEffect;
-import com.megacrit.cardcrawl.vfx.combat.HbBlockBrokenEffect;
-import com.megacrit.cardcrawl.vfx.combat.HealEffect;
+import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
+import com.megacrit.cardcrawl.vfx.combat.*;
 import me.antileaf.alice.doll.dolls.*;
 import me.antileaf.alice.doll.enums.DollAmountTime;
 import me.antileaf.alice.doll.enums.DollAmountType;
@@ -39,11 +40,15 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 
 public abstract class AbstractDoll extends CustomOrb {
 	private static final Logger logger = LogManager.getLogger(AbstractDoll.class.getName());
 
-	public static String[] CREATURE_TEXT = CardCrawlGame.languagePack.getUIString("AbstractCreature").TEXT;
+	public static final String[] CREATURE_TEXT = CardCrawlGame.languagePack.getUIString("AbstractCreature").TEXT;
+	public static final PowerStrings POISON_STRINGS = CardCrawlGame.languagePack.getPowerStrings("Poison");
+	public static final PowerStrings CORPSE_EXPLOSION_STRINGS = CardCrawlGame.languagePack.getPowerStrings("CorpseExplosionPower");
+	
 	private static final float BLOCK_ANIM_TIME = 0.7F;
 	private static final float HB_Y_OFFSET_DIST = 6.0F * Settings.scale;
 	private static final float BLOCK_OFFSET_DIST = 12.0F * Settings.scale;
@@ -69,6 +74,11 @@ public abstract class AbstractDoll extends CustomOrb {
 	public int maxHP;
 	public int HP;
 	public int block;
+	
+	public int poison;
+	private float poisonFontScale = 1.0F;
+	public int corpseExplosion; // 尸爆术
+	private float corpseExplosionFontScale = 1.0F;
 	
 	protected DollAmountType passiveAmountType = DollAmountType.MAGIC;
 	protected DollAmountType actAmountType = DollAmountType.MAGIC;
@@ -101,7 +111,9 @@ public abstract class AbstractDoll extends CustomOrb {
 	private Color blockOutlineColor;
 	private Color blockTextColor;
 	private Color redHbBarColor;
+	private Color greenHbBarColor;
 	private Color blueHbBarColor;
+	private Color orangeHbBarColor;
 	private Color hbTextColor;
 	
 	private float hbYOffset;
@@ -122,6 +134,8 @@ public abstract class AbstractDoll extends CustomOrb {
 	public boolean reticleRendered;
 	private float reticleOffset;
 	private float reticleAnimTimer;
+	
+	private ArrayList<AbstractGameEffect> effects = new ArrayList<>();
 	
 	public boolean dontShowHPDescription = false;
 	private boolean taunt = false;
@@ -160,7 +174,9 @@ public abstract class AbstractDoll extends CustomOrb {
 		this.blockOutlineColor = new Color(0.6F, 0.93F, 0.98F, 0.0F);
 		this.blockTextColor = new Color(0.9F, 0.9F, 0.9F, 0.0F);
 		this.redHbBarColor = new Color(0.8F, 0.05F, 0.05F, 0.0F);
+		this.greenHbBarColor = Color.valueOf("78c13c00");
 		this.blueHbBarColor = Color.valueOf("31568c00");
+		this.orangeHbBarColor = new Color(1.0F, 0.5F, 0.0F, 0.0F);
 		this.hbTextColor = new Color(1.0F, 1.0F, 1.0F, 0.0F);
 		
 		this.reticleAlpha = 0.0F;
@@ -228,6 +244,10 @@ public abstract class AbstractDoll extends CustomOrb {
 			ArrayList<PowerTip> tips = new ArrayList<>();
 			tips.add(new PowerTip(this.name, this.description, this.tipImg));
 
+			if (this.poison > 0) {
+				// TODO
+			}
+			
 			TipHelper.queuePowerTips(
 					this.tX + 96.0F * Settings.scale,
 					this.tY + 64.0F * Settings.scale,
@@ -271,6 +291,28 @@ public abstract class AbstractDoll extends CustomOrb {
 //		if (this.vfxTimer < 0.0F) {
 //			this.vfxTimer = 0.0F; // TODO
 //		}
+		
+		Iterator<AbstractGameEffect> it = this.effects.iterator();
+		while (it.hasNext()) {
+			AbstractGameEffect effect = it.next();
+			effect.update();
+			
+			if (effect.isDone)
+				it.remove();
+		}
+		
+		if (this.poisonFontScale != 1.0F) {
+			this.poisonFontScale = MathUtils.lerp(this.poisonFontScale, 1.0F,
+					Gdx.graphics.getDeltaTime() * 10.0F);
+			if (this.poisonFontScale - 1.0F < 0.05F)
+				this.poisonFontScale = 1.0F;
+		}
+		if (this.corpseExplosionFontScale != 1.0F) {
+			this.corpseExplosionFontScale = MathUtils.lerp(this.corpseExplosionFontScale, 1.0F,
+					Gdx.graphics.getDeltaTime() * 10.0F);
+			if (this.corpseExplosionFontScale - 1.0F < 0.05F)
+				this.corpseExplosionFontScale = 1.0F;
+		}
 		
 		this.updateAnimation();
 		
@@ -426,7 +468,7 @@ public abstract class AbstractDoll extends CustomOrb {
 		CardCrawlGame.sound.play("BLOCK_BREAK");
 	}
 	
-	public boolean takeDamage(int amount) {
+	public boolean takeDamage(int amount, boolean isHpLoss) {
 		if (amount > 0) {
 			int blockLoss = Math.min(this.block, amount);
 			if (blockLoss > 0) {
@@ -482,6 +524,66 @@ public abstract class AbstractDoll extends CustomOrb {
 
 		this.updateDescription();
 		this.healthBarUpdatedEvent();
+	}
+	
+	public void applyPoison(int amount) {
+		if (amount <= 0) {
+			logger.warn("applyPoison() called with amount <= 0.");
+			return;
+		}
+		
+		AbstractDungeon.effectList.add(new FlashAtkImgEffect(
+				this.cX, this.cY, AbstractGameAction.AttackEffect.POISON));
+		
+		boolean hasPoisonAlready = this.poison > 0;
+		
+		if (hasPoisonAlready)
+			this.poisonFontScale = 8.0F;
+		this.poison = Math.min(this.poison + amount, 9999);
+		
+		this.poisonFlash();
+		
+		AbstractDungeon.effectList.add(new PowerDebuffEffect(
+				this.cX - this.animX, this.cY + this.hb.height / 2.0F,
+				(hasPoisonAlready ? ("+" + amount + " ") : " ") + POISON_STRINGS.NAME));
+		
+		AbstractDungeon.onModifyPower();
+	}
+	
+	public void poisonFlash() {
+		AbstractPower fakePoisonPower = new PoisonPower(null, null, 1);
+		this.effects.add(new GainPowerEffect(fakePoisonPower));
+		AbstractDungeon.effectList.add(new FlashPowerEffect(fakePoisonPower));
+	}
+	
+	public void applyCorpseExplosion(int amount) {
+		if (amount <= 0) {
+			logger.warn("applyCorpseExplosion() called with amount <= 0.");
+			return;
+		}
+		
+		AbstractDungeon.effectList.add(new FlashAtkImgEffect(
+				this.cX, this.cY, AbstractGameAction.AttackEffect.POISON));
+		
+		boolean hasCorpseExplosionAlready = this.corpseExplosion > 0;
+		
+		if (hasCorpseExplosionAlready)
+			this.corpseExplosionFontScale = 8.0F;
+		this.corpseExplosion += amount;
+		
+		this.corpseExplosionFlash();
+		
+		AbstractDungeon.effectList.add(new PowerDebuffEffect(
+				this.cX - this.animX, this.cY + this.hb.height / 2.0F,
+				(hasCorpseExplosionAlready ? ("+" + amount + " ") : " ") + CORPSE_EXPLOSION_STRINGS.NAME));
+		
+		AbstractDungeon.onModifyPower();
+	}
+	
+	public void corpseExplosionFlash() {
+		AbstractPower fakeCorpseExplosionPower = new CorpseExplosionPower(null);
+		this.effects.add(new GainPowerEffect(fakeCorpseExplosionPower));
+		AbstractDungeon.effectList.add(new FlashPowerEffect(fakeCorpseExplosionPower));
 	}
 	
 	public void showHealthBar() {
@@ -687,12 +789,12 @@ public abstract class AbstractDoll extends CustomOrb {
 	public void renderImage(SpriteBatch sb) {
 		sb.draw(
 				this.img,
-				this.cX - (float)this.img.getWidth() / 2.0F,
-				this.cY - (float)this.img.getHeight() / 2.0F + this.bobEffect.y / 8.0F,
-				(float)this.img.getWidth() / 2.0F,
-				(float)this.img.getHeight() / 2.0F,
-				(float)this.img.getWidth(),
-				(float)this.img.getHeight(),
+				this.cX - (float) this.img.getWidth() / 2.0F,
+				this.cY - (float) this.img.getHeight() / 2.0F + this.bobEffect.y / 8.0F,
+				(float) this.img.getWidth() / 2.0F,
+				(float) this.img.getHeight() / 2.0F,
+				(float) this.img.getWidth(),
+				(float) this.img.getHeight(),
 				this.scale,
 				this.scale,
 				this.angle,
@@ -842,7 +944,7 @@ public abstract class AbstractDoll extends CustomOrb {
 	
 	public void healthBarUpdatedEvent() {
 		this.healthBarAnimTimer = 1.2F;
-		this.targetHealthBarWidth = this.hb.width * (float)this.HP / (float)this.maxHP;
+		this.targetHealthBarWidth = this.hb.width * (float) this.HP / (float) this.maxHP;
 		
 		if (this.maxHP == this.HP) {
 			this.healthBarWidth = this.targetHealthBarWidth;
@@ -854,7 +956,6 @@ public abstract class AbstractDoll extends CustomOrb {
 		if (this.targetHealthBarWidth > this.healthBarWidth) {
 			this.healthBarWidth = this.targetHealthBarWidth;
 		}
-		
 	}
 	
 	protected void updateHealthBar() {
@@ -890,7 +991,9 @@ public abstract class AbstractDoll extends CustomOrb {
 			this.hbBgColor.a = this.hbAlpha * 0.5F;
 			this.hbShadowColor.a = this.hbAlpha * 0.2F;
 			this.hbTextColor.a = this.hbAlpha;
+			this.orangeHbBarColor.a = this.hbAlpha;
 			this.redHbBarColor.a = this.hbAlpha;
+			this.greenHbBarColor.a = this.hbAlpha;
 			this.blueHbBarColor.a = this.hbAlpha;
 			this.blockOutlineColor.a = this.hbAlpha;
 		}
@@ -964,6 +1067,10 @@ public abstract class AbstractDoll extends CustomOrb {
 			float y = this.hb.cY - this.hb.height / 2.0F + this.hbYOffset;
 			this.renderHealthBg(sb, x, y);
 			if (this.targetHealthBarWidth != 0.0F) {
+				this.renderOrangeHealthBar(sb, x, y);
+				if (this.poison > 0)
+					this.renderGreenHealthBar(sb, x, y);
+				
 				this.renderRedHealthBar(sb, x, y);
 			}
 			
@@ -975,6 +1082,8 @@ public abstract class AbstractDoll extends CustomOrb {
 			if (this.block != 0 && this.hbAlpha != 0.0F) {
 				this.renderBlockIconAndValue(sb, x, y);
 			}
+			
+			this.renderPowerIcons(sb, x, y);
 		}
 	}
 	
@@ -1004,7 +1113,23 @@ public abstract class AbstractDoll extends CustomOrb {
 			sb.draw(ImageMaster.HEALTH_BAR_B, x, y + HEALTH_BAR_OFFSET_Y, this.hb.width, HEALTH_BAR_HEIGHT);
 			sb.draw(ImageMaster.HEALTH_BAR_R, x + this.hb.width, y + HEALTH_BAR_OFFSET_Y, HEALTH_BAR_HEIGHT, HEALTH_BAR_HEIGHT);
 		}
+	}
+	
+	private void renderOrangeHealthBar(SpriteBatch sb, float x, float y) {
+		sb.setColor(this.orangeHbBarColor);
+		sb.draw(ImageMaster.HEALTH_BAR_L, x - HEALTH_BAR_HEIGHT, y + HEALTH_BAR_OFFSET_Y, HEALTH_BAR_HEIGHT, HEALTH_BAR_HEIGHT);
+		sb.draw(ImageMaster.HEALTH_BAR_B, x, y + HEALTH_BAR_OFFSET_Y, this.healthBarWidth, HEALTH_BAR_HEIGHT);
+		sb.draw(ImageMaster.HEALTH_BAR_R, x + this.healthBarWidth, y + HEALTH_BAR_OFFSET_Y, HEALTH_BAR_HEIGHT, HEALTH_BAR_HEIGHT);
+	}
+	
+	private void renderGreenHealthBar(SpriteBatch sb, float x, float y) {
+		sb.setColor(this.greenHbBarColor);
+		if (this.HP > 0) {
+			sb.draw(ImageMaster.HEALTH_BAR_L, x - HEALTH_BAR_HEIGHT, y + HEALTH_BAR_OFFSET_Y, HEALTH_BAR_HEIGHT, HEALTH_BAR_HEIGHT);
+		}
 		
+		sb.draw(ImageMaster.HEALTH_BAR_B, x, y + HEALTH_BAR_OFFSET_Y, this.targetHealthBarWidth, HEALTH_BAR_HEIGHT);
+		sb.draw(ImageMaster.HEALTH_BAR_R, x + this.targetHealthBarWidth, y + HEALTH_BAR_OFFSET_Y, HEALTH_BAR_HEIGHT, HEALTH_BAR_HEIGHT);
 	}
 	
 	private void renderRedHealthBar(SpriteBatch sb, float x, float y) {
@@ -1014,12 +1139,30 @@ public abstract class AbstractDoll extends CustomOrb {
 			sb.setColor(this.redHbBarColor);
 		}
 		
-		if (this.HP > 0) {
-			sb.draw(ImageMaster.HEALTH_BAR_L, x - HEALTH_BAR_HEIGHT, y + HEALTH_BAR_OFFSET_Y, HEALTH_BAR_HEIGHT, HEALTH_BAR_HEIGHT);
+		if (this.poison <= 0) {
+			if (this.HP > 0) {
+				sb.draw(ImageMaster.HEALTH_BAR_L, x - HEALTH_BAR_HEIGHT, y + HEALTH_BAR_OFFSET_Y, HEALTH_BAR_HEIGHT, HEALTH_BAR_HEIGHT);
+			}
+			
+			sb.draw(ImageMaster.HEALTH_BAR_B, x, y + HEALTH_BAR_OFFSET_Y, this.targetHealthBarWidth, HEALTH_BAR_HEIGHT);
+			sb.draw(ImageMaster.HEALTH_BAR_R, x + this.targetHealthBarWidth, y + HEALTH_BAR_OFFSET_Y, HEALTH_BAR_HEIGHT, HEALTH_BAR_HEIGHT);
 		}
-		
-		sb.draw(ImageMaster.HEALTH_BAR_B, x, y + HEALTH_BAR_OFFSET_Y, this.targetHealthBarWidth, HEALTH_BAR_HEIGHT);
-		sb.draw(ImageMaster.HEALTH_BAR_R, x + this.targetHealthBarWidth, y + HEALTH_BAR_OFFSET_Y, HEALTH_BAR_HEIGHT, HEALTH_BAR_HEIGHT);
+		else {
+			int amount = this.poison;
+			if (AbstractDungeon.player.hasPower(IntangiblePower.POWER_ID))
+				amount = 1;
+			
+			if (this.HP > amount) {
+				float w = 1.0F - (float)(this.HP - amount) / this.HP;
+				w *= this.targetHealthBarWidth;
+				if (this.HP > 0) {
+					sb.draw(ImageMaster.HEALTH_BAR_L, x - HEALTH_BAR_HEIGHT, y + HEALTH_BAR_OFFSET_Y, HEALTH_BAR_HEIGHT, HEALTH_BAR_HEIGHT);
+				}
+				
+				sb.draw(ImageMaster.HEALTH_BAR_B, x, y + HEALTH_BAR_OFFSET_Y, this.targetHealthBarWidth - w, HEALTH_BAR_HEIGHT);
+				sb.draw(ImageMaster.HEALTH_BAR_R, x + this.targetHealthBarWidth - w, y + HEALTH_BAR_OFFSET_Y, HEALTH_BAR_HEIGHT, HEALTH_BAR_HEIGHT);
+			}
+		}
 	}
 	
 	private void renderHealthText(SpriteBatch sb, float y) {
@@ -1042,6 +1185,56 @@ public abstract class AbstractDoll extends CustomOrb {
 					this.hb.cX,
 					y + HEALTH_BAR_OFFSET_Y + HEALTH_TEXT_OFFSET_Y - 1.0F * Settings.scale, this.hbTextColor);
 		}
+	}
+	
+	private void renderPowerIcons(SpriteBatch sb, float x, float y) {
+		float offset = 10.0F * Settings.scale;
+		float powerIconPaddingX = ReflectionHacks.getPrivateStatic(AbstractCreature.class,
+				"POWER_ICON_PADDING_X");
+		
+		if (this.poison > 0) {
+			TextureAtlas.AtlasRegion region = AbstractPower.atlas.findRegion("48/poison");
+			
+			this.renderIcons(sb, x + offset,
+					y - (Settings.isMobile ? 53.0F : 48.0F) * Settings.scale,
+					region, this.hbTextColor);
+			this.renderAmount(sb, x - 10.0F + offset + 32.0F * Settings.scale,
+					y - (Settings.isMobile ? 75.0F : 66.0F) * Settings.scale,
+					this.poison, this.poisonFontScale, this.hbTextColor);
+			
+			offset += powerIconPaddingX;
+		}
+		
+		if (this.corpseExplosion > 0) {
+			TextureAtlas.AtlasRegion region = AbstractPower.atlas.findRegion("48/cExplosion");
+			
+			this.renderIcons(sb, x + offset,
+					y - (Settings.isMobile ? 53.0F : 48.0F) * Settings.scale,
+					region, this.hbTextColor);
+			
+			Color color = new Color(0.0F, 1.0F, 0.0F, this.hbTextColor.a);
+			this.renderAmount(sb, x - 10.0F + offset + 32.0F * Settings.scale,
+					y - (Settings.isMobile ? 75.0F : 66.0F) * Settings.scale,
+					this.corpseExplosion, this.corpseExplosionFontScale, color);
+		}
+		
+		this.effects.forEach(e -> e.render(sb, x, y));
+	}
+	
+	private void renderIcons(SpriteBatch sb, float x, float y, TextureAtlas.AtlasRegion region, Color c) {
+		sb.setColor(c);
+		
+		sb.draw(region, x - region.packedWidth / 2.0F, y - region.packedHeight / 2.0F,
+				region.packedWidth / 2.0F, region.packedHeight / 2.0F,
+				region.packedWidth, region.packedHeight,
+				Settings.scale * (Settings.isMobile ? 1.17F : 1.0F),
+				Settings.scale * (Settings.isMobile ? 1.17F : 1.0F),
+				0.0F);
+	}
+	
+	private void renderAmount(SpriteBatch sb, float x, float y, int amount, float scale, Color c) {
+		FontHelper.renderFontRightTopAligned(sb, FontHelper.powerAmountFont,
+				Integer.toString(amount), x, y, scale, c);
 	}
 	
 	public void renderReticle(SpriteBatch sb) {

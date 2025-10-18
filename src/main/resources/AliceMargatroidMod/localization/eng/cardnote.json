@@ -26,5 +26,11 @@
     "TITLE": "State Tracking",
     "DESCRIPTION": "",
     "EXTENDED_DESCRIPTION": ["#b%d type(s) of doll has been #yPlaced this combat", " , the count(s) of #yActs :", "time", "times"]
+  },
+
+  "AliceMargatroid:Collector": {
+    "TITLE": "State Tracking",
+    "DESCRIPTION": "",
+    "EXTENDED_DESCRIPTION": ["#b%d type(s) of doll has been #yPlaced this combat", ":"]
   }
 }

@@ -103,7 +103,7 @@ public class EmptyDollSlot extends AbstractDoll {
 	public void heal(int amount) {}
 	
 	@Override
-	public boolean takeDamage(int amount) {
+	public boolean takeDamage(int amount, boolean isHpLoss) {
 		if (amount > 0)
 			logger.warn("EmptyDollSlot.takeDamage() called!");
 		

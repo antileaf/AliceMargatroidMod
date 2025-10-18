@@ -37,6 +37,12 @@
     "EXTENDED_DESCRIPTION": ["本场战斗中，已 生成 过 #b%d 种 人偶", " ，每种 人偶 的 行动 次数如下：", "次", "次"]
   },
 
+  "AliceMargatroid:Collector": {
+    "TITLE": "状态追踪",
+    "DESCRIPTION": "",
+    "EXTENDED_DESCRIPTION": ["本场战斗中，已 生成 过 #b%d 种 人偶", "："]
+  },
+
   "AliceMargatroid:DEPRECATEDMagicConduit": {
     "DESCRIPTION": "因为第一次行动后就会被 #y回收 ，所以最多只能行动一次。"
   },

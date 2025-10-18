@@ -13,8 +13,12 @@ import me.antileaf.alice.doll.dolls.EmptyDollSlot;
 import me.antileaf.alice.effects.unique.SeaOfSubconsciousnessEffect;
 import me.antileaf.alice.powers.AbstractAlicePower;
 import me.antileaf.alice.utils.AliceHelper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class SeaOfSubconsciousnessPower extends AbstractAlicePower {
+	private static final Logger logger = LogManager.getLogger(SeaOfSubconsciousnessPower.class);
+	
 	public static final String SIMPLE_NAME = SeaOfSubconsciousnessPower.class.getSimpleName();
 	public static final String POWER_ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
@@ -46,7 +50,7 @@ public class SeaOfSubconsciousnessPower extends AbstractAlicePower {
 		if (AbstractDungeon.player.hand.contains(card)) {
 			int index = AbstractDungeon.player.hand.group.indexOf(card);
 			if (index < DollManager.get().getDolls().size())
-			this.addToBot(new AnonymousAction(() -> {
+				this.addToBot(new AnonymousAction(() -> {
 					int i = DollManager.get().getDolls().size() - index - 1;
 					if (i >= 0 && i < DollManager.get().getDolls().size()) {
 						AbstractDoll doll = DollManager.get().getDolls().get(i);
@@ -58,7 +62,7 @@ public class SeaOfSubconsciousnessPower extends AbstractAlicePower {
 						}
 					}
 					else
-						AliceHelper.log("SeaOfSubconsciousnessPower: index out of bounds: " + i);
+						logger.warn("index out of bounds: {}", i);
 				}));
 		}
 	

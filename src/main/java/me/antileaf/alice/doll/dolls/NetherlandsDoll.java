@@ -139,6 +139,8 @@ public class NetherlandsDoll extends AbstractDoll {
 	@Override
 	public void onDestroyed() {
 		this.onDisappeared();
+		
+		super.onDestroyed();
 	}
 	
 	@Override

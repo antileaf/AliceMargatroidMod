@@ -1,12 +1,15 @@
 package me.antileaf.alice.cards.marisa;
 
 import basemod.abstracts.CustomCard;
+import com.evacipated.cardcrawl.mod.stslib.cards.interfaces.SpawnModificationCard;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import me.antileaf.alice.cards.AbstractAliceCard;
 import me.antileaf.alice.utils.AliceConfigHelper;
 import me.antileaf.alice.utils.AliceHelper;
 
-public abstract class AbstractAliceMarisaCard extends AbstractAliceCard {
+import java.util.ArrayList;
+
+public abstract class AbstractAliceMarisaCard extends AbstractAliceCard implements SpawnModificationCard {
 	public ImgPaths imgPaths;
 	public BackgroundPaths backgroundPaths;
 	
@@ -21,6 +24,16 @@ public abstract class AbstractAliceMarisaCard extends AbstractAliceCard {
 			CardRarity rarity,
 			CardTarget target) {
 		super(ID, name, img, cost, rawDescription, type, color, rarity, target);
+	}
+	
+	@Override
+	public boolean canSpawn(ArrayList<AbstractCard> currentRewardCards) {
+		return false;
+	}
+	
+	@Override
+	public boolean canSpawnShop(ArrayList<AbstractCard> currentShopCards) {
+		return false;
 	}
 	
 //	@Override

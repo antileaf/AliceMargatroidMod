@@ -26,6 +26,7 @@ import me.antileaf.alice.effects.utils.AlicePokerHelper;
 import me.antileaf.alice.patches.enums.AbstractCardEnum;
 import me.antileaf.alice.utils.AliceHelper;
 
+@Deprecated
 public class PokerTrick extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = PokerTrick.class.getSimpleName();
 //	public static final String ID = AliceSpireKit.makeID(SIMPLE_NAME);

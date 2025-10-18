@@ -15,8 +15,8 @@
     "TAG": "Attacker",
     "TAG_COLOR": "#r",
     "PASSIVE_NAME": "Melancholy",
-    "PASSIVE_DESCRIPTION": "At the end of your turn, apply %s #gPoison to ALL enemies.",
-    "ACT_DESCRIPTION": "Trigger #gPoison for ALL enemies once."
+    "PASSIVE_DESCRIPTION": " #gPoison will trigger an additional time at the start of enemy turn.",
+    "ACT_DESCRIPTION": "Apply %s #gPoison to a random enemy."
   },
   
   "ShanghaiDoll": {

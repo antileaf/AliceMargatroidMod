@@ -27,8 +27,8 @@
   
   "AliceMargatroid:DollCrusader": {
     "NAME": "Doll Crusader",
-    "DESCRIPTION": "alicemargatroid:Recycle all alicemargatroid:Dolls, then alicemargatroid:Place a random alicemargatroid:Doll in their original slots. NL All alicemargatroid:Dolls alicemargatroid:Act once. NL Exhaust.",
-    "UPGRADE_DESCRIPTION": "alicemargatroid:Recycle all alicemargatroid:Dolls, then alicemargatroid:Place a random alicemargatroid:Doll in their original slots. NL All alicemargatroid:Dolls alicemargatroid:Act once.",
+    "DESCRIPTION": "alicemargatroid:Recycle all alicemargatroid:Dolls, then alicemargatroid:Place a random alicemargatroid:Doll in their original slots. NL Exhaust.",
+    "UPGRADE_DESCRIPTION": "alicemargatroid:Recycle all alicemargatroid:Dolls, then alicemargatroid:Place a random alicemargatroid:Doll in their original slots.",
     "SIGN": "Sign II"
   },
   
@@ -102,7 +102,7 @@
   
   "AliceMargatroid:Collector": {
     "NAME": "Collector",
-    "DESCRIPTION": "For each different kind of alicemargatroid:Doll you have, Alice or target alicemargatroid:Doll gains !M! Block.",
+    "DESCRIPTION": "For each different kind of alicemargatroid:Doll you alicemargatroid:Placed this combat, Alice or target alicemargatroid:Doll gains !M! Block.",
     "EXTENDED_DESCRIPTION": ["(Gain !B! Block .)"]
   },
   
@@ -124,7 +124,7 @@
   "AliceMargatroid:FriendsHelp": {
     "NAME": "Friend's Help",
     "DESCRIPTION": "Choose one from *Double *Spark, *Asteroid *Belt or *6A, add it into your hand. NL It costs 0 this turn. NL Exhaust.",
-    "UPGRADE_DESCRIPTION": "Choose one from *Double *Spark+, *Asteroid *Belt+ or *6A+, add it into your hand. NL It costs 0 this turn. NL Exhaust.",
+    "UPGRADE_DESCRIPTION": "Choose one from *Deep *Ecological *Bomb, *Sprinkle *Star *Seal or *Oort *Cloud, add it into your hand. NL It costs 0 this turn. NL Exhaust.",
     "EXTENDED_DESCRIPTION": ["Choose a Card", "Amplify", "Pay extra energy for its effect when you have enough [E]."]
   },
 
@@ -217,7 +217,8 @@
   
   "AliceMargatroid:CollapsingWorlds": {
     "NAME": "Collapsing Worlds!",
-    "DESCRIPTION": "Deal !D! damage. NL If this kills the target, gain an extra turn after this one, and then Exhaust."
+    "DESCRIPTION": "Deal !D! damage. NL If this kills the target, gain an extra turn after this one. NL Exhaust.",
+    "UPGRADE_DESCRIPTION": "Retain. NL Deal !D! damage. NL If this kills the target, gain an extra turn after this one. NL Exhaust."
   },
   
   "AliceMargatroid:Housework": {
@@ -306,7 +307,7 @@
   
   "AliceMargatroid:Perihelion": {
     "NAME": "Perihelion",
-    "DESCRIPTION": "Deal !D! damage to ALL enemies. NL If the *Attributes of this card are changed this combat, deal triple damage instead."
+    "DESCRIPTION": "Deal !D! damage to ALL enemies. NL If the *Attributes of this card are changed this combat, deal double damage instead."
   },
   
   "AliceMargatroid:IllusoryMoon": {
@@ -485,5 +486,20 @@
   "AliceMargatroid:Alice6A": {
     "NAME": "6A",
     "DESCRIPTION": "Deal !D! damage. NL Gain Block equal to the unblocked damage dealt."
+  },
+
+  "AliceMargatroid:AliceDeepEcologicalBomb": {
+    "NAME": "Deep Ecological Bomb",
+    "DESCRIPTION": "Deal !D! damage to a random enemy, then reduce its Strength by !M! this turn. NL alicemargatroid:Amplify [E] : Apply this effect again."
+  },
+
+  "AliceMargatroid:AliceSprinkleStarSeal": {
+    "NAME": "Sprinkle Star Seal",
+    "DESCRIPTION": "Apply !M! Weak. NL Exhaust."
+  },
+
+  "AliceMargatroid:AliceOortCloud": {
+    "NAME": "Oort Cloud",
+    "DESCRIPTION": "Gain !M! *Plated *Armor. NL alicemargatroid:Amplify [E] : Gain !aliceM2! more *Plated *Armor."
   }
 }

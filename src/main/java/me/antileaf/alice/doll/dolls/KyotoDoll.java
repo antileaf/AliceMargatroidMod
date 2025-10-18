@@ -6,6 +6,7 @@ import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
+import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import me.antileaf.alice.action.doll.DollGainBlockAction;
 import me.antileaf.alice.action.doll.HealDollAction;
 import me.antileaf.alice.doll.AbstractDoll;
@@ -15,8 +16,6 @@ import me.antileaf.alice.doll.enums.DollAmountTime;
 import me.antileaf.alice.doll.enums.DollAmountType;
 import me.antileaf.alice.strings.AliceDollStrings;
 import me.antileaf.alice.utils.AliceHelper;
-
-import java.util.Arrays;
 
 public class KyotoDoll extends AbstractDoll {
 	public static final String SIMPLE_NAME = KyotoDoll.class.getSimpleName();
@@ -60,16 +59,28 @@ public class KyotoDoll extends AbstractDoll {
 	
 	@Override
 	public void onAct(DollActModifier modifier) {
-		AliceHelper.addActionToBuffer(new HealDollAction(this, Math.max(1, this.maxHP / 2)));
+		int heal = Math.max(1, this.maxHP / 2);
+		
+		AliceHelper.addActionToBuffer(new HealDollAction(this, heal));
 
 		if (modifier.theSetup) {
-			int[] matrix = DollDamageInfo.createDamageMatrix(
-					this.HP,
-					this,
-					DollAmountType.DAMAGE,
-					DollAmountTime.PASSIVE);
-
-			AliceHelper.addActionToBuffer(new DollGainBlockAction(this, Arrays.stream(matrix).sum()));
+			int overflow = Math.max(0, this.HP + heal - this.maxHP);
+			if (overflow > 0) {
+				int[] matrix = DollDamageInfo.createDamageMatrix(
+						overflow,
+						this,
+						DollAmountType.DAMAGE,
+						DollAmountTime.PASSIVE);
+				
+				int sum = 0;
+				for (int i = 0; i < matrix.length; i++) {
+					AbstractMonster m = AbstractDungeon.getMonsters().monsters.get(i);
+					if (!m.isDeadOrEscaped() && matrix[i] > 0)
+						sum += matrix[i];
+				}
+				
+				AliceHelper.addActionToBuffer(new DollGainBlockAction(this, sum));
+			}
 		}
 	}
 

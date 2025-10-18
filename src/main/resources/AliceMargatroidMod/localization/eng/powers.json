@@ -158,5 +158,13 @@
       "Whenever you trigger #yCommand , gain [E] , and draw #b1 card(s). NL Each unique name of cards can only trigger this once.",
       "Triggered cards: NL "
     ]
+  },
+
+  "AliceMargatroid:MarisaTempStrengthLossPower": {
+    "NAME": "Temporary Strength Loss",
+    "DESCRIPTIONS": [
+      "The damage of this creature is lowered by  #b",
+      " this turn."
+    ]
   }
 }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import me.antileaf.alice.utils.AliceImageMaster;
 
+@Deprecated
 public class AlicePokerHelper {
 	public static final int CARD_WIDTH = 100;
 	public static final int CARD_HEIGHT = 140;

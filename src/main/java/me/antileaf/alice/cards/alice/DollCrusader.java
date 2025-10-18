@@ -5,7 +5,6 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import me.antileaf.alice.action.doll.DollActAction;
 import me.antileaf.alice.action.doll.RecycleDollAction;
 import me.antileaf.alice.action.doll.SpawnDollAction;
 import me.antileaf.alice.action.utils.AnonymousAction;
@@ -14,7 +13,6 @@ import me.antileaf.alice.doll.AbstractDoll;
 import me.antileaf.alice.doll.DollManager;
 import me.antileaf.alice.doll.dolls.EmptyDollSlot;
 import me.antileaf.alice.patches.enums.AbstractCardEnum;
-import me.antileaf.alice.patches.enums.CardTagEnum;
 import me.antileaf.alice.utils.AliceHelper;
 
 import java.util.ArrayList;
@@ -36,14 +34,14 @@ public class DollCrusader extends AbstractAliceCard {
 				cardStrings.DESCRIPTION,
 				CardType.SKILL,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
-				CardRarity.UNCOMMON,
+				CardRarity.COMMON,
 				CardTarget.NONE
 		);
 		
 //		this.magicNumber = this.baseMagicNumber = MAGIC;
 		this.exhaust = true;
 		
-		this.tags.add(CardTagEnum.ALICE_DOLL_ACT);
+//		this.tags.add(CardTagEnum.ALICE_DOLL_ACT);
 	}
 	
 	@Override
@@ -67,12 +65,12 @@ public class DollCrusader extends AbstractAliceCard {
 //				spawn.add(doll);
 			}
 
-			AliceHelper.addActionToBuffer(new AnonymousAction(() -> {
-				for (AbstractDoll d : DollManager.get().getDolls())
-					if (!(d instanceof EmptyDollSlot))
-						AliceHelper.addActionToBuffer(new DollActAction(d));
-				AliceHelper.commitBuffer();
-			}));
+//			AliceHelper.addActionToBuffer(new AnonymousAction(() -> {
+//				for (AbstractDoll d : DollManager.get().getDolls())
+//					if (!(d instanceof EmptyDollSlot))
+//						AliceHelper.addActionToBuffer(new DollActAction(d));
+//				AliceHelper.commitBuffer();
+//			}));
 			
 			AliceHelper.commitBuffer();
 		}));

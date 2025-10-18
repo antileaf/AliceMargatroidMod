@@ -272,5 +272,13 @@
       "每当你触发 #y指令 效果时，获得 [E] ，并抽 #b1 张牌。 NL 每种卡名限一次。",
       "已触发过效果的牌： NL "
     ]
+  },
+
+  "AliceMargatroid:MarisaTempStrengthLossPower": {
+    "NAME": "力量下降",
+    "DESCRIPTIONS": [
+      "这个生物的攻击力下降了 #b",
+      " 点。"
+    ]
   }
 }

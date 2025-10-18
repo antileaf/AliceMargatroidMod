@@ -5,7 +5,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
+import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
@@ -15,6 +17,7 @@ import com.megacrit.cardcrawl.monsters.ending.SpireSpear;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 import com.megacrit.cardcrawl.powers.BlurPower;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
+import me.antileaf.alice.action.doll.DamageAllDollsAction;
 import me.antileaf.alice.action.doll.DollActAction;
 import me.antileaf.alice.action.doll.RecycleDollAction;
 import me.antileaf.alice.action.doll.SpawnDollInternalAction;
@@ -30,6 +33,7 @@ import me.antileaf.alice.doll.interfaces.OnDollOperateHook;
 import me.antileaf.alice.patches.enums.CardTargetEnum;
 import me.antileaf.alice.powers.unique.TauntedPower;
 import me.antileaf.alice.utils.AliceHelper;
+import me.antileaf.alice.utils.MedicineHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -643,6 +647,17 @@ public class DollManager {
 		doll.applyPower();
 		doll.onDestroyed();
 		
+		if (doll.corpseExplosion > 0) {
+			int damage = doll.corpseExplosion * doll.maxHP;
+			
+			AliceHelper.addActionToBuffer(new DamageAction(AbstractDungeon.player,
+					new DamageInfo(null, damage, DamageInfo.DamageType.THORNS),
+					AbstractGameAction.AttackEffect.FIRE));
+			
+			AliceHelper.addActionToBuffer(new DamageAllDollsAction(damage, doll,
+					AbstractGameAction.AttackEffect.FIRE));
+		}
+		
 		this.dolls.set(this.dolls.indexOf(doll), new EmptyDollSlot());
 		
 		this.applyPowers();
@@ -728,15 +743,34 @@ public class DollManager {
 		this.update();
 	}
 	
-	public boolean dollTakesDamage(AbstractDoll doll, int amount) {
+	public boolean dollTakesDamage(AbstractDoll doll, int amount, boolean isHpLoss) {
 		assert this.dolls.contains(doll);
 		
-		if (doll.takeDamage(amount)) {
+		if (doll.takeDamage(amount, isHpLoss)) {
 			this.destroyDoll(doll);
 			return true;
 		}
 		
 		return false;
+	}
+	
+	public void applyPoison(AbstractDoll doll, int amount) {
+		assert this.dolls.contains(doll);
+		
+		doll.applyPoison(amount);
+	}
+	
+	public void applyCorpseExplosion(AbstractDoll doll, int amount) {
+		assert this.dolls.contains(doll);
+		
+		doll.applyCorpseExplosion(amount);
+	}
+	
+	public void poisonLoseHp(AbstractDoll doll) {
+		assert this.dolls.contains(doll);
+		
+		if (doll.poison > 0)
+			this.dollTakesDamage(doll, doll.poison, MedicineHelper.isVenom());
 	}
 	
 	public ArrayList<AbstractDoll> getDolls() {

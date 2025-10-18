@@ -24,9 +24,9 @@ public class Perihelion extends AbstractAliceCard implements OnObtainCard, OnCre
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 2;
-	private static final int DAMAGE = 12;
-	private static final int UPGRADE_PLUS_DAMAGE = 4;
-	private static final int MAGIC = 3;
+	private static final int DAMAGE = 18;
+	private static final int UPGRADE_PLUS_DAMAGE = 6;
+	private static final int MAGIC = 2;
 	
 	private boolean hasBeenInitialized = false;
 	private int initialCost;
@@ -96,7 +96,8 @@ public class Perihelion extends AbstractAliceCard implements OnObtainCard, OnCre
 			this.setInitialState(null);
 		}
 		
-		if (((this.isCostModified || isCostModifiedForTurn) ? this.costForTurn : this.cost) != this.initialCost ||
+		if ((this.freeToPlay() ? 0 : (this.isCostModified || isCostModifiedForTurn) ?
+				this.costForTurn : this.cost) != this.initialCost ||
 				this.baseDamage != this.initialBaseDamage ||
 				this.baseMagicNumber != this.initialBaseMagicNumber ||
 				this.upgraded != this.initialUpgraded)

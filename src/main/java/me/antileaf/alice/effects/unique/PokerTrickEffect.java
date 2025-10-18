@@ -10,6 +10,7 @@ import com.megacrit.cardcrawl.vfx.combat.FlashAtkImgEffect;
 import me.antileaf.alice.effects.common.AlicePokerCardsDroppingEffect;
 import me.antileaf.alice.effects.utils.AlicePokerHelper;
 
+@Deprecated
 public class PokerTrickEffect extends AbstractGameEffect {
 	public static final int CARD_WIDTH = AlicePokerHelper.CARD_WIDTH;
 	public static final int CARD_HEIGHT = AlicePokerHelper.CARD_HEIGHT;

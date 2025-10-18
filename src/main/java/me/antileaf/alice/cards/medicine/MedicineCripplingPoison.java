@@ -1,50 +1,43 @@
 package me.antileaf.alice.cards.medicine;
 
+import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
+import com.megacrit.cardcrawl.cards.green.CripplingPoison;
+import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.CardStrings;
-import me.antileaf.alice.cards.AbstractMedicineCard;
-import me.antileaf.alice.monsters.MedicineMelancholy;
-import me.antileaf.alice.patches.enums.AbstractCardEnum;
+import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.powers.PoisonPower;
+import com.megacrit.cardcrawl.powers.VulnerablePower;
+import com.megacrit.cardcrawl.powers.WeakPower;
 import me.antileaf.alice.utils.AliceHelper;
 
-public class MedicineCripplingPoison extends AbstractMedicineCard {
+public class MedicineCripplingPoison extends CripplingPoison {
 	public static final String SIMPLE_NAME = MedicineCripplingPoison.class.getSimpleName();
 	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
-	private static final int COST = 2;
-	private static final int MAGIC = 4;
-	private static final int MAGIC2 = 2;
-	private static final int UPGRADE_PLUS_MAGIC = 3;
-	
 	public int upgradedCount = 0;
 	
 	public MedicineCripplingPoison() {
-		super(
-				ID,
-				cardStrings.NAME,
-				AliceHelper.getCardImgFilePath("medicine/crippling_poison"),
-				COST,
-				cardStrings.DESCRIPTION,
-				CardType.SKILL,
-				AbstractCardEnum.ALICE_MEDICINE_COLOR,
-				CardRarity.UNCOMMON,
-				CardTarget.NONE
-		);
-		
-		this.magicNumber = this.baseMagicNumber = MAGIC;
-		this.secondaryMagicNumber = this.baseSecondaryMagicNumber = MAGIC2;
+		super();
 	}
 	
 	@Override
-	public void onUsedByMedicine(MedicineMelancholy medicine) {
-		// TODO
-	}
-	
-	@Override
-	public CardIntent getIntent() {
-		CardIntent intent = new CardIntent().poison(this.magicNumber);
-		return this.upgradedCount < 2 ? intent.debuff() : intent.strongDebuff();
+	public void use(AbstractPlayer p, AbstractMonster m) { // should not be called in normal way
+		if (this.upgradedCount < 2)
+			super.use(p, m);
+		else {
+			if (!AbstractDungeon.getMonsters().areMonstersBasicallyDead()) {
+				for (AbstractMonster mo : AbstractDungeon.getMonsters().monsters) {
+					if (!mo.isDead && !mo.isDying) {
+						this.addToBot(new ApplyPowerAction(mo, p, new PoisonPower(mo, p, this.magicNumber), this.magicNumber));
+						this.addToBot(new ApplyPowerAction(mo, p, new WeakPower(mo, 2, false), 2));
+						this.addToBot(new ApplyPowerAction(mo, p, new VulnerablePower(mo, 2, false), 2));
+					}
+				}
+			}
+		}
 	}
 	
 	@Override
@@ -54,16 +47,14 @@ public class MedicineCripplingPoison extends AbstractMedicineCard {
 	
 	@Override
 	public void upgrade() {
-		if (this.upgradedCount < 2) {
+		if (!this.upgraded)
+			super.upgrade();
+		else if (this.upgradedCount < 2) {
 			this.upgradeName();
-			this.upgradedCount++;
-			
-			if (this.upgradedCount <= 1)
-				this.upgradeMagicNumber(UPGRADE_PLUS_MAGIC);
-			else
-				this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
-			
+			this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
 			this.initializeDescription();
 		}
+		
+		this.upgradedCount++;
 	}
 }

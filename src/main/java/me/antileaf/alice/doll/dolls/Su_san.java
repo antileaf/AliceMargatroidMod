@@ -1,12 +1,9 @@
 package me.antileaf.alice.doll.dolls;
 
-import com.megacrit.cardcrawl.actions.AbstractGameAction;
-import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
-import com.megacrit.cardcrawl.actions.unique.PoisonLoseHpAction;
+import com.megacrit.cardcrawl.actions.common.ApplyPowerToRandomEnemyAction;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
-import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.PoisonPower;
 import me.antileaf.alice.doll.AbstractDoll;
 import me.antileaf.alice.doll.enums.DollAmountType;
@@ -19,17 +16,17 @@ public class Su_san extends AbstractDoll {
 	private static final AliceDollStrings dollStrings = AliceDollStrings.get(ID);
 	
 	public static final int MAX_HP = 4;
-	public static final int PASSIVE_AMOUNT = 3;
+	public static final int ACT_AMOUNT = 3;
 	
 	public Su_san() {
 		super(
 				ID,
 				dollStrings.NAME,
 				MAX_HP,
-				PASSIVE_AMOUNT,
 				-1,
+				ACT_AMOUNT,
 				AliceHelper.getOrbImgFilePath(SIMPLE_NAME),
-				RenderTextMode.PASSIVE
+				RenderTextMode.ACT
 		);
 		
 		this.passiveAmountType = DollAmountType.MAGIC;
@@ -53,50 +50,54 @@ public class Su_san extends AbstractDoll {
 		return MAX_HP;
 	}
 	
+	// Passive Effect is moved to patches.doll.SusanPassiveEffectPatch
+	@Deprecated
 	public void triggerPassiveEffect() {
-		for (AbstractMonster m : AbstractDungeon.getMonsters().monsters)
-			if (!m.isDeadOrEscaped())
-				AliceHelper.addActionToBuffer(new ApplyPowerAction(
-						m,
-						AbstractDungeon.player,
-						new PoisonPower(m, AbstractDungeon.player, this.passiveAmount),
-						this.passiveAmount,
-						true
-				));
+//		for (AbstractMonster m : AbstractDungeon.getMonsters().monsters)
+//			if (!m.isDeadOrEscaped())
+//				AliceHelper.addActionToBuffer(new ApplyPowerAction(
+//						m,
+//						AbstractDungeon.player,
+//						new PoisonPower(m, AbstractDungeon.player, this.passiveAmount),
+//						this.passiveAmount,
+//						true
+//				));
 	}
 	
 	@Override
 	public void onEndOfTurn() {
-		this.triggerPassiveEffect();
+//		this.triggerPassiveEffect();
 	}
 	
 	@Override
 	public void onAct(DollActModifier modifier) {
-		for (AbstractMonster m : AbstractDungeon.getMonsters().monsters)
-			if (!m.isDeadOrEscaped() && m.hasPower(PoisonPower.POWER_ID))
-				AliceHelper.addActionToBuffer(new PoisonLoseHpAction(
-						m,
-						m,
-						m.getPower(PoisonPower.POWER_ID).amount,
-						AbstractGameAction.AttackEffect.POISON)
-				);
+//		for (AbstractMonster m : AbstractDungeon.getMonsters().monsters)
+//			if (!m.isDeadOrEscaped() && m.hasPower(PoisonPower.POWER_ID))
+//				AliceHelper.addActionToBuffer(new PoisonLoseHpAction(
+//						m,
+//						m,
+//						m.getPower(PoisonPower.POWER_ID).amount,
+//						AbstractGameAction.AttackEffect.POISON)
+//				);
 		
-//		AliceSpireKit.commitBuffer();
+		AliceHelper.addActionToBuffer(new ApplyPowerToRandomEnemyAction(AbstractDungeon.player,
+				new PoisonPower(null, AbstractDungeon.player, this.actAmount),
+				this.actAmount, true));
 	}
 	
-	@Override
-	public boolean skipActWaiting() {
-		for (AbstractMonster m : AbstractDungeon.getMonsters().monsters)
-			if (!m.isDeadOrEscaped() && m.hasPower(PoisonPower.POWER_ID))
-				return false;
-		
-		return true;
-	}
+//	@Override
+//	public boolean skipActWaiting() {
+//		for (AbstractMonster m : AbstractDungeon.getMonsters().monsters)
+//			if (!m.isDeadOrEscaped() && m.hasPower(PoisonPower.POWER_ID))
+//				return false;
+//
+//		return true;
+//	}
 	
 	@Override
 	public void updateDescriptionImpl() {
-		this.passiveDescription = String.format(dollStrings.PASSIVE_DESCRIPTION, this.coloredPassiveAmount());
-		this.actDescription = dollStrings.ACT_DESCRIPTION;
+		this.passiveDescription = dollStrings.PASSIVE_DESCRIPTION;
+		this.actDescription = String.format(dollStrings.ACT_DESCRIPTION, this.coloredActAmount());
 	}
 	
 	@Override

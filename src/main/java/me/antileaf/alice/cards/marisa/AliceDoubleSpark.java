@@ -1,6 +1,5 @@
 package me.antileaf.alice.cards.marisa;
 
-import com.evacipated.cardcrawl.mod.stslib.cards.interfaces.SpawnModificationCard;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.actions.common.MakeTempCardInHandAction;
@@ -13,9 +12,7 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import me.antileaf.alice.patches.enums.AbstractCardEnum;
 import me.antileaf.alice.utils.AliceHelper;
 
-import java.util.ArrayList;
-
-public class AliceDoubleSpark extends AbstractAliceMarisaCard implements SpawnModificationCard {
+public class AliceDoubleSpark extends AbstractAliceMarisaCard {
 	public static final String SIMPLE_NAME = AliceDoubleSpark.class.getSimpleName();
 	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
@@ -41,16 +38,6 @@ public class AliceDoubleSpark extends AbstractAliceMarisaCard implements SpawnMo
 		this.cardsToPreview = new AliceSpark();
 		
 		this.setImages(SIMPLE_NAME);
-	}
-	
-	@Override
-	public boolean canSpawn(ArrayList<AbstractCard> currentRewardCards) {
-		return false;
-	}
-	
-	@Override
-	public boolean canSpawnShop(ArrayList<AbstractCard> currentShopCards) {
-		return false;
 	}
 	
 	@Override

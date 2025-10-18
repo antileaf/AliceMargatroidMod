@@ -1,8 +1,6 @@
 package me.antileaf.alice.cards.alice;
 
-import ThMod.cards.Marisa.AsteroidBelt;
-import ThMod.cards.Marisa.DoubleSpark;
-import ThMod.cards.Marisa._6A;
+import ThMod.cards.Marisa.*;
 import ThMod.cards.derivations.Spark;
 import basemod.abstracts.CustomCard;
 import basemod.helpers.TooltipInfo;
@@ -19,11 +17,15 @@ import me.antileaf.alice.cards.marisa.*;
 import me.antileaf.alice.patches.enums.AbstractCardEnum;
 import me.antileaf.alice.patches.marisa.MarisaAlternativeImagePatch;
 import me.antileaf.alice.utils.AliceHelper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class FriendsHelp extends AbstractAliceCard {
+	private static final Logger logger = LogManager.getLogger(FriendsHelp.class);
+	
 	public static final String SIMPLE_NAME = FriendsHelp.class.getSimpleName();
 	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
@@ -74,6 +76,12 @@ public class FriendsHelp extends AbstractAliceCard {
 				AbstractAliceMarisaCard.setImages(card, Alice6A.SIMPLE_NAME);
 			else if (card instanceof Spark)
 				AbstractAliceMarisaCard.setImages(card, AliceSpark.SIMPLE_NAME);
+			else if (card instanceof DeepEcologicalBomb)
+				AbstractAliceMarisaCard.setImages(card, AliceDeepEcologicalBomb.IMG);
+			else if (card instanceof SprinkleStarSeal)
+				AbstractAliceMarisaCard.setImages(card, AliceSprinkleStarSeal.IMG);
+			else if (card instanceof OortCloud)
+				AbstractAliceMarisaCard.setImages(card, AliceOortCloud.IMG);
 		}
 	}
 	
@@ -81,23 +89,33 @@ public class FriendsHelp extends AbstractAliceCard {
 	public void use(AbstractPlayer p, AbstractMonster m) {
 		ArrayList<AbstractCard> choices = new ArrayList<>();
 		
-		if (AliceHelper.isMarisaModAvailable()) {
-			for (CustomCard card : new CustomCard[]{new DoubleSpark(), new AsteroidBelt(), new _6A()}) {
-				setAlternativeImg(card);
-				if (card instanceof DoubleSpark)
-					MarisaAlternativeImagePatch.AliceMarisaCardFields.isAliceMarisaCard.set(card, true);
-				choices.add(card);
+		if (!this.upgraded) {
+			if (AliceHelper.isMarisaModAvailable()) {
+				for (CustomCard card : new CustomCard[]{new DoubleSpark(), new AsteroidBelt(), new _6A()}) {
+					setAlternativeImg(card);
+					if (card instanceof DoubleSpark)
+						MarisaAlternativeImagePatch.AliceMarisaCardFields.isAliceMarisaCard.set(card, true);
+					choices.add(card);
+				}
+			} else {
+				choices.add(new AliceDoubleSpark());
+				choices.add(new AliceAsteroidBelt());
+				choices.add(new Alice6A());
 			}
 		}
 		else {
-			choices.add(new AliceDoubleSpark());
-			choices.add(new AliceAsteroidBelt());
-			choices.add(new Alice6A());
+			if (AliceHelper.isMarisaModAvailable()) {
+				for (CustomCard card : new CustomCard[]{new DeepEcologicalBomb(), new SprinkleStarSeal(), new OortCloud()}) {
+					setAlternativeImg(card);
+//					MarisaAlternativeImagePatch.AliceMarisaCardFields.isAliceMarisaCard.set(card, true);
+					choices.add(card);
+				}
+			} else {
+				choices.add(new AliceDeepEcologicalBomb());
+				choices.add(new AliceSprinkleStarSeal());
+				choices.add(new AliceOortCloud());
+			}
 		}
-		
-		if (this.upgraded)
-			for (AbstractCard card : choices)
-				card.upgrade();
 		
 		for (AbstractCard card : choices)
 			card.setCostForTurn(0);
@@ -105,13 +123,13 @@ public class FriendsHelp extends AbstractAliceCard {
 		this.addToBot(new AliceDiscoverAction(
 				choices,
 				(card) -> {
-					AliceHelper.log("Selected card: " + card.cardID);
+					logger.info("Selected card: {}", card.cardID);
 					if (card instanceof CustomCard) {
-						AliceHelper.log("It is an instance of CustomCard.");
+//						AliceHelper.log("It is an instance of CustomCard.");
 						setAlternativeImg((CustomCard) card);
 					}
-					else
-						AliceHelper.log("How could this be? Check carefully.");
+//					else
+//						AliceHelper.log("How could this be? Check carefully.");
 
 					this.addToTop(new AliceAddCardToHandAction(card));
 				},
@@ -130,8 +148,19 @@ public class FriendsHelp extends AbstractAliceCard {
 		if (!this.upgraded) {
 			this.upgradeName();
 			this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
-			for (AbstractCard card : MultiCardPreview.multiCardPreview.get(this))
-				card.upgrade();
+			
+			MultiCardPreview.multiCardPreview.get(this).clear();
+			if (AliceHelper.isMarisaModAvailable()) {
+				MultiCardPreview.add(this, new DeepEcologicalBomb(), new SprinkleStarSeal(), new OortCloud());
+				for (AbstractCard card : MultiCardPreview.multiCardPreview.get(this))
+					if (card instanceof CustomCard)
+						setAlternativeImg((CustomCard) card);
+			}
+			else
+				MultiCardPreview.add(this, new AliceDeepEcologicalBomb(), new AliceSprinkleStarSeal(),
+						new AliceOortCloud());
+			
+			this.dontAvoidSCVPanel = false;
 			this.initializeDescription();
 		}
 	}

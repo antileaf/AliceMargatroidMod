@@ -27,8 +27,8 @@
   
   "AliceMargatroid:DollCrusader": {
     "NAME": "人偶十字军",
-    "DESCRIPTION": "alicemargatroid:回收 所有 alicemargatroid:人偶 ，然后在原位置 alicemargatroid:生成 一个随机 alicemargatroid:人偶 。 NL 所有 alicemargatroid:人偶 alicemargatroid:行动 一次。 NL 消耗 。",
-    "UPGRADE_DESCRIPTION": "alicemargatroid:回收 所有 alicemargatroid:人偶 ，然后在原位置 alicemargatroid:生成 一个随机 alicemargatroid:人偶 。 NL 所有 alicemargatroid:人偶 alicemargatroid:行动 一次。",
+    "DESCRIPTION": "alicemargatroid:回收 所有 alicemargatroid:人偶 ，然后在原位置 alicemargatroid:生成 一个随机 alicemargatroid:人偶 。 NL 消耗 。",
+    "UPGRADE_DESCRIPTION": "alicemargatroid:回收 所有 alicemargatroid:人偶 ，然后在原位置 alicemargatroid:生成 一个随机 alicemargatroid:人偶 。",
     "SIGN": "符之二"
   },
   
@@ -110,7 +110,7 @@
   
   "AliceMargatroid:Collector": {
     "NAME": "收集家",
-    "DESCRIPTION": "每有一种不同的 alicemargatroid:人偶 ，使爱丽丝或目标 alicemargatroid:人偶 获得 !M! 点 格挡 。",
+    "DESCRIPTION": "本场战斗中每 alicemargatroid:生成 过一种 alicemargatroid:人偶 ，使爱丽丝或目标 alicemargatroid:人偶 获得 !M! 点 格挡 。",
     "EXTENDED_DESCRIPTION": ["（获得 !B! 点 格挡。）"]
   },
   
@@ -137,7 +137,7 @@
   "AliceMargatroid:FriendsHelp": {
     "NAME": "友人之助",
     "DESCRIPTION": "从 *双重火花 、 *小行星带 、 *尻击 中选择一张加入手牌，使其在本回合内耗能变为 0。 消耗 。",
-    "UPGRADE_DESCRIPTION": "从 *双重火花+ 、 *小行星带+ 、 *尻击+ 中选择一张加入手牌，使其在本回合内耗能变为 0。 消耗 。",
+    "UPGRADE_DESCRIPTION": "从 *重生态炸弹 、 *洒星封印 、 *奥尔特云 中选择一张加入手牌，使其在本回合内耗能变为 0。 消耗 。",
     "EXTENDED_DESCRIPTION": ["选择并获得一张牌", "增幅", "当能量足够时，花费额外 [E] 以发动效果。"]
   },
   
@@ -216,6 +216,13 @@
     "UPGRADE_DESCRIPTION": "获得 [E] [E] 。 NL 打出手牌中最左侧或最右侧的牌后，从手牌中自动打出。"
   },
   
+  "AliceMargatroid:TheSetup_V2": {
+    "NAME": "设置",
+    "DESCRIPTION": "每有一张耗能为1的手牌（包括这张牌），使其编号对应位置的 alicemargatroid:人偶 alicemargatroid:行动 一次。",
+    "UPGRADE_DESCRIPTION": "每有一张耗能不为0的手牌（包括这张牌），使其编号对应位置的 alicemargatroid:人偶 alicemargatroid:行动 等同于其耗能的次数。",
+    "FLAVOR": "“虚伪，爱丽丝。这是文明中最大的美德。”"
+  },
+
   "AliceMargatroid:TheSetup": {
     "NAME": "设置",
     "DESCRIPTION": "所有即将受到攻击的 alicemargatroid:人偶 alicemargatroid:行动 一次。 NL 如果是 alicemargatroid:上海人偶 或 alicemargatroid:京都人偶 ，还会获得等同于造成伤害的 格挡 。",
@@ -284,7 +291,8 @@
   
   "AliceMargatroid:CollapsingWorlds": {
     "NAME": "平衡崩坏！",
-    "DESCRIPTION": "造成 !D! 点伤害。 NL 如果这张牌杀死了目标敌人，在本回合结束后获得一个额外回合，然后 消耗 。",
+    "DESCRIPTION": "造成 !D! 点伤害。 NL 如果这张牌杀死了目标敌人，在本回合结束后获得一个额外回合。 NL 消耗 。",
+    "UPGRADE_DESCRIPTION": "保留 。造成 !D! 点伤害。 NL 如果这张牌杀死了目标敌人，在本回合结束后获得一个额外回合。 NL 消耗 。",
     "FLAVOR": "“将意志注入这束光芒…… NL 贯穿吧！平衡崩坏！！”"
   },
   
@@ -353,8 +361,8 @@
   
   "AliceMargatroid:AliceGame": {
     "NAME": "爱丽丝游戏",
-    "DESCRIPTION": "保留 。 alicemargatroid:指令 ： alicemargatroid:回收 除目标 alicemargatroid:人偶 以外的所有 alicemargatroid:人偶 ，使目标 alicemargatroid:人偶 alicemargatroid:行动 一次。 NL 本次每 alicemargatroid:回收 一个，额外 alicemargatroid:行动 一次。 NL 消耗 。",
-    "UPGRADE_DESCRIPTION": "保留 。 alicemargatroid:指令 ： alicemargatroid:回收 除目标 alicemargatroid:人偶 以外的所有 alicemargatroid:人偶 ，使目标 alicemargatroid:人偶 alicemargatroid:行动 一次。 NL 本次每 alicemargatroid:回收 一个，额外 alicemargatroid:行动 一次。"
+    "DESCRIPTION": "保留 。 NL alicemargatroid:指令 ： alicemargatroid:回收 除目标 alicemargatroid:人偶 以外的所有 alicemargatroid:人偶 ，使目标 alicemargatroid:人偶 alicemargatroid:行动 本次 alicemargatroid:回收 的 alicemargatroid:人偶 数+1次。 NL 消耗 。",
+    "UPGRADE_DESCRIPTION": "保留 。 NL alicemargatroid:指令 ： alicemargatroid:回收 除目标 alicemargatroid:人偶 以外的所有 alicemargatroid:人偶 ，使目标 alicemargatroid:人偶 alicemargatroid:行动 本次 alicemargatroid:回收 的 alicemargatroid:人偶 数+1次。"
   },
   
   "AliceMargatroid:SeekerDoll": {
@@ -399,7 +407,7 @@
   
   "AliceMargatroid:Perihelion": {
     "NAME": "乃命羲和",
-    "DESCRIPTION": "对所有敌人造成 !D! 点伤害。 NL 如果这张牌的 *状态 在本场战斗中被改变过，则造成三倍伤害。",
+    "DESCRIPTION": "对所有敌人造成 !D! 点伤害。 NL 如果这张牌的 *状态 在本场战斗中被改变过，则造成双倍伤害。",
     "FLAVOR": "吾令羲和弭节兮，望崦嵫而勿迫。"
   },
   
@@ -629,62 +637,26 @@
     "DESCRIPTION": "造成 !D! 点伤害，获得未被 格挡 的造成伤害数量的 格挡 。"
   },
 
-
-  "AliceMargatroid:MedicinePoisonedStab": {
-    "NAME": "带毒刺击",
-    "DESCRIPTION": "造成 !D! 点伤害。 NL 给予 !M! 层 中毒 。"
+  "AliceMargatroid:AliceDeepEcologicalBomb": {
+    "NAME": "重生态炸弹",
+    "DESCRIPTION": "对随机敌人造成 !D! 点伤害，使其本回合内攻击力下降 !M! 点。 NL alicemargatroid:增幅 [E] ：再发动一次。"
   },
 
-  "AliceMargatroid:MedicineBane": {
-    "NAME": "灾祸",
-    "DESCRIPTION": "造成 !D! 点伤害。 NL 如果敌人有 中毒 状态 ，则再次造成 !D! 点伤害。"
+  "AliceMargatroid:AliceSprinkleStarSeal": {
+    "NAME": "洒星封印",
+    "DESCRIPTION": "给予 !M! 层 虚弱 。 NL 消耗 。"
   },
 
-  "AliceMargatroid:MedicineDeadlyPoison": {
-    "NAME": "致命毒药",
-    "DESCRIPTION": "给予 !M! 层 中毒 。"
+  "AliceMargatroid:AliceOortCloud": {
+    "NAME": "奥尔特云",
+    "DESCRIPTION": "获得 !M! 层 *多层护甲 。 NL alicemargatroid:增幅 [E] ：获得额外 !aliceM2! 层。"
   },
 
-  "AliceMargatroid:MedicinePiercingWail": {
-    "NAME": "尖啸",
-    "DESCRIPTION": "所有敌人失去 !M! 力量 1回合。 NL 消耗 。"
-  },
-
-  "AliceMargatroid:MedicineOutmaneuver": {
-    "NAME": "抢占先机",
-    "DESCRIPTION": "下一回合获得 [E] [E] 。",
-    "UPGRADE_DESCRIPTION": "下一回合获得 [E] [E] [E] 。"
-  },
-
-  "AliceMargatroid:MedicineInfiniteBlades": {
-    "NAME": "无限刀刃",
-    "DESCRIPTION": "从下回合开始，每回合额外打出一张 *小刀 。"
-  },
-
-  "AliceMargatroid:MedicineCaltrops": {
-    "NAME": "铁蒺藜",
-    "DESCRIPTION": "每当你被攻击时，对攻击者造成 !M! 点伤害。"
-  },
-
-  "AliceMargatroid:MedicineNoxiousFumes": {
-    "NAME": "毒雾",
-    "DESCRIPTION": "从下回合起，每回合结束时，给予所有敌人 !M! 层 中毒 。"
-  },
 
   "AliceMargatroid:MedicineCripplingPoison": {
     "NAME": "致残毒云",
     "DESCRIPTION": "给予所有敌人 !M! 层 中毒 和 !aliceM2! 层 虚弱 。 NL 消耗 。",
     "UPGRADE_DESCRIPTION": "给予所有敌人 !M! 层 中毒 、 !aliceM2! 层 易伤 和 !aliceM2! 层 虚弱 。 NL 消耗 。"
-  },
-
-  "AliceMargatroid:MedicineEnvenom": {
-    "NAME": "涂毒",
-    "DESCRIPTION": "每有一次攻击造成未被 格挡 的伤害，就给予 !M! 层 中毒 。"
-  },
-
-  "AliceMargatroid:MedicineAfterImage": {
-    "NAME": "余像",
-    "DESCRIPTION": "你每打出一张牌，都获得 !M! 点 格挡 。"
   },
   
   

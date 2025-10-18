@@ -1,15 +1,26 @@
-package me.antileaf.alice.monsters;
+package me.antileaf.alice.monsters.medicine;
 
 import basemod.ReflectionHacks;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpireOverride;
+import com.evacipated.cardcrawl.modthespire.lib.SpireSuper;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.MonsterStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.relics.RunicDome;
 import me.antileaf.alice.utils.AliceHelper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class MedicineMelancholy extends AbstractMonster {
+	private static final Logger logger = LogManager.getLogger(MedicineMelancholy.class);
+	
 	public static final String SIMPLE_NAME = MedicineMelancholy.class.getSimpleName();
 	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final MonsterStrings monsterStrings = CardCrawlGame.languagePack.getMonsterStrings(ID);
+	
+	private MedicineCardList cardList;
 	
 	public MedicineMelancholy(float x, float y) {
 		super(
@@ -26,6 +37,8 @@ public class MedicineMelancholy extends AbstractMonster {
 		);
 		
 		this.type = EnemyType.ELITE;
+		
+		this.cardList = new MedicineCardList(this.hb.cX, this.hb.cY);
 	}
 	
 	public MedicineMelancholy() {
@@ -48,5 +61,35 @@ public class MedicineMelancholy extends AbstractMonster {
 		int tmp = this.getIntentDmg();
 		ReflectionHacks.setPrivate(this, AbstractMonster.class, "intentDmg", -1);
 		return tmp;
+	}
+	
+	@Override
+	public void applyPowers() {
+		super.applyPowers();
+		
+		this.cardList.applyPowers(this);
+	}
+	
+	@SpireOverride
+	public void updateIntentTip() {
+		SpireSuper.call();
+		
+		// TODO: this.intentTip = ...
+	}
+	
+	@Override
+	public void render(SpriteBatch sb) {
+		super.render(sb);
+		
+		if (!AbstractDungeon.player.isDead && !AbstractDungeon.player.hasRelic(RunicDome.ID))
+			this.cardList.render(sb);
+	}
+	
+	@SpireOverride
+	public void renderIntent(SpriteBatch sb) {
+		SpireSuper.call(sb);
+		
+		if (!AbstractDungeon.player.isDead && !AbstractDungeon.player.hasRelic(RunicDome.ID))
+			this.cardList.renderIntent(sb);
 	}
 }

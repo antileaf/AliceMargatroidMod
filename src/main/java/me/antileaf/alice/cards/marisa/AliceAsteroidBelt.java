@@ -1,6 +1,5 @@
 package me.antileaf.alice.cards.marisa;
 
-import com.evacipated.cardcrawl.mod.stslib.cards.interfaces.SpawnModificationCard;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -15,9 +14,7 @@ import me.antileaf.alice.action.utils.AnonymousAction;
 import me.antileaf.alice.patches.enums.AbstractCardEnum;
 import me.antileaf.alice.utils.AliceHelper;
 
-import java.util.ArrayList;
-
-public class AliceAsteroidBelt extends AbstractAliceMarisaCard implements SpawnModificationCard {
+public class AliceAsteroidBelt extends AbstractAliceMarisaCard {
 	public static final String SIMPLE_NAME = AliceAsteroidBelt.class.getSimpleName();
 	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
@@ -45,16 +42,6 @@ public class AliceAsteroidBelt extends AbstractAliceMarisaCard implements SpawnM
 	}
 	
 	@Override
-	public boolean canSpawn(ArrayList<AbstractCard> currentRewardCards) {
-		return false;
-	}
-	
-	@Override
-	public boolean canSpawnShop(ArrayList<AbstractCard> currentShopCards) {
-		return false;
-	}
-	
-	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
 		this.addToBot(new GainBlockAction(p, p, this.block));
 		
@@ -70,7 +57,7 @@ public class AliceAsteroidBelt extends AbstractAliceMarisaCard implements SpawnM
 				else
 					AliceHelper.log("AliceAsteroidBelt: Free to amplify.");
 				
-				this.addToBot(new ApplyPowerAction(p, p, new NextTurnBlockPower(p, block), block));
+				this.addToTop(new ApplyPowerAction(p, p, new NextTurnBlockPower(p, block), block));
 			}
 		}));
 	}

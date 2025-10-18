@@ -1,7 +1,6 @@
 package me.antileaf.alice.cards.marisa;
 
 import com.evacipated.cardcrawl.mod.stslib.actions.common.DamageCallbackAction;
-import com.evacipated.cardcrawl.mod.stslib.cards.interfaces.SpawnModificationCard;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
@@ -13,9 +12,7 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import me.antileaf.alice.patches.enums.AbstractCardEnum;
 import me.antileaf.alice.utils.AliceHelper;
 
-import java.util.ArrayList;
-
-public class Alice6A extends AbstractAliceMarisaCard implements SpawnModificationCard {
+public class Alice6A extends AbstractAliceMarisaCard {
 	public static final String SIMPLE_NAME = Alice6A.class.getSimpleName();
 	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
@@ -40,16 +37,6 @@ public class Alice6A extends AbstractAliceMarisaCard implements SpawnModificatio
 		this.damage = this.baseDamage = DAMAGE;
 		
 		this.setImages(SIMPLE_NAME);
-	}
-	
-	@Override
-	public boolean canSpawn(ArrayList<AbstractCard> currentRewardCards) {
-		return false;
-	}
-	
-	@Override
-	public boolean canSpawnShop(ArrayList<AbstractCard> currentShopCards) {
-		return false;
 	}
 	
 	@Override

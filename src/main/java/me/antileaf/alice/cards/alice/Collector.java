@@ -1,5 +1,6 @@
 package me.antileaf.alice.cards.alice;
 
+import basemod.helpers.TooltipInfo;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
@@ -13,6 +14,8 @@ import me.antileaf.alice.doll.DollManager;
 import me.antileaf.alice.doll.dolls.EmptyDollSlot;
 import me.antileaf.alice.patches.enums.AbstractCardEnum;
 import me.antileaf.alice.patches.enums.CardTargetEnum;
+import me.antileaf.alice.strings.AliceCardNoteStrings;
+import me.antileaf.alice.strings.AliceLanguageStrings;
 import me.antileaf.alice.targeting.AliceHoveredTargets;
 import me.antileaf.alice.targeting.AliceTargetIcon;
 import me.antileaf.alice.utils.AliceHelper;
@@ -21,6 +24,7 @@ public class Collector extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = Collector.class.getSimpleName();
 	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
+	private static final AliceCardNoteStrings cardNoteStrings = AliceCardNoteStrings.get(ID);
 	
 	private static final int COST = 1;
 	private static final int MAGIC = 4;
@@ -41,8 +45,8 @@ public class Collector extends AbstractAliceCard {
 		
 		this.magicNumber = this.baseMagicNumber = MAGIC;
 		
-		if (AliceHelper.isInBattle())
-			this.applyPowers();
+//		if (AliceHelper.isInBattle())
+//			this.applyPowers();
 
 		this.dollTarget = true;
 
@@ -60,7 +64,7 @@ public class Collector extends AbstractAliceCard {
 	
 	@Override
 	public void applyPowers() {
-		this.baseBlock = DollManager.get().getDollTypeCount() * this.magicNumber;
+		this.baseBlock = DollManager.get().getStats().placedThisCombat.size() * this.magicNumber;
 		super.applyPowers();
 
 		this.rawDescription = cardStrings.DESCRIPTION + " NL " + cardStrings.EXTENDED_DESCRIPTION[0];
@@ -71,6 +75,37 @@ public class Collector extends AbstractAliceCard {
 	public void onMoveToDiscard() {
 		this.rawDescription = cardStrings.DESCRIPTION;
 		this.initializeDescription();
+	}
+	
+	@Override
+	public TooltipInfo getNote() {
+		if (!AliceHelper.isInBattle())
+			return null;
+//			return new TooltipInfo(cardNoteStrings.TITLE, cardNoteStrings.DESCRIPTION);
+		
+		if (cardNoteStrings == null) {
+//			logger.warn("getNote(): No note found for ID: {}!", ID);
+			return null;
+		}
+		
+		DollManager.Stats stats = DollManager.get().getStats();
+		
+		StringBuilder sb = new StringBuilder(
+				String.format(cardNoteStrings.EXTENDED_DESCRIPTION[0], stats.placedThisCombat.size()));
+		if (stats.placedThisCombat.isEmpty())
+			sb.append(AliceLanguageStrings.PERIOD);
+		else {
+			sb.append(cardNoteStrings.EXTENDED_DESCRIPTION[1]);
+			
+			for (String id : stats.placedThisCombat) {
+				sb.append(" NL ");
+				sb.append(AbstractDoll.getName(id));
+			}
+		}
+
+//		AliceSpireKit.logger.info("SevenColoredPuppeteer.getNote(): {}", sb);
+		
+		return new TooltipInfo(cardNoteStrings.TITLE, sb.toString());
 	}
 	
 	@Override
@@ -93,8 +128,8 @@ public class Collector extends AbstractAliceCard {
 		if (!this.upgraded) {
 			this.upgradeName();
 			this.upgradeMagicNumber(UPGRADE_PLUS_MAGIC);
-			if (AliceHelper.isInBattle())
-				this.applyPowers();
+//			if (AliceHelper.isInBattle())
+//				this.applyPowers();
 			this.initializeDescription();
 		}
 	}

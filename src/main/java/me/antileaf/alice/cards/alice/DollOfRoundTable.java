@@ -9,6 +9,7 @@ import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.NoBlockPower;
 import me.antileaf.alice.action.doll.DollGainBlockAction;
+import me.antileaf.alice.action.utils.AnonymousAction;
 import me.antileaf.alice.cards.AbstractAliceCard;
 import me.antileaf.alice.doll.AbstractDoll;
 import me.antileaf.alice.doll.DollManager;
@@ -58,12 +59,15 @@ public class DollOfRoundTable extends AbstractAliceCard {
 			if (!(doll instanceof EmptyDollSlot))
 				this.addToBot(new DollGainBlockAction(doll, this.block));
 		
-		this.addToBot(new ApplyPowerAction(
-				p,
-				p,
-				new NoBlockPower(p, 1, false),
-				1
-		));
+		this.addToBot(new AnonymousAction(() -> {
+			if (!p.hasPower(NoBlockPower.POWER_ID))
+				this.addToTop(new ApplyPowerAction(
+						p,
+						p,
+						new NoBlockPower(p, 1, false),
+						1
+				));
+		}));
 	}
 	
 	@Override

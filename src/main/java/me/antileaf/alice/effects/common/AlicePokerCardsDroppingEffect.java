@@ -8,6 +8,7 @@ import me.antileaf.alice.effects.utils.AlicePokerHelper;
 
 import java.util.ArrayList;
 
+@Deprecated
 public class AlicePokerCardsDroppingEffect extends AbstractGameEffect {
 	public static final int CARD_WIDTH = AlicePokerHelper.CARD_WIDTH;
 	public static final int CARD_HEIGHT = AlicePokerHelper.CARD_HEIGHT;

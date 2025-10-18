@@ -10,21 +10,19 @@ import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import me.antileaf.alice.action.common.AliceFatalAction;
 import me.antileaf.alice.cards.AbstractAliceCard;
-import me.antileaf.alice.cards.interfaces.ConditionalExhaustCard;
 import me.antileaf.alice.patches.enums.AbstractCardEnum;
 import me.antileaf.alice.powers.common.AliceExtraTurnPower;
 import me.antileaf.alice.utils.AliceHelper;
 
-public class CollapsingWorlds extends AbstractAliceCard implements ConditionalExhaustCard {
+public class CollapsingWorlds extends AbstractAliceCard /* implements ConditionalExhaustCard */ {
 	public static final String SIMPLE_NAME = CollapsingWorlds.class.getSimpleName();
 	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
-	private static final int COST = 2;
+	private static final int COST = 1;
 	private static final int DAMAGE = 16;
-	private static final int UPGRADED_COST = 1;
 
-	public boolean exhaustThisTime = false;
+//	public boolean exhaustThisTime = false;
 	
 	public CollapsingWorlds() {
 		super(
@@ -40,6 +38,7 @@ public class CollapsingWorlds extends AbstractAliceCard implements ConditionalEx
 		);
 		
 		this.damage = this.baseDamage = DAMAGE;
+		this.exhaust = true;
 	}
 	
 	@Override
@@ -50,21 +49,21 @@ public class CollapsingWorlds extends AbstractAliceCard implements ConditionalEx
 				AbstractGameAction.AttackEffect.FIRE,
 				(fatal) -> {
 					if (fatal)
-						AliceHelper.addToBot(new ApplyPowerAction(p, p, new AliceExtraTurnPower(1), 1));
+						AliceHelper.addToTop(new ApplyPowerAction(p, p, new AliceExtraTurnPower(1), 1));
 
-					this.exhaustThisTime = fatal;
+//					this.exhaustThisTime = fatal;
 					// The logic of conditional exhaust is implemented in patches
 				},
 				true
 		));
 	}
 
-	@Override
-	public boolean shouldExhaust() {
-		boolean res = this.exhaustThisTime;
-		this.exhaustThisTime = false;
-		return res;
-	}
+//	@Override
+//	public boolean shouldExhaust() {
+//		boolean res = this.exhaustThisTime;
+//		this.exhaustThisTime = false;
+//		return res;
+//	}
 	
 	@Override
 	public AbstractCard makeCopy() {
@@ -75,7 +74,9 @@ public class CollapsingWorlds extends AbstractAliceCard implements ConditionalEx
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
-			this.upgradeBaseCost(UPGRADED_COST);
+//			this.upgradeBaseCost(UPGRADED_COST);
+			this.retain = this.selfRetain = true;
+			this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
 			this.initializeDescription();
 		}
 	}

@@ -585,7 +585,7 @@ public static final Logger logger = LogManager.getLogger(AliceMargatroidMod.clas
 			DollMechanicsPatch.DamageInfoField.blockedByDoll.put(damageInfo, true);
 			
 			int remaining = doll.onPlayerDamaged(amount);
-			boolean destroyed = DollManager.get().dollTakesDamage(doll, amount - remaining);
+			boolean destroyed = DollManager.get().dollTakesDamage(doll, amount - remaining, false);
 			return remaining;
 		}
 		

@@ -149,6 +149,8 @@ public class DEPRECATEDLondonDoll extends AbstractDoll {
 	@Override
 	public void onDestroyed() {
 		this.onRecycleOrDestroyed();
+		
+		super.onDestroyed();
 	}
 	
 	@Override
