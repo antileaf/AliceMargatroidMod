@@ -37,7 +37,7 @@ public class MarisaTempStrengthLossPower extends AbstractPower {
 
     public void atEndOfTurn(boolean isPlayer) {
         if (!isPlayer) {
-            AbstractDungeon.actionManager.addToBottom(new RemoveSpecificPowerAction(this.owner, this.owner, "TempStrengthLoss"));
+            AbstractDungeon.actionManager.addToBottom(new RemoveSpecificPowerAction(this.owner, this.owner, this));
         }
 
     }
