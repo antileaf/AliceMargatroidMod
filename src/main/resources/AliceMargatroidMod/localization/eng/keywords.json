@@ -63,6 +63,11 @@
     "NAMES": ["Su-san", "su-san"],
     "DESCRIPTION": "Special Doll - #rAttacker (4) NL #yPassive #y- #yMelancholy : #gPoison will trigger an additional time at the start of enemy turn. NL #yAct : Apply #b3 #gPoison to a random enemy."
   },
+
+  {
+    "NAMES": ["Su-san (Replica)", "su-san_(replica)"],
+    "DESCRIPTION": "Special Doll - #rAttacker (4) NL #yPassive #y- #yMelancholy : At the end of your turn, apply #b3 #gPoison to ALL enemies. NL #yAct : Deal damage equal to #gPoison to ALL enemies."
+  },
   
   {
     "NAMES": ["ShanghaiDoll", "Shanghai Doll", "shanghai_doll", "shanghai_dolls"],

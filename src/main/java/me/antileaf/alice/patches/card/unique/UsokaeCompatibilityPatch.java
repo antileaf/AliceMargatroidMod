@@ -1,4 +1,4 @@
-package me.antileaf.alice.patches.card.specific;
+package me.antileaf.alice.patches.card.unique;
 
 import basemod.ReflectionHacks;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;

@@ -26,8 +26,8 @@ public class SnowSweeping extends AbstractAliceCard {
 	
 	private static final int COST = 1;
 	private static final int BLOCK = 5;
-	private static final int MAGIC = 1;
-	private static final int UPGRADE_PLUS_MAGIC = 1;
+	private static final int MAGIC = 2;
+//	private static final int UPGRADE_PLUS_MAGIC = 1;
 	
 	public SnowSweeping() {
 		super(
@@ -46,8 +46,6 @@ public class SnowSweeping extends AbstractAliceCard {
 		this.magicNumber = this.baseMagicNumber = MAGIC;
 
 		this.dollTarget = true;
-		this.isCommandCard = true;
-		this.tags.add(CardTagEnum.ALICE_COMMAND);
 
 		this.targetIcons.add(AliceTargetIcon.ALICE);
 		this.targetIcons.add(AliceTargetIcon.DOLL);
@@ -72,7 +70,7 @@ public class SnowSweeping extends AbstractAliceCard {
 		
 		this.addToBot(new DrawCardAction(this.magicNumber));
 		
-		if (doll != null)
+		if (this.upgraded && doll != null)
 			this.addToBot(new DollActAction(doll));
 	}
 	
@@ -85,9 +83,11 @@ public class SnowSweeping extends AbstractAliceCard {
 	public void upgrade() {
 		if (!this.upgraded) {
 			this.upgradeName();
-			this.upgradeMagicNumber(UPGRADE_PLUS_MAGIC);
-			if (cardStrings.UPGRADE_DESCRIPTION != null)
-				this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
+//			this.upgradeMagicNumber(UPGRADE_PLUS_MAGIC);
+//			if (cardStrings.UPGRADE_DESCRIPTION != null)
+			this.rawDescription = cardStrings.UPGRADE_DESCRIPTION;
+			this.isCommandCard = true;
+			this.tags.add(CardTagEnum.ALICE_COMMAND);
 			this.initializeDescription();
 		}
 	}

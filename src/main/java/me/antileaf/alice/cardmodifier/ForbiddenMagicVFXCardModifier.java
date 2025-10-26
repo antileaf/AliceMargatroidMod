@@ -63,10 +63,11 @@ public class ForbiddenMagicVFXCardModifier extends AbstractCardModifier {
 //		card.stopGlowing();
 //	}
 
-	@Override
-	public boolean removeAtEndOfTurn(AbstractCard card) {
-		return true;
-	}
+	// The logic of removal is implemented in patches.unique.ForbiddenMagicVFXRemovalPatch
+//	@Override
+//	public boolean removeAtEndOfTurn(AbstractCard card) {
+//		return true;
+//	}
 
 	@Override
 	public String identifier(AbstractCard card) {

@@ -105,7 +105,8 @@
     "NAME": "七色的人偶使",
     "DESCRIPTION": "对所有敌人造成 !D! 点伤害 !M! 次。 NL 本场战斗中：有一种 *人偶 *行动 过 7 次才能打出； NL 每 *生成 过一种不同的 *人偶 ，耗能减少1 [E] 。",
     "UPGRADE_DESCRIPTION": "保留 。 对所有敌人造成 !D! 点伤害 !M! 次。 NL 本场战斗中：有一种 *人偶 *行动 过 7 次才能打出； NL 每 *生成 过一种不同的 *人偶 ，耗能减少1 [E] 。",
-    "EXTENDED_DESCRIPTION": ["需要有一种人偶行动过 #r7 次才能打出！"]
+    "EXTENDED_DESCRIPTION": ["需要有一种人偶行动过 #r7 次才能打出！"],
+    "SIGNATURE_ILLUSTRATOR": "PID:122553723"
   },
   
   "AliceMargatroid:Collector": {
@@ -131,7 +132,8 @@
   
   "AliceMargatroid:SnowSweeping": {
     "NAME": "扫雪",
-    "DESCRIPTION": "爱丽丝或目标 alicemargatroid:人偶 获得 !B! 点 格挡 。 NL 抽 !M! 张牌。 NL alicemargatroid:指令 ：目标 alicemargatroid:人偶 alicemargatroid:行动 一次。"
+    "DESCRIPTION": "爱丽丝或目标 alicemargatroid:人偶 获得 !B! 点 格挡 。 NL 抽 !M! 张牌。",
+    "UPGRADE_DESCRIPTION": "爱丽丝或目标 alicemargatroid:人偶 获得 !B! 点 格挡 。 NL 抽 !M! 张牌。 NL alicemargatroid:指令 ：目标 alicemargatroid:人偶 alicemargatroid:行动 一次。"
   },
   
   "AliceMargatroid:FriendsHelp": {
@@ -395,7 +397,7 @@
   
   "AliceMargatroid:LuminousShanghaiDoll": {
     "NAME": "魔彩光的上海人偶",
-    "DESCRIPTION": "每当有非 alicemargatroid:上海人偶 alicemargatroid:行动 时，使一个随机的 alicemargatroid:上海人偶 alicemargatroid:行动 一次。",
+    "DESCRIPTION": "每当有非 alicemargatroid:上海人偶 alicemargatroid:行动 时，使一个随机的 alicemargatroid:上海人偶 alicemargatroid:行动 !M! 次。",
     "SIGN": "诅咒"
   },
   
@@ -518,8 +520,8 @@
 
   "AliceMargatroid:DollArrangement": {
     "NAME": "人偶置操",
-    "DESCRIPTION": "随机 alicemargatroid:生成 一个你没有的 alicemargatroid:人偶 ，并在空栏位中重复 alicemargatroid:生成 ，直到你至少有 !M! 个 alicemargatroid:人偶 。 NL 所有 alicemargatroid:人偶 获得 !B! 点 格挡 。",
-    "UPGRADE_DESCRIPTION": "随机 alicemargatroid:生成 一个你没有的 alicemargatroid:人偶 ，并在空栏位中重复 alicemargatroid:生成 ，直到你至少有 !M! 个 alicemargatroid:人偶 。 NL 爱丽丝和所有 alicemargatroid:人偶 获得 !B! 点 格挡 。"
+    "DESCRIPTION": "在目标栏位中随机 alicemargatroid:生成 一个你没有的 alicemargatroid:人偶 。 NL 如果你的 alicemargatroid:人偶 数量不足 !M! 个，在空栏位中重复 alicemargatroid:生成 。 NL 所有 alicemargatroid:人偶 获得 !B! 点 格挡 。",
+    "UPGRADE_DESCRIPTION": "在目标栏位中随机 alicemargatroid:生成 一个你没有的 alicemargatroid:人偶 。 NL 如果你的 alicemargatroid:人偶 数量不足 !M! 个，在空栏位中重复 alicemargatroid:生成 。 NL 爱丽丝和所有 alicemargatroid:人偶 获得 !B! 点 格挡 。"
   },
   
   
@@ -596,10 +598,10 @@
     "EXTENDED_DESCRIPTION": ["需要花费 %d 金币。"]
   },
   
-  "AliceMargatroid:CreateSusan": {
-    "NAME": "铃铃",
-    "DESCRIPTION": "alicemargatroid:生成 alicemargatroid:铃铃 。 NL 消耗 。",
-    "UPGRADE_DESCRIPTION": "固有 。 NL alicemargatroid:生成 alicemargatroid:铃铃 。 NL 消耗 。"
+  "AliceMargatroid:CreateSusanReplica": {
+    "NAME": "铃铃（仿制品）",
+    "DESCRIPTION": "alicemargatroid:生成 alicemargatroid:铃铃（仿制品） 。 NL 消耗 。",
+    "UPGRADE_DESCRIPTION": "固有 。 NL alicemargatroid:生成 alicemargatroid:铃铃（仿制品） 。 NL 消耗 。"
   },
 
   "AliceMargatroid:CreateDoll": {

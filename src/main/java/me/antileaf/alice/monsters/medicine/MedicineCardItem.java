@@ -1,15 +1,29 @@
 package me.antileaf.alice.monsters.medicine;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.megacrit.cardcrawl.actions.AbstractGameAction;
+import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
+import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.cards.green.*;
 import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.TipHelper;
+import com.megacrit.cardcrawl.powers.ArtifactPower;
+import com.megacrit.cardcrawl.powers.GainStrengthPower;
+import com.megacrit.cardcrawl.powers.StrengthPower;
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
 import com.megacrit.cardcrawl.vfx.DebuffParticleEffect;
 import com.megacrit.cardcrawl.vfx.combat.BuffParticleEffect;
+import me.antileaf.alice.action.medicine.MedicineApplyPoisonAction;
+import me.antileaf.alice.action.utils.AnonymousAction;
 import me.antileaf.alice.cards.medicine.MedicineCripplingPoison;
+import me.antileaf.alice.utils.AliceHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,6 +38,8 @@ public class MedicineCardItem {
 	public boolean hidden = false;
 	
 	private float intentParticleTimer = 0.0F;
+	private float intentAngle = 0.0F;
+	private float alpha = 0.0F;
 	private ArrayList<AbstractGameEffect> intentVfx = new ArrayList<>();
 	
 	public MedicineCardItem(AbstractCard card) {
@@ -43,6 +59,8 @@ public class MedicineCardItem {
 			this.card.updateHoverLogic();
 		else
 			this.card.hb.hovered = false;
+		
+		this.updateIntentVFX();
 	}
 	
 	private float getIntentY() {
@@ -77,9 +95,76 @@ public class MedicineCardItem {
 		}
 	}
 	
+	private void draw(SpriteBatch sb, Texture texture, float x, float y, float angle) {
+		sb.draw(texture, x, y,
+				texture.getWidth() / 2.0F, texture.getWidth() / 2.0F,
+				texture.getWidth(), texture.getHeight(),
+				Settings.scale * 1.2F, Settings.scale * 1.2F,
+				angle,
+				0, 0,
+				texture.getWidth(), texture.getHeight(),
+				false, false);
+	}
+	
 	public void renderIntent(SpriteBatch sb) {
+		if (this.intent.debuff || this.intent.strongDebuff)
+			this.intentAngle += Gdx.graphics.getDeltaTime() * 150.0F;
+		else
+			this.intentAngle = 0.0F;
+		
 		if (!this.hidden) {
-			// TODO
+			Color intentColor = Color.WHITE.cpy();
+			intentColor.a = this.alpha;
+			sb.setColor(intentColor);
+			
+			float y = this.getIntentY();
+			
+			if (this.intent.debuff || this.intent.strongDebuff) {
+				this.draw(sb, new Texture(""),
+						this.card.current_x, y, this.intentAngle); // TODO: intent debuff icon
+				
+				y -= 32.0F * Settings.scale;
+			}
+			
+			if (this.intent.buff) {
+				this.draw(sb, new Texture(""),
+						this.card.current_x, y, 0.0F); // TODO: intent buff icon
+				
+				y -= 32.0F * Settings.scale;
+			}
+			
+			if (this.intent.damage != -1) {
+				this.draw(sb, new Texture(""),
+						this.card.current_x, y, 0.0F); // TODO: intent attack icon
+				
+				String str = Integer.toString(this.intent.damage);
+				if (this.intent.multiAmt != -1)
+					str = this.intent.multiAmt + "x" + str;
+				
+				FontHelper.renderFontLeftTopAligned(sb, FontHelper.topPanelInfoFont, str,
+						this.card.current_x - 30.0F * Settings.scale,
+						y - 12.0F * Settings.scale, intentColor);
+				
+				y -= 32.0F * Settings.scale;
+			}
+			
+			if (this.intent.poison != -1) {
+				this.draw(sb, new Texture(""),
+						this.card.current_x, y, 0.0F); // TODO: intent poison icon
+				
+				String str;
+				if (this.intent.poison >= 0)
+					str = Integer.toString(this.intent.poison);
+				else
+					str = "x" + (-this.intent.poison); // Catalyst
+				
+				FontHelper.renderFontLeftTopAligned(sb, FontHelper.topPanelInfoFont, str,
+						this.card.current_x - 30.0F * Settings.scale,
+						y - 12.0F * Settings.scale, intentColor);
+				
+				y -= 32.0F * Settings.scale;
+			}
+			
 		}
 	}
 	
@@ -91,13 +176,98 @@ public class MedicineCardItem {
 			this.intent.damage = this.card.damage;
 			
 			if (this.card instanceof Bane) {
-				this.intent.multiAmt = 2; // TODO
+				if (medicine.bane())
+					this.intent.multiAmt = 2;
+				else
+					this.intent.multiAmt = -1;
 			}
 		}
 	}
 	
 	public void play(MedicineMelancholy medicine) {
-	
+		if (this.card instanceof PoisonedStab) {
+			AliceHelper.addActionToBuffer(new DamageAction(AbstractDungeon.player,
+					new DamageInfo(medicine, this.card.damage, DamageInfo.DamageType.NORMAL),
+					AbstractGameAction.AttackEffect.SLASH_VERTICAL));
+			
+			AliceHelper.addActionToBuffer(new MedicineApplyPoisonAction(AbstractDungeon.player,
+					medicine, this.card.magicNumber));
+		}
+		else if (this.card instanceof Bane) {
+			AliceHelper.addActionToBuffer(new DamageAction(AbstractDungeon.player,
+					new DamageInfo(medicine, this.card.damage, DamageInfo.DamageType.NORMAL),
+					AbstractGameAction.AttackEffect.SLASH_HORIZONTAL));
+			
+			if (medicine.bane())
+				AliceHelper.addActionToBuffer(new DamageAction(AbstractDungeon.player,
+						new DamageInfo(medicine, this.card.damage, DamageInfo.DamageType.NORMAL),
+						AbstractGameAction.AttackEffect.SLASH_VERTICAL));
+		}
+		else if (this.card instanceof DeadlyPoison) {
+			AliceHelper.addActionToBuffer(new MedicineApplyPoisonAction(AbstractDungeon.player,
+					medicine, this.card.magicNumber));
+		}
+		else if (this.card instanceof PiercingWail) {
+			AliceHelper.addActionToBuffer(new ApplyPowerAction(AbstractDungeon.player,
+					medicine, new StrengthPower(AbstractDungeon.player, -this.card.magicNumber)));
+			
+			AliceHelper.addActionToBuffer(new AnonymousAction(() -> {
+				if (!AbstractDungeon.player.hasPower(ArtifactPower.POWER_ID))
+					AliceHelper.addToTop(new ApplyPowerAction(AbstractDungeon.player,
+							medicine, new GainStrengthPower(AbstractDungeon.player, this.card.magicNumber)));
+			}));
+		}
+		else if (this.card instanceof Outmaneuver) { // 抢占先机
+		
+		}
+		else if (this.card instanceof CripplingPoison) {
+			if (this.card instanceof MedicineCripplingPoison && ((MedicineCripplingPoison) this.card).upgradedCount >= 2) {
+				AliceHelper.addActionToBuffer(new MedicineApplyPoisonAction(AbstractDungeon.player,
+						medicine, this.card.magicNumber));
+				
+				AliceHelper.addActionToBuffer(new ApplyPowerAction(AbstractDungeon.player,
+						medicine, new StrengthPower(AbstractDungeon.player, -this.card.magicNumber)));
+				
+				AliceHelper.addActionToBuffer(new AnonymousAction(() -> {
+					if (!AbstractDungeon.player.hasPower(ArtifactPower.POWER_ID))
+						AliceHelper.addToTop(new ApplyPowerAction(AbstractDungeon.player,
+								medicine, new GainStrengthPower(AbstractDungeon.player, this.card.magicNumber)));
+				}));
+			}
+			else {
+				AliceHelper.addActionToBuffer(new MedicineApplyPoisonAction(AbstractDungeon.player,
+						medicine, this.card.magicNumber));
+			}
+		}
+		else if (this.card instanceof BouncingFlask) {
+		
+		}
+		else if (this.card instanceof Catalyst) {
+		
+		}
+		else if (this.card instanceof InfiniteBlades) {
+		
+		}
+		else if (this.card instanceof Caltrops) {
+		
+		}
+		else if (this.card instanceof NoxiousFumes) {
+		
+		}
+		else if (this.card instanceof Envenom) {
+		
+		}
+		else if (this.card instanceof AfterImage) {
+		
+		}
+		else if (this.card instanceof PhantasmalKiller) {
+		
+		}
+		else {
+			logger.warn("play(): Unknown card for Medicine Melancholy: {}", this.card.cardID);
+		}
+		
+		AliceHelper.commitBuffer();
 	}
 	
 	public static class CardIntent {

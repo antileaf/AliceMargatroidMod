@@ -18,6 +18,7 @@ public class LuminousShanghaiDoll extends AbstractAliceCard {
 	
 	private static final int COST = 2;
 	private static final int UPGRADED_COST = 1;
+	private static final int MAGIC = 1;
 	
 	public LuminousShanghaiDoll() {
 		super(
@@ -31,11 +32,13 @@ public class LuminousShanghaiDoll extends AbstractAliceCard {
 				CardRarity.RARE,
 				CardTarget.NONE
 		);
+		
+		this.magicNumber = this.baseMagicNumber = MAGIC;
 	}
 	
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
-		this.addToBot(new ApplyPowerAction(p, p, new LuminousShanghaiDollPower(1), 1));
+		this.addToBot(new ApplyPowerAction(p, p, new LuminousShanghaiDollPower(this.magicNumber)));
 	}
 	
 	@Override

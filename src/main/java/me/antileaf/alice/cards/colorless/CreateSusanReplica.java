@@ -9,18 +9,18 @@ import me.antileaf.alice.action.doll.SpawnDollAction;
 import me.antileaf.alice.cards.AbstractAliceCard;
 import me.antileaf.alice.doll.AbstractDoll;
 import me.antileaf.alice.doll.DollManager;
-import me.antileaf.alice.doll.dolls.Su_san;
+import me.antileaf.alice.doll.dolls.SusanReplica;
 import me.antileaf.alice.patches.enums.CardTargetEnum;
 import me.antileaf.alice.utils.AliceHelper;
 
-public class CreateSusan extends AbstractAliceCard {
-	public static final String SIMPLE_NAME = CreateSusan.class.getSimpleName();
+public class CreateSusanReplica extends AbstractAliceCard {
+	public static final String SIMPLE_NAME = CreateSusanReplica.class.getSimpleName();
 	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 0;
 	
-	public CreateSusan() {
+	public CreateSusanReplica() {
 		super(
 				ID,
 				cardStrings.NAME,
@@ -41,12 +41,12 @@ public class CreateSusan extends AbstractAliceCard {
 		AbstractDoll slot = this.getTargetedSlot();
 		int index = DollManager.get().getDolls().indexOf(slot);
 		
-		this.addToBot(new SpawnDollAction(new Su_san(), index));
+		this.addToBot(new SpawnDollAction(new SusanReplica(), index));
 	}
 	
 	@Override
 	public AbstractCard makeCopy() {
-		return new CreateSusan();
+		return new CreateSusanReplica();
 	}
 	
 	@Override

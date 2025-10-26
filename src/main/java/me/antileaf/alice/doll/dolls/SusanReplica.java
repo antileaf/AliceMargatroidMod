@@ -2,26 +2,29 @@ package me.antileaf.alice.doll.dolls;
 
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
-import com.megacrit.cardcrawl.actions.unique.PoisonLoseHpAction;
+import com.megacrit.cardcrawl.actions.common.DamageAllEnemiesAction;
+import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.PoisonPower;
 import me.antileaf.alice.doll.AbstractDoll;
+import me.antileaf.alice.doll.DollDamageInfo;
+import me.antileaf.alice.doll.enums.DollAmountTime;
 import me.antileaf.alice.doll.enums.DollAmountType;
 import me.antileaf.alice.strings.AliceDollStrings;
 import me.antileaf.alice.utils.AliceHelper;
 
-public class Su_san extends AbstractDoll {
-	public static final String SIMPLE_NAME = Su_san.class.getSimpleName();
+public class SusanReplica extends AbstractDoll {
+	public static final String SIMPLE_NAME = SusanReplica.class.getSimpleName();
 	public static final String ID = SIMPLE_NAME;
 	private static final AliceDollStrings dollStrings = AliceDollStrings.get(ID);
 	
 	public static final int MAX_HP = 4;
 	public static final int PASSIVE_AMOUNT = 3;
 	
-	public Su_san() {
+	public SusanReplica() {
 		super(
 				ID,
 				dollStrings.NAME,
@@ -72,14 +75,41 @@ public class Su_san extends AbstractDoll {
 	
 	@Override
 	public void onAct(DollActModifier modifier) {
-		for (AbstractMonster m : AbstractDungeon.getMonsters().monsters)
-			if (!m.isDeadOrEscaped() && m.hasPower(PoisonPower.POWER_ID))
-				AliceHelper.addActionToBuffer(new PoisonLoseHpAction(
-						m,
-						m,
-						m.getPower(PoisonPower.POWER_ID).amount,
-						AbstractGameAction.AttackEffect.POISON)
-				);
+		int[] tmp = new int[AbstractDungeon.getMonsters().monsters.size()];
+		boolean flag = false;
+		for (int i = 0; i < tmp.length; i++) {
+			AbstractMonster m = AbstractDungeon.getMonsters().monsters.get(i);
+			if (!m.isDeadOrEscaped() && m.hasPower(PoisonPower.POWER_ID)) {
+				tmp[i] = m.getPower(PoisonPower.POWER_ID).amount;
+				flag = true;
+			}
+		}
+		
+		if (flag) {
+			int[] matrix = DollDamageInfo.createDamageMatrix(
+					tmp,
+					this,
+					DollAmountType.DAMAGE,
+					DollAmountTime.PASSIVE,
+					new DollActModifier());
+			
+			this.addToTop(new DamageAllEnemiesAction(
+					AbstractDungeon.player,
+					matrix,
+					DamageInfo.DamageType.THORNS,
+					AbstractGameAction.AttackEffect.POISON,
+					true
+			));
+		}
+		
+//		for (AbstractMonster m : AbstractDungeon.getMonsters().monsters)
+//			if (!m.isDeadOrEscaped() && m.hasPower(PoisonPower.POWER_ID))
+//				AliceHelper.addActionToBuffer(new PoisonLoseHpAction(
+//						m,
+//						m,
+//						m.getPower(PoisonPower.POWER_ID).amount,
+//						AbstractGameAction.AttackEffect.POISON)
+//				);
 		
 //		AliceSpireKit.commitBuffer();
 	}
@@ -106,7 +136,7 @@ public class Su_san extends AbstractDoll {
 	
 	@Override
 	public AbstractDoll makeCopy() {
-		return new Su_san();
+		return new SusanReplica();
 	}
 	
 	@Override
@@ -123,6 +153,6 @@ public class Su_san extends AbstractDoll {
 	}
 	
 	public static String getDescription() {
-		return getHpDescription(MAX_HP) + " NL " + (new Su_san()).desc();
+		return getHpDescription(MAX_HP) + " NL " + (new SusanReplica()).desc();
 	}
 }

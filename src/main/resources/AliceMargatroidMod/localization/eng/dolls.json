@@ -18,6 +18,16 @@
     "PASSIVE_DESCRIPTION": " #gPoison will trigger an additional time at the start of enemy turn.",
     "ACT_DESCRIPTION": "Apply %s #gPoison to a random enemy."
   },
+
+  "SusanReplica": {
+    "NAME": "Su-san (Replica)",
+    "TYPE": "Special Doll",
+    "TAG": "Attacker",
+    "TAG_COLOR": "#r",
+    "PASSIVE_NAME": "Melancholy",
+    "PASSIVE_DESCRIPTION": "At the end of your turn, apply %s #gPoison to ALL enemies.",
+    "ACT_DESCRIPTION": "Deal damage equal to #gPoison to ALL enemies."
+  },
   
   "ShanghaiDoll": {
     "NAME": "Shanghai Doll",

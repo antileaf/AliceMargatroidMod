@@ -18,6 +18,16 @@
     "PASSIVE_DESCRIPTION": "敌人的回合开始时，额外结算一次 #g中毒 。",
     "ACT_DESCRIPTION": "给予随机敌人 %s 层 #g中毒 。"
   },
+
+  "SusanReplica": {
+    "NAME": "铃铃（仿制品）",
+    "TYPE": "特殊人偶",
+    "TAG": "进攻",
+    "TAG_COLOR": "#r",
+    "PASSIVE_NAME": "忧郁",
+    "PASSIVE_DESCRIPTION": "每回合结束时，给予所有敌人 %s 层 #g中毒 。",
+    "ACT_DESCRIPTION": "对所有敌人造成等同于 #g中毒 层数的伤害。"
+  },
   
   "ShanghaiDoll": {
     "NAME": "上海人偶",

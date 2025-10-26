@@ -8,7 +8,7 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.EventStrings;
 import com.megacrit.cardcrawl.vfx.cardManip.ShowCardAndObtainEffect;
-import me.antileaf.alice.cards.colorless.CreateSusan;
+import me.antileaf.alice.cards.colorless.CreateSusanReplica;
 import me.antileaf.alice.cards.colorless.PoisonousSweet;
 import me.antileaf.alice.utils.AliceHelper;
 
@@ -54,14 +54,14 @@ public class LilyOfTheValleyFlowerField extends PhasedEvent {
 							this.transitionKey(LEAVE_WITH_FLOWERS);
 						})
 				.addOption(new TextPhase.OptionInfo(String.format(eventStrings.OPTIONS[4], this.getHpLoss()),
-								new CreateSusan())
+								new CreateSusanReplica())
 						.enabledCondition(() -> AbstractDungeon.player.currentHealth > this.getHpLoss(),
 								String.format(eventStrings.OPTIONS[5], this.getHpLoss())),
 						(i) -> {
 							AbstractDungeon.player.damage(new DamageInfo(null, this.getHpLoss(), DamageInfo.DamageType.HP_LOSS));
 							CardCrawlGame.sound.play("POWER_POISON", 0.05F);
 							CardCrawlGame.sound.play("BLOOD_SPLAT");
-							AbstractDungeon.effectList.add(new ShowCardAndObtainEffect(new CreateSusan(),
+							AbstractDungeon.effectList.add(new ShowCardAndObtainEffect(new CreateSusanReplica(),
 									Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
 							this.transitionKey(LEAVE_WITH_SUSAN);
 						}));

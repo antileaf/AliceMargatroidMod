@@ -97,7 +97,8 @@
     "NAME": "7-colored Puppeteer",
     "DESCRIPTION": "Deal !D! damage to ALL enemies !M! times. NL Only playable if some kind of alicemargatroid:Doll has alicemargatroid:Act 7 times; NL Costs 1 [E] less for each different kind of alicemargatroid:Doll alicemargatroid:Placed.",
     "UPGRADE_DESCRIPTION": "Retain. Deal !D! damage to ALL enemies !M! times. NL Only playable if some kind of alicemargatroid:Doll has alicemargatroid:Act 7 times; NL Costs 1 [E] less for each different kind of alicemargatroid:Doll alicemargatroid:Placed.",
-    "EXTENDED_DESCRIPTION": ["Only playable if some kind of Doll has Act #r7 times!"]
+    "EXTENDED_DESCRIPTION": ["Only playable if some kind of Doll has Act #r7 times!"],
+    "SIGNATURE_ILLUSTRATOR": "PID: 122553723"
   },
   
   "AliceMargatroid:Collector": {
@@ -118,7 +119,8 @@
   
   "AliceMargatroid:SnowSweeping": {
     "NAME": "Snow Sweeping",
-    "DESCRIPTION": "{@@}Alice or target alicemargatroid:Doll gains !B! Block. NL Draw !M! card{!M!|>1=s}. NL alicemargatroid:Command: target alicemargatroid:Doll alicemargatroid:Acts once."
+    "DESCRIPTION": "{@@}Alice or target alicemargatroid:Doll gains !B! Block. NL Draw !M! card{!M!|>1=s}.",
+    "UPGRADE_DESCRIPTION": "{@@}Alice or target alicemargatroid:Doll gains !B! Block. NL Draw !M! card{!M!|>1=s}. NL alicemargatroid:Command: target alicemargatroid:Doll alicemargatroid:Acts once."
   },
   
   "AliceMargatroid:FriendsHelp": {
@@ -199,7 +201,8 @@
   
   "AliceMargatroid:Pause": {
     "NAME": "Pause",
-    "DESCRIPTION": "Alice or target alicemargatroid:Doll gains !B! Block. NL Next turn, draw !M! additional cards."
+    "DESCRIPTION": "Alice or target alicemargatroid:Doll gains !B! Block. NL Next turn, draw !M! additional cards.",
+    "SIGNATURE_ILLUSTRATOR": "PID: 45525389_p13"
   },
 
   "AliceMargatroid:DollMiraCeti": {
@@ -447,10 +450,10 @@
     "DESCRIPTION": "Retain. NL alicemargatroid:Command: alicemargatroid:Recycle target alicemargatroid:Doll, draw !M! cards. NL Exhaust."
   },
 
-  "AliceMargatroid:CreateSusan": {
-    "NAME": "Su-san",
-    "DESCRIPTION": "alicemargatroid:Place alicemargatroid:Su-san. NL Exhaust.",
-    "UPGRADE_DESCRIPTION": "Innate. NL alicemargatroid:Place alicemargatroid:Su-san. NL Exhaust."
+  "AliceMargatroid:CreateSusanReplica": {
+    "NAME": "Su-san (Replica)",
+    "DESCRIPTION": "alicemargatroid:Place alicemargatroid:Su-san_(Replica). NL Exhaust.",
+    "UPGRADE_DESCRIPTION": "Innate. NL alicemargatroid:Place alicemargatroid:Su-san_(Replica). NL Exhaust."
   },
 
   "AliceMargatroid:CreateDoll": {

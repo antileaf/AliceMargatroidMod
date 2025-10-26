@@ -8,7 +8,12 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.MonsterStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.powers.AbstractPower;
 import com.megacrit.cardcrawl.relics.RunicDome;
+import me.antileaf.alice.doll.AbstractDoll;
+import me.antileaf.alice.doll.DollManager;
+import me.antileaf.alice.doll.dolls.EmptyDollSlot;
+import me.antileaf.alice.powers.medicine.MedicinePoisonPower;
 import me.antileaf.alice.utils.AliceHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -61,6 +66,23 @@ public class MedicineMelancholy extends AbstractMonster {
 		int tmp = this.getIntentDmg();
 		ReflectionHacks.setPrivate(this, AbstractMonster.class, "intentDmg", -1);
 		return tmp;
+	}
+	
+	public boolean bane() {
+		if (AbstractDungeon.player.hasPower(MedicinePoisonPower.POWER_ID)) {
+			AbstractPower power = AbstractDungeon.player.getPower(MedicinePoisonPower.POWER_ID);
+			if (power.amount > 1)
+				return true;
+		}
+		
+		int index = DollManager.get().damageTarget.getOrDefault(this, -1);
+		if (index != -1) {
+			AbstractDoll doll = DollManager.get().getDolls().get(index);
+			if (doll != null && !(doll instanceof EmptyDollSlot) && doll.poison > 1)
+				return true;
+		}
+		
+		return false;
 	}
 	
 	@Override

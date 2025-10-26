@@ -1350,8 +1350,8 @@ public abstract class AbstractDoll extends CustomOrb {
 			return AliceDollStrings.get(NetherlandsDoll.ID).NAME;
 		else if (clazz.equals(FranceDoll.ID))
 			return AliceDollStrings.get(FranceDoll.ID).NAME;
-		else if (clazz.equals(Su_san.ID))
-			return AliceDollStrings.get(Su_san.ID).NAME;
+		else if (clazz.equals(SusanReplica.ID))
+			return AliceDollStrings.get(SusanReplica.ID).NAME;
 		else
 			return "Unknown";
 	}
@@ -1390,8 +1390,8 @@ public abstract class AbstractDoll extends CustomOrb {
 		else if (clazz.equals(FranceDoll.ID)) {
 			return new FranceDoll();
 		}
-		else if (clazz.equals(Su_san.ID)) {
-			return new Su_san();
+		else if (clazz.equals(SusanReplica.ID)) {
+			return new SusanReplica();
 		}
 		else {
 			logger.warn("newInst: Unknown class: {}", clazz);

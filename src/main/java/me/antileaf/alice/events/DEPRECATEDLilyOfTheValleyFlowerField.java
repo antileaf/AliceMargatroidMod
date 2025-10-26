@@ -7,7 +7,7 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.events.AbstractImageEvent;
 import com.megacrit.cardcrawl.localization.EventStrings;
 import com.megacrit.cardcrawl.vfx.cardManip.ShowCardAndObtainEffect;
-import me.antileaf.alice.cards.colorless.CreateSusan;
+import me.antileaf.alice.cards.colorless.CreateSusanReplica;
 import me.antileaf.alice.cards.colorless.PoisonousSweet;
 import me.antileaf.alice.utils.AliceHelper;
 
@@ -60,7 +60,7 @@ public class DEPRECATEDLilyOfTheValleyFlowerField extends AbstractImageEvent {
 			this.imageEventText.updateDialogOption(0, String.format(eventStrings.OPTIONS[1], this.getHpGain()),
 					new PoisonousSweet());
 			this.imageEventText.setDialogOption(String.format(eventStrings.OPTIONS[2], this.getHpLoss()),
-					new CreateSusan());
+					new CreateSusanReplica());
 			
 			this.cur = CurrentScreen.CHOICE;
 		}
@@ -80,7 +80,7 @@ public class DEPRECATEDLilyOfTheValleyFlowerField extends AbstractImageEvent {
 				CardCrawlGame.sound.play("POWER_POISON", 0.05F);
 				CardCrawlGame.sound.play("BLOOD_SPLAT");
 				AbstractDungeon.effectList.add(new ShowCardAndObtainEffect(
-						new CreateSusan(), (float) (Settings.WIDTH / 2), (float) (Settings.HEIGHT / 2)
+						new CreateSusanReplica(), (float) (Settings.WIDTH / 2), (float) (Settings.HEIGHT / 2)
 				));
 				logMetric(ID, "Take Su-san");
 			}

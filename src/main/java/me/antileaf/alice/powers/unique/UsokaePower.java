@@ -10,7 +10,7 @@ import com.megacrit.cardcrawl.powers.AbstractPower;
 import me.antileaf.alice.doll.AbstractDoll;
 import me.antileaf.alice.doll.DollManager;
 import me.antileaf.alice.doll.dolls.EmptyDollSlot;
-import me.antileaf.alice.patches.card.specific.UsokaeCompatibilityPatch;
+import me.antileaf.alice.patches.card.unique.UsokaeCompatibilityPatch;
 import me.antileaf.alice.powers.AbstractAlicePower;
 import me.antileaf.alice.utils.AliceHelper;
 import org.apache.logging.log4j.LogManager;

@@ -21,7 +21,7 @@ public class IllusoryMoon extends AbstractAliceCard {
 	
 	private static final int COST = 2;
 	private static final int DAMAGE = 6;
-	private static final int DAMAGE2 = 9;
+	private static final int DAMAGE2 = 7;
 	private static final int MAGIC = 2;
 	private static final int UPGRADE_PLUS_DAMAGE = 3;
 	

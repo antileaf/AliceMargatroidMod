@@ -34,6 +34,7 @@ public class AliceSprinkleStarSeal extends AbstractAliceMarisaCard {
 		);
 		
 		this.magicNumber = this.baseMagicNumber = MAGIC;
+		this.exhaust = true;
 		
 		this.setImages(IMG);
 	}

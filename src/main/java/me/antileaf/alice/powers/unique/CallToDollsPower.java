@@ -24,6 +24,7 @@ public class CallToDollsPower extends AbstractAlicePower implements PlayerOrEnem
 		this.amount = amount;
 		
 		this.type = PowerType.DEBUFF;
+		this.isTurnBased = true;
 		this.updateDescription();
 		this.initializeImage(SIMPLE_NAME);
 	}

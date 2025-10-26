@@ -9,7 +9,9 @@ import me.antileaf.alice.doll.AbstractDoll;
 import me.antileaf.alice.doll.enums.DollAmountType;
 import me.antileaf.alice.strings.AliceDollStrings;
 import me.antileaf.alice.utils.AliceHelper;
+import org.apache.commons.lang3.NotImplementedException;
 
+@Deprecated
 public class Su_san extends AbstractDoll {
 	public static final String SIMPLE_NAME = Su_san.class.getSimpleName();
 	public static final String ID = SIMPLE_NAME;
@@ -33,6 +35,8 @@ public class Su_san extends AbstractDoll {
 		this.actAmountType = DollAmountType.MAGIC;
 
 		this.tipImg = ImageMaster.loadImage(AliceHelper.getImgFilePath("UI", "Icon_Poison"));
+		
+		throw new NotImplementedException("Su_san is deprecated and not implemented.");
 	}
 	
 	@Override

@@ -11,6 +11,8 @@ import me.antileaf.alice.doll.interfaces.PlayerOrEnemyDollAmountModHook;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Arrays;
+
 public class DollDamageInfo extends DamageInfo {
 	private static final Logger logger = LogManager.getLogger(DollDamageInfo.class.getName());
 
@@ -83,18 +85,26 @@ public class DollDamageInfo extends DamageInfo {
 		this.output = MathUtils.floor(res);
 	}
 	
-	public static int[] createDamageMatrix(int baseDamage, AbstractDoll doll,
+	public static int[] createDamageMatrix(int[] baseDamage, AbstractDoll doll,
 	                                       DollAmountType amountType, DollAmountTime amountTime,
 										   AbstractDoll.DollActModifier modifier) {
 		int[] res = new int[AbstractDungeon.getMonsters().monsters.size()];
 		
 		for (int i = 0; i < res.length; i++) {
-			DollDamageInfo info = new DollDamageInfo(baseDamage, doll, amountType, amountTime, modifier);
+			DollDamageInfo info = new DollDamageInfo(baseDamage[i], doll, amountType, amountTime, modifier);
 			info.applyPowers(AbstractDungeon.player, AbstractDungeon.getMonsters().monsters.get(i));
 			res[i] = info.output;
 		}
 		
 		return res;
+	}
+	
+	public static int[] createDamageMatrix(int baseDamage, AbstractDoll doll,
+	                                       DollAmountType amountType, DollAmountTime amountTime,
+										   AbstractDoll.DollActModifier modifier) {
+		int[] tmp = new int[AbstractDungeon.getMonsters().monsters.size()];
+		Arrays.fill(tmp, baseDamage);
+		return createDamageMatrix(tmp, doll, amountType, amountTime, modifier);
 	}
 
 	public static int[] createDamageMatrix(int baseDamage, AbstractDoll doll,
