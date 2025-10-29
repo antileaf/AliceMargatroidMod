@@ -27,7 +27,7 @@ public class Masterpiece extends AbstractAliceCard {
 	
 	private static final int COST = 0;
 	private static final int BLOCK = 4;
-	private static final int DRAW = 1;
+	private static final int MAGIC = 1;
 	private static final int UPGRADE_PLUS_BLOCK = 3;
 	
 	public Masterpiece() {
@@ -44,7 +44,7 @@ public class Masterpiece extends AbstractAliceCard {
 		);
 		
 		this.block = this.baseBlock = BLOCK;
-		this.magicNumber = this.baseMagicNumber = DRAW;
+		this.magicNumber = this.baseMagicNumber = MAGIC;
 
 		this.dollTarget = true;
 		this.hardCodedForbiddenMagic = true;

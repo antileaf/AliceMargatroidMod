@@ -21,7 +21,7 @@ public class MagicianRay extends AbstractAliceCard {
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	private static final int COST = 1;
-	private static final int DAMAGE = 6;
+	private static final int DAMAGE = 4;
 	private static final int MAGIC = 2;
 	private static final int UPGRADE_PLUS_DMG = 2;
 	private static final int UPGRADE_PLUS_MAGIC = 1;

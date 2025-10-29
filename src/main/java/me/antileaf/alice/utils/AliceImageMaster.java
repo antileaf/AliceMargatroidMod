@@ -11,6 +11,7 @@ public class AliceImageMaster {
 	public static Texture ALICE_ARROW;
 	public static Texture[] POKERS;
 	public static Texture DESSERT_ICON;
+	public static Texture MOTIF_ICON;
 	
 	public static void loadImages() {
 		TIP_TOP = new Texture(AliceHelper.getImgFilePath("UI/tip", "tipTop"));
@@ -28,5 +29,6 @@ public class AliceImageMaster {
 				new Texture(AliceHelper.getImgFilePath("vfx", "poker/joker_big"))
 		};
 		DESSERT_ICON = new Texture(AliceHelper.getImgFilePath("vfx", "Dessert"));
+		MOTIF_ICON = new Texture(AliceHelper.getImgFilePath("vfx", "PomMotif"));
 	}
 }

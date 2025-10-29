@@ -381,13 +381,13 @@
   
   "AliceMargatroid:ArtfulChanter_V2": {
     "NAME": "狡猾的吟诵者",
-    "DESCRIPTION": "alicemargatroid:生成 alicemargatroid:人偶 时，如果本场战斗中有对应种类的 alicemargatroid:人偶 被 alicemargatroid:回收 或摧毁过，使其 alicemargatroid:行动 一次。",
+    "DESCRIPTION": "alicemargatroid:生成 alicemargatroid:人偶 时，如果本场战斗中有对应种类的 alicemargatroid:人偶 被 alicemargatroid:回收 或摧毁过，使其 alicemargatroid:行动 !M! 次。",
     "SIGN": "符之一"
   },
   
   "AliceMargatroid:Masterpiece": {
     "NAME": "杰作收藏",
-    "DESCRIPTION": "alicemargatroid:指令 ： alicemargatroid:回收 目标 alicemargatroid:人偶 ， NL 爱丽丝获得等同于其当前生命值 + !B! 的 格挡 ，并抽一张牌。"
+    "DESCRIPTION": "alicemargatroid:指令 ： alicemargatroid:回收 目标 alicemargatroid:人偶 ， NL 爱丽丝获得等同于其当前生命值 + !B! 的 格挡 ，并抽 !M! 张牌。"
   },
   
   "AliceMargatroid:MagicianRay": {
@@ -522,6 +522,11 @@
     "NAME": "人偶置操",
     "DESCRIPTION": "在目标栏位中随机 alicemargatroid:生成 一个你没有的 alicemargatroid:人偶 。 NL 如果你的 alicemargatroid:人偶 数量不足 !M! 个，在空栏位中重复 alicemargatroid:生成 。 NL 所有 alicemargatroid:人偶 获得 !B! 点 格挡 。",
     "UPGRADE_DESCRIPTION": "在目标栏位中随机 alicemargatroid:生成 一个你没有的 alicemargatroid:人偶 。 NL 如果你的 alicemargatroid:人偶 数量不足 !M! 个，在空栏位中重复 alicemargatroid:生成 。 NL 爱丽丝和所有 alicemargatroid:人偶 获得 !B! 点 格挡 。"
+  },
+
+  "AliceMargatroid:Motif": {
+    "NAME": "彩绘",
+    "DESCRIPTION": "丢弃所有编号对应的位置有 alicemargatroid:人偶 的手牌。 NL 抽 !M! 张牌。"
   },
   
   

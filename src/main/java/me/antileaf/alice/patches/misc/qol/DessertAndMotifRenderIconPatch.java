@@ -6,9 +6,10 @@ import com.evacipated.cardcrawl.modthespire.lib.SpirePrefixPatch;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import me.antileaf.alice.cards.alice.Dessert;
+import me.antileaf.alice.cards.alice.Motif;
 
 @SuppressWarnings("unused")
-public class DessertRenderIconPatch {
+public class DessertAndMotifRenderIconPatch {
 	@SpirePatch(clz = AbstractPlayer.class, method = "renderHand", paramtypez = {SpriteBatch.class})
 	public static class RenderIconPatch {
 		@SpirePrefixPatch
@@ -16,6 +17,10 @@ public class DessertRenderIconPatch {
 			for (AbstractCard c : _inst.hand.group)
 				if (c instanceof Dessert)
 					((Dessert) c).renderDessertIcon(sb);
+			
+			for (AbstractCard c : _inst.hand.group)
+				if (c instanceof Motif)
+					((Motif) c).renderMotifIcon(sb);
 		}
 	}
 }

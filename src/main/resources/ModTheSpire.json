@@ -11,6 +11,6 @@
   "optional_dependencies": [
     "TS05_Marisa", "RandomNumberPredictionMaster"
   ],
-  "version": "1.1.18",
+  "version": "1.1.19",
   "sts_version": "12-18-2022"
 }

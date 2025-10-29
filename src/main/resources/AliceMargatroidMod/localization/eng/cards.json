@@ -289,7 +289,7 @@
   
   "AliceMargatroid:Masterpiece": {
     "NAME": "Masterpiece",
-    "DESCRIPTION": "alicemargatroid:Command: alicemargatroid:Recycle target alicemargatroid:Doll, Alice gains Block equal to its HP +!B!, and draws 1 card."
+    "DESCRIPTION": "alicemargatroid:Command: alicemargatroid:Recycle target alicemargatroid:Doll, Alice gains Block equal to its HP +!B!, and draws !M! card."
   },
   
   "AliceMargatroid:MagicianRay": {
@@ -410,6 +410,12 @@
     "DESCRIPTION": "alicemargatroid:Place a alicemargatroid:Doll you do not have at random. NL Repeat this in empty slots, until you have at least !M! alicemargatroid:Dolls. NL All alicemargatroid:Dolls gain !B! Block.",
     "UPGRADE_DESCRIPTION": "alicemargatroid:Place a alicemargatroid:Doll you do not have at random. NL Repeat this in empty slots, until you have at least !M! alicemargatroid:Dolls. NL Alice and all alicemargatroid:Dolls gain !B! Block."
   },
+
+  "AliceMargatroid:Motif": {
+    "NAME": "Motif",
+    "DESCRIPTION": "Discard all cards in hand with a alicemargatroid:Doll with the same order. NL Draw !M! cards."
+  },
+
 
   "AliceMargatroid:VivaciousShanghaiDoll": {
     "NAME": "Vivacious Shanghai Doll",

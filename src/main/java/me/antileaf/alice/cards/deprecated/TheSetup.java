@@ -1,4 +1,4 @@
-package me.antileaf.alice.cards.alice;
+package me.antileaf.alice.cards.deprecated;
 
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
@@ -14,6 +14,7 @@ import me.antileaf.alice.patches.enums.AbstractCardEnum;
 import me.antileaf.alice.targeting.AliceHoveredTargets;
 import me.antileaf.alice.utils.AliceHelper;
 
+@Deprecated
 public class TheSetup extends AbstractAliceCard {
 	public static final String SIMPLE_NAME = TheSetup.class.getSimpleName();
 	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);

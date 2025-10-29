@@ -32,7 +32,7 @@ public class Dessert extends AbstractAliceCard {
 	private static final int MAGIC = 1;
 	private static final int UPGRADE_PLUS_MAGIC = 1;
 	
-	public float FADE_DUR = 0.25F;
+	public static final float FADE_DUR = 0.25F;
 	private float iconTransparency = 0.0F;
 	
 	public Dessert() {
@@ -109,10 +109,10 @@ public class Dessert extends AbstractAliceCard {
 				AbstractCard rightmost = AbstractDungeon.player.hand.getTopCard(); // 显然不可能是空的
 				
 				AbstractCard selected = AbstractDungeon.player.hoveredCard;
-				if (selected == null && rightmost.isHoveredInHand(0.1F))
+				if (selected == null && rightmost.isHoveredInHand(rightmost.drawScale))
 					selected = rightmost;
 
-				if (selected == null && leftmost.isHoveredInHand(0.1F))
+				if (selected == null && leftmost.isHoveredInHand(leftmost.drawScale))
 					selected = leftmost;
 				
 				if (selected == leftmost || selected == rightmost)
@@ -120,12 +120,12 @@ public class Dessert extends AbstractAliceCard {
 			}
 			
 			if (shouldShowIcon) {
-				this.iconTransparency += Gdx.graphics.getDeltaTime() / this.FADE_DUR;
+				this.iconTransparency += Gdx.graphics.getDeltaTime() / FADE_DUR;
 				if (this.iconTransparency > 1.0F)
 					this.iconTransparency = 1.0F;
 			}
 			else {
-				this.iconTransparency -= Gdx.graphics.getDeltaTime() / this.FADE_DUR;
+				this.iconTransparency -= Gdx.graphics.getDeltaTime() / FADE_DUR;
 				if (this.iconTransparency < 0.0F)
 					this.iconTransparency = 0.0F;
 			}
@@ -158,7 +158,7 @@ public class Dessert extends AbstractAliceCard {
 				float topOfCard = this.current_y + height;
 				float spacing = 50.0F * Settings.scale;
 				float centerY = topOfCard + spacing;
-				float sin = (float) Math.sin((this.angle / 180.0F * Math.PI));
+				float sin = (float) Math.sin(this.angle / 180.0F * Math.PI);
 				float xOffset = sin * width;
 				sb.draw(
 						icon,

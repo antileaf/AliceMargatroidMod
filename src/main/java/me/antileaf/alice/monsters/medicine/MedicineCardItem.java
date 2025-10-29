@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
+import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.cards.green.*;
@@ -23,6 +24,7 @@ import com.megacrit.cardcrawl.vfx.combat.BuffParticleEffect;
 import me.antileaf.alice.action.medicine.MedicineApplyPoisonAction;
 import me.antileaf.alice.action.utils.AnonymousAction;
 import me.antileaf.alice.cards.medicine.MedicineCripplingPoison;
+import me.antileaf.alice.powers.medicine.MedicineAfterImagePower;
 import me.antileaf.alice.utils.AliceHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -265,6 +267,12 @@ public class MedicineCardItem {
 		}
 		else {
 			logger.warn("play(): Unknown card for Medicine Melancholy: {}", this.card.cardID);
+		}
+		
+		if (medicine.hasPower(MedicineAfterImagePower.POWER_ID)) {
+			int block = medicine.getPower(MedicineAfterImagePower.POWER_ID).amount;
+			if (block > 0)
+				AliceHelper.addActionToBuffer(new GainBlockAction(medicine, block));
 		}
 		
 		AliceHelper.commitBuffer();
