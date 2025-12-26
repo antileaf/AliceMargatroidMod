@@ -1,7 +1,6 @@
 package me.antileaf.alice.cards.alice;
 
 import basemod.helpers.CardModifierManager;
-import com.evacipated.cardcrawl.mod.stslib.cards.interfaces.OnObtainCard;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.DamageAllEnemiesAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -16,7 +15,7 @@ import me.antileaf.alice.utils.AliceHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class Perihelion extends AbstractAliceCard implements OnObtainCard, OnCreatedCard {
+public class Perihelion extends AbstractAliceCard implements OnCreatedCard {
 	private static final Logger logger = LogManager.getLogger(Perihelion.class);
 
 	public static final String SIMPLE_NAME = Perihelion.class.getSimpleName();
@@ -50,11 +49,6 @@ public class Perihelion extends AbstractAliceCard implements OnObtainCard, OnCre
 		this.damage = this.baseDamage = DAMAGE;
 		this.magicNumber = this.baseMagicNumber = MAGIC;
 		this.isMultiDamage = true;
-	}
-	
-	@Override
-	public void onObtainCard() {
-		this.setInitialState(null);
 	}
 	
 	@Override

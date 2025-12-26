@@ -54,7 +54,7 @@
     "NAME": "Sacrificial Doll",
     "FLAVOR": "An unusual doll, available to partially take damage for the possessor.",
     "DESCRIPTIONS": [
-      "At the end of your turn, if there are empty #yalicemargatroid:Doll slots being attacked, gain #b3 Block."
+      "At the end of your turn, if there are empty #yalicemargatroid:Doll slots being attacked, gain #b4 Block."
     ]
   },
 

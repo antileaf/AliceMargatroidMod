@@ -16,9 +16,9 @@ public class DollJudge extends AbstractAliceCard {
 	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
-	private static final int COST = 2;
-	private static final int MAGIC = 60;
-	private static final int UPGRADE_PLUS_MAGIC = 30;
+	private static final int COST = 1;
+	private static final int MAGIC = 40;
+	private static final int UPGRADE_PLUS_MAGIC = 20;
 	
 	public DollJudge() {
 		super(

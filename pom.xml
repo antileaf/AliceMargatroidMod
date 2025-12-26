@@ -5,8 +5,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>me.antileaf</groupId>
-  <artifactId>alice-margatroid-mod</artifactId>
-  <version>1.1.19</version>
+  <artifactId>AliceMargatroid</artifactId>
+  <version>1.1.20</version>
 
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>
@@ -94,17 +94,57 @@
   </dependencies>
 
   <build>
-    <finalName>AliceMargatroid</finalName>
-    <plugins>
-      <plugin>
-		<groupId>org.apache.maven.plugins</groupId>
-		<artifactId>maven-jar-plugin</artifactId>
-		<version>3.2.0</version>
-		<configuration>
-		  <outputDirectory>${Spire.path}/mods</outputDirectory>
-		</configuration>
-      </plugin>
-    </plugins>
+	  <finalName>${project.artifactId}</finalName>
+	  <plugins>
+		  <plugin>
+			  <groupId>org.apache.maven.plugins</groupId>
+			  <artifactId>maven-compiler-plugin</artifactId>
+			  <version>3.7.0</version>
+			  <configuration>
+				  <source>1.8</source>
+				  <target>1.8</target>
+			  </configuration>
+		  </plugin>
+		  <plugin>
+			  <groupId>org.apache.maven.plugins</groupId>
+			  <artifactId>maven-antrun-plugin</artifactId>
+			  <version>1.8</version>
+			  <executions>
+				  <execution>
+					  <phase>package</phase>
+					  <configuration>
+						  <target>
+							  <copy file="target/${project.artifactId}.jar"
+									tofile="${Steam.path}/common/SlayTheSpire/mods/${project.artifactId}.jar"/>
+						  </target>
+					  </configuration>
+					  <goals>
+						  <goal>run</goal>
+					  </goals>
+				  </execution>
+			  </executions>
+		  </plugin>
+	  </plugins>
+
+	  <resources>
+		  <resource>
+			  <directory>src/main/resources</directory>
+		  </resource>
+		  <resource>
+			  <directory>src/main/resources</directory>
+			  <filtering>false</filtering>
+			  <excludes>
+				  <exclude>ModTheSpire.json</exclude>
+			  </excludes>
+		  </resource>
+		  <resource>
+			  <directory>src/main/resources</directory>
+			  <filtering>true</filtering>
+			  <includes>
+				  <include>ModTheSpire.json</include>
+			  </includes>
+		  </resource>
+	  </resources>
   </build>
 
 </project>

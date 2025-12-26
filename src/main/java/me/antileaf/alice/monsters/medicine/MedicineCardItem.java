@@ -21,7 +21,6 @@ import com.megacrit.cardcrawl.powers.StrengthPower;
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
 import com.megacrit.cardcrawl.vfx.DebuffParticleEffect;
 import com.megacrit.cardcrawl.vfx.combat.BuffParticleEffect;
-import me.antileaf.alice.action.medicine.MedicineApplyPoisonAction;
 import me.antileaf.alice.action.utils.AnonymousAction;
 import me.antileaf.alice.cards.medicine.MedicineCripplingPoison;
 import me.antileaf.alice.powers.medicine.MedicineAfterImagePower;
@@ -192,8 +191,8 @@ public class MedicineCardItem {
 					new DamageInfo(medicine, this.card.damage, DamageInfo.DamageType.NORMAL),
 					AbstractGameAction.AttackEffect.SLASH_VERTICAL));
 			
-			AliceHelper.addActionToBuffer(new MedicineApplyPoisonAction(AbstractDungeon.player,
-					medicine, this.card.magicNumber));
+//			AliceHelper.addActionToBuffer(new MedicineApplyPoisonAction(AbstractDungeon.player,
+//					medicine, this.card.magicNumber));
 		}
 		else if (this.card instanceof Bane) {
 			AliceHelper.addActionToBuffer(new DamageAction(AbstractDungeon.player,
@@ -206,8 +205,8 @@ public class MedicineCardItem {
 						AbstractGameAction.AttackEffect.SLASH_VERTICAL));
 		}
 		else if (this.card instanceof DeadlyPoison) {
-			AliceHelper.addActionToBuffer(new MedicineApplyPoisonAction(AbstractDungeon.player,
-					medicine, this.card.magicNumber));
+//			AliceHelper.addActionToBuffer(new MedicineApplyPoisonAction(AbstractDungeon.player,
+//					medicine, this.card.magicNumber));
 		}
 		else if (this.card instanceof PiercingWail) {
 			AliceHelper.addActionToBuffer(new ApplyPowerAction(AbstractDungeon.player,
@@ -224,8 +223,8 @@ public class MedicineCardItem {
 		}
 		else if (this.card instanceof CripplingPoison) {
 			if (this.card instanceof MedicineCripplingPoison && ((MedicineCripplingPoison) this.card).upgradedCount >= 2) {
-				AliceHelper.addActionToBuffer(new MedicineApplyPoisonAction(AbstractDungeon.player,
-						medicine, this.card.magicNumber));
+//				AliceHelper.addActionToBuffer(new MedicineApplyPoisonAction(AbstractDungeon.player,
+//						medicine, this.card.magicNumber));
 				
 				AliceHelper.addActionToBuffer(new ApplyPowerAction(AbstractDungeon.player,
 						medicine, new StrengthPower(AbstractDungeon.player, -this.card.magicNumber)));
@@ -237,8 +236,8 @@ public class MedicineCardItem {
 				}));
 			}
 			else {
-				AliceHelper.addActionToBuffer(new MedicineApplyPoisonAction(AbstractDungeon.player,
-						medicine, this.card.magicNumber));
+//				AliceHelper.addActionToBuffer(new MedicineApplyPoisonAction(AbstractDungeon.player,
+//						medicine, this.card.magicNumber));
 			}
 		}
 		else if (this.card instanceof BouncingFlask) {

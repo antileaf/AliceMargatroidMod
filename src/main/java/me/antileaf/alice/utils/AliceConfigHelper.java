@@ -45,19 +45,19 @@ public class AliceConfigHelper {
 	public static ModLabel skinLabel;
 	
 	public static void loadConfig() {
-		try {
-			Properties defaults = new Properties();
-			defaults.setProperty(SHOULD_OPEN_TUTORIAL, "true");
-			defaults.setProperty(ENABLE_SPELL_CARD_SIGN_DISPLAY, "true");
-			defaults.setProperty(ENABLE_CARD_TARGET_ICONS, "true");
-			defaults.setProperty(ENABLE_ALTERNATIVE_MARISA_CARD_IMAGE, "true");
-			defaults.setProperty(USE_PACK_MASTER_STYLE_MARISA_CARDS, "true");
-			defaults.setProperty(ENABLE_WITCHS_TEA_PARTY_FEATURE, "true");
-			defaults.setProperty(ENABLE_SHANGHAI_DOLL_EVENT_FOR_OTHER_CHARACTERS, "true");
-			defaults.setProperty(ENABLE_DEBUGGING, "false");
+		Properties defaults = new Properties();
+		defaults.setProperty(SHOULD_OPEN_TUTORIAL, "true");
+		defaults.setProperty(ENABLE_SPELL_CARD_SIGN_DISPLAY, "true");
+		defaults.setProperty(ENABLE_CARD_TARGET_ICONS, "true");
+		defaults.setProperty(ENABLE_ALTERNATIVE_MARISA_CARD_IMAGE, "true");
+		defaults.setProperty(USE_PACK_MASTER_STYLE_MARISA_CARDS, "true");
+		defaults.setProperty(ENABLE_WITCHS_TEA_PARTY_FEATURE, "true");
+		defaults.setProperty(ENABLE_SHANGHAI_DOLL_EVENT_FOR_OTHER_CHARACTERS, "true");
+		defaults.setProperty(ENABLE_DEBUGGING, "false");
 //			defaults.setProperty(SKIN_SELECTION_UNLOCKED, "false");
-			defaults.setProperty(SKIN_CHOSEN, "ORIGINAL");
-			
+		defaults.setProperty(SKIN_CHOSEN, "ORIGINAL");
+		
+		try {
 			conf = new SpireConfig(AliceHelper.getModID(), "config", defaults);
 		} catch (IOException e) {
 			logger.info("initialize(): Failed to load config.");

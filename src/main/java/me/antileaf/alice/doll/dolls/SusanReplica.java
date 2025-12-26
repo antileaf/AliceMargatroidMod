@@ -22,7 +22,7 @@ public class SusanReplica extends AbstractDoll {
 	private static final AliceDollStrings dollStrings = AliceDollStrings.get(ID);
 	
 	public static final int MAX_HP = 4;
-	public static final int PASSIVE_AMOUNT = 3;
+	public static final int PASSIVE_AMOUNT = 4;
 	
 	public SusanReplica() {
 		super(

@@ -27,8 +27,8 @@
   
   "AliceMargatroid:DollCrusader": {
     "NAME": "Doll Crusader",
-    "DESCRIPTION": "alicemargatroid:Recycle all alicemargatroid:Dolls, then alicemargatroid:Place a random alicemargatroid:Doll in their original slots. NL Exhaust.",
-    "UPGRADE_DESCRIPTION": "alicemargatroid:Recycle all alicemargatroid:Dolls, then alicemargatroid:Place a random alicemargatroid:Doll in their original slots.",
+    "DESCRIPTION": "alicemargatroid:Recycle all alicemargatroid:Dolls, then alicemargatroid:Place a random alicemargatroid:Doll in their slots. NL All alicemargatroid:Dolls alicemargatroid:Act once. NL Exhaust.",
+    "UPGRADE_DESCRIPTION": "alicemargatroid:Recycle all alicemargatroid:Dolls, then alicemargatroid:Place a random alicemargatroid:Doll in their slots. NL All alicemargatroid:Dolls alicemargatroid:Act once.",
     "SIGN": "Sign II"
   },
   
@@ -68,7 +68,7 @@
   
   "AliceMargatroid:DollAmbush": {
     "NAME": "Doll Ambush",
-    "DESCRIPTION": "{@@}Whenever a alicemargatroid:Doll is alicemargatroid:Recycled, let it alicemargatroid:act !M! time{!M!|>1=s}."
+    "DESCRIPTION": "{@@}Whenever a alicemargatroid:Doll is alicemargatroid:Recycled, let it alicemargatroid:Act !M! time{!M!|>1=s}."
   },
   
   "AliceMargatroid:DollWar": {
@@ -143,8 +143,7 @@
 
   "AliceMargatroid:DollLances": {
     "NAME": "Doll Lances",
-    "DESCRIPTION": "{@@}Deal !D! damage. NL All alicemargatroid:Shanghai_Dolls alicemargatroid:Act !M! time{!M!|>1=s}, prioritizing to attack the target.",
-    "UPGRADE_DESCRIPTION": "{@@}Deal !D! damage. NL All alicemargatroid:Shanghai_Dolls alicemargatroid:Act !M! time{!M!|>1=s}, prioritizing to attack the target, but only deal half damage the second time."
+    "DESCRIPTION": "{@@}Deal !D! damage. NL All alicemargatroid:Shanghai_Dolls alicemargatroid:Act !M! time{!M!|>1=s}, prioritizing to attack the target, but only deal half damage."
   },
   
   "AliceMargatroid:Ultimatum": {

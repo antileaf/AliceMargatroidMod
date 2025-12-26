@@ -40,7 +40,7 @@ public class SacrificialDoll extends CustomRelic {
 	public void onPlayerEndTurn() {
 		for (AbstractDoll doll : DollManager.get().getDolls())
 			if (doll instanceof EmptyDollSlot && doll.calcTotalDamageAboutToTake() != -1) {
-				this.addToTop(new GainBlockAction(AbstractDungeon.player, AbstractDungeon.player, 3));
+				this.addToTop(new GainBlockAction(AbstractDungeon.player, AbstractDungeon.player, 4));
 				this.addToTop(new RelicAboveCreatureAction(AbstractDungeon.player, this));
 				break;
 			}

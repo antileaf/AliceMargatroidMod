@@ -27,8 +27,8 @@
   
   "AliceMargatroid:DollCrusader": {
     "NAME": "人偶十字军",
-    "DESCRIPTION": "alicemargatroid:回收 所有 alicemargatroid:人偶 ，然后在原位置 alicemargatroid:生成 一个随机 alicemargatroid:人偶 。 NL 消耗 。",
-    "UPGRADE_DESCRIPTION": "alicemargatroid:回收 所有 alicemargatroid:人偶 ，然后在原位置 alicemargatroid:生成 一个随机 alicemargatroid:人偶 。",
+    "DESCRIPTION": "alicemargatroid:回收 所有 alicemargatroid:人偶 ，然后在原位置 alicemargatroid:生成 一个随机 alicemargatroid:人偶 。 NL 所有 alicemargatroid:人偶 alicemargatroid:行动 一次。 NL 消耗 。",
+    "UPGRADE_DESCRIPTION": "alicemargatroid:回收 所有 alicemargatroid:人偶 ，然后在原位置 alicemargatroid:生成 一个随机 alicemargatroid:人偶 。 NL 所有 alicemargatroid:人偶 alicemargatroid:行动 一次。",
     "SIGN": "符之二"
   },
   
@@ -173,8 +173,7 @@
   
   "AliceMargatroid:DollLances": {
     "NAME": "人偶千枪",
-    "DESCRIPTION": "造成 !D! 点伤害。 NL 所有 alicemargatroid:上海人偶 alicemargatroid:行动 !M! 次，优先攻击目标敌人。",
-    "UPGRADE_DESCRIPTION": "造成 !D! 点伤害。 NL 所有 alicemargatroid:上海人偶 alicemargatroid:行动 !M! 次，优先攻击目标敌人，但第二次 alicemargatroid:行动 只会造成一半伤害。",
+    "DESCRIPTION": "造成 !D! 点伤害。 NL 所有 alicemargatroid:上海人偶 alicemargatroid:行动 !M! 次，优先攻击目标敌人，但只会造成一半伤害。",
     "EXTENDED_DESCRIPTION": ["（造成 !M! 次伤害。）"]
   },
   

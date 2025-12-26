@@ -5,6 +5,7 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import me.antileaf.alice.action.doll.DollActAction;
 import me.antileaf.alice.action.doll.RecycleDollAction;
 import me.antileaf.alice.action.doll.SpawnDollAction;
 import me.antileaf.alice.action.utils.AnonymousAction;
@@ -34,7 +35,7 @@ public class DollCrusader extends AbstractAliceCard {
 				cardStrings.DESCRIPTION,
 				CardType.SKILL,
 				AbstractCardEnum.ALICE_MARGATROID_COLOR,
-				CardRarity.COMMON,
+				CardRarity.UNCOMMON,
 				CardTarget.NONE
 		);
 		
@@ -57,20 +58,20 @@ public class DollCrusader extends AbstractAliceCard {
 					AliceHelper.addActionToBuffer(new RecycleDollAction(doll));
 				}
 
-//			ArrayList<AbstractDoll> spawn = new ArrayList<>();
+			ArrayList<AbstractDoll> spawn = new ArrayList<>();
 			
 			for (int i : indices) {
 				AbstractDoll doll = AbstractDoll.getRandomDoll();
 				AliceHelper.addActionToBuffer(new SpawnDollAction(doll, i));
-//				spawn.add(doll);
+				spawn.add(doll);
 			}
 
-//			AliceHelper.addActionToBuffer(new AnonymousAction(() -> {
-//				for (AbstractDoll d : DollManager.get().getDolls())
-//					if (!(d instanceof EmptyDollSlot))
-//						AliceHelper.addActionToBuffer(new DollActAction(d));
-//				AliceHelper.commitBuffer();
-//			}));
+			AliceHelper.addActionToBuffer(new AnonymousAction(() -> {
+				for (AbstractDoll d : DollManager.get().getDolls())
+					if (!(d instanceof EmptyDollSlot))
+						AliceHelper.addActionToBuffer(new DollActAction(d));
+				AliceHelper.commitBuffer();
+			}));
 			
 			AliceHelper.commitBuffer();
 		}));
