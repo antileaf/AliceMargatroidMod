@@ -1,5 +1,7 @@
 package me.antileaf.alice.powers.medicine;
 
+import com.badlogic.gdx.graphics.Color;
+import com.evacipated.cardcrawl.mod.stslib.powers.interfaces.HealthBarRenderPower;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -8,7 +10,7 @@ import me.antileaf.alice.action.medicine.MedicinePoisonLoseHpAction;
 import me.antileaf.alice.powers.AbstractAlicePower;
 import me.antileaf.alice.utils.AliceHelper;
 
-public class MedicinePoisonPower extends AbstractAlicePower {
+public class MedicinePoisonPower extends AbstractAlicePower implements HealthBarRenderPower {
 	public static final String SIMPLE_NAME = MedicinePoisonPower.class.getSimpleName();
 	public static final String POWER_ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
@@ -50,5 +52,15 @@ public class MedicinePoisonPower extends AbstractAlicePower {
 			this.addToBot(new MedicinePoisonLoseHpAction(this.owner, this.source, this.amount,
 					AbstractGameAction.AttackEffect.POISON));
 		}
+	}
+	
+	@Override
+	public int getHealthBarAmount() {
+		return Math.max(0, this.amount - this.owner.currentBlock);
+	}
+	
+	@Override
+	public Color getColor() {
+		return Color.valueOf("78c13c");
 	}
 }

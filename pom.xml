@@ -16,7 +16,7 @@
     <ModTheSpire.version>3.30.0</ModTheSpire.version>
     <basemod.version>5.22.0</basemod.version>
     <stslib.version>2.10.1</stslib.version>
-    <Steam.path>D:/steam/steamapps</Steam.path>
+      <Steam.path>C:/Program Files (x86)/steam/steamapps</Steam.path>
     <Spire.path>${Steam.path}/common/SlayTheSpire</Spire.path>
   </properties>
 
@@ -58,7 +58,7 @@
       <artifactId>SignatureLib</artifactId>
       <version>newest</version>
       <scope>system</scope>
-      <systemPath>${Steam.path}/common/SlayTheSpire/mods/SignatureLib.jar</systemPath>
+      <systemPath>${Steam.path}/workshop/content/646570/3433319964/SignatureLib.jar</systemPath>
     </dependency>
 
     <dependency>

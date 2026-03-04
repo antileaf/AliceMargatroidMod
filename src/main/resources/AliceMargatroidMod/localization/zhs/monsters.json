@@ -3,5 +3,11 @@
     "NAME": "上海人偶",
     "DIALOG": ["……！", "……？"],
     "MOVES": ["新月", "结界", "弹幕", "害怕"]
+  },
+
+  "AliceMargatroid:MedicineMelancholy": {
+    "NAME": "梅蒂欣·梅兰可莉",
+    "DIALOG": ["pwp"],
+    "MOVES": ["qwq"]
   }
 }

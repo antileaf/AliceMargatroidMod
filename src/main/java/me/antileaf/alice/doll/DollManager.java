@@ -17,10 +17,7 @@ import com.megacrit.cardcrawl.monsters.ending.SpireSpear;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 import com.megacrit.cardcrawl.powers.BlurPower;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
-import me.antileaf.alice.action.doll.DamageAllDollsAction;
-import me.antileaf.alice.action.doll.DollActAction;
-import me.antileaf.alice.action.doll.RecycleDollAction;
-import me.antileaf.alice.action.doll.SpawnDollInternalAction;
+import me.antileaf.alice.action.doll.*;
 import me.antileaf.alice.action.utils.AnonymousAction;
 import me.antileaf.alice.cards.AbstractAliceCard;
 import me.antileaf.alice.cards.alice.SevenColoredPuppeteer;
@@ -247,6 +244,7 @@ public class DollManager {
 		
 		for (AbstractDoll doll : this.dolls) {
 			doll.setDamageAboutToTake(-1, 0);
+			doll.poisonAboutToTake = 0;
 			doll.setTaunt(false);
 		}
 
@@ -254,6 +252,8 @@ public class DollManager {
 
 		for (AbstractMonster m : AbstractDungeon.getMonsters().monsters)
 			if (!m.isDeadOrEscaped()) {
+				// TODO: check for Medicine
+				
 				 for (int i = 1; i <= MAX_DOLL_SLOTS; i++)
 					 if (m.hasPower(TauntedPower.POWER_ID + "_" + i)) {
 						 this.damageTarget.put(m, i - 1);
@@ -367,6 +367,10 @@ public class DollManager {
 	public void onEndOfTurn() {
 		for (AbstractDoll doll : this.dolls)
 			doll.onEndOfTurn();
+		
+		for (AbstractDoll doll : this.dolls)
+			if (!(doll instanceof EmptyDollSlot) && doll.poison > 0)
+				AliceHelper.addActionToBuffer(new DollPoisonLoseHpAction(doll));
 		
 		AliceHelper.commitBuffer();
 		
@@ -746,7 +750,9 @@ public class DollManager {
 	public boolean dollTakesDamage(AbstractDoll doll, int amount, boolean isHpLoss) {
 		assert this.dolls.contains(doll);
 		
-		if (doll.takeDamage(amount, isHpLoss)) {
+		doll.takeDamage(amount, isHpLoss);
+
+		if (doll.HP <= 0) {
 			this.destroyDoll(doll);
 			return true;
 		}
@@ -770,7 +776,7 @@ public class DollManager {
 		assert this.dolls.contains(doll);
 		
 		if (doll.poison > 0)
-			this.dollTakesDamage(doll, doll.poison, MedicineHelper.isVenom());
+			this.dollTakesDamage(doll, doll.poison, MedicineHelper.isDelirium());
 	}
 	
 	public ArrayList<AbstractDoll> getDolls() {

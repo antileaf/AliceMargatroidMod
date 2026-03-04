@@ -89,6 +89,7 @@ public abstract class AbstractDoll extends CustomOrb {
 	protected int damageAboutToTake = 0;
 	protected int damageCount = 0;
 	protected int overflowedDamage = 0;
+	protected int poisonAboutToTake = 0;
 	private float vfxTimer = 1.0F;
 	protected float animX, animY;
 	protected float animSpeed;
@@ -391,6 +392,13 @@ public abstract class AbstractDoll extends CustomOrb {
 		}
 	}
 	
+	public void addPoisonAboutToTake(int poison) {
+		if (poison <= 0)
+			return;
+
+		this.poisonAboutToTake += poison;
+	}
+	
 	public int calcTotalDamageAboutToTake() {
 		return this.damageAboutToTake != -1 ? this.damageAboutToTake * this.damageCount : -1;
 	}
@@ -468,6 +476,7 @@ public abstract class AbstractDoll extends CustomOrb {
 		CardCrawlGame.sound.play("BLOCK_BREAK");
 	}
 	
+	// Returns if the doll lost HP (after block).
 	public boolean takeDamage(int amount, boolean isHpLoss) {
 		if (amount > 0) {
 			int blockLoss = Math.min(this.block, amount);
@@ -491,12 +500,11 @@ public abstract class AbstractDoll extends CustomOrb {
 		
 		if (amount > 0) {
 			this.HP -= amount;
-			if (this.HP <= 0) {
+			if (this.HP <= 0)
 				this.HP = 0;
-				ret = true;
-			}
 
 			this.onLoseHP(amount);
+			ret = true;
 		}
 		
 		this.updateDescription();
@@ -551,7 +559,7 @@ public abstract class AbstractDoll extends CustomOrb {
 	}
 	
 	public void poisonFlash() {
-		AbstractPower fakePoisonPower = new PoisonPower(null, null, 1);
+		AbstractPower fakePoisonPower = new PoisonPower(AbstractDungeon.player, null, 1);
 		this.effects.add(new GainPowerEffect(fakePoisonPower));
 		AbstractDungeon.effectList.add(new FlashPowerEffect(fakePoisonPower));
 	}

@@ -2,24 +2,26 @@ package me.antileaf.alice.cards.medicine;
 
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.cards.green.CripplingPoison;
+import com.megacrit.cardcrawl.cards.green.Envenom;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.powers.EnvenomPower;
 import com.megacrit.cardcrawl.powers.PoisonPower;
 import com.megacrit.cardcrawl.powers.VulnerablePower;
 import com.megacrit.cardcrawl.powers.WeakPower;
 import me.antileaf.alice.utils.AliceHelper;
 
-public class MedicineCripplingPoison extends CripplingPoison {
-	public static final String SIMPLE_NAME = MedicineCripplingPoison.class.getSimpleName();
+public class MedicineEnvenom extends Envenom {
+	public static final String SIMPLE_NAME = MedicineEnvenom.class.getSimpleName();
 	public static final String ID = AliceHelper.makeID(SIMPLE_NAME);
 	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
 	
 	public int upgradedCount = 0;
 	
-	public MedicineCripplingPoison() {
+	public MedicineEnvenom() {
 		super();
 	}
 	
@@ -28,15 +30,7 @@ public class MedicineCripplingPoison extends CripplingPoison {
 		if (this.upgradedCount < 2)
 			super.use(p, m);
 		else {
-			if (!AbstractDungeon.getMonsters().areMonstersBasicallyDead()) {
-				for (AbstractMonster mo : AbstractDungeon.getMonsters().monsters) {
-					if (!mo.isDead && !mo.isDying) {
-						this.addToBot(new ApplyPowerAction(mo, p, new PoisonPower(mo, p, this.magicNumber), this.magicNumber));
-						this.addToBot(new ApplyPowerAction(mo, p, new WeakPower(mo, 2, false), 2));
-						this.addToBot(new ApplyPowerAction(mo, p, new VulnerablePower(mo, 2, false), 2));
-					}
-				}
-			}
+			this.addToBot(new ApplyPowerAction(p, p, new EnvenomPower(p, 2)));
 		}
 	}
 	

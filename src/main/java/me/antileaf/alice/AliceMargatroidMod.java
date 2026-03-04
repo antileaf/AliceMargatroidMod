@@ -39,6 +39,8 @@ import me.antileaf.alice.doll.dolls.EmptyDollSlot;
 import me.antileaf.alice.events.LilyOfTheValleyFlowerField;
 import me.antileaf.alice.events.PuppeteersHouse;
 import me.antileaf.alice.icon.AliceCustomIcon;
+import me.antileaf.alice.monsters.medicine.MedicineDamageInfo;
+import me.antileaf.alice.monsters.medicine.MedicineMelancholy;
 import me.antileaf.alice.patches.doll.DollMechanicsPatch;
 import me.antileaf.alice.patches.enums.AbstractCardEnum;
 import me.antileaf.alice.patches.enums.AbstractPlayerEnum;
@@ -46,6 +48,7 @@ import me.antileaf.alice.patches.enums.CardTargetEnum;
 import me.antileaf.alice.patches.enums.LibraryTypeEnum;
 import me.antileaf.alice.potions.ConcentrationPotion;
 import me.antileaf.alice.potions.WeavingPotion;
+import me.antileaf.alice.powers.medicine.MedicineEnvenomPower;
 import me.antileaf.alice.powers.unique.UnlockMysticPower;
 import me.antileaf.alice.prediction.PredictionInitializer;
 import me.antileaf.alice.relics.*;
@@ -520,6 +523,13 @@ public static final Logger logger = LogManager.getLogger(AliceMargatroidMod.clas
 //				ShanghaiDollAsMonster.monsterStrings.NAME,
 //				() -> new ShanghaiDollAsMonster()
 //		);
+
+		logger.info("Adding Medicine Melancholy to the game...");
+		BaseMod.addMonster(
+				MedicineMelancholy.ID,
+				MedicineMelancholy.monsterStrings.NAME,
+				() -> new MedicineMelancholy()
+		);
 		
 //		DEPRECATEDWitchsTeaParty.updateAll();
 
@@ -577,7 +587,9 @@ public static final Logger logger = LogManager.getLogger(AliceMargatroidMod.clas
 				return amount;
 			}
 			
-			int index = DollManager.get().damageTarget.get(monster);
+			int index = damageInfo instanceof MedicineDamageInfo ?
+					((MedicineDamageInfo) damageInfo).index :
+					DollManager.get().damageTarget.get(monster);
 			AbstractDoll doll = DollManager.get().getDolls().get(index);
 			if (doll instanceof EmptyDollSlot)
 				return amount;
@@ -585,7 +597,17 @@ public static final Logger logger = LogManager.getLogger(AliceMargatroidMod.clas
 			DollMechanicsPatch.DamageInfoField.blockedByDoll.put(damageInfo, true);
 			
 			int remaining = doll.onPlayerDamaged(amount);
-			boolean destroyed = DollManager.get().dollTakesDamage(doll, amount - remaining, false);
+			boolean lostHP = DollManager.get().dollTakesDamage(doll,
+					amount - remaining, false);
+			
+			if (lostHP) {
+				if (damageInfo.owner.hasPower(MedicineEnvenomPower.POWER_ID)) {
+					MedicineEnvenomPower power = (MedicineEnvenomPower) damageInfo.owner
+							.getPower(MedicineEnvenomPower.POWER_ID);
+					power.envenom(index);
+				}
+			}
+			
 			return remaining;
 		}
 		

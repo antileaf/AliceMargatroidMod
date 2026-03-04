@@ -662,50 +662,23 @@
   "AliceMargatroid:MedicineCripplingPoison": {
     "NAME": "致残毒云",
     "DESCRIPTION": "给予所有敌人 !M! 层 中毒 和 !aliceM2! 层 虚弱 。 NL 消耗 。",
-    "UPGRADE_DESCRIPTION": "给予所有敌人 !M! 层 中毒 、 !aliceM2! 层 易伤 和 !aliceM2! 层 虚弱 。 NL 消耗 。"
+    "UPGRADE_DESCRIPTION": "给予所有敌人 !M! 层 中毒 、 !aliceM2! 层 虚弱 和 !aliceM2! 层 易伤 。 NL 消耗 。"
   },
-  
-  
-  "AliceMargatroid:DEPRECATEDInterlacedRay": {
-    "NAME": "交错射线 (已弃用)",
-    "DESCRIPTION": "随机对两个敌人各造成 !D! 点伤害。"
+
+  "AliceMargatroid:MedicineEnvenom": {
+    "NAME": "涂毒",
+    "DESCRIPTION": "每有一次攻击造成未被 格挡 的伤害，就给予1层 中毒 。",
+    "UPGRADE_DESCRIPTION": "每有一次攻击造成未被 格挡 的伤害，就给予2层 中毒 。"
   },
-  
-  "AliceMargatroid:DEPRECATEDTripwire": {
-    "NAME": "绊线 (已弃用)",
-    "DESCRIPTION": "对所有敌人造成 !D! 点伤害。 NL 具有负面状态的敌人会受到 !M! 倍伤害。"
+
+  "AliceMargatroid:MedicineInfiniteBlades": {
+    "NAME": "无限刀刃",
+    "DESCRIPTION": "每回合额外打出一张 *小刀 。",
+    "UPGRADE_DESCRIPTION": "固有 。 NL 每回合额外打出一张 *小刀 。"
   },
-  
-  "AliceMargatroid:DEPRECATEDTheUnmovingGreatLibrary": {
-    "NAME": "不动的大图书馆 (已弃用)",
-    "DESCRIPTION": "随机打出一张任意颜色的卡牌。 NL 消耗 。",
-    "UPGRADE_DESCRIPTION": "随机打出一张任意颜色的卡牌。"
-  },
-  
-  "AliceMargatroid:DEPRECATEDRefraction": {
-    "NAME": "折射 (已弃用)",
-    "DESCRIPTION": "所有 alicemargatroid:射线 牌造成的伤害提高 !M! 点。"
-  },
-  
-  "AliceMargatroid:DEPRECATEDEmeraldRay": {
-    "NAME": "翠绿射线 (已弃用)",
-    "DESCRIPTION": "造成 !D! 点伤害，获得 [E] 。 NL 如果你在本回合内打出过 alicemargatroid:射线 牌，以随机敌人为目标再重复一次。"
-  },
-  
-  "AliceMargatroid:DEPRECATEDGuidingRay": {
-    "NAME": "引导射线 (已弃用)",
-    "DESCRIPTION": "造成 !D! 点伤害。 NL 随机将抽牌堆中的 !M! 张 alicemargatroid:射线 牌加入手牌，它们在本回合耗能减少 [E] 。"
-  },
-  
-  "AliceMargatroid:DEPRECATEDFireplace": {
-    "NAME": "炉火 (已弃用)",
-    "DESCRIPTION": "消耗 至多 !M! 张手牌，造成 !D! 点伤害。 NL 每 消耗 一张牌，本次伤害提高 !aliceM2! 点。",
-    "EXTENDED_DESCRIPTION": ["消耗"]
-  },
-  
-  "AliceMargatroid:DEPRECATEDTyrant": {
-    "NAME": "统御 (已弃用)",
-    "DESCRIPTION": "本场战斗中，所有人偶的最大生命值提高 2X 点。",
-    "UPGRADE_DESCRIPTION": "本场战斗中，所有人偶的最大生命值提高 2(X+1) 点。"
+
+  "AliceMargatroid:MedicineNoxiousFumes": {
+    "NAME": "毒雾",
+    "DESCRIPTION": "在你的回合结束时，给予所有敌人 !M! 层 中毒 。"
   }
 }

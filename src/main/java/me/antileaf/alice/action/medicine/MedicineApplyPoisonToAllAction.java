@@ -9,33 +9,25 @@ import me.antileaf.alice.doll.AbstractDoll;
 import me.antileaf.alice.doll.DollManager;
 import me.antileaf.alice.doll.dolls.EmptyDollSlot;
 import me.antileaf.alice.powers.medicine.MedicinePoisonPower;
+import me.antileaf.alice.utils.AliceHelper;
 
-public class MedicineApplyPoisonAction extends AbstractGameAction {
-	private final int targetIndex;
-	
-	public MedicineApplyPoisonAction(int targetIndex, AbstractCreature source, int amount) {
+public class MedicineApplyPoisonToAllAction extends AbstractGameAction {
+	public MedicineApplyPoisonToAllAction(AbstractCreature source, int amount) {
 		this.setValues(AbstractDungeon.player, source, amount);
-		this.targetIndex = targetIndex;
 		this.actionType = ActionType.DEBUFF;
 	}
 	
 	@Override
 	public void update() {
 		if (!this.isDone) {
-			boolean applied = false;
+			for (AbstractDoll doll : DollManager.get().getDolls())
+				if (doll != null && !(doll instanceof EmptyDollSlot))
+					AliceHelper.addActionToBuffer(new DollApplyPoisonAction(doll, this.amount));
 			
-			if (this.targetIndex != -1) {
-				AbstractDoll doll = DollManager.get().getDolls().get(this.targetIndex);
-				if (doll != null && !(doll instanceof EmptyDollSlot)) {
-					this.addToTop(new DollApplyPoisonAction(doll, this.amount));
-					applied = true;
-				}
-			}
+			AliceHelper.addActionToBuffer(new ApplyPowerAction(this.target, this.source,
+					new MedicinePoisonPower(this.target, this.source, this.amount)));
 			
-			if (!applied) {
-				this.addToTop(new ApplyPowerAction(this.target, this.source,
-						new MedicinePoisonPower(this.target, this.source, this.amount)));
-			}
+			AliceHelper.commitBuffer();
 			
 			this.isDone = true;
 		}

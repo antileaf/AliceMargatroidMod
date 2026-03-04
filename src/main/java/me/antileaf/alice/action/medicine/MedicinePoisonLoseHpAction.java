@@ -7,7 +7,6 @@ package me.antileaf.alice.action.medicine;
 
 import com.badlogic.gdx.graphics.Color;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
-import com.megacrit.cardcrawl.actions.utility.WaitAction;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.cards.DamageInfo.DamageType;
 import com.megacrit.cardcrawl.core.AbstractCreature;
@@ -15,12 +14,7 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 import com.megacrit.cardcrawl.rooms.AbstractRoom.RoomPhase;
 import com.megacrit.cardcrawl.vfx.combat.FlashAtkImgEffect;
-import me.antileaf.alice.action.doll.DollPoisonLoseHpAction;
-import me.antileaf.alice.doll.AbstractDoll;
-import me.antileaf.alice.doll.DollManager;
-import me.antileaf.alice.doll.dolls.EmptyDollSlot;
 import me.antileaf.alice.powers.medicine.MedicinePoisonPower;
-import me.antileaf.alice.utils.AliceHelper;
 import me.antileaf.alice.utils.MedicineHelper;
 
 public class MedicinePoisonLoseHpAction extends AbstractGameAction {
@@ -48,7 +42,7 @@ public class MedicinePoisonLoseHpAction extends AbstractGameAction {
                     this.target.tint.changeColor(Color.WHITE.cpy());
 					
                     this.target.damage(new DamageInfo(this.source, this.amount,
-							MedicineHelper.isVenom() ? DamageType.HP_LOSS : DamageType.THORNS));
+							MedicineHelper.isDelirium() ? DamageType.HP_LOSS : DamageType.THORNS));
                 }
 
                 AbstractPower p = this.target.getPower(MedicinePoisonPower.POWER_ID);
@@ -61,12 +55,12 @@ public class MedicinePoisonLoseHpAction extends AbstractGameAction {
                     }
                 }
 				
-				for (AbstractDoll doll : DollManager.get().getDolls())
-					if (!(doll instanceof EmptyDollSlot) && doll.poison > 0)
-						AliceHelper.addActionToBuffer(new DollPoisonLoseHpAction(doll));
+//				for (AbstractDoll doll : DollManager.get().getDolls())
+//					if (!(doll instanceof EmptyDollSlot) && doll.poison > 0)
+//						AliceHelper.addActionToBuffer(new DollPoisonLoseHpAction(doll));
 				
-				AliceHelper.addActionToBuffer(new WaitAction(0.1F));
-				AliceHelper.commitBuffer();
+//				AliceHelper.addActionToBuffer(new WaitAction(0.1F));
+//				AliceHelper.commitBuffer();
 
                 if (AbstractDungeon.getCurrRoom().monsters.areMonstersBasicallyDead()) {
                     AbstractDungeon.actionManager.clearPostCombatActions();

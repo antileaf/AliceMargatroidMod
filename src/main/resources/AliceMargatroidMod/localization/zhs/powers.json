@@ -280,5 +280,63 @@
       "这个生物的攻击力下降了 #b",
       " 点。"
     ]
+  },
+
+  "AliceMargatroid:MedicineAfterImagePower": {
+    "NAME": "余像",
+    "DESCRIPTIONS": [
+      "每打出一张牌，获得 #b%d 点 #y格挡 。"
+    ]
+  },
+
+  "AliceMargatroid:MedicineCorpseExplosionPower": {
+    "NAME": "尸爆术",
+    "DESCRIPTIONS": [
+      "死亡时，对所有我方角色造成等于其最大生命值的伤害。",
+      "死亡时，对所有我方角色造成等于其最大生命值 #b",
+      " 倍的伤害。"
+    ]
+  },
+
+  "AliceMargatroid:MedicineDeliriumPower": {
+    "NAME": "猛毒",
+    "DESCRIPTIONS": [
+      "#y格挡 无法再抵消 #y中毒 伤害。"
+    ]
+  },
+
+  "AliceMargatroid:MedicineEnvenomPower": {
+    "NAME": "涂毒",
+    "DESCRIPTIONS": [
+      "每当造成未被格挡的 #y攻击 伤害，给予 #b%d 层 #y中毒 。"
+    ]
+  },
+
+  "AliceMargatroid:MedicineInfiniteBladePower": {
+    "NAME": "无限刀刃",
+    "DESCRIPTIONS": [
+      "每回合额外打出 #b%d 张 #y小刀 。"
+    ]
+  },
+
+  "AliceMargatroid:MedicineNoxiousFumesPower": {
+    "NAME": "毒雾",
+    "DESCRIPTIONS": [
+      "每回合结束时，给予所有敌人 #b%d 层 #y中毒 。"
+    ]
+  },
+
+  "AliceMargatroid:MedicineOutmaneuverPower": {
+    "NAME": "能量提升",
+    "DESCRIPTIONS": [
+      "下一回合获得额外 #b%d [G] 。"
+    ]
+  },
+
+  "AliceMargatroid:MedicinePoisonPower": {
+    "NAME": "中毒",
+    "DESCRIPTIONS": [
+      "回合结束时，受到 #b%d 点伤害，然后将 #y中毒 层数减少 #b1 。"
+    ]
   }
 }
